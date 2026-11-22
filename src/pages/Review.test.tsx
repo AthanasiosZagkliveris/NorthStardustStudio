@@ -104,36 +104,7 @@ describe("Review across Organisations", () => {
         expect(screen.getByRole("heading", { name: /^Review$/ })).toBeTruthy();
     });
 
-    it("the total review has every Organisation, each open with its count; Go there selects the other one first", () => {
-        const other = OrganizationService.create("Quillfield");
-        const current = OrganizationService.getSelected()!;
-
-        renderReview({ total: true });
-
-        expect(screen.getByRole("heading", { name: /^Total review$/ })).toBeTruthy();
-        const heads = [...document.querySelectorAll(".review-organization-title .fold-head")];
-        expect(heads.map(head => head.querySelector(".fold-head-name")?.textContent)).toEqual(["Lumen", "Quillfield"]);
-        // No arrows: every Organisation is open.
-        expect(document.querySelectorAll(".review-organization-title .strategy-box-toggle")).toHaveLength(0);
-        expect(document.querySelectorAll(".review-organization-body")).toHaveLength(2);
-        // Nothing started: the four Foundation Systems each still open.
-        expect(heads[1].querySelector(".fold-head-count")?.textContent).toBe("4");
-
-        const quill = screen.getByRole("region", { name: "Quillfield" });
-        act(() => { fireEvent.click(quill.querySelectorAll<HTMLButtonElement>(".review-go")[0]); });
-        expect(OrganizationService.getSelected()).toBe(other.id);
-        expect(current).not.toBe(other.id);
-        expect(screen.getByText("The interview at /introduction")).toBeTruthy();
-    });
-
-    it("the total review has the Landing page's header, not the selected Organisation's", () => {
-        OrganizationService.create("Quillfield");
-        renderReview({ total: true });
-        const header = document.querySelector(".app-header")!;
-        // (No Organisation's tools -- no Search -- and the Workbook, the same button as on the Landing page.)
-        expect([...header.querySelectorAll("button")].some(button => /Search/.test(button.getAttribute("aria-label") ?? ""))).toBe(false);
-        expect([...header.querySelectorAll("button")].some(button => /^Workbook/.test(button.getAttribute("aria-label") ?? ""))).toBe(true);
-    });
+    // (The total review across Organisations left the Landing page with the Handbook, owner, 2026-11-22: each Organisation's Review is in its own Workbook.)
 
     it("says a count once: a group's count that repeats the Organisation's is left out, and the Capability's sub-head shows only where a group spans several", () => {
         renderReview();

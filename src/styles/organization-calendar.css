@@ -1302,3 +1302,73 @@ body:has(.org-calendar-panel-open) .workspace-footer .back-link{
     visibility:hidden;
 
 }
+
+/* THE CALENDAR AS A SIDE PANEL, AS NOTES IS (owner, 2026-11-22 19:31 UTC+2: "the calendar should have it title on top. Redesign it so to look like the Notes right
+   panel style and behaviour"; OrganizationCalendarPanel.tsx): the Notes panel's look (notepad.css) mirrored to the left -- the surface ground, a hairline on the side
+   that meets the page, the soft shadow off that side, a short slide in -- its head the Notes head ("Calendar" and its closing arrow, the line under them), the
+   calendar under it, scrolling on its own. No handle: it opens from the Menu. */
+.org-calendar-panel.org-calendar-side{
+
+    display:flex;
+    flex-direction:column;
+
+    width:min(460px, calc(100vw - 32px));
+
+    overflow:hidden;
+
+    border-right:1px solid var(--line-rule);
+
+    background:var(--bg-surface);
+
+    box-shadow:8px 0 16px -8px var(--shadow-ink-18);
+
+    transition:none;
+
+    animation:org-calendar-slide-in 0.2s ease-out;
+
+}
+
+@keyframes org-calendar-slide-in{
+
+    from{
+        transform:translateX(-100%);
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce){
+
+    .org-calendar-panel.org-calendar-side{
+
+        animation:none;
+
+    }
+
+}
+
+/* (The title first, its closing arrow at the panel's right end, pointing the way it closes.) */
+.org-calendar-side-head{
+
+    justify-content:space-between;
+
+}
+
+/* The calendar itself: the panel's whole width under the head, on the panel's ground, scrolling on its own. */
+.org-calendar-side > .org-calendar-content,
+.org-calendar-side > .org-calendar-content:hover{
+
+    position:static;
+
+    flex:1 1 auto;
+    min-height:0;
+
+    width:auto;
+    height:auto;
+
+    border-radius:0;
+
+    box-shadow:none;
+
+    background:transparent;
+
+}

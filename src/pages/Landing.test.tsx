@@ -97,7 +97,7 @@ describe("Landing reload", () => {
 
 describe("Landing header Workbook", () => {
 
-    it("shows the Workbook, the one button of every header, and it opens the Review of every Organisation", () => {
+    it("shows the Handbook in the header's place of the Workbook, and it opens the Handbook (owner, 2026-11-22)", () => {
 
         function Where() {
             const location = useLocation();
@@ -115,7 +115,7 @@ describe("Landing header Workbook", () => {
         // The Review and Glossary buttons are gone: the Workbook holds them (owner, 2026-11-09).
         expect(screen.queryByRole("button", { name: /^Review/ })).toBeNull();
         expect(screen.queryByRole("button", { name: /^Glossary/ })).toBeNull();
-        fireEvent.click(screen.getByRole("button", { name: /^Workbook/ }));
+        fireEvent.click(screen.getByRole("button", { name: /^Handbook/ }));
         expect(screen.getByText("/workbook true")).toBeTruthy();
 
     });

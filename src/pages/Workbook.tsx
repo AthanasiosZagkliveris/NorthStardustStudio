@@ -21,6 +21,7 @@ import { WorkbookCardNotes, type WorkbookState } from "../components/notepad/Not
 import HarvardReference from "../components/references/HarvardReference";
 import { harvardReference, referenceList } from "../framework/engine/Sources";
 import { OrganizationService } from "../services/OrganizationService";
+import { APP_GUIDE, FUTURE_FEATURES, SPECS_AND_LIMITATIONS, type HandbookPart } from "../data/handbook";
 import { organizationReview } from "../services/ReviewService";
 
 import "../styles/global.css";
@@ -43,7 +44,26 @@ export type WorkbookTab = NonNullable<WorkbookState["tab"]>;
 /** The Workbook's colour: the work done in it is reviewing (WorkColours.ts; docs/design/foundation/01-current-design.md, part I). */
 const WORKBOOK_HUE = workHue("review");
 
-const TAB_LABELS: Record<WorkbookTab, string> = { "card-notes": "Card Notes", review: "Review", glossary: "Glossary", references: "References", documents: "Business Documents", "financial-documents": "Financial Documents" };
+const TAB_LABELS: Record<WorkbookTab, string> = { "card-notes": "Card Notes", review: "Review", glossary: "Glossary", references: "References", documents: "Business Documents", "financial-documents": "Financial Documents", guide: "App Guide", specs: "Specs & Limitations", future: "Future Features" };
+
+/** The Handbook's own sections (src/data/handbook.ts): written to the app's user. */
+const HANDBOOK_TEXT: Partial<Record<WorkbookTab, readonly HandbookPart[]>> = { guide: APP_GUIDE, specs: SPECS_AND_LIMITATIONS, future: FUTURE_FEATURES };
+
+/** A section of the Handbook's own text: its parts, each a heading over its paragraphs and lists. */
+function HandbookText({ parts, label }: { parts: readonly HandbookPart[]; label: string }) {
+    return (
+        <section className="glossary-section handbook-section" aria-label={label}>
+            {parts.map(part => (
+                <div className="handbook-part" key={part.heading}>
+                    <h3 className="handbook-heading">{part.heading}</h3>
+                    {part.blocks.map((block, at) => "text" in block
+                        ? <p key={at} className="handbook-text">{block.text}</p>
+                        : <ul key={at} className="handbook-points">{block.points.map(point => <li key={point}>{point}</li>)}</ul>)}
+                </div>
+            ))}
+        </section>
+    );
+}
 
 /**
  * What the Glossary's and the References' titles' "i" says (Interface 10, 3.3: a page title's note, at most three points of at most 160
@@ -87,14 +107,16 @@ export default function Workbook() {
     const location = useLocation();
     const state = (location.state as WorkbookState | null) ?? {};
     const [organizationId] = useState(() => OrganizationService.getSelected());
-    // Opened from the Landing page (or with no Organisation): its header, the total review, the Glossary and the References.
-    const landing = state.total === true || !organizationId;
+    // THE HANDBOOK (owner, 2026-11-22 18:58 and 19:31 UTC+2): opened from the Landing page (or with no Organisation), the app's own book -- the App Guide, Specs &
+    // Limitations, Future Features, the app's Glossary and the References, which live here alone. A reference asked for from inside an Organisation (an "i"'s
+    // source) opens here too.
+    const landing = state.total === true || !organizationId || state.tab === "references";
     // (The Business Documents are one Organisation's, as the Card Notes are: left out on the Landing page.)
     // THE ORDER OF A REPORT (owner, 2026-11-10: "rearrange the order of the cards. Search online what order these Cards would follow"): the body first, then
     // its conclusions, then the end matter -- references, glossary, appendices -- as university report guides set it (Notre Dame Australia, Western Sydney,
     // Reading): the Business Documents (the body), the Review (what to look at again), the References, the Glossary, and the Card Notes (the working notes,
     // an appendix).
-    const tabs = useMemo(() => (landing ? ["review", "references", "glossary"] as const : ["documents", "financial-documents", "review", "references", "glossary", "card-notes"] as const)
+    const tabs = useMemo(() => (landing ? ["guide", "specs", "future", "glossary", "references"] as const : ["documents", "financial-documents", "review", "glossary", "card-notes"] as const)
         .map(id => ({ id: id as WorkbookTab, label: TAB_LABELS[id] })), [landing]);
     const first = (wanted?: WorkbookTab): WorkbookTab => wanted && tabs.some(entry => entry.id === wanted) ? wanted : tabs[0].id;
     const [tab, setTab] = useState<WorkbookTab>(() => first(state.tab));
@@ -167,10 +189,10 @@ export default function Workbook() {
     const organisationFunnel = landing && reviews.length > 1;
     const reviewsShown = reviews.filter(section => !organisationsOff.has(section.name));
 
-    const title = tab === "review" && landing ? "Total review" : TAB_LABELS[tab];
+    const title = TAB_LABELS[tab];
 
-    // Whose terms the Glossary lists: the open Organisation's, or on the Landing page every Organisation's.
-    const glossaryOrganisations = useMemo(() => landing ? OrganizationService.list().map(entry => entry.id) : organizationId ? [organizationId] : [],
+    // Whose terms the Glossary lists: the open Organisation's; the Handbook's lists the app's terms alone (owner, 2026-11-22: "Glossary App only").
+    const glossaryOrganisations = useMemo(() => landing ? [] : organizationId ? [organizationId] : [],
         [landing, organizationId]);
 
     // A section of the Workbook, from its top: a bullet of its tab, or an arrow.
@@ -244,7 +266,7 @@ export default function Workbook() {
             <main className="glossary-page">
 
                 {/* The top of the page as on a System page: "Workbook" at the top left, over its rule; the section's name is the panel's heading. */}
-                <InterviewHeader systemName="Workbook" icon={workbookIcon} />
+                <InterviewHeader systemName={landing ? "Handbook" : "Workbook"} icon={workbookIcon} />
 
                 <WorkbookToolsSlot.Provider value={toolsSlot}>
 
@@ -273,6 +295,8 @@ export default function Workbook() {
                 <div className="column-tile-content workbook-section" data-size={textSize}>
 
                 {tab === "card-notes" && <WorkbookCardNotes />}
+
+                {HANDBOOK_TEXT[tab] && <HandbookText parts={HANDBOOK_TEXT[tab]!} label={TAB_LABELS[tab]} />}
 
                 {tab === "review" && organisationFunnel && (
                     <WorkbookTools>
@@ -304,6 +328,11 @@ export default function Workbook() {
                         organizationIds={glossaryOrganisations}
                         target={target}
                         onCitation={(id) => {
+                            // (The References are the Handbook's: from an Organisation's Workbook a citation opens them there, Back returning here.)
+                            if (!landing) {
+                                navigate("/workbook", { state: { tab: "references", total: true, term: id, from: { pathname: location.pathname, state: location.state } } });
+                                return;
+                            }
                             setTab("references");
                             setLettersOff(new Set());
                             setTarget(id);

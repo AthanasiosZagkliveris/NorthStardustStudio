@@ -1,4 +1,3 @@
-import PressRow from "../controls/PressRow.tsx";
 import DayButton from "../controls/DayButton.tsx";
 import { useEffect, useRef, useState } from "react";
 
@@ -21,6 +20,7 @@ import { Capability } from "../../types/capability";
 import { FrameworkSystem } from "../../types/system";
 import { getCapabilityColor } from "../../data/capabilities";
 
+import "../../styles/notepad.css";
 import "../../styles/organization-calendar.css";
 import "../../styles/system-confirmation.css";
 import { OPEN_CALENDAR } from "./calendarOpen";
@@ -261,8 +261,7 @@ export default function OrganizationCalendarPanel({
     onOpenTask,
     onOpenChange,
     closeSignal,
-    suppressClose,
-    alone = false
+    suppressClose
 
 }: OrganizationCalendarPanelProps) {
 
@@ -277,9 +276,9 @@ export default function OrganizationCalendarPanel({
 
     // (Alone, Escape closes it -- and only it, as the Notes panel's: the key goes no further, so the interview page does not take it as Back. System
     // Selection's own Escape closes the whole rail there, through closeSignal.)
-    useEscapeCloses(alone && activeTab !== null, () => setActiveTab(null), () => !!suppressClose);
+    useEscapeCloses(activeTab !== null, () => setActiveTab(null), () => suppressCloseForFlyout);
 
-    const panelRef = useRef<HTMLDivElement | null>(null);
+    const panelRef = useRef<HTMLElement | null>(null);
 
     /**
      * Holds the "apply to every other occurrence?" question while
@@ -308,84 +307,7 @@ export default function OrganizationCalendarPanel({
     // opened.
     const suppressCloseForFlyout = suppressClose || timeConfirmPrompt !== null;
 
-    /**
-     * True for the duration of a mousedown -- cleared on the very
-     * next tick. Lets the panel's own `onBlur` below (see its doc
-     * comment) tell "focus just shifted because of a click that's
-     * ALSO being handled by the mousedown listener below" apart from
-     * "focus shifted because of Tab/Shift+Tab, with no click
-     * involved at all" -- the only case `onBlur` itself actually
-     * needs to react to.
-     */
-    const mouseDownInProgressRef = useRef(false);
-
-    useEffect(() => {
-
-        function markMouseDown() {
-
-            mouseDownInProgressRef.current = true;
-
-            // Any blur/focusout this mousedown itself triggers (by
-            // shifting focus away from whatever was previously
-            // focused, e.g. clicking a plain <div> that can't take
-            // focus) fires synchronously, within this same tick --
-            // clearing the flag on the next tick keeps it from ever
-            // masking a LATER, genuinely separate blur (e.g. a Tab
-            // press with no click involved).
-            setTimeout(() => {
-                mouseDownInProgressRef.current = false;
-            }, 0);
-
-        }
-
-        document.addEventListener("mousedown", markMouseDown, true);
-
-        return () => document.removeEventListener("mousedown", markMouseDown, true);
-
-    }, []);
-
-    // Clicking anywhere outside the rail closes its flyout, same as
-    // clicking outside any other popup/sliding window in the app --
-    // except while `suppressCloseForFlyout` is true (a child dialog
-    // this rail itself opened -- either the caller's own `suppressClose`
-    // prop, or this component's own Time-confirm dialog above -- is
-    // still showing). Pressing INSIDE any of the 3 sliding cards --
-    // Calendar, Capabilities, or Systems -- never closes it, no
-    // matter what's clicked (a day, blank space, plain text, it
-    // doesn't matter); only a genuinely outside click, Escape (see
-    // `closeSignal` above), or the cursor actually leaving the rail
-    // (see the panel's own `onMouseLeave` below) closes it.
-    useEffect(() => {
-
-        if (activeTab === null) {
-            return;
-        }
-
-        function handlePointerDown(event: MouseEvent) {
-
-            if (suppressCloseForFlyout) {
-                return;
-            }
-
-            const target = event.target as HTMLElement | null;
-
-            if (!target) {
-                return;
-            }
-
-            const outsidePanel = !(panelRef.current && panelRef.current.contains(target));
-
-            if (outsidePanel) {
-                setActiveTab(null);
-            }
-
-        }
-
-        document.addEventListener("mousedown", handlePointerDown);
-
-        return () => document.removeEventListener("mousedown", handlePointerDown);
-
-    }, [activeTab, suppressCloseForFlyout]);
+    // (A press outside no longer closes it: it stays open while you work beside it, as the Notes panel does; its arrow and Escape close it. Owner, 2026-11-22.)
 
     useEffect(() => {
 
@@ -976,88 +898,28 @@ export default function OrganizationCalendarPanel({
 
     );
 
-    // (Alone and closed: nothing on the page.)
-    if (alone && activeTab !== "calendar") {
+    // THE CALENDAR IS A SIDE PANEL AS NOTES IS (owner, 2026-11-22 19:31 UTC+2: "the calendar should have it title on top. Redesign it so to look like the Notes right
+    // panel style and behaviour"): opened from the Menu on every page, System Selection too; on the left, between the header and the window's foot; its title
+    // "Calendar" on top with the closing arrow beside it and the dividing line under them (the Notes panel's own head, notepad.css); it stays open while you work
+    // in it and closes with its arrow or Escape. Closed, nothing of it is on the page (no handle).
+    if (activeTab !== "calendar") {
         return null;
     }
 
     return (
 
-        <div
+        <aside
             ref={panelRef}
-            className={`org-calendar-panel${activeTab ? " org-calendar-panel-open" : ""}`}
-            onMouseLeave={() => {
-
-                if (!suppressCloseForFlyout) {
-                    setActiveTab(null);
-                }
-
-            }}
-            onBlur={(event) => {
-
-                // Keyboard-focus parity with the mouse's own
-                // onMouseLeave above -- Tabbing all the way out of
-                // the rail (to something outside it, not just to
-                // the next handle/link INSIDE it) closes the
-                // flyout the same way moving the mouse away does.
-                // `relatedTarget` is the element gaining focus;
-                // null (e.g. clicking outside the document) also
-                // counts as "left".
-                if (suppressCloseForFlyout) {
-                    return;
-                }
-
-                // A blur caused by a mousedown (e.g. clicking a plain
-                // <div> -- blank space inside a flyout card -- shifts
-                // focus away from whatever control was previously
-                // focused, since a <div> can't itself take focus) is
-                // NOT "the person tabbed/clicked away" -- the
-                // mousedown-based outside-click handler above is the
-                // one that decides whether THAT click should close
-                // the rail, and pressing anywhere INSIDE any of the 3
-                // sliding cards should never close it. Only react to
-                // a blur that happened with no mousedown involved at
-                // all (a Tab/Shift+Tab key press).
-                if (mouseDownInProgressRef.current) {
-                    return;
-                }
-
-                const nextFocus = event.relatedTarget as Node | null;
-
-                if (!nextFocus || !event.currentTarget.contains(nextFocus)) {
-                    setActiveTab(null);
-                }
-
-            }}
-            title="Calendar"
+            className="org-calendar-panel org-calendar-panel-open org-calendar-side"
+            aria-label="Calendar"
         >
 
-            <div className="org-calendar-inner">
-
-                <div className="org-rail-handles" aria-label="Calendar">
-
-                    {/* THE CALENDAR ALONE (owner, 2026-11-22 18:58 UTC+2: "The left Side panel should have only the calendar. Remove any other information and tag
-                        (capabilities, systems, and Framework Navigator)"): the page itself lists the Capabilities and the Systems. */}
-
-                    <div className="org-rail-handle-group">
-
-                        <PressRow
-                            className={`org-rail-handle org-calendar-handle${activeTab === "calendar" ? " org-rail-handle-active" : ""}`}
-                            pressed={activeTab === "calendar"}
-                            onReach={() => setActiveTab("calendar")}
-                            onPress={() => setActiveTab("calendar")}
-                        >
-                            <span className="org-rail-handle-label">Calendar</span>
-                        </PressRow>
-
-                        {activeTab === "calendar" && flyoutContent}
-
-                    </div>
-
-
-                </div>
-
+            <div className="notepad-head org-calendar-side-head">
+                <h2 className="notepad-title">Calendar</h2>
+                <NavArrow direction="previous" label="Close calendar" className="page-arrow notepad-close" onClick={() => setActiveTab(null)} />
             </div>
+
+            {flyoutContent}
 
             {/*
                 The "apply to every occurrence?" dialog (see
@@ -1104,7 +966,7 @@ export default function OrganizationCalendarPanel({
 
             )}
 
-        </div>
+        </aside>
 
     );
 

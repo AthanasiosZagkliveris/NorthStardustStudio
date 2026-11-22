@@ -204,6 +204,13 @@ button.card-tile-symbol[aria-pressed="true"] {
 /* (THE EMPTY TILE LOOKS EMPTY AGAIN (owner, 2026-11-22 19:14 UTC+2: "What I want to fix is the empty tiles, how they used to look like before"): its raised
    edge and shade at half strength, as the half-transparent tile of before read; only its words keep the muted ink's 4.5:1 (WCAG 1.4.3: the tile can still be pressed, so it is no
    inactive component). Under the pointer it rises as every tile does.) */
+/* (Its "+" in the same muted ink, on no ground of its own: the stroke keeps 3:1 against the tile, WCAG 1.4.11; under the pointer it fills as every "+" does.
+   Owner, 2026-11-22 19:37 UTC+2: "Adjust the tiles, texts, and symbols contrast properly".) */
+.section-tile-slot-empty .plus-box {
+    --plus-fill: var(--text-muted);
+    --plus-ground: transparent;
+}
+
 .section-tile-slot-empty:not(:hover) > .section-tile:not(:focus-visible) {
     box-shadow: inset 3px 3px 6px color-mix(in srgb, var(--box-light) 50%, transparent), inset -3px -3px 6px color-mix(in srgb, var(--box-shade) 50%, transparent);
 }

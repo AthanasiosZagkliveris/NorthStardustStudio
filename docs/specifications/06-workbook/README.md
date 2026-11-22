@@ -10,16 +10,16 @@ Each file here describes the app as it is; where it and the code differ, both ar
 |---|---|---|---|
 | Business Documents | an Organisation open | [the section below](#the-section-business-documents) | `BusinessDocumentsView` (`group="business"`) |
 | Financial Documents | an Organisation open; second, under Business Documents (owner, 2026-11-20 20:46 UTC+2) | [the section below](#the-section-financial-documents) | `BusinessDocumentsView` (`group="financial"`) |
-| Review | always; from the Landing page, the **Total review** of every Organisation | [the section below](#the-section-review) | `OrganizationReview` |
-| References | always | [the section below](#the-section-references-and-glossary) | `Workbook.tsx` |
-| Glossary | always; from the Landing page, every Organisation's names | [the section below](#the-section-references-and-glossary) | `GlossaryList` |
+| Review | an Organisation open | [the section below](#the-section-review) | `OrganizationReview` |
+| References | the Handbook only (below) | [the section below](#the-section-references-and-glossary) | `Workbook.tsx` |
+| Glossary | always; in the Handbook, the app's terms alone | [the section below](#the-section-references-and-glossary) | `GlossaryList` |
 | Card Notes | an Organisation open; last | [the section below](#the-section-card-notes) | `Workbook.tsx` |
 
-The rail's order is the order above with an Organisation open (`["documents", "financial-documents", "review", "references", "glossary", "card-notes"]`), and Review, References, Glossary from the Landing page. A section's title is the panel's heading, with its "i" (`GLOSSARY_INFO`) for the Glossary, the References and both kinds of document.
+The rail's order is the order above with an Organisation open (`["documents", "financial-documents", "review", "glossary", "card-notes"]`). A section's title is the panel's heading, with its "i" (`GLOSSARY_INFO`) for the Glossary, the References and both kinds of document.
 
-## One page for the Landing page and an Organisation
+## The Handbook: the Landing page's book
 
-The same code draws both (`landing` in `Workbook.tsx`): opened from the Landing page, or with no Organisation, the header is the Landing page's, the Review is the Total review with a funnel of the Organisations (two or more), and the Glossary lists every Organisation's names, each with its Organisation; the documents and the Card Notes belong to one Organisation and are left out. Back returns to where it was opened from.
+**The Handbook** (owner, 2026-11-22 18:58 and 19:31 UTC+2: "I want a 'workbook' (possibly different name) for the app, that would exist at the landing page. So the references would exist only in this one, Glossary App only, and the App Guide, Specs & Limitations, and Future Features"; "Handbook sounds good"; "the extra tabs text are necessary for the app user, not the founders!"; rule | was | now: one owner for each fact | the Landing page's Workbook held the Total review, the References and every Organisation's Glossary, and each Organisation's Workbook held the References again | the Handbook, the Landing page's header button, holds the **App Guide**, **Specs & Limitations**, **Future Features** (their text in `src/data/handbook.ts`, written to the app's user), the **Glossary** of the app's terms alone and the **References**, which leave the Organisation's Workbook; a source asked for inside an Organisation (an "i"'s citation, a Glossary citation) opens the Handbook's References, Back returning there; the Total review left the Landing page, each Organisation's Review being in its own Workbook). The same code draws both (`landing` in `Workbook.tsx`); Back returns to where it was opened from.
 
 ## What the Workbook reads
 

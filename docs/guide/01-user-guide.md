@@ -23,7 +23,7 @@ The first screen lists your Organisations: each business you plan is one Organis
 
 Two examples come with the app, Lumen & Loom Studio and Quillfield Automation: open them to see a finished Foundation. The **Reload** button beside the reading mode reloads the app and refreshes the examples.
 
-The header of this screen holds the reading mode and the **Workbook** (section 4.1), which here covers every Organisation.
+The header of this screen holds the Menu and the **Handbook**: the App Guide, Specs & Limitations, Future Features, the app's Glossary and the References.
 
 ## 3. The Foundation
 
@@ -79,11 +79,10 @@ Everything you have written and everything the app explains, on one page.
 2. **Card Notes**: the Notes field of every card, page by page. The funnel chooses the pages; press a note to open its card.
 3. **Review**: Still open, Worth a second look, Missing from the documents and Key dates. "Go there" opens the page or card an item is about.
 4. **Glossary**: every term from A to Z, the app's words in blue (with their meaning and sources) and the names you gave in terracotta (with "Open the …"). The funnel chooses the kinds and the letter ranges.
-5. **References**: every source the app cites, as a Harvard reference list. A citation in the Glossary opens its reference here.
-6. **Business Documents**: the Business Plan and the Business Model Canvas, a tab each (section 3.5). **Export**, at the right of the title, downloads the one shown.
-7. **Financial Documents**, under it: the Financial Forecast, the Funding Request and the Financial Plan, a tab each, with the same Export.
+5. **Business Documents**: the Business Plan and the Business Model Canvas, a tab each (section 3.5). **Export**, at the right of the title, downloads the one shown.
+6. **Financial Documents**, under it: the Financial Forecast, the Funding Request and the Financial Plan, a tab each, with the same Export.
 
-On the **Organisations screen** the same button covers every Organisation: their Reviews, their terms in the Glossary (each named with its Organisation) and the References. Card Notes, Business Documents and Financial Documents belong to one Organisation and show inside it.
+A citation in the Glossary, or a source in an "i", opens the **Handbook's References** (the Organisations screen's book: section 2).
 
 Back or Escape returns you to where you opened the Workbook.
 
@@ -126,7 +125,7 @@ Point at **Appearance** in the **Menu** (or press it, or press the right arrow o
 
 ### 4.7 Calendar
 
-Open **Menu** and press **Calendar**: the calendar of the open Organisation opens at the left of the page you are on (on **System Selection**, the **Calendar** tab in the left rail does the same). Press outside it or Escape to close it. It shows every date your cards hold (the plan's start, the registration and opening dates, the end of each stage, legal fees, payments, warranties, deadlines) and your dated notes.
+Open **Menu** and press **Calendar**: the calendar of the open Organisation opens as a panel at the left of the page you are on, its title on top, as the Notes panel opens at the right. It stays open while you work; its arrow or Escape closes it. It shows every date your cards hold (the plan's start, the registration and opening dates, the end of each stage, legal fees, payments, warranties, deadlines) and your dated notes.
 
 1. Press a day to see what falls on it; press an item to open the page it comes from, or your note.
 2. The funnel chooses the period, the kinds of date and the cards they come from.

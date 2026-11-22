@@ -363,7 +363,20 @@
 
     width: 100%;
 
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
+    gap: var(--gap-8);
+
+}
+
+/* (Each button's symbol, the header tools' size and stroke, in the button's ink.) */
+.organization-action-icon {
+
+    flex: none;
+
+    width: 20px;
+    height: 20px;
 
 }
 

@@ -396,16 +396,20 @@ export default function Landing() {
 
         <div className="organization-actions">
 
-            {/* (Their words short, one line each in a row of three: what they act on is the list above them; their names say it in full.) */}
+            {/* (Their words short, one line each in a row of three: what they act on is the list above them; their names say it in full. Each with its symbol
+                (owner, 2026-11-22 19:31 UTC+2: "for the Add/import/ export use the proper symbols"): the plus, an arrow into a tray (a file comes in), an arrow out of
+                it (a file goes out).) */}
             <AddButton
                 aria-label="Add Organisation"
                 onClick={addOrganization}>
-                + Add
+                <svg className="organization-action-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                Add
             </AddButton>
 
             <AddButton
                 aria-label="Import Organisation"
                 onClick={() => importInputRef.current?.click()}>
+                <svg className="organization-action-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9M6.5 8.5 10 12l3.5-3.5M4 13v3h12v-3" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 Import
             </AddButton>
 
@@ -414,6 +418,7 @@ export default function Landing() {
                 disabled={!selectedId}
                 title={selectedId ? undefined : "Select an Organisation to export"}
                 onClick={exportOrganization}>
+                <svg className="organization-action-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 12V3M6.5 6.5 10 3l3.5 3.5M4 13v3h12v-3" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 Export
             </AddButton>
 
