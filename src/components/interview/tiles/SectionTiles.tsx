@@ -561,7 +561,9 @@ export default function SectionTiles({
                             } as CSSProperties}
                             onOpen={(from, pointer) => openTile(tile, from, pointer)}
                             onLink={(link, from, pointer) => {
-                                if ("box" in link) {
+                                if ("go" in link) {
+                                    link.go();
+                                } else if ("box" in link) {
                                     openDialog(tile, from, link.box, pointer);
                                 } else {
                                     openFloating(tile, link.card, from, "column", false, pointer);
@@ -684,6 +686,9 @@ function TileSlot({
         }
         if ("card" in link) {
             return incomplete.get(link.card);
+        }
+        if (!("box" in link)) {
+            return undefined;
         }
         const inside = (tile.boxHolds?.[link.box] ?? []).filter(id => incomplete.has(id));
         return inside.length > 0 ? inside.flatMap(id => incomplete.get(id) ?? []) : undefined;

@@ -148,7 +148,10 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
         const railHeight = railRef.current ? Math.max(0, railRef.current.scrollHeight + (railList ? Math.max(0, railList.scrollHeight - railList.clientHeight) : 0) - madeRound) : 0;
         const titleTop = Math.max(headerBottom + 12, Math.min(titleTopOf(node, restSample), window.innerHeight - Math.max(160, railHeight + 12)));
         // (The tab stands on the side of the layer that is nearer its end of the page: a layer in the left half has it at its left, one in the right half at its right.)
-        const side: "left" | "right" = fixedSide ?? (box.left + box.width / 2 < window.innerWidth / 2 ? "left" : "right");
+        // (A layer as wide as the page -- the Capabilities' dialog, the Workbook's panel -- has its tab at the left, as a System page's page tab: at the right it was
+        // squeezed between the layer and the window's edge; owner, 2026-11-22 21:00 UTC+2, "their rails".)
+        const pageWide = box.width > window.innerWidth * 0.7;
+        const side: "left" | "right" = fixedSide ?? (pageWide || box.left + box.width / 2 < window.innerWidth / 2 ? "left" : "right");
         setAt(previous => previous && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.right - right) < 0.5 && Math.abs(previous.top - top) < 0.5 && Math.abs(previous.titleTop - titleTop) < 0.5 && previous.side === side && Math.abs(previous.leftEdge - box.left) < 0.5 && previous.tab?.bg === tab?.bg && previous.tab?.edge === tab?.edge && previous.tab?.ink === tab?.ink ? previous : { left, right, top, edge: box.right, leftEdge: box.left, side, titleTop, tab });
     });
 

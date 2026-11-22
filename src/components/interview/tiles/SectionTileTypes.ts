@@ -181,7 +181,8 @@ export interface SectionTile {
 
 
 /** Where an item of a tile's list leads. */
-export type TileLink = { card: string } | { box: string };
+/** Where a line of a tile leads: a card floating, a box of its dialog, or another page (`go`: a Capability's System opens its Introduction). */
+export type TileLink = { card: string } | { box: string } | { go: () => void };
 
 
 /** What a tile can add: a card of its own kind, appended to its list. */

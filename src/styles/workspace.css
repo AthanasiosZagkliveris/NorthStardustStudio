@@ -493,3 +493,46 @@
     height: var(--fold-arrow-size);
 
 }
+
+/* A SYSTEM'S TILE IN ITS CAPABILITY'S DIALOG (owner, 2026-11-22 21:00 UTC+2: "Fix links, text and tile sizes"): the dialog's tile size, its number and name as its
+   title, under it its status by shape and word (status-shape.css, as the Systems' list had it), its icon at the foot. */
+.capability-system-slot > .section-tile .capability-system-status {
+
+    grid-row: 2;
+
+    align-self: start;
+    justify-self: center;
+
+    margin-top: var(--space-card);
+
+    letter-spacing: normal;
+
+}
+
+/* (A System's name wraps on its own lines, whole: "03. Business System" on two where it must.) */
+.section-tile-slot.capability-system-slot > .section-tile .section-tile-title {
+
+    white-space: normal;
+
+    text-overflow: clip;
+
+}
+
+.capability-system-slot .section-tile-picture {
+
+    position: absolute;
+    left: 50%;
+    bottom: var(--card-padding);
+
+    translate: -50% 0;
+
+}
+
+.capability-system-slot .capability-tile-icon {
+
+    display: block;
+
+    width: var(--fold-arrow-size);
+    height: var(--fold-arrow-size);
+
+}

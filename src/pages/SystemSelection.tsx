@@ -20,7 +20,13 @@ import InterviewHeader from "../components/interview/editors/InterviewHeader";
 import SectionTiles, { DialogHeading, type SectionTile } from "../components/interview/tiles/SectionTiles";
 import TileGrid from "../components/interview/tiles/TileGrid";
 import Tile from "../components/interview/tiles/Tile";
-import { TileFace } from "../components/interview/tiles/TileParts";
+import { TileTitle } from "../components/interview/tiles/TileParts";
+import { getSystemIcon } from "../data/systemIcons";
+import "../styles/status-shape.css";
+import "../styles/system-list.css";
+// (A Capability's dialog carries the rail of every dialog: its tab of bullets, as the System pages and the Workbook draw it.)
+import "../styles/status-shape.css";
+import "../styles/bullet-rail.css";
 import { PAGE_STATUS_WORDS } from "../framework/engine/status/PageStatus";
 
 /** A colour's hue (0 to 360), for a tile drawn in a Capability's colour (its hex in data/capabilities.ts). */
@@ -210,6 +216,8 @@ export default function SystemSelection() {
             })(),
             empty: own.length === 0,
             items: own.map(system => system.title),
+            // (EACH SYSTEM ON THE TILE IS A LINK TO IT (owner, 2026-11-22 21:00 UTC+2: "Fix links"), as a line of every tile is to what it names.)
+            links: own.map(system => ({ go: () => handleSystemSelection(system) })),
             content: () => (
                 <div className="column-tile-content" role="group" aria-label={capability.title}>
                     <div className="business-engagement-section-head">
@@ -221,13 +229,37 @@ export default function SystemSelection() {
                             <TileGrid label={capability.title + " Systems"}>
                                 {() => own.map(system => {
                                     const status = systemStatuses[system.number];
+                                    const icon = getSystemIcon(system.number);
+                                    // (A System's tile as the list had it (owner, 2026-11-22 21:00 UTC+2: "Fix links, text and tile sizes"): its number and name, its
+                                    // status by its shape and word (status-shape.css), its icon at the foot; the dialog's tile size.)
                                     return (
                                         <Tile
                                             key={system.id}
-                                            frame={{ className: "section-tile-slot" }}
+                                            frame={{ className: "section-tile-slot capability-system-slot" }}
                                             className="section-tile"
                                             aria-label={String(system.number).padStart(2, "0") + ". " + system.title + (status ? ", " + PAGE_STATUS_WORDS[status] : "")}
-                                            face={<TileFace title={String(system.number).padStart(2, "0") + ". " + system.title} items={status ? [PAGE_STATUS_WORDS[status]] : undefined} />}
+                                            face={(
+                                                <>
+                                                    {/* (Its number and name, whole, on as many lines as it takes; "System" is the dialog's word for all of them, so a tile says the name
+                                                        alone -- "07. Product Development" -- and its accessible name says it whole.) */}
+                                                    <TileTitle className="section-tile-title-broken">
+                                                        {(() => {
+                                                            // (A name of two words or more on two lines, broken before its last word: "07. Product / Development".)
+                                                            const name = system.title.replace(/ System$/, "");
+                                                            const cut = name.lastIndexOf(" ");
+                                                            const number = String(system.number).padStart(2, "0") + ". ";
+                                                            return cut > 0 ? <>{number + name.slice(0, cut)}<br />{name.slice(cut + 1)}</> : number + name;
+                                                        })()}
+                                                    </TileTitle>
+                                                    {status && (
+                                                        <span className="system-status capability-system-status">
+                                                            <span className="status-shape" data-status={status} aria-hidden="true" />
+                                                            <span className="system-status-word">{PAGE_STATUS_WORDS[status]}</span>
+                                                        </span>
+                                                    )}
+                                                </>
+                                            )}
+                                            picture={icon ? <span className="section-tile-picture" aria-hidden="true"><img className="capability-tile-icon" src={icon} alt="" /></span> : undefined}
                                             onClick={() => handleSystemSelection(system)}
                                         />
                                     );
