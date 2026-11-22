@@ -31,7 +31,7 @@ for (const system of SYSTEMS) {
     await page.getByText("Foundation", { exact: true }).first().click();
     await page.waitForTimeout(250);
     await page.keyboard.press("Escape");
-    await page.evaluate(async name => { const cap = [...document.querySelectorAll(".capability-tiles-page .section-tile")].find(tile => (tile.closest(".section-tile-slot")?.textContent ?? "").includes(name)); cap?.click(); await new Promise(done => setTimeout(done, 400)); [...document.querySelectorAll(".section-tile-dialog .section-tile")].find(tile => (tile.getAttribute("aria-label") ?? "").includes(name))?.click(); }, system); // (System Selection is a page of Capability tiles since 2026-11-22: the Capability's tile, then its System's.)
+    await page.evaluate(async name => { const cap = [...document.querySelectorAll(".capability-tiles .section-tile")].find(tile => (tile.closest(".section-tile-slot")?.textContent ?? "").includes(name)); cap?.click(); await new Promise(done => setTimeout(done, 400)); [...document.querySelectorAll(".section-tile-dialog .section-tile")].find(tile => (tile.getAttribute("aria-label") ?? "").includes(name))?.click(); }, system); // (System Selection is a page of Capability tiles since 2026-11-22: the Capability's tile, then its System's.)
     await page.waitForTimeout(1200);
     // The Introduction page is the first item of the Pages rail: open it (never press Start Interview).
     const intro = page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: /Introduction/i }).first();

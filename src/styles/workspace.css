@@ -419,25 +419,77 @@
 
 }
 
-/* THE CAPABILITIES PAGE (SystemSelection.tsx; owner, 2026-11-22 20:35 UTC+2: "Rename the title to capabilities. Make Master Tiles (Capabilities to their related
-   colour), and each Master Tile will have its own Tiles (systems)"): one frame of six tiles, three a row, each as large as a master tile on a desktop
-   (--quad-cap) and no larger; the frame hugs them (its padding round them), centred under the page title. */
-.answer-columns.business-foundation.business-engagement.business-capability.column-tiles-page.capability-tiles-page > .business-foundation-card {
+/* THE CAPABILITIES PAGE (SystemSelection.tsx; owner, 2026-11-22 20:35, 20:57 and 20:58 UTC+2: "Make Master Tiles (Capabilities to their related colour), and each
+   Master Tile will have its own Tiles (systems)"; "I just wanted to show you the size of the master Tiles"; "Every Capability tile should have its own colour ... use the
+   proper colours and icons"; "the capability tiles do not need to be in a frame"): six tiles, two rows of three, no frame, each the master tiles size in this window
+   (--capability-side, the page sets it), centred under the title. Each in its Capability colour (the Framework own, data/capabilities.ts: --tile-colour): its
+   ground a light wash of it, its title in it, its icon under the title, its Systems listed. */
+.capability-tiles {
 
-    grid-column: 1 / -1;
+    container: capability-tiles / inline-size;
 
-    width: min(100%, calc(3 * var(--quad-cap) + 2 * var(--space-card) + 2 * var(--card-padding) + 2px));
+    width: min(100%, calc(3 * var(--capability-side, var(--quad-cap)) + 2 * var(--space-card)));
 
     margin-inline: auto;
 
-    justify-self: center;
+    margin-top: var(--space-card);
 
 }
 
-.capability-tiles-page .section-tiles-box > .section-tiles {
+.capability-tiles .section-tiles-box > .section-tiles {
 
-    --section-tile-size: min(calc((100cqw - 2 * var(--space-card)) / 3 - 0.01px), var(--quad-cap));
+    --section-tile-size: min(calc((100cqw - 2 * var(--space-card)) / 3 - 0.01px), var(--capability-side, var(--quad-cap)));
 
     justify-content: center;
+
+}
+
+.capability-tiles .section-tile-slot > .section-tile {
+
+    background: color-mix(in srgb, var(--tile-colour, var(--bg-surface)) 10%, var(--bg-surface));
+
+}
+
+.capability-tiles .section-tile-slot > .section-tile .section-tile-title {
+
+    color: color-mix(in srgb, var(--tile-colour, var(--text-default)) var(--capability-title-weight), var(--capability-title-base));
+
+}
+
+.capability-tile-icon {
+
+    display: block;
+
+    width: var(--size-mark);
+    height: var(--size-mark);
+
+    margin: 0 auto;
+
+}
+
+/* (A Capability's name wraps on its own lines, whole, as a master tile's does: "Manage the Organization" on two.) */
+.capability-tiles .section-tile-slot > .section-tile .section-tile-title {
+
+    white-space: normal;
+
+    text-overflow: clip;
+
+}
+
+/* (Its icon at the tile's foot, in the middle, under the list of its Systems.) */
+.capability-tiles .section-tile-picture {
+
+    position: absolute;
+    left: 50%;
+    bottom: var(--card-padding);
+
+    translate: -50% 0;
+
+}
+
+.capability-tiles .capability-tile-icon {
+
+    width: var(--fold-arrow-size);
+    height: var(--fold-arrow-size);
 
 }

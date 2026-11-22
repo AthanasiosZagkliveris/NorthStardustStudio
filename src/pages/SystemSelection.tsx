@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import TextLink from "../components/interview/fields/TextLink.tsx";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { getCapabilityIcon } from "../data/capabilityIcons";
 
 import { capabilities, getCapabilityColor } from "../data/capabilities";
 import { systems } from "../data/systems";
@@ -16,23 +17,11 @@ import OrganizationCalendarPanel from "../components/calendar/OrganizationCalend
 
 import CapabilityDescriptionDialog from "../components/capabilities/CapabilityDescriptionDialog";
 import InterviewHeader from "../components/interview/editors/InterviewHeader";
-import CardShell from "../components/interview/cards/CardShell";
 import SectionTiles, { DialogHeading, type SectionTile } from "../components/interview/tiles/SectionTiles";
 import TileGrid from "../components/interview/tiles/TileGrid";
 import Tile from "../components/interview/tiles/Tile";
 import { TileFace } from "../components/interview/tiles/TileParts";
 import { PAGE_STATUS_WORDS } from "../framework/engine/status/PageStatus";
-
-/** A tile title of more than 14 letters on two lines, broken at the space nearest its middle (TileFace draws a line feed as a line break). */
-function twoLines(title: string): string {
-    if (title.length <= 14 || !title.includes(" ")) {
-        return title;
-    }
-    const middle = title.length / 2;
-    const spaces = [...title].map((letter, at) => letter === " " ? at : -1).filter(at => at >= 0);
-    const at = spaces.reduce((best, next) => Math.abs(next - middle) < Math.abs(best - middle) ? next : best, spaces[0]);
-    return title.slice(0, at) + "\n" + title.slice(at + 1);
-}
 
 /** A colour's hue (0 to 360), for a tile drawn in a Capability's colour (its hex in data/capabilities.ts). */
 function hueOf(hex: string): number {
@@ -188,15 +177,37 @@ export default function SystemSelection() {
     // here that also reset the position to Section 1; without the
     // dialog a reset would silently lose the user's place, so the
     // saved position is simply kept.
-    // (One tile a Capability, in its colour; its Systems its list and its dialog's tiles.)
+    // (THE MASTER TILES' SIDE (SectionTiles' fit): what the window's height leaves for two rows under the tiles' top, above the footer and its 12px; 150px at least.)
+    const tilesBox = useRef<HTMLDivElement | null>(null);
+    const [tileSide, setTileSide] = useState<number | null>(null);
+    useLayoutEffect(() => {
+        const fit = () => {
+            const box = tilesBox.current;
+            if (!box) {
+                return;
+            }
+            const top = box.getBoundingClientRect().top + window.scrollY;
+            const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
+            setTileSide(Math.max(150, Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - 12) / 2)));
+        };
+        fit();
+        window.addEventListener("resize", fit);
+        return () => window.removeEventListener("resize", fit);
+    }, []);
+
+    // (One tile a Capability, in its colour (the Framework's own, data/capabilities.ts) and with its icon; its Systems its list and its dialog's tiles.)
     const capabilityTiles: SectionTile[] = capabilities.map(capability => {
         const own = systems.filter(system => system.capability === capability.id);
         const description = getCapabilityDescription(capability.title);
         return {
             id: capability.id,
-            // (A long name on two lines, broken at the space nearest its middle, so it is read whole: "Manage the / Organization".)
-            title: twoLines(capability.title),
+            title: capability.title,
             hue: hueOf(getCapabilityColor(capability.id)),
+            colour: getCapabilityColor(capability.id),
+            picture: (() => {
+                const icon = getCapabilityIcon(capabilities.indexOf(capability) + 1);
+                return icon ? <img className="capability-tile-icon" src={icon} alt="" /> : undefined;
+            })(),
             empty: own.length === 0,
             items: own.map(system => system.title),
             content: () => (
@@ -304,14 +315,10 @@ export default function SystemSelection() {
                         </div>
                     )}
 
-                    <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page capability-tiles-page" style={{ "--answer-column-count": 1 } as React.CSSProperties}>
-                        <CardShell style={{ "--strategy-theme-hue": hueOf(getCapabilityColor("foundation")) } as React.CSSProperties}>
-                            <div className="card-scroll">
-                                <div className="business-capability-section business-capability-tiles-section">
-                                    <SectionTiles label="Capabilities" hue={hueOf(getCapabilityColor("foundation"))} tiles={capabilityTiles} />
-                                </div>
-                            </div>
-                        </CardShell>
+                    {/* (NO FRAME (owner, 2026-11-22 20:58 UTC+2: "the capability tiles do not need to be in a frame"): the six tiles, two rows of three, each the
+                        master tiles' size (`--capability-side`, the side a page's 2 x 2 has in this window), centred under the title.) */}
+                    <div ref={tilesBox} className="capability-tiles" style={{ "--strategy-theme-hue": hueOf(getCapabilityColor("foundation")), ...(tileSide ? { "--capability-side": tileSide + "px" } : {}) } as React.CSSProperties}>
+                        <SectionTiles label="Capabilities" hue={hueOf(getCapabilityColor("foundation"))} tiles={capabilityTiles} />
                     </div>
 
                 </div>

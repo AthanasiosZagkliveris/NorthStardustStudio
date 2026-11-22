@@ -59,6 +59,9 @@ export interface SectionTile {
     /** The tile's own hue, and its dialog's, where the tiles of one frame are each of their own colour (System Selection's Capabilities, owner, 2026-11-22). */
     hue?: number;
 
+    /** The tile's own colour where a hue alone cannot tell two tiles apart (the Capabilities: Foundation's midnight and Manage the Organization's blue share a hue). */
+    colour?: string;
+
     /** What a link calls this tile (see jumpTo.ts): `data-anchor`, space separated. */
     anchor?: string;
 

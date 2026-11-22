@@ -555,6 +555,7 @@ export default function SectionTiles({
                             rows={rows}
                             style={{
                                 ...(tile.channel ? { "--strategy-theme-hue": CHANNEL_TILE_HUE } : tile.hue !== undefined ? { "--strategy-theme-hue": tile.hue } : {}),
+                                ...(tile.colour ? { "--tile-colour": tile.colour } : {}),
                                 // (With a tail tile every tile is placed by hand: the tail's cell may be the shape's extra column.)
                                 ...(placement ? { gridRow: at.row + 1, gridColumn: at.column + 1 } : {})
                             } as CSSProperties}
