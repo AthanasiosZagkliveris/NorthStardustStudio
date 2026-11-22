@@ -9,7 +9,7 @@
         {
           "sectionNumber": 1,
           "value": {
-            "description": "Lumen & Loom Studio Ltd is a London-based textile design studio, founded in 2026 by Maya Chen, Oliver Grant and Priya Shah and based at a shared workshop in Hackney Wick, East London. We design and handweave sustainable home textiles (cushions, throws, table linen and wall hangings) from British wool, organic cotton and recycled yarns. Alongside our own collection we run small-group weaving workshops and take bespoke commissions for interior designers and boutique hotels.",
+            "description": "Lumen & Loom Studio Ltd is a London-based textile design studio, founded in 2025 by Maya Chen, Oliver Grant and Priya Shah and based at a shared workshop in Hackney Wick, East London. We design and handweave sustainable home textiles (cushions, throws, table linen and wall hangings) from British wool, organic cotton and recycled yarns. Alongside our own collection we run small-group weaving workshops and take bespoke commissions for interior designers and boutique hotels.",
             "mission": "To bring slow, handmade craft back into everyday homes: making beautiful, durable textiles from responsibly sourced materials, paying fair prices along our supply chain, and teaching people the skills to make and repair for themselves.",
             "positioning": "For design-conscious Londoners and interior professionals who want homeware with a story, Lumen & Loom is an independent textile studio that makes every piece by hand in London from traceable, low-impact yarns. Each piece is made in a small batch, can be repaired for life, and comes with the name of the weaver who made it, and our studio is open: customers can learn to weave with us. ",
             "vision": "By 2030, to be London's best-known independent weaving studio: a self-sustaining team of eight makers, a collection stocked by twenty UK independent retailers, a waiting list for our workshops, and a verified low-carbon supply chain from sheep to sofa.",
@@ -37,7 +37,7 @@
           "value": {
             "philosophy": "We believe the things we live with shape how we live. A well-made textile, repaired and kept for decades, teaches us to care for what we own. Our work is a small, practical argument for slowness: fewer, better things, made close to home by people you can meet.",
             "values": "1. Craft over speed\n2. Honesty about materials and prices\n3. Care for people and planet\n4. Openness: share skills, not secrets\n5. Community before scale",
-            "principles": "1. Every yarn we use is traceable to its farm or mill.\n2. We pay our makers and suppliers a London Living Wage or better.\n3. We repair anything we have made, for life.\n4. We never discount to clear stock; we make to order instead.\n5. We decide by consensus of the three founders on anything that affects people or materials.",
+            "principles": "1. Every yarn we use is traceable to its farm or mill.\n2. We pay everyone we employ or hire to make for us at least the London Living Wage, and the founders reach it as soon as the studio breaks even.\n3. We repair anything we have made, for life.\n4. We never discount to clear stock; we make to order instead.\n5. We decide by consensus of the three founders on anything that affects people or materials.",
             "manifesto": "We stand for things made slowly and kept for a lifetime. We stand for knowing who made your cushion and where the wool came from. We stand against throwaway homeware, hidden supply chains and craft reduced to a style. Come and see how it's made. Better still, come and make it with us.",
             "valueKinds": [
               "create",
@@ -175,7 +175,7 @@
                 "type": "additional",
                 "name": "ICO registration",
                 "reference": "ZB712345",
-                "notes": "The ICO data protection fee, renewed each year.",
+                "notes": "The ICO data protection fee, renewed each year: tier 1 (turnover up to £632,000 or up to 10 staff), £52, or £47 by Direct Debit.\nOfficial source: https://www.gov.uk/data-protection-register-notify-ico-personal-data/how-much-it-costs",
                 "offerInExpenses": true
               },
               {
@@ -219,7 +219,7 @@
               {
                 "id": "expense-pb9sv685",
                 "name": "Incorporation",
-                "date": "2026-03-02",
+                "date": "2025-03-02",
                 "responsibility": "founder-3fhkh0cm",
                 "cost": "50",
                 "frequency": "One time",
@@ -232,7 +232,7 @@
               {
                 "id": "expense-4pm3sqt4",
                 "name": "Confirmation statement",
-                "date": "2027-03-02",
+                "date": "2026-03-02",
                 "responsibility": "founder-3fhkh0cm",
                 "cost": "50",
                 "frequency": "Annually",
@@ -246,20 +246,20 @@
               {
                 "id": "expense-y97pryvw",
                 "name": "Trade mark",
-                "date": "2026-10-05",
+                "date": "2025-02-12",
                 "responsibility": "founder-z2jgpf8v",
                 "cost": "220",
                 "frequency": "One time",
                 "links": [
                   "number-1sm5nsnz"
                 ],
-                "description": "UK trade mark in 2 classes.",
+                "description": "UK trade mark in 2 classes, filed online with the IPO: £170 for the first class and £50 for the second (the fees until 31 March 2026).",
                 "fromRequirement": ""
               },
               {
                 "id": "expense-ew64in77",
                 "name": "ICO data protection fee",
-                "date": "2026-10-05",
+                "date": "2025-02-17",
                 "responsibility": "founder-3fhkh0cm",
                 "cost": "52",
                 "frequency": "Annually",
@@ -287,8 +287,8 @@
                 "managementExperience": "Led the fabric house's four-person design studio for three years, owning a £120,000 sampling and development budget and taking two collections a year from brief to launch.",
                 "achievements": [
                   "Designed the fabric house's best-selling jacquard collection: £380,000 of sales in its first two years (2021–2023)",
-                  "Delivered 40 handwoven commissions for interior designers and two boutique hotels as a freelancer, 2023–2025",
-                  "Taught 30 beginners' weaving workshops in 2025, most of them sold out"
+                  "Delivered 40 handwoven commissions for interior designers and two boutique hotels as a freelancer, 2022–2024",
+                  "Taught 30 beginners' weaving workshops in 2024, most of them sold out"
                 ],
                 "skills": [
                   {
@@ -318,7 +318,7 @@
                 "industryExperience": "Nine years in homeware sales: wholesale account manager for a UK homeware brand selling to independent retailers and department stores, then head of trade sales at a sustainable furniture company.",
                 "managementExperience": "Head of trade sales for four years: led a team of three account managers, held a £1.2 million annual sales target and ran the trade marketing budget.",
                 "achievements": [
-                  "Grew trade sales from £450,000 to £1.2 million a year in four years (2021–2025)",
+                  "Grew trade sales from £450,000 to £1.2 million a year in four years (2020–2024)",
                   "Opened 60 new independent retail stockists across the UK in 2023",
                   "Co-founded a seasonal makers' market in 2019 that broke even in its first season and ran for three"
                 ],
@@ -429,19 +429,19 @@
                 "enabled": true,
                 "name": "Kiln Clay",
                 "hex": "#C8553D",
-                "usage": "Accents, calls to action, sale of workshop places"
+                "usage": "Accents and calls to action. White text on it reads at 4.3:1, so only at 18px bold or larger (buttons); small text in clay goes on white, not on Raw Wool (3.9:1)."
               },
               {
                 "enabled": true,
                 "name": "Moss Green",
                 "hex": "#84A98C",
-                "usage": "Illustrations, category tags, backgrounds for workshops"
+                "usage": "Illustrations, category tags and workshop backgrounds; never a text colour (2.3:1 on Raw Wool). Text on it is Charcoal Weft at 18px or larger (4.4:1)."
               },
               {
                 "enabled": true,
                 "name": "Undyed Straw",
                 "hex": "#E9C46A",
-                "usage": "Highlights and small details only"
+                "usage": "Highlights and small details only; never a text colour (1.5:1 on Raw Wool). Charcoal Weft text on it reads well (6.8:1)."
               },
               {
                 "enabled": true,
@@ -581,7 +581,7 @@
                     "4"
                   ],
                   "reach": [
-                    "region"
+                    "city"
                   ],
                   "area": [
                     "5"
@@ -594,6 +594,10 @@
                   ],
                   "trigger": [
                     "seasonal"
+                  ],
+                  "share": [
+                    "public",
+                    "friends"
                   ],
                   "discover": [
                     "communities",
@@ -610,9 +614,9 @@
                     "card",
                     "wallet"
                   ],
-                  "share": [
-                    "public",
-                    "friends"
+                  "providers": [
+                    "shopify",
+                    "sumup"
                   ],
                   "tam": [
                     "mid"
@@ -626,10 +630,6 @@
                   ],
                   "competition": [
                     "3"
-                  ],
-                  "providers": [
-                    "shopify",
-                    "sumup"
                   ]
                 },
                 "profiles": [
@@ -903,15 +903,15 @@
                 "competitors": [
                   {
                     "id": "competitor-bojhioje",
-                    "name": "Independent weavers",
+                    "name": "Independent weaving studios",
                     "type": "direct",
                     "description": {
-                      "offerings": "Handwoven cushions, scarves and wall hangings; one-off pieces.",
+                      "offerings": "Woven cushions, throws and wall hangings from small UK studios: Margo Selby (cushions £77–£105), Mourne Textiles (a 50 cm cushion £132) and Eleanor Pritchard (cushions £136–£196, made to order); many smaller weavers sell one-off pieces.",
                       "market": "Craft-market shoppers and Etsy buyers; similar values-driven customers.",
-                      "acquisition": "Broadway Market and Spitalfields.",
-                      "experience": "Personal but inconsistent; slow replies."
+                      "acquisition": "Their own websites, Etsy, design shops (Liberty, Margaret Howell, twentytwentyone) and makers' markets such as Broadway Market and Spitalfields.",
+                      "experience": "Personal; most are woven in mills to the studio's design, so few can show the maker at the loom."
                     },
-                    "strengths": "Weaknesses: No brand consistency; few offer repair or traceability.",
+                    "strengths": "Strengths: Known names and design-shop stockists; distinctive house styles.\nWeaknesses: Few offer repair, workshops or a studio to visit; small weavers reply slowly.",
                     "weaknesses": "",
                     "opportunities": "Opportunities: Most do not run workshops or sell to trade.\nThreats: Price undercutting; Etsy algorithm favours volume sellers.",
                     "threats": "",
@@ -975,8 +975,8 @@
                         "in-person:market"
                       ],
                       "k15": [
-                        "90",
-                        "220"
+                        "77",
+                        "196"
                       ],
                       "k16": [
                         "need-41brmd",
@@ -990,7 +990,7 @@
                     "name": "Premium homeware brands",
                     "type": "indirect",
                     "description": {
-                      "offerings": "Wool and linen throws and cushions, largely factory-made overseas (e.g. The White Company, Toast Home).",
+                      "offerings": "Wool and linen throws and cushions, largely factory-made (e.g. The White Company, Toast Home), and mill brands such as Melin Tregwynt (lambswool cushions £59–£69, throws £199–£215 at John Lewis).",
                       "market": "Affluent UK households; strong in London.",
                       "acquisition": "Printed catalogues.",
                       "experience": "Polished; easy returns."
@@ -1054,8 +1054,8 @@
                         "social-media:pinterest"
                       ],
                       "k15": [
-                        "60",
-                        "180"
+                        "59",
+                        "215"
                       ],
                       "k16": [
                         "need-41brmd",
@@ -1072,7 +1072,7 @@
                       "experience": "Self-service, in store and online.",
                       "offerings": "Buying cheap mass-produced cushions and throws and replacing them every year or two."
                     },
-                    "strengths": "Weaknesses: Environmental cost.",
+                    "strengths": "Strengths: Low prices; sold everywhere, in shops and online.\nWeaknesses: Pills and fades quickly; environmental cost.",
                     "weaknesses": "",
                     "opportunities": "Opportunities: Customers upgrading from their first flat look for “grown-up” pieces.\nThreats: Trend cycles make handmade look expensive by comparison.",
                     "threats": "",
@@ -1119,6 +1119,81 @@
                       "k15": [
                         "15",
                         "45"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "competitor-lnclasses",
+                    "name": "London weaving classes",
+                    "type": "direct",
+                    "description": {
+                      "offerings": "Beginner weaving classes across London: Weavers Works in Walthamstow (a 6.5-hour taster £115–£125, a 10-week course £250), Four Otter in Wood Green (3 hours £60, loom to take home), City Lit (a 4-week frame loom course £299).",
+                      "market": "Adults looking for a hands-on hobby or an experience gift; many book through ClassBento or Obby.",
+                      "acquisition": "Booking platforms (ClassBento, Obby), Instagram and gift searches.",
+                      "experience": "Friendly and well reviewed; dates fill weeks ahead and few lead on to anything after the class."
+                    },
+                    "strengths": "Strengths: Established dates and reviews; listed on the booking platforms.\nWeaknesses: Most stop at the class; little to buy or join afterwards.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: Experience gifts and craft classes keep growing (Mintel, Arts and Crafts, 2025).\nThreats: Platform fees (Obby 20% + VAT) push class prices up; cheaper 3-hour tasters.",
+                    "threats": "",
+                    "insights": "Offer the class as the first step: an alumni group, an open studio and a discount on the next course, with pieces to buy from the people who taught you.",
+                    "questions": {
+                      "k1": [
+                        "Service"
+                      ],
+                      "k2": [
+                        "city"
+                      ],
+                      "k3": [
+                        "micro"
+                      ],
+                      "k4": [
+                        "4"
+                      ],
+                      "k5": [
+                        "social-media",
+                        "website",
+                        "referral-affiliates"
+                      ],
+                      "k5-sub": [
+                        "social-media:instagram"
+                      ],
+                      "k6": [
+                        "google"
+                      ],
+                      "k6-rating": [
+                        "google:5"
+                      ],
+                      "k7-rating": [
+                        "discovery:4",
+                        "evaluation:4",
+                        "purchase:5",
+                        "delivery:4",
+                        "support:2"
+                      ],
+                      "k8-rating": [
+                        "lower-price:3",
+                        "quality-and-results:4",
+                        "trust-and-reputation:4",
+                        "shared-values-or-identity:3",
+                        "expert-knowledge:4",
+                        "ease-and-convenience:4"
+                      ],
+                      "k9-rating": [
+                        "economy:2",
+                        "society:4"
+                      ],
+                      "k10": [
+                        "stage:support"
+                      ],
+                      "k15": [
+                        "60",
+                        "299"
+                      ],
+                      "k16": [
+                        "need-1r8ym3j",
+                        "need-1rx12p5",
+                        "need-sf2joa"
                       ]
                     }
                   }
@@ -1211,10 +1286,10 @@
                     "description": {
                       "function": "Small-group (8 at most) beginner and intermediate weaving workshops at the Hackney Wick studio.",
                       "benefit": "Learn a real craft, relax away from screens and take home a finished piece.",
-                      "scope": "Half-day frame loom (3.5 h), full-day floor loom (6 h), 4-week evening course; materials, tea and cake included.",
-                      "delivery": "Booked and paid online through Eventbrite; gift vouchers valid for 12 months.",
+                      "scope": "Half-day frame loom (3 h, £80), full-day floor loom (6 h, £140), 4-week evening course (£260); materials, tea and cake included. Prices include VAT.",
+                      "delivery": "Booked and paid online on the studio's website (the workshop booking app); gift vouchers valid for 12 months.",
                       "support": "Directions and what to wear before; the pattern and a discount code after.",
-                      "requirements": "Ages 16+ (until the legal-age check is built); 7 days' notice to cancel; the studio is step-free."
+                      "requirements": "Ages 16+; 7 days' notice to cancel; the studio is step-free."
                     },
                     "questions": {
                       "o1": [
@@ -1303,10 +1378,17 @@
                   "setting": [
                     "multi"
                   ],
+                  "shops": [
+                    "own",
+                    "stockists"
+                  ],
                   "pay": [
                     "card",
                     "invoicepo",
                     "transfer"
+                  ],
+                  "providers": [
+                    "shopify"
                   ],
                   "tam": [
                     "boutique"
@@ -1320,13 +1402,6 @@
                   ],
                   "competition": [
                     "3"
-                  ],
-                  "shops": [
-                    "own",
-                    "stockists"
-                  ],
-                  "providers": [
-                    "shopify"
                   ]
                 },
                 "profiles": [
@@ -1529,12 +1604,12 @@
                     "name": "Textile studios",
                     "type": "direct",
                     "description": {
-                      "offerings": "Bespoke woven and printed textiles for interiors.",
+                      "offerings": "Bespoke woven and printed textiles for interiors: Wallace Sewell (throws from £385, a trade log-in and guest commissions) and Eleanor Pritchard (upholstery cloth for interiors), with solo weavers in the Crafts Council directory taking cushion commissions.",
                       "market": "Interior designers and private clients in London and the South East.",
                       "acquisition": "",
                       "experience": "Personal."
                     },
-                    "strengths": "Weaknesses: Little documentation.",
+                    "strengths": "Strengths: Known names and design-press coverage; bespoke colours and sizes.\nWeaknesses: Little documentation; lead times that move.",
                     "weaknesses": "",
                     "opportunities": "Opportunities: Designers want makers who can promise capacity and paperwork.\nThreats: Price competition on small commissions.",
                     "threats": "",
@@ -1616,7 +1691,7 @@
                       "scope": "Design consultation, two rounds of samples, 1–200 pieces, a documentation pack.",
                       "delivery": "Quote, samples within 7 days, production in 4–8 weeks, then delivery or installation in London.",
                       "support": "A named project lead (Oliver); weekly progress updates; re-covering.",
-                      "requirements": "Minimum order £500; hospitality pieces treated to BS 5852 where required; 30-day terms for trade accounts."
+                      "requirements": "Minimum order £500; hospitality upholstery treated and tested to BS 7176 Medium Hazard (BS 5852 Crib 5) when the hotel's fire risk assessment asks for it; 30-day terms for trade accounts."
                     },
                     "questions": {
                       "o1": [
@@ -1684,7 +1759,7 @@
                       "scope": "8 core designs in 3 colourways; a trade price list; a sample swatch box.",
                       "delivery": "Orders through the trade portal or by email; courier delivery UK-wide; 3 weeks.",
                       "support": "An account manager; a quarterly trade newsletter; marketing images for retailers.",
-                      "requirements": "Minimum order of 6 pieces; 40% trade discount off RRP."
+                      "requirements": "Minimum order of 6 pieces (about £400); trade prices are half the RRP, before VAT; 30-day terms."
                     },
                     "questions": {
                       "o1": [
@@ -3777,7 +3852,7 @@
                 "hours": "160",
                 "deliveryHours": "128",
                 "deliveryShare": "",
-                "startDate": "2026-10-01",
+                "startDate": "2025-04-01",
                 "extras": {}
               },
               {
@@ -3792,7 +3867,7 @@
                 "hours": "160",
                 "deliveryHours": "48",
                 "deliveryShare": "",
-                "startDate": "2026-10-01",
+                "startDate": "2025-04-01",
                 "extras": {}
               },
               {
@@ -3807,7 +3882,7 @@
                 "hours": "160",
                 "deliveryHours": "40",
                 "deliveryShare": "",
-                "startDate": "2026-10-01",
+                "startDate": "2025-04-01",
                 "extras": {}
               }
             ],
@@ -3838,7 +3913,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -3888,7 +3963,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -3930,7 +4005,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -3972,7 +4047,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4014,7 +4089,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4064,7 +4139,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "10",
@@ -4106,7 +4181,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4132,7 +4207,7 @@
                       "name": "Finishing station",
                       "quantity": "1",
                       "hoursAvailable": "",
-                      "description": "Brought from Maya’s previous studio.\nIroning and finishing.",
+                      "description": "An ironing and finishing table, brought from Maya’s previous studio.",
                       "status": "exists",
                       "cost": {
                         "price": "",
@@ -4148,7 +4223,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4190,7 +4265,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "10",
@@ -4239,7 +4314,7 @@
                       "deposit": "",
                       "category": "workstation",
                       "group": "furniture-fittings",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4289,7 +4364,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4315,7 +4390,7 @@
                       "name": "Label printer",
                       "quantity": "1",
                       "hoursAvailable": "",
-                      "description": "A thermal label printer and a second-hand mirrorless camera for product photos.\nWith a product camera.",
+                      "description": "A thermal label printer and a second-hand mirrorless camera for product photos.",
                       "status": "costs",
                       "cost": {
                         "price": "520",
@@ -4331,7 +4406,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "3",
@@ -4373,7 +4448,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "activity-1t2mxo8g",
                       "usefulLife": "",
@@ -4415,7 +4490,7 @@
                       "deposit": "",
                       "category": "equipment",
                       "group": "devices-tools",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4465,7 +4540,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4507,7 +4582,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4549,7 +4624,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4591,7 +4666,7 @@
                       "deposit": "",
                       "category": "digital",
                       "group": "software-web",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4639,7 +4714,7 @@
                       "deposit": "",
                       "category": "digital",
                       "group": "cloud-security",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4678,7 +4753,7 @@
                     "id": "activity-rf2dybpu",
                     "category": "operational",
                     "name": "Register trade mark and ICO",
-                    "description": "Filed with the IPO and ICO in March 2026.",
+                    "description": "Filed with the IPO and registered with the ICO in February 2025.",
                     "performerIds": [
                       "founder-3fhkh0cm",
                       "professional-lawyer"
@@ -4688,8 +4763,8 @@
                     "offeringIds": [],
                     "type": "",
                     "madeBy": "",
-                    "startDate": "2026-08-10",
-                    "endDate": "2026-08-20",
+                    "startDate": "2025-02-10",
+                    "endDate": "2025-02-20",
                     "offeringShares": {},
                     "resources": [],
                     "performerPeople": {}
@@ -4698,7 +4773,7 @@
                     "id": "activity-mo6e4wzz",
                     "category": "operational",
                     "name": "Set up Xero",
-                    "description": "Making Tax Digital-compliant VAT and PAYE for three directors.\nVAT returns and payroll.",
+                    "description": "Making Tax Digital VAT returns and PAYE payroll for the three directors.",
                     "performerIds": [
                       "founder-3fhkh0cm",
                       "professional-accountant"
@@ -4708,8 +4783,8 @@
                     "offeringIds": [],
                     "type": "",
                     "madeBy": "",
-                    "startDate": "2026-10-01",
-                    "endDate": "2026-10-30",
+                    "startDate": "2025-04-01",
+                    "endDate": "2025-04-30",
                     "offeringShares": {},
                     "resources": [
                       {
@@ -4733,7 +4808,7 @@
                     "offeringIds": [],
                     "type": "",
                     "madeBy": "",
-                    "startDate": "2026-11-02",
+                    "startDate": "2025-05-02",
                     "endDate": "",
                     "offeringShares": {},
                     "resources": [],
@@ -4753,8 +4828,8 @@
                     "offeringIds": [],
                     "type": "",
                     "madeBy": "resource-044hvqz1",
-                    "startDate": "2026-10-05",
-                    "endDate": "2026-10-30",
+                    "startDate": "2025-04-05",
+                    "endDate": "2025-04-30",
                     "offeringShares": {},
                     "resources": [
                       {
@@ -4788,10 +4863,10 @@
                 },
                 "offeringShares": {},
                 "madeBy": "",
-                "startDate": "2026-10-01",
+                "startDate": "2025-04-01",
                 "endDate": "",
                 "name": "Accountant",
-                "description": "Onboarding fee: setting up Xero, VAT registration and payroll. (The monthly bookkeeping retainer is the Legal Entity expense.)",
+                "description": "Hale & Co Accountants: the monthly bookkeeping review, VAT returns, payroll for the three directors, and the year-end accounts and Company Tax Return.",
                 "responsibleId": "founder-3fhkh0cm",
                 "cost": {
                   "price": "150",
@@ -4820,7 +4895,7 @@
                 },
                 "offeringShares": {},
                 "madeBy": "",
-                "startDate": "2026-10-01",
+                "startDate": "2025-04-01",
                 "endDate": "",
                 "name": "Lawyer",
                 "description": "Shareholders’ agreement and trade terms & conditions.",
@@ -4855,10 +4930,10 @@
                 },
                 "offeringShares": {},
                 "madeBy": "",
-                "startDate": "2026-10-01",
+                "startDate": "2025-04-01",
                 "endDate": "",
                 "name": "Hackney Wick Maker Yard",
-                "description": "The landlord of the unit. The rent of the Dedicated Workspace sits here, with the service charge for the shared yard and the deposit of three months.\nThe landlord.",
+                "description": "The landlord of the unit: about 450 sq ft at about £33 a sq ft a year (Hackney Wick asks £31–£53), £1,250 a month, with the service charge for the shared yard and a deposit of three months' rent.\nThe landlord.",
                 "responsibleId": "founder-3fhkh0cm",
                 "cost": {
                   "price": "1250",
@@ -4887,10 +4962,10 @@
                 },
                 "offeringShares": {},
                 "madeBy": "resource-lm-fitout",
-                "startDate": "2026-10-01",
+                "startDate": "2025-04-01",
                 "endDate": "",
                 "name": "Hackney Sparks",
-                "description": "Wiring for the shop-front lighting and the sockets at the looms: installed with the studio fit-out.\nElectrician.",
+                "description": "Electrician: wiring for the shop-front lighting and the sockets at the looms, installed with the studio fit-out.",
                 "responsibleId": "founder-3fhkh0cm",
                 "cost": {
                   "price": "300",
@@ -4910,10 +4985,10 @@
                   "name": "Yarn",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "description": "About 0.45 kg of yarn per piece on average (a cushion about 0.35 kg, a throw about 1.1 kg) at about £35 per kg, with loom waste. Bought in cones as needed.\nBritish wool and organic cotton.",
+                  "description": "About 0.6 kg of yarn per piece of the collection on average (a cushion about 0.35 kg, a throw about 1.1 kg, a third of the pieces throws) at about £40 per kg (British wool cones run about £44 a kg, organic cotton less), with loom waste. Bought in cones as needed.",
                   "status": "costs",
                   "cost": {
-                    "price": "17",
+                    "price": "26",
                     "frequency": "per-unit",
                     "frequencyOther": "",
                     "unit": "piece",
@@ -4921,15 +4996,14 @@
                   },
                   "providerId": "",
                   "offeringIds": [
-                    "offering-nvfuu2km",
-                    "offering-kfyakcw5"
+                    "offering-nvfuu2km"
                   ],
                   "workspaceKind": "",
                   "workspaceKindOther": "",
                   "deposit": "",
                   "category": "materials",
                   "group": "materials-stock",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -4946,8 +5020,53 @@
                     "lines": []
                   },
                   "offeringShares": {
-                    "offering-nvfuu2km": "50",
-                    "offering-kfyakcw5": "50"
+                    "offering-nvfuu2km": "100"
+                  },
+                  "extraStatuses": [],
+                  "insuranceId": "",
+                  "insuresId": ""
+                },
+                {
+                  "id": "resource-lntradeyarn",
+                  "name": "Yarn for the trade range",
+                  "quantity": "1",
+                  "hoursAvailable": "",
+                  "description": "About 0.37 kg of yarn per cushion or runner of the core range at about £40 per kg, with loom waste; bought by the cone with the collection's yarn.",
+                  "status": "costs",
+                  "cost": {
+                    "price": "16",
+                    "frequency": "per-unit",
+                    "frequencyOther": "",
+                    "unit": "piece",
+                    "currency": ""
+                  },
+                  "providerId": "",
+                  "offeringIds": [
+                    "offering-kfyakcw5"
+                  ],
+                  "workspaceKind": "",
+                  "workspaceKindOther": "",
+                  "deposit": "",
+                  "category": "materials",
+                  "group": "materials-stock",
+                  "startDate": "2025-04-01",
+                  "endDate": "",
+                  "activityId": "",
+                  "usefulLife": "",
+                  "warranty": false,
+                  "warrantyUntil": "",
+                  "rateOverride": "",
+                  "costOption": "",
+                  "amortisationYears": "",
+                  "extras": {},
+                  "paymentPlan": {
+                    "on": false,
+                    "type": "",
+                    "count": "",
+                    "lines": []
+                  },
+                  "offeringShares": {
+                    "offering-kfyakcw5": "100"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -4976,7 +5095,7 @@
                   "deposit": "",
                   "category": "materials",
                   "group": "materials-stock",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5021,7 +5140,7 @@
                   "deposit": "",
                   "category": "materials",
                   "group": "materials-stock",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5050,7 +5169,7 @@
                   "name": "Commission materials",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "description": "Yarn, backing cloth, fittings and hired weaving time for an average commission.\nMaterials and making time for each commission.",
+                  "description": "Yarn, backing cloth, fittings and hired weaving time for an average commission.",
                   "status": "costs",
                   "cost": {
                     "price": "828",
@@ -5068,7 +5187,7 @@
                   "deposit": "",
                   "category": "materials",
                   "group": "materials-stock",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5094,7 +5213,7 @@
                   "name": "Fire-retardant treatment",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "description": "Applied by a specialist finisher for hospitality orders.\nWith its certificate, for hotel orders.",
+                  "description": "Applied by a specialist finisher for hospitality orders, with its certificate.",
                   "status": "partners-suppliers",
                   "cost": {
                     "price": "",
@@ -5112,7 +5231,7 @@
                   "deposit": "",
                   "category": "documents",
                   "group": "certificates",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5157,12 +5276,12 @@
                   "deposit": "",
                   "category": "equipment",
                   "group": "production-machinery",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "10",
                   "warranty": true,
-                  "warrantyUntil": "2028-09-30",
+                  "warrantyUntil": "2027-03-30",
                   "rateOverride": "",
                   "costOption": "",
                   "amortisationYears": "",
@@ -5205,7 +5324,7 @@
                   "deposit": "",
                   "category": "equipment",
                   "group": "devices-tools",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5249,7 +5368,7 @@
                   "deposit": "",
                   "category": "equipment",
                   "group": "devices-tools",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5275,7 +5394,7 @@
                   "name": "Warping mill",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "description": "Earlier status: Needs Investigation. Compare buying new vs sharing with another studio.",
+                  "description": "Compare buying new with sharing one with another studio.",
                   "status": "activity",
                   "cost": {
                     "price": "",
@@ -5293,7 +5412,7 @@
                   "deposit": "",
                   "category": "equipment",
                   "group": "production-machinery",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "activity-wbylnmmc",
                   "usefulLife": "",
@@ -5338,7 +5457,7 @@
                   "deposit": "",
                   "category": "equipment",
                   "group": "devices-tools",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5387,7 +5506,7 @@
                   "deposit": "",
                   "category": "equipment",
                   "group": "devices-tools",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5436,7 +5555,7 @@
                   "deposit": "",
                   "category": "digital",
                   "group": "sales-delivery-tools",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5484,7 +5603,7 @@
                   "deposit": "",
                   "category": "digital",
                   "group": "sales-delivery-tools",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5529,7 +5648,7 @@
                   "deposit": "",
                   "category": "digital",
                   "group": "sales-delivery-tools",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5578,8 +5697,8 @@
                   "deposit": "",
                   "category": "workspace",
                   "group": "site-hire",
-                  "startDate": "2026-10-03",
-                  "endDate": "2027-09-25",
+                  "startDate": "2025-04-03",
+                  "endDate": "2026-03-25",
                   "activityId": "",
                   "usefulLife": "",
                   "warranty": false,
@@ -5597,73 +5716,73 @@
                         "id": "payment-ezvh69at",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2026-10-03"
+                        "date": "2025-04-03"
                       },
                       {
                         "id": "payment-jj5tw9wo",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2026-11-04"
+                        "date": "2025-05-04"
                       },
                       {
                         "id": "payment-xxw0a793",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2026-12-07"
+                        "date": "2025-06-07"
                       },
                       {
                         "id": "payment-cm7orhdu",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-01-08"
+                        "date": "2025-07-08"
                       },
                       {
                         "id": "payment-4jxychrt",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-02-10"
+                        "date": "2025-08-10"
                       },
                       {
                         "id": "payment-j3wa47b5",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-03-14"
+                        "date": "2025-09-14"
                       },
                       {
                         "id": "payment-yup0op3a",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-04-16"
+                        "date": "2025-10-16"
                       },
                       {
                         "id": "payment-tkpg1eph",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-05-18"
+                        "date": "2025-11-18"
                       },
                       {
                         "id": "payment-5985ec91",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-06-20"
+                        "date": "2025-12-20"
                       },
                       {
                         "id": "payment-ye9dsxjg",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-07-22"
+                        "date": "2026-01-22"
                       },
                       {
                         "id": "payment-aqpszxis",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-08-24"
+                        "date": "2026-02-24"
                       },
                       {
                         "id": "payment-jl708rh1",
                         "title": "",
                         "percent": "8.37",
-                        "date": "2027-09-25"
+                        "date": "2026-03-25"
                       }
                     ]
                   },
@@ -5681,7 +5800,7 @@
                   "name": "Trade fair stands",
                   "quantity": "2",
                   "hoursAvailable": "",
-                  "description": "A shared stand with a loom for live weaving at Clerkenwell Design Week in May and Decorex in the autumn, about £3,000 across the year in all. Estimate.\nClerkenwell Design Week and Decorex.",
+                  "description": "A shared stand with a loom for live weaving at Clerkenwell Design Week in May and Decorex in the autumn, about £3,000 across the year in all. Estimate.",
                   "status": "costs",
                   "cost": {
                     "price": "1500",
@@ -5700,8 +5819,8 @@
                   "deposit": "",
                   "category": "workspace",
                   "group": "site-hire",
-                  "startDate": "2027-03-01",
-                  "endDate": "2027-05-10",
+                  "startDate": "2025-09-01",
+                  "endDate": "2025-11-10",
                   "activityId": "",
                   "usefulLife": "",
                   "warranty": false,
@@ -5742,7 +5861,7 @@
                   "name": "Installation travel",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "description": "A day’s van hire, parking and the congestion charge to hang wall textiles on site in London.\nWith van hire.",
+                  "description": "A day’s van hire, parking and the congestion charge to hang wall textiles on site in London.",
                   "status": "costs",
                   "cost": {
                     "price": "75",
@@ -5760,7 +5879,7 @@
                   "deposit": "",
                   "category": "documents",
                   "group": "",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5807,7 +5926,7 @@
                   "deposit": "",
                   "category": "documents",
                   "group": "licences",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5859,7 +5978,7 @@
                   "deposit": "",
                   "category": "documents",
                   "group": "royalties",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5911,7 +6030,7 @@
                   "deposit": "",
                   "category": "documents",
                   "group": "insurances",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5954,8 +6073,8 @@
                   ],
                   "type": "",
                   "madeBy": "resource-25sgrc67",
-                  "startDate": "2026-10-05",
-                  "endDate": "2026-10-16",
+                  "startDate": "2025-04-05",
+                  "endDate": "2025-04-16",
                   "offeringShares": {},
                   "resources": [],
                   "performerPeople": {}
@@ -5964,7 +6083,7 @@
                   "id": "activity-3ukis4h4",
                   "category": "production",
                   "name": "Source yarns",
-                  "description": "Earlier category: Production. Agree supply with two British mills and one organic cotton importer.\nBritish wool and organic cotton.",
+                  "description": "Agree supply of British wool with two British mills and of organic cotton with one importer.",
                   "performerIds": [
                     "founder-3aux8uyh"
                   ],
@@ -5976,8 +6095,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-10-01",
-                  "endDate": "2026-10-30",
+                  "startDate": "2025-04-01",
+                  "endDate": "2025-04-30",
                   "offeringShares": {
                     "offering-nvfuu2km": "50",
                     "offering-kfyakcw5": "50"
@@ -5993,8 +6112,8 @@
                 {
                   "id": "activity-l7ai37v1",
                   "category": "production",
-                  "name": "Weave spring collection",
-                  "description": "Earlier category: Production. Cushions, throws and runners in the five core colourways.\n40 pieces.",
+                  "name": "Weave the first collection",
+                  "description": "40 cushions, throws and runners in the five core colourways.",
                   "performerIds": [
                     "founder-3aux8uyh",
                     "founder-3fhkh0cm"
@@ -6006,8 +6125,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-10-12",
-                  "endDate": "2027-01-15",
+                  "startDate": "2025-04-12",
+                  "endDate": "2025-07-15",
                   "offeringShares": {},
                   "resources": [
                     {
@@ -6025,7 +6144,7 @@
                   "id": "activity-qog9c2zr",
                   "category": "production",
                   "name": "Test fire-retardant finish",
-                  "description": "Earlier category: Production. BS 5852 testing for hotel commissions.\nFor hotel orders.",
+                  "description": "BS 5852 Crib 5 testing for hotel commissions.",
                   "performerIds": [
                     "founder-3aux8uyh",
                     "partner-3w37yf3a"
@@ -6037,8 +6156,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-10-19",
-                  "endDate": "2026-11-27",
+                  "startDate": "2025-04-19",
+                  "endDate": "2025-05-27",
                   "offeringShares": {},
                   "resources": [
                     {
@@ -6054,7 +6173,7 @@
                   "id": "activity-chzfi0gr",
                   "category": "production",
                   "name": "Sample headboard panels",
-                  "description": "Wool bouclé and linen panels to present at Decorex.\nThree panels for hotel pitches.",
+                  "description": "Three wool bouclé and linen panels to present at Decorex and in hotel pitches.",
                   "performerIds": [
                     "founder-3aux8uyh"
                   ],
@@ -6065,8 +6184,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-10-26",
-                  "endDate": "2026-12-18",
+                  "startDate": "2025-04-26",
+                  "endDate": "2025-06-18",
                   "offeringShares": {},
                   "resources": [],
                   "performerPeople": {}
@@ -6075,7 +6194,7 @@
                   "id": "activity-4etvpuzs",
                   "category": "marketing",
                   "name": "Launch website and journal",
-                  "description": "Earlier category: Marketing. Shopify shop, workshop booking and first three journal posts.",
+                  "description": "Shopify shop, workshop booking and first three journal posts.",
                   "performerIds": [
                     "founder-z2jgpf8v"
                   ],
@@ -6087,8 +6206,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-08-24",
-                  "endDate": "2026-09-30",
+                  "startDate": "2025-02-24",
+                  "endDate": "2025-03-30",
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
                     "offering-8e935f0e": "30",
@@ -6101,7 +6220,7 @@
                   "id": "activity-l76pgijh",
                   "category": "marketing",
                   "name": "Plan trade fair stand",
-                  "description": "Earlier category: Marketing. Live-weaving stand and trade lookbook for May.\nClerkenwell Design Week.",
+                  "description": "Live-weaving stand and trade lookbook for Clerkenwell Design Week in May.",
                   "performerIds": [
                     "founder-z2jgpf8v",
                     "founder-3aux8uyh"
@@ -6114,8 +6233,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2027-01-11",
-                  "endDate": "2027-05-14",
+                  "startDate": "2025-07-11",
+                  "endDate": "2025-11-14",
                   "offeringShares": {
                     "offering-vhtapa3v": "50",
                     "offering-kfyakcw5": "50"
@@ -6132,7 +6251,7 @@
                   "id": "activity-ejrjabpw",
                   "category": "marketing",
                   "name": "Instagram content calendar",
-                  "description": "Earlier category: Marketing. Three posts a week: process, product, people.",
+                  "description": "Three posts a week: process, product, people.",
                   "performerIds": [
                     "founder-z2jgpf8v"
                   ],
@@ -6144,7 +6263,7 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-10-05",
+                  "startDate": "2025-04-05",
                   "endDate": "",
                   "offeringShares": {
                     "offering-nvfuu2km": "60",
@@ -6158,7 +6277,7 @@
                   "id": "activity-n8jupram",
                   "category": "sales",
                   "name": "Build trade price list",
-                  "description": "Earlier category: Sales & Customer.\nWith a swatch box.",
+                  "description": "Trade prices for the core range, with a swatch box.",
                   "performerIds": [
                     "founder-z2jgpf8v",
                     "founder-3fhkh0cm"
@@ -6170,8 +6289,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-10-05",
-                  "endDate": "2026-11-27",
+                  "startDate": "2025-04-05",
+                  "endDate": "2025-05-27",
                   "offeringShares": {},
                   "resources": [
                     {
@@ -6185,7 +6304,7 @@
                   "id": "activity-1p999t4p",
                   "category": "sales",
                   "name": "Run first workshops",
-                  "description": "Earlier category: Sales & Customer. Two per month from May; eight places each.\nSix beginner workshops.",
+                  "description": "Six beginner workshops: two a month from the opening in April, eight places each.",
                   "performerIds": [
                     "founder-3aux8uyh",
                     "founder-3fhkh0cm",
@@ -6198,8 +6317,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-10-12",
-                  "endDate": "2026-12-14",
+                  "startDate": "2025-04-12",
+                  "endDate": "2025-06-14",
                   "offeringShares": {},
                   "resources": [
                     {
@@ -6217,7 +6336,7 @@
                   "id": "activity-gaw5cbvf",
                   "category": "sales",
                   "name": "Set up repair service",
-                  "description": "Earlier category: Sales & Customer. Repair request form, pricing and turnaround times.\nThe lifetime repair service.",
+                  "description": "The lifetime repair service: request form, pricing and turnaround times.",
                   "performerIds": [
                     "founder-3fhkh0cm"
                   ],
@@ -6229,8 +6348,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-11-02",
-                  "endDate": "2027-01-29",
+                  "startDate": "2025-05-02",
+                  "endDate": "2025-07-29",
                   "offeringShares": {
                     "offering-nvfuu2km": "50",
                     "offering-vhtapa3v": "50"
@@ -6259,7 +6378,7 @@
                   },
                   "offeringShares": {},
                   "madeBy": "",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "name": "Freelance weaving tutor",
                   "description": "Covers the 4-week evening course when Maya is on commissions. £23.50 an hour; a three-hour workshop for eight takes about 0.8 of an hour of the tutor's time (the Delivery card), 0.1 of an hour, £2.35, each participant.",
@@ -6293,13 +6412,13 @@
                   },
                   "offeringShares": {},
                   "madeBy": "resource-etzbztap",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "name": "FlameGuard Finishing",
-                  "description": "BS 5852 flame-retardant treatment and certificate for hospitality orders. £6 a metre treated; a typical commission needs about 12 metres.\nTottenham.",
+                  "description": "Flame-retardant treatment to BS 5852 Crib 5, with the water-soak, and its certificate for hospitality orders: about £11.30 a metre treated, £121 at least; a typical commission needs about 12 metres.\nTottenham.",
                   "responsibleId": "founder-3fhkh0cm",
                   "cost": {
-                    "price": "6",
+                    "price": "11.3",
                     "frequency": "per-unit",
                     "frequencyOther": "",
                     "unit": "metre",
@@ -6327,7 +6446,7 @@
                   },
                   "offeringShares": {},
                   "madeBy": "",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "name": "DPD Local (courier)",
                   "description": "Tracked next-day UK delivery for every homeware order. One parcel per order, whatever it holds.",
@@ -6361,7 +6480,7 @@
                   },
                   "offeringShares": {},
                   "madeBy": "",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "name": "Royal Mail Tracked 48",
                   "description": "Tracked delivery for trade re-orders and swatch sample boxes; one parcel per order.",
@@ -6399,10 +6518,10 @@
                     "~basis": "own"
                   },
                   "madeBy": "",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "name": "Shopify Payments",
-                  "description": "Shopify Payments charges 2.0% + 25p on an online order, about £2.10 on a £95 order. The rates come from the Channel Fee Table.\nCard payments.",
+                  "description": "Card payments online: Shopify Payments charges 2.0% + 25p an order, about £2.15 on a £95 order. The rates come from the Channel Fee Table.",
                   "responsibleId": "founder-3fhkh0cm",
                   "cost": {
                     "price": "2",
@@ -6438,7 +6557,7 @@
                     "~basis": "own"
                   },
                   "madeBy": "",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "name": "SumUp in-person card fees",
                   "description": "SumUp’s in-person rate of 1.69%: about £2.10 on a £125 market or open-day sale.",
@@ -6460,8 +6579,8 @@
             "delivery": {
               "offering-nvfuu2km": {
                 "hours": {
-                  "founder-3aux8uyh": "3.5",
-                  "founder-3fhkh0cm": "1.75"
+                  "founder-3aux8uyh": "2.5",
+                  "founder-3fhkh0cm": "0.5"
                 },
                 "duration": "2",
                 "constraints": "",
@@ -6477,7 +6596,7 @@
                 "supplierId": "",
                 "holdUpsOther": [
                   "One weaver keeps about two of the three looms busy on long warps.",
-                  "A cushion is about 3 hours, a runner 4 and a throw 10, finishing included (hand fringing alone is about 1.5 hours an end)."
+                  "Woven on long warps of one design: a cushion is about 2 hours, a runner 2.5 and a throw 4, finishing included; Priya packs and dispatches in about half an hour."
                 ],
                 "effort": "",
                 "deliverers": [],
@@ -6535,9 +6654,9 @@
               },
               "offering-kfyakcw5": {
                 "hours": {
-                  "founder-3aux8uyh": "2.5",
-                  "founder-3fhkh0cm": "1",
-                  "founder-z2jgpf8v": "0.5"
+                  "founder-3aux8uyh": "0.75",
+                  "founder-3fhkh0cm": "0.15",
+                  "founder-z2jgpf8v": "0.05"
                 },
                 "duration": "2",
                 "constraints": "",
@@ -6551,7 +6670,7 @@
                 "holdsAtOnce": "",
                 "supplierId": "",
                 "holdUpsOther": [
-                  "Core range only: fewer colour changes than the retail collection."
+                  "Core range only: one design to a long warp, woven with a fly shuttle and finished ten at a time, so a cushion front takes under an hour."
                 ],
                 "effort": "",
                 "deliverers": [],
@@ -6572,8 +6691,8 @@
           "sectionNumber": 5,
           "value": {
             "planStart": {
-              "month": "10",
-              "year": "2026"
+              "month": "04",
+              "year": "2025"
             },
             "planYears": "3",
             "vatBasis": "",
@@ -6610,8 +6729,8 @@
                       "id": "milestone-nggdpw43",
                       "amount": "4000",
                       "month": {
-                        "month": "10",
-                        "year": "2026"
+                        "month": "04",
+                        "year": "2025"
                       },
                       "condition": "Grant agreement signed"
                     },
@@ -6619,8 +6738,8 @@
                       "id": "milestone-jcp73iph",
                       "amount": "4000",
                       "month": {
-                        "month": "04",
-                        "year": "2027"
+                        "month": "10",
+                        "year": "2025"
                       },
                       "condition": "Six-month progress report"
                     }
@@ -6631,7 +6750,7 @@
                 "needIds": [
                   "establishment"
                 ],
-                "conditions": "Must stay in Hackney for two years and create one local job by 2028.",
+                "conditions": "Must stay in Hackney for two years and create one local job by 2027.",
                 "equity": "",
                 "loan": {
                   "rate": "",
@@ -6655,7 +6774,7 @@
                 "category": "external",
                 "type": "business-loan",
                 "provider": "British Business Bank (Start Up Loans)",
-                "amount": "15000",
+                "amount": "25000",
                 "status": "received",
                 "received": "",
                 "schedule": {
@@ -6678,18 +6797,18 @@
                 "needIds": [
                   "initial-operating"
                 ],
-                "conditions": "Personal loan to the directors, lent on to the company; mentoring for 12 months.",
+                "conditions": "Personal loan to Priya Shah at 6% fixed (the rate until 5 April 2026), lent on to the company; £25,000 is the most one founder can borrow. 12 months of free mentoring.",
                 "equity": "",
                 "loan": {
                   "rate": "6",
                   "interestType": "fixed",
                   "start": {
-                    "month": "10",
-                    "year": "2026"
+                    "month": "04",
+                    "year": "2025"
                   },
                   "repaymentStart": {
-                    "month": "11",
-                    "year": "2026"
+                    "month": "05",
+                    "year": "2025"
                   },
                   "frequency": "monthly",
                   "payments": "60",
@@ -6708,8 +6827,8 @@
                 "schedule": {
                   "kind": "one-time",
                   "month": {
-                    "month": "06",
-                    "year": "2027"
+                    "month": "08",
+                    "year": "2025"
                   },
                   "periodAmount": "",
                   "frequency": "monthly",
@@ -6725,7 +6844,7 @@
                 "needIds": [
                   "initial-operating"
                 ],
-                "conditions": "SEIS-eligible; board observer seat; pitch in March 2027.",
+                "conditions": "SEIS advance assurance first (investors get 50% income tax relief); board observer seat; pitch in June 2025, close in August 2025.",
                 "equity": "10",
                 "loan": {
                   "rate": "",
@@ -6755,8 +6874,8 @@
                 "schedule": {
                   "kind": "one-time",
                   "month": {
-                    "month": "03",
-                    "year": "2027"
+                    "month": "05",
+                    "year": "2025"
                   },
                   "periodAmount": "",
                   "frequency": "monthly",
@@ -6768,7 +6887,7 @@
                   "milestones": [],
                   "note": ""
                 },
-                "purpose": "Pre-sell the Heritage Throw limited edition",
+                "purpose": "Pre-sell the Heritage Throw limited edition in the spring; Kickstarter keeps 5% and card processing about 3–5%.",
                 "needIds": [],
                 "conditions": "",
                 "equity": "",
@@ -6800,8 +6919,8 @@
                 "schedule": {
                   "kind": "one-time",
                   "month": {
-                    "month": "10",
-                    "year": "2026"
+                    "month": "04",
+                    "year": "2025"
                   },
                   "periodAmount": "",
                   "frequency": "monthly",
@@ -6846,14 +6965,14 @@
                 "offeringId": "offering-nvfuu2km",
                 "model": "Product Sale",
                 "modelOther": "",
-                "price": "160",
+                "price": "180",
                 "unit": "Product",
                 "unitOther": "",
                 "frequency": "per-sale",
                 "volume": "10",
                 "start": {
-                  "month": "10",
-                  "year": "2026"
+                  "month": "04",
+                  "year": "2025"
                 },
                 "development": "gradual",
                 "initialVolume": "3",
@@ -6865,21 +6984,21 @@
                 "paymentTiming": "",
                 "paymentDelay": "",
                 "firstPercent": "",
-                "description": "Average across cushions (£95), table runners (£85) and throws (£230 small, £350 single), online and at markets: about a third of the pieces throws."
+                "description": "Average price before VAT across cushions (£135 with VAT; woven studio cushions sell at £77–£196), table runners (£110) and throws (£345 small, £450 single; Wallace Sewell's start at £385), online and at markets. About a third of the pieces are throws, so about £216 a piece with VAT, £180 without."
               },
               {
                 "id": "stream-2bibg9vb",
                 "offeringId": "offering-8e935f0e",
                 "model": "Service Fee",
                 "modelOther": "",
-                "price": "85",
+                "price": "75",
                 "unit": "Participant",
                 "unitOther": "",
                 "frequency": "per-sale",
                 "volume": "32",
                 "start": {
-                  "month": "10",
-                  "year": "2026"
+                  "month": "04",
+                  "year": "2025"
                 },
                 "development": "gradual",
                 "initialVolume": "12",
@@ -6891,21 +7010,21 @@
                 "paymentTiming": "",
                 "paymentDelay": "",
                 "firstPercent": "",
-                "description": "Four workshops a month of eight places."
+                "description": "Four workshops a month of eight places: mostly half-days at £80, some full days at £140 and the evening course at £260 for four sessions (London classes run £60 for 3 hours to £145 for a day); about £90 a place with VAT, £75 without."
               },
               {
                 "id": "stream-g779eac5",
                 "offeringId": "offering-vhtapa3v",
                 "model": "Project / Contract",
                 "modelOther": "",
-                "price": "2400",
+                "price": "2800",
                 "unit": "Project",
                 "unitOther": "",
                 "frequency": "per-project",
                 "volume": "3",
                 "start": {
-                  "month": "01",
-                  "year": "2027"
+                  "month": "07",
+                  "year": "2025"
                 },
                 "development": "gradual",
                 "initialVolume": "0.5",
@@ -6917,21 +7036,21 @@
                 "paymentTiming": "split",
                 "paymentDelay": "2",
                 "firstPercent": "50",
-                "description": "Average commission; 50% deposit, balance on delivery about two months later."
+                "description": "Average commission before VAT (a set of cushions and a throw for a suite, or two headboard panels; studios quote £1,800–£5,000); 50% deposit, balance on delivery about two months later."
               },
               {
                 "id": "stream-xyojh0ww",
                 "offeringId": "offering-kfyakcw5",
                 "model": "Product Sale",
                 "modelOther": "",
-                "price": "48",
+                "price": "68",
                 "unit": "Product",
                 "unitOther": "",
                 "frequency": "per-sale",
                 "volume": "3",
                 "start": {
-                  "month": "06",
-                  "year": "2027"
+                  "month": "12",
+                  "year": "2025"
                 },
                 "development": "gradual",
                 "initialVolume": "1",
@@ -6943,7 +7062,7 @@
                 "paymentTiming": "completion",
                 "paymentDelay": "1",
                 "firstPercent": "",
-                "description": "Trade price, half the retail price (the usual wholesale share); cushions and runners of the core range only; 30-day payment terms."
+                "description": "Trade price before VAT: half the RRP, the trade discount makers of handmade homeware give (a £135 cushion is £68 to the shop); cushions and runners of the core range only; 30-day payment terms."
               }
             ]
           }
@@ -6960,14 +7079,8 @@
         {
           "sectionNumber": 1,
           "value": {
-            "situation": "Lumen & Loom Studio Ltd was incorporated in March 2026 by Maya Chen, Oliver Grant and Priya Shah and opens its Hackney Wick studio in October 2026. We sell a handwoven homeware collection online and at London markets, run beginner weaving workshops, and are starting bespoke commissions and a trade collection for interior designers and boutique hotels. Customers find us through Instagram, markets, word of mouth and design fairs. We are funded by £13,000 of founders’ capital, a £15,000 Start Up Loan and an £8,000 Hackney grant (half received). Monthly fixed costs are about £7,500, mostly three modest director salaries and rent; revenue starts small and is expected to cover costs from around August 2027. An angel round of £20,000 is in preparation to close a funding gap before then.",
+            "situation": "Lumen & Loom Studio Ltd was incorporated in March 2025 by Maya Chen, Oliver Grant and Priya Shah and opened its Hackney Wick studio in April 2025. We sell a handwoven homeware collection online and at London markets, run beginner weaving workshops, and are starting bespoke commissions and a trade collection for interior designers and boutique hotels. Customers find us through Instagram, markets, word of mouth and design fairs. We are funded by £13,000 of founders’ capital, a £25,000 Start Up Loan and an £8,000 Hackney grant (half received at the opening). Monthly fixed costs are about £7,300, mostly three modest director salaries and rent; revenue starts small and is expected to cover costs from November 2025. To close a funding gap of about £14,200 before then, we are raising £20,000 from angels under SEIS (closing in August 2025) and £6,000 on Kickstarter in May 2025.",
             "situationSource": "",
-            "swotEdited": [
-              "strengths",
-              "weaknesses",
-              "opportunities",
-              "threats"
-            ],
             "swot": {
               "strengths": [
                 "Three complementary founders: craft, sales and operations",
@@ -6991,25 +7104,31 @@
                 "Cost-of-living pressure on discretionary spending",
                 "Rising wool and energy prices",
                 "Larger brands launching “artisan” lines",
-                "Rent review on the studio in 2028"
+                "Rent review on the studio in 2027"
               ]
             },
+            "swotEdited": [
+              "strengths",
+              "weaknesses",
+              "opportunities",
+              "threats"
+            ],
             "compass": "By 2030, Lumen & Loom is London’s best-known independent weaving studio: a team of eight makers, a collection stocked by twenty UK independents, commissions for boutique hotels across the UK, a workshop programme with a waiting list, and a fully traceable low-carbon supply chain. Profitable, and still making every piece by hand in Hackney.",
             "period": {
               "start": {
-                "month": "10",
-                "year": "2026"
+                "month": "04",
+                "year": "2025"
               },
               "end": {
-                "month": "09",
-                "year": "2029"
+                "month": "03",
+                "year": "2028"
               }
             },
             "themes": [
               {
                 "id": "theme-c1woqy5y",
                 "name": "Financial Resilience",
-                "description": "Close the funding gap, reach break even by late summer 2027 and build three months of reserves, so the studio can grow without living month to month."
+                "description": "Close the funding gap, reach break even by November 2025 and build three months of reserves, so the studio can grow without living month to month."
               },
               {
                 "id": "theme-p8f8o5y7",
@@ -7052,32 +7171,33 @@
                     {
                       "id": "theme-c1woqy5y-objective-1",
                       "name": "Close the funding gap",
-                      "description": "Secure the £20k angel round and the remaining grant instalment.",
+                      "description": "Secure the £20k angel round, the £6k Kickstarter and the remaining grant instalment.",
                       "period": {
                         "start": {
-                          "month": "10",
-                          "year": "2026"
+                          "month": "04",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "06",
-                          "year": "2027"
+                          "month": "10",
+                          "year": "2025"
                         }
                       },
                       "initiatives": [
                         "Prepare SEIS advance assurance and pitch deck",
-                        "Pitch to Kiln Collective and two other angel networks",
+                        "Pitch to Kiln Collective and two other angel networks in June 2025",
+                        "Run the Heritage Throw Kickstarter in May 2025",
                         "Submit the six-month grant progress report on time"
                       ],
                       "metrics": [
                         {
                           "id": "theme-c1woqy5y-metric-1",
                           "name": "Confirmed funding",
-                          "baseline": "36000",
-                          "target": "46400",
+                          "baseline": "46000",
+                          "target": "72000",
                           "frequency": "Monthly",
                           "unit": "Currency",
                           "currency": "GBP",
-                          "description": "Funding received or agreed, against the £46.4k Funding Need"
+                          "description": "Funding received or agreed: £46,000 now, £72,000 with the angel round and the Kickstarter, against the £60.2k Funding Need"
                         }
                       ],
                       "ownerId": "founder-3fhkh0cm"
@@ -7088,12 +7208,12 @@
                       "description": "Monthly revenue covers fixed and variable costs.",
                       "period": {
                         "start": {
-                          "month": "10",
-                          "year": "2026"
+                          "month": "04",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "05",
-                          "year": "2027"
+                          "month": "11",
+                          "year": "2025"
                         }
                       },
                       "initiatives": [
@@ -7105,12 +7225,12 @@
                         {
                           "id": "metric-o98klkip",
                           "name": "Monthly revenue",
-                          "baseline": "1970",
-                          "target": "9740",
+                          "baseline": "1380",
+                          "target": "10800",
                           "frequency": "Monthly",
                           "unit": "Currency",
                           "currency": "GBP",
-                          "description": "Revenue earned in the month"
+                          "description": "Revenue earned in the month; break even at about £10,800"
                         },
                         {
                           "id": "metric-2pjrm52r",
@@ -7140,12 +7260,12 @@
                       "description": "Trade range, price list and swatch box launched at Clerkenwell Design Week.",
                       "period": {
                         "start": {
-                          "month": "01",
-                          "year": "2027"
+                          "month": "07",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "06",
-                          "year": "2027"
+                          "month": "12",
+                          "year": "2025"
                         }
                       },
                       "initiatives": [
@@ -7158,11 +7278,11 @@
                           "id": "theme-p8f8o5y7-metric-1",
                           "name": "Active trade accounts",
                           "baseline": "0",
-                          "target": "12",
+                          "target": "4",
                           "frequency": "Quarterly",
                           "unit": "Number",
                           "currency": "",
-                          "description": "Designers or retailers who ordered in the last 6 months"
+                          "description": "Designers or retailers who ordered in the last 6 months (a first order of at least 6 pieces)"
                         }
                       ],
                       "ownerId": "founder-z2jgpf8v"
@@ -7173,16 +7293,16 @@
                       "description": "Win and deliver commissions for boutique hotels on time.",
                       "period": {
                         "start": {
-                          "month": "01",
-                          "year": "2027"
+                          "month": "07",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "09",
-                          "year": "2028"
+                          "month": "03",
+                          "year": "2027"
                         }
                       },
                       "initiatives": [
-                        "Create a hospitality spec pack with BS 5852 certificates",
+                        "Create a hospitality spec pack with BS 7176 Medium Hazard (Crib 5) certificates",
                         "Sample three headboard panels for hotel pitches",
                         "Photograph every finished project for case studies"
                       ],
@@ -7201,11 +7321,11 @@
                           "id": "metric-r4b5rgp3",
                           "name": "Commission revenue",
                           "baseline": "0",
-                          "target": "43000",
+                          "target": "100800",
                           "frequency": "Annually",
                           "unit": "Currency",
                           "currency": "GBP",
-                          "description": "Revenue from bespoke projects"
+                          "description": "Revenue from bespoke projects in a year at the normal level: three a month at about £2,800"
                         }
                       ],
                       "ownerId": "founder-3aux8uyh"
@@ -7225,16 +7345,16 @@
                       "description": "Beginner and intermediate workshops at 90% occupancy.",
                       "period": {
                         "start": {
-                          "month": "10",
-                          "year": "2026"
+                          "month": "04",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "09",
-                          "year": "2027"
+                          "month": "03",
+                          "year": "2026"
                         }
                       },
                       "initiatives": [
-                        "Launch gift vouchers before Christmas 2026",
+                        "Launch gift vouchers before Christmas 2025",
                         "Add a 4-week evening course",
                         "Partner with two local cafés and a bookshop for listings"
                       ],
@@ -7268,12 +7388,12 @@
                       "description": "Past participants return, share their work and recommend us.",
                       "period": {
                         "start": {
-                          "month": "01",
-                          "year": "2027"
+                          "month": "07",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "09",
-                          "year": "2029"
+                          "month": "03",
+                          "year": "2028"
                         }
                       },
                       "initiatives": [
@@ -7306,15 +7426,15 @@
                     {
                       "id": "theme-9u2xfsr6-objective-1",
                       "name": "Double production capacity",
-                      "description": "From about 30 to 60 pieces a month.",
+                      "description": "From about 15 to 30 pieces a month: the collection, the trade range and commission pieces.",
                       "period": {
                         "start": {
-                          "month": "04",
-                          "year": "2027"
+                          "month": "10",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "09",
-                          "year": "2028"
+                          "month": "03",
+                          "year": "2027"
                         }
                       },
                       "initiatives": [
@@ -7326,8 +7446,8 @@
                         {
                           "id": "theme-9u2xfsr6-metric-1",
                           "name": "Pieces made per month",
-                          "baseline": "40",
-                          "target": "80",
+                          "baseline": "15",
+                          "target": "30",
                           "frequency": "Monthly",
                           "unit": "Number",
                           "currency": "",
@@ -7342,12 +7462,12 @@
                       "description": "Every yarn traced to farm or mill, with a carbon estimate per product.\nTraceable, from farm to cloth.",
                       "period": {
                         "start": {
-                          "month": "10",
-                          "year": "2026"
+                          "month": "04",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "09",
-                          "year": "2027"
+                          "month": "03",
+                          "year": "2026"
                         }
                       },
                       "initiatives": [

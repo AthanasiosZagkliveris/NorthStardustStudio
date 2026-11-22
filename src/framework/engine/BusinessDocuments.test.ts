@@ -70,14 +70,14 @@ describe("business documents", () => {
         // Sustainability numbers on from Financial Foundation's three headings (its costs are in the Appendix).
         expect(md).toContain("### 4. Revenue");
         expect(md).toContain("Lumen & Loom Studio Ltd, a private company limited by shares, based in London, United Kingdom, was founded by");
-        expect(md).toContain("is seeking £26,000 of additional funding towards a funding gap of £23,724");
+        expect(md).toContain("is seeking £26,000 of additional funding towards a funding gap of £14,198");
     });
 
     test("the financial forecast adds up, month by month and by year", () => {
         const { forecast, years } = businessForecast(sessions);
         expect(years).toBe(3);
         expect(forecast.months).toHaveLength(36);
-        expect(forecast.months[0]).toBe("Mar 2026");
+        expect(forecast.months[0]).toBe("Feb 2025");
 
         const row = (label: string) => forecast.cashFlow.rows.find(entry => entry.label === label)!;
         const closing = row("Cash at end of period").values;
@@ -85,7 +85,7 @@ describe("business documents", () => {
         row("Cash at start of period").values.slice(1).forEach((amount, index) => expect(amount).toBeCloseTo(closing[index], 6));
 
         const annual = forecastView(forecast, "annual", 2);
-        expect(annual.columns).toEqual(["Year 1 (Mar 2026 – Feb 2027)", "Year 2 (Mar 2027 – Feb 2028)"]);
+        expect(annual.columns).toEqual(["Year 1 (Feb 2025 – Jan 2026)", "Year 2 (Feb 2026 – Jan 2027)"]);
         const cash = annual.tables.find(table => table.title === "Cash-Flow Forecast")!;
         const yearClosing = cash.rows.find(entry => entry.label === "Cash at end of period")!.values;
         expect(yearClosing[1]).toBeCloseTo(closing[23], 6);
@@ -103,9 +103,9 @@ describe("business documents", () => {
         expect(sheet("Cash")[35]).toBeCloseTo(Math.max(0, closing[35]), 6);
         expect(sheet("Cash shortfall (unfunded)")[35]).toBeCloseTo(Math.max(0, -closing[35]), 6);
         // The looms and furniture are assets, spread over three years.
-        // The plan starts in Mar 2026 (the first registration fee); the looms and furniture are bought in Oct 2026, when the studio opens.
-        const opens = forecast.months.indexOf("Oct 2026");
-        expect(opens).toBe(7);
+        // The plan starts in Feb 2025 (the trade mark and ICO fees); the looms and furniture are bought in Apr 2025, when the studio opens.
+        const opens = forecast.months.indexOf("Apr 2025");
+        expect(opens).toBe(2);
         expect(sheet("Equipment (net of depreciation)")[opens - 1]).toBe(0);
         expect(sheet("Equipment (net of depreciation)")[opens]).toBeGreaterThan(8000);
         expect(forecast.profitAndLoss.rows.some(entry => entry.label === "Other income (grants)")).toBe(true);

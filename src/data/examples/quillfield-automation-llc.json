@@ -121,15 +121,15 @@
                 "type": "additional",
                 "name": "Assumed Name",
                 "reference": "Filed with the Kings County Clerk on 2026-08-17",
-                "notes": "A sole proprietor who trades under a name other than their own files a certificate of assumed name with the county clerk before using it. It is the only registration a sole proprietorship needs in New York: no state filing, no publication, no annual fee. The Kings County Clerk's fee is $25.\nCertificate of Assumed Name, NY General Business Law, Section 130.",
+                "notes": "A sole proprietor who trades under a name other than their own files a certificate of assumed name (a business certificate) with the county clerk before using it. It is the only registration a sole proprietorship needs in New York: no state filing, no publication, no annual fee. The Kings County Clerk's fee is $120 ($100 in the Bronx, Manhattan and Queens; $25 outside New York City), and $10 for each extra certified copy a bank asks for (NYC311, Business Registration).\nCertificate of Assumed Name, NY General Business Law, Section 130.",
                 "offerInExpenses": false
               },
               {
                 "id": "requirement-o9a3g6mk",
                 "type": "other",
                 "name": "Self-employment tax",
-                "reference": "First estimated payment due 2027-01-15",
-                "notes": "As a sole proprietor, Jordan pays income tax and self-employment tax (Social Security and Medicare, about 15.3% of net earnings) personally, in quarterly estimated payments. The business itself pays no income tax. To be confirmed with the accountant.\nEstimated payments: IRS Schedule SE, Form 1040-ES.",
+                "reference": "First estimated payment due 2027-04-15",
+                "notes": "As a sole proprietor, Jordan pays income tax and self-employment tax (Social Security and Medicare, 15.3% of net earnings; the Social Security part up to the wage base, $184,500 in 2026) personally, in quarterly estimated payments. The first income comes in 2027, so the first payment is the one due on 15 April 2027. The business itself pays no income tax. To be confirmed with the accountant.\nEstimated payments: IRS Schedule SE, Form 1040-ES.",
                 "offerInExpenses": false
               },
               {
@@ -137,15 +137,15 @@
                 "type": "other",
                 "name": "New York State sales tax",
                 "reference": "Not registered",
-                "notes": "Consulting and custom automation services are generally not subject to New York sales tax, so no Certificate of Authority is held. Reselling software licenses or pre-written software would change this. To be confirmed with the accountant.",
+                "notes": "Consulting and automations built to a client's own specification are not subject to New York sales tax, so no Certificate of Authority is held. Reselling software licenses or pre-written software, or giving access to it, would change this. To be confirmed with the accountant.\nNY Tax Bulletin TB-ST-128, Computer Software.",
                 "offerInExpenses": false
               },
               {
                 "id": "requirement-u5b8t2rz",
                 "type": "additional",
                 "name": "NYC Business Tax",
-                "reference": "Not yet required",
-                "notes": "A sole proprietor doing business in New York City may owe the Unincorporated Business Tax (UBT) once business income passes the exemption threshold. To be confirmed with the accountant each year.\nUnincorporated Business Tax (UBT).",
+                "reference": "Files once gross business income passes $95,000",
+                "notes": "A sole proprietor doing business in New York City files the Unincorporated Business Tax return (NYC-202) for each year its gross business income passes $95,000. The tax is 4% of business income after a $5,000 exemption and an allowance for the owner's own services (20%, up to $10,000); a business tax credit cancels it in full while it is $3,400 or less. To be confirmed with the accountant each year.\nUnincorporated Business Tax (UBT), NYC-202 instructions.",
                 "offerInExpenses": false
               }
             ],
@@ -155,12 +155,12 @@
                 "name": "Assumed Name filing",
                 "date": "2026-08-17",
                 "responsibility": "founder-q7m2x4ke",
-                "cost": "25",
+                "cost": "120",
                 "frequency": "One time",
                 "links": [
                   "formation-registration-number"
                 ],
-                "description": "Kings County Clerk's fee, paid at filing in August 2026.",
+                "description": "Kings County Clerk's filing fee, paid at filing in August 2026.",
                 "fromRequirement": ""
               }
             ],
@@ -398,6 +398,9 @@
                   "reach": [
                     "region"
                   ],
+                  "area": [
+                    "5"
+                  ],
                   "orgtype": [
                     "private"
                   ],
@@ -437,9 +440,6 @@
                   ],
                   "competition": [
                     "3"
-                  ],
-                  "area": [
-                    "5"
                   ]
                 },
                 "profiles": [
@@ -534,7 +534,7 @@
                     },
                     "goals": "Make intake, reminders and reporting run on their own.",
                     "challenges": "Copying data between the practice-management system, email and spreadsheets; chasing clients for documents; no budget for a full-time developer; past tools abandoned after setup.",
-                    "objections": "",
+                    "objections": "Worried the automations will break when staff or software change; needs the partners to approve the spend; wary of putting client data into a new tool.",
                     "needs": {
                       "functional": [
                         "Stop doing repetitive admin by hand",
@@ -684,9 +684,9 @@
                     "name": "Freelance specialists",
                     "type": "direct",
                     "description": {
-                      "offerings": "Zapier, Make and AI chatbot builds, priced by the task or the hour.",
+                      "offerings": "Zapier, Make and AI chatbot builds, priced by the task or the hour: about $50–$80 an hour for expert Zapier and AI freelancers on Upwork, $100–$160 for independents who write custom code.",
                       "market": "Small businesses in any industry.",
-                      "acquisition": "",
+                      "acquisition": "Upwork, Fiverr and Contra profiles, and the Zapier and Make expert directories.",
                       "experience": "Suited to simple tasks."
                     },
                     "strengths": "Strengths: Large pool of talent; quick to start.\nWeaknesses: Little understanding of professional-services workflows or confidentiality; documentation is rare.",
@@ -759,16 +759,90 @@
                     }
                   },
                   {
+                    "id": "competitor-qfagency1",
+                    "name": "Automation agencies",
+                    "type": "direct",
+                    "description": {
+                      "offerings": "Small Zapier and Make partner agencies: AutomateNexus (Seattle) sells a $2,500 \"Hidden Hours Audit\" and fixed-fee builds; Christina Savage LLC (Denver) serves legal and professional-services firms from $2,500, most projects $5,000–$10,000; XRAY.Tech sells $250-an-hour blocks and a $15,000 design sprint.",
+                      "market": "Small and mid-size firms across the United States, served remotely.",
+                      "acquisition": "The Zapier and Make partner directories, their websites and referrals.",
+                      "experience": "Capable and well documented; remote, with a project team rather than one person, and few focus on New York or on one profession."
+                    },
+                    "strengths": "Strengths: Partner badges and directory listings; teams that can run several builds at once.\nWeaknesses: Remote and general; most do not know a law or accounting firm's confidentiality rules.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: Their published prices show firms will pay $2,500 for an audit.\nThreats: Partner agencies packaging lower-cost offers for small firms.",
+                    "threats": "",
+                    "insights": "Compete on being local and specialised: in person in New York, focused on law and accounting firms, with one accountable person from audit to care.",
+                    "questions": {
+                      "k1": [
+                        "Service"
+                      ],
+                      "k2": [
+                        "country"
+                      ],
+                      "k3": [
+                        "small"
+                      ],
+                      "k4": [
+                        "4"
+                      ],
+                      "k5": [
+                        "website",
+                        "referral-affiliates"
+                      ],
+                      "k6": [
+                        "google",
+                        "clutch"
+                      ],
+                      "k6-rating": [
+                        "google:5",
+                        "clutch:5"
+                      ],
+                      "k7-rating": [
+                        "discovery:4",
+                        "evaluation:4",
+                        "purchase:4",
+                        "delivery:4",
+                        "support:3"
+                      ],
+                      "k8-rating": [
+                        "lower-price:2",
+                        "speed:4",
+                        "ease-and-convenience:3",
+                        "good-support:3",
+                        "quality-and-results:4",
+                        "trust-and-reputation:4",
+                        "expert-knowledge:4"
+                      ],
+                      "k9-rating": [
+                        "technology:4",
+                        "economy:3"
+                      ],
+                      "k10": [
+                        "standout:ease-and-convenience"
+                      ],
+                      "k15": [
+                        "2500",
+                        "15000"
+                      ],
+                      "k16": [
+                        "need-1f10ah4",
+                        "need-bpzdza",
+                        "need-1bj6mz"
+                      ]
+                    }
+                  },
+                  {
                     "id": "competitor-c9n2s5ul",
                     "name": "AI consultancies",
                     "type": "indirect",
                     "description": {
-                      "offerings": "AI strategy, custom model work and enterprise integrations.",
+                      "offerings": "AI strategy, custom model work and enterprise integrations; readiness audits for law firms are quoted at £3,500–£8,000 in the UK, with day rates of £800–£1,200.",
                       "market": "Mid-size and enterprise firms, often in finance and healthcare.",
                       "acquisition": "",
                       "experience": "Polished and thorough."
                     },
-                    "strengths": "Weaknesses: Minimum engagements; not interested in 10-person clients.",
+                    "strengths": "Strengths: Deep expertise, governance frameworks and strong references.\nWeaknesses: Minimum engagements; not interested in 10-person clients.",
                     "weaknesses": "",
                     "opportunities": "Opportunities: Could launch packaged small-business offers.\nThreats: Their thought leadership raises expectations of what AI can do.",
                     "threats": "",
@@ -2427,7 +2501,7 @@
                       "name": "Laptop stand",
                       "quantity": "1",
                       "hoursAvailable": "",
-                      "description": "Already owned.\nWith a keyboard and mouse.",
+                      "description": "Already owned, with a keyboard and mouse.",
                       "status": "exists",
                       "cost": {
                         "price": "",
@@ -2603,7 +2677,7 @@
                       "name": "Video kit",
                       "quantity": "1",
                       "hoursAvailable": "",
-                      "description": "For remote workshops and handover calls with clients. Bought once the loan arrives; used for about three years.\nCamera, microphone and light.",
+                      "description": "A camera, microphone and light for remote workshops and handover calls with clients. Bought once the loan arrives; used for about three years.",
                       "status": "costs",
                       "cost": {
                         "price": "450",
@@ -2653,7 +2727,7 @@
                       "name": "Google Workspace",
                       "quantity": "1",
                       "hoursAvailable": "",
-                      "description": "Email, calendar, shared folders and documents for one user. Approximate price.\nBusiness Standard plan.",
+                      "description": "Email, calendar, shared folders and documents for one user on the Business Standard plan. Approximate price.",
                       "status": "costs",
                       "cost": {
                         "price": "14",
@@ -2695,10 +2769,10 @@
                       "name": "Make.com Core plan",
                       "quantity": "1",
                       "hoursAvailable": "",
-                      "description": "Internal automations and prototyping. Approximate price.",
+                      "description": "Internal automations and prototyping on the Core plan (about $9–$12 a month).",
                       "status": "costs",
                       "cost": {
-                        "price": "19",
+                        "price": "12",
                         "frequency": "monthly",
                         "frequencyOther": "",
                         "unit": "",
@@ -2821,7 +2895,7 @@
                       "name": "QuickBooks Online",
                       "quantity": "1",
                       "hoursAvailable": "",
-                      "description": "Bookkeeping, invoices and recurring billing, shared with the accountant. Approximate price.\nSimple Start plan.",
+                      "description": "Bookkeeping, invoices and recurring billing on the Simple Start plan, shared with the accountant. Approximate price.",
                       "status": "costs",
                       "cost": {
                         "price": "35",
@@ -2905,7 +2979,7 @@
                       "name": "Domain",
                       "quantity": "1",
                       "hoursAvailable": "",
-                      "description": "Annual renewal. Approximate price.\nquillfieldautomation.com",
+                      "description": "quillfieldautomation.com, renewed each year. Approximate price.",
                       "status": "costs",
                       "cost": {
                         "price": "20",
@@ -2953,7 +3027,7 @@
                       "name": "Password vault",
                       "quantity": "1",
                       "hoursAvailable": "",
-                      "description": "Earlier status: Needs Investigation. Compare business password managers with shared vaults for client access.\nFor client logins.",
+                      "description": "Compare business password managers with shared vaults for client logins.",
                       "status": "activity",
                       "cost": {
                         "price": "",
@@ -3003,7 +3077,7 @@
                     "id": "activity-f2l8c4ow",
                     "category": "pre-operational",
                     "name": "Register business name",
-                    "description": "Certificate of Assumed Name filed with the Kings County Clerk in August 2026; EIN issued by the IRS the same week.\nAnd get an EIN.",
+                    "description": "Certificate of Assumed Name filed with the Kings County Clerk in August 2026; EIN issued by the IRS the same week.",
                     "performerIds": [
                       "founder-q7m2x4ke"
                     ],
@@ -3041,7 +3115,7 @@
                     "id": "activity-g3c7t4nl",
                     "category": "pre-operational",
                     "name": "Contract templates",
-                    "description": "Earlier category: Sales & Customer. Master services agreement, NDA and retainer terms drafted with the lawyer.\nStandard client contracts.",
+                    "description": "Standard client contracts: master services agreement, NDA and retainer terms drafted with the lawyer.",
                     "performerIds": [
                       "founder-q7m2x4ke",
                       "professional-lawyer"
@@ -3061,7 +3135,7 @@
                     "id": "activity-t5d8w1hs",
                     "category": "pre-operational",
                     "name": "Write privacy policy",
-                    "description": "Earlier category: Production. What data is sent to AI models, how it is protected, and how clients approve each use.\nClient data privacy and AI use.",
+                    "description": "Client data privacy and AI use: what data is sent to AI models, how it is protected, and how clients approve each use.",
                     "performerIds": [
                       "founder-q7m2x4ke",
                       "professional-lawyer"
@@ -3081,7 +3155,7 @@
                     "id": "activity-w2b9s5ju",
                     "category": "pre-operational",
                     "name": "Launch the website with booking",
-                    "description": "Earlier category: Marketing. Service pages, pricing, case studies and Calendly booking on Squarespace.",
+                    "description": "Service pages, pricing, case studies and Calendly booking on Squarespace.",
                     "performerIds": [
                       "founder-q7m2x4ke",
                       "professional-copywriter-designer"
@@ -3106,7 +3180,7 @@
                     "id": "activity-q3a5x8me",
                     "category": "pre-operational",
                     "name": "Set up bookkeeping",
-                    "description": "QuickBooks categories, receipts and a quarterly estimated tax routine agreed with the accountant.\nWith quarterly estimated taxes.",
+                    "description": "QuickBooks categories, receipts and a quarterly estimated tax routine agreed with the accountant.",
                     "performerIds": [
                       "founder-q7m2x4ke",
                       "professional-accountant"
@@ -3137,7 +3211,7 @@
                     "id": "activity-x9v2i6cr",
                     "category": "operational",
                     "name": "Investigate password vault",
-                    "description": "Compare business password managers with shared vaults and audit logs for client credentials.\nFor client logins.",
+                    "description": "Compare business password managers with shared vaults and audit logs for client logins.",
                     "performerIds": [
                       "founder-q7m2x4ke"
                     ],
@@ -3179,7 +3253,7 @@
                 "startDate": "2027-01-01",
                 "endDate": "",
                 "name": "Accountant (CPA)",
-                "description": "Earlier category: Professional services. Brooklyn CPA practice: monthly bookkeeping review, quarterly estimated taxes and the annual returns.",
+                "description": "Brooklyn CPA practice: monthly bookkeeping review, quarterly estimated taxes and the annual returns.",
                 "responsibleId": "founder-q7m2x4ke",
                 "cost": {
                   "price": "150",
@@ -3211,7 +3285,7 @@
                 "startDate": "2027-01-04",
                 "endDate": "",
                 "name": "Lawyer",
-                "description": "Earlier category: Professional services. Small-business attorney: master services agreement, NDA and retainer terms, reviewed once.",
+                "description": "Small-business attorney: master services agreement, NDA and retainer terms, reviewed once.",
                 "responsibleId": "founder-q7m2x4ke",
                 "cost": {
                   "price": "1200",
@@ -3243,7 +3317,7 @@
                 "startDate": "2027-01-04",
                 "endDate": "",
                 "name": "Launch web design",
-                "description": "Freelance copywriter and designer for the website, case study layout and proposal templates.\nCopywriting and web design.",
+                "description": "Freelance copywriter and designer for the website, case study layout and proposal templates.",
                 "responsibleId": "founder-q7m2x4ke",
                 "cost": {
                   "price": "1500",
@@ -3275,7 +3349,7 @@
                 "startDate": "2027-01-01",
                 "endDate": "",
                 "name": "Brooklyn coworking",
-                "description": "Hot desk membership in Downtown Brooklyn; electricity, Wi-Fi and air conditioning included. Provides the Workspace.\nHot desk membership.",
+                "description": "Hot desk membership in Downtown Brooklyn; electricity, Wi-Fi and air conditioning included. Provides the Workspace.",
                 "responsibleId": "founder-q7m2x4ke",
                 "cost": {
                   "price": "300",
@@ -3790,6 +3864,57 @@
                   "extraStatuses": [],
                   "insuranceId": "",
                   "insuresId": ""
+                },
+                {
+                  "id": "resource-qfinsure1",
+                  "name": "Tech E&O and cyber insurance",
+                  "quantity": "1",
+                  "hoursAvailable": "",
+                  "description": "Technology errors & omissions and cyber liability in one policy, which most client contracts ask for; a one-person firm with modest revenue pays about $1,500 a year (Insureon's medians for IT consultants: E&O $899, cyber $1,540).",
+                  "status": "costs",
+                  "cost": {
+                    "price": "1500",
+                    "frequency": "annually",
+                    "frequencyOther": "",
+                    "unit": "",
+                    "currency": ""
+                  },
+                  "providerId": "",
+                  "offeringIds": [
+                    "offering-a4k9r2td",
+                    "offering-b7w3m5qx",
+                    "offering-c2p8j6nv"
+                  ],
+                  "workspaceKind": "",
+                  "workspaceKindOther": "",
+                  "deposit": "",
+                  "category": "documents",
+                  "group": "insurances",
+                  "startDate": "2027-01-04",
+                  "endDate": "",
+                  "activityId": "",
+                  "usefulLife": "",
+                  "warranty": false,
+                  "warrantyUntil": "",
+                  "rateOverride": "",
+                  "costOption": "property-liability",
+                  "amortisationYears": "",
+                  "extras": {},
+                  "paymentPlan": {
+                    "on": false,
+                    "type": "",
+                    "count": "",
+                    "lines": []
+                  },
+                  "offeringShares": {
+                    "offering-a4k9r2td": "34",
+                    "offering-b7w3m5qx": "33",
+                    "offering-c2p8j6nv": "33",
+                    "~basis": "own"
+                  },
+                  "extraStatuses": [],
+                  "insuranceId": "",
+                  "insuresId": ""
                 }
               ],
               "activities": [
@@ -3797,7 +3922,7 @@
                   "id": "activity-r7c2m9fk",
                   "category": "production",
                   "name": "Build component library",
-                  "description": "Earlier category: Production. Tested Make and Zapier templates for intake forms, document requests, reminders and reporting.\nReusable automation components.",
+                  "description": "Reusable automation components: tested Make and Zapier templates for intake forms, document requests, reminders and reporting.",
                   "performerIds": [
                     "founder-q7m2x4ke",
                     "partner-d8f3v6ls"
@@ -3823,7 +3948,7 @@
                   "id": "activity-a8u2d5kx",
                   "category": "production",
                   "name": "Create audit guide",
-                  "description": "Standard questions, a workflow scoring sheet and a roadmap report template.\nThe interview guide and roadmap template.",
+                  "description": "The interview guide: standard questions, a workflow scoring sheet and a roadmap report template.",
                   "performerIds": [
                     "founder-q7m2x4ke"
                   ],
@@ -3865,7 +3990,7 @@
                   "id": "activity-c5m9r7wj",
                   "category": "production",
                   "name": "Set up monitoring",
-                  "description": "Error alerts from Make and Zapier into one dashboard, and a monthly usage report template.\nRetainer monitoring and alerts.",
+                  "description": "Retainer monitoring: error alerts from Make and Zapier into one dashboard, and a monthly usage report template.",
                   "performerIds": [
                     "founder-q7m2x4ke"
                   ],
@@ -3891,7 +4016,7 @@
                   "id": "activity-l8i3n6kd",
                   "category": "marketing",
                   "name": "LinkedIn content plan",
-                  "description": "Earlier category: Marketing. Three posts a week for the first six months: demos, teardowns and lessons learned.",
+                  "description": "Three posts a week for the first six months: demos, teardowns and lessons learned.",
                   "performerIds": [
                     "founder-q7m2x4ke"
                   ],
@@ -3924,7 +4049,7 @@
                   "id": "activity-n4e1w7zo",
                   "category": "marketing",
                   "name": "Start the monthly newsletter",
-                  "description": "Earlier category: Marketing. First issue in January 2027; sign-up on the website and LinkedIn.",
+                  "description": "First issue in February 2027; sign-up on the website and LinkedIn.",
                   "performerIds": [
                     "founder-q7m2x4ke"
                   ],
@@ -3957,7 +4082,7 @@
                   "id": "activity-c1s4e7yb",
                   "category": "marketing",
                   "name": "Publish three case studies",
-                  "description": "Earlier category: Marketing. One accounting, one legal and one agency case study, with hours saved and client quotes.",
+                  "description": "One accounting, one legal and one agency case study, with hours saved and client quotes.",
                   "performerIds": [
                     "founder-q7m2x4ke"
                   ],
@@ -3978,7 +4103,7 @@
                   "id": "activity-o6p3t8qa",
                   "category": "sales",
                   "name": "Proposal templates",
-                  "description": "Earlier category: Sales & Customer. Fixed-price proposal for the audit and a statement-of-work template for builds.\nWith statement-of-work templates.",
+                  "description": "Fixed-price proposal for the audit and a statement-of-work template for builds.",
                   "performerIds": [
                     "founder-q7m2x4ke"
                   ],
@@ -4003,7 +4128,7 @@
                   "id": "activity-k9r5f2vm",
                   "category": "sales",
                   "name": "Recruit referral partners",
-                  "description": "Earlier category: Sales & Customer. Bookkeepers and managed IT providers serving small NYC firms.\nThree partners.",
+                  "description": "Three partners: bookkeepers and managed IT providers serving small NYC firms.",
                   "performerIds": [
                     "founder-q7m2x4ke"
                   ],
@@ -4043,7 +4168,7 @@
                   "startDate": "2027-01-01",
                   "endDate": "",
                   "name": "Referral partners",
-                  "description": "10% of the $2,500 audit fee ($250), paid to the partner only on a referred audit; about four audits in ten are referred, so 4% of the audit revenue on average.\n10% of a referred audit.",
+                  "description": "10% of the $2,500 audit fee ($250), paid to the partner only on a referred audit; about four audits in ten are referred, so 4% of the audit revenue on average.",
                   "responsibleId": "founder-q7m2x4ke",
                   "cost": {
                     "price": "4",
@@ -4079,7 +4204,7 @@
                   "startDate": "2027-01-01",
                   "endDate": "",
                   "name": "Freelance developer",
-                  "description": "An external developer brought in for custom code on larger builds: about 20 hours of each build, at about $75 an hour ($1,500 a project on average).\nFor overflow work.",
+                  "description": "An external developer brought in for custom code and overflow work on larger builds: about 20 hours of each build, at about $75 an hour ($1,500 a project on average).",
                   "responsibleId": "founder-q7m2x4ke",
                   "cost": {
                     "price": "1500",
@@ -4118,7 +4243,7 @@
                   "startDate": "2027-01-01",
                   "endDate": "",
                   "name": "QuickBooks Payments",
-                  "description": "QuickBooks Payments: ACH is about 1% capped near $10 an invoice, a card 2.9% + 25¢. Most clients pay by ACH, so about $15 an order, 0.7% of the revenue on average.\nCard and ACH processing.",
+                  "description": "Card and ACH processing: ACH bank transfer 1% (the cap depends on the account), an invoiced card 2.99%. Most clients pay by ACH, so about 0.7% of the revenue on average.",
                   "responsibleId": "founder-q7m2x4ke",
                   "cost": {
                     "price": "0.7",
@@ -4240,7 +4365,7 @@
                 "name": "SBA Microloan",
                 "category": "external",
                 "type": "microloan",
-                "provider": "SBA Microloan intermediary (New York City nonprofit lender)",
+                "provider": "SBA Microloan intermediary (a Brooklyn nonprofit lender)",
                 "amount": "15000",
                 "status": "requested",
                 "received": "",
@@ -4265,7 +4390,7 @@
                   "establishment",
                   "initial-operating"
                 ],
-                "conditions": "Application submitted December 2026. Requires a business plan, personal guarantee and business training with the intermediary; rate about 8% fixed over 36 months.",
+                "conditions": "Application submitted December 2026. Requires a business plan, a personal guarantee and business training with the intermediary; about 8% fixed over 36 months (SBA microloans: up to $50,000, at 8–13%).",
                 "equity": "",
                 "loan": {
                   "rate": "8",
@@ -4384,14 +4509,8 @@
         {
           "sectionNumber": 1,
           "value": {
-            "situation": "We sell AI Workflow Audit ($2,500 a project), Automation Build ($7,500 a project) and Automation Care Retainer ($1,200 a month) to Small professional-services firms in New York City.\nCustomers find and reach us through LinkedIn, Main Website, Booking / Registration Page, Newsletter, Direct Email, Referral partners (bookkeepers and IT providers), Event / Talk, Invoice and Zoom.\nWe start with $10,650 in hand and are seeking $15,000 (SBA Microloan). At the normal level we expect $14,250 a month in revenue, breaking even in Jul 2027. The plan still has a funding gap of $16,198.",
+            "situation": "We sell AI Workflow Audit ($2,500 a project), Automation Build ($7,500 a project) and Automation Care Retainer ($1,200 a month) to NYC Service Firms.\nThe market for NYC Service Firms is growing.\nWe have named 5 competitors for NYC Service Firms; we stand out for making things easy.\nCustomers find and reach us through LinkedIn, Main Website, Booking Page, Newsletter, Direct Email, Referral Partner, Event / Talk, Invoice, Zoom, Slack, Customer Referral, X (Twitter), Agency founder communities, Contact Page and Demo.\nWe start with $10,700 in hand and are seeking $15,000 (SBA Microloan). At the normal level we expect $14,250 a month in revenue, breaking even in Aug 2027. The plan still has a funding gap of $15,411.",
             "situationSource": "auto",
-            "swotEdited": [
-              "strengths",
-              "weaknesses",
-              "opportunities",
-              "threats"
-            ],
             "swot": {
               "strengths": [
                 "Founder with hands-on automation and solutions architecture experience",
@@ -4418,6 +4537,12 @@
                 "An economic slowdown delaying discretionary projects"
               ]
             },
+            "swotEdited": [
+              "strengths",
+              "weaknesses",
+              "opportunities",
+              "threats"
+            ],
             "compass": "From 2027 to 2029, Quillfield moves from a solo launch to a stable business with recurring income. Direction: close the funding gap before the mid-2027 low point, then grow the Care Retainer base until recurring revenue covers the fixed costs. Focus: law and accounting firms of 5 to 50 staff in New York City, the three core services, and repeatable, documented builds. What we will not do: build our own software products, take work outside professional services, chase large enterprise contracts or discount to win work.",
             "period": {
               "start": {
@@ -4587,11 +4712,11 @@
                           "id": "metric-qf7actv6",
                           "name": "Active Care Retainers",
                           "baseline": "0",
-                          "target": "12",
+                          "target": "5",
                           "frequency": "Monthly",
                           "unit": "Number",
                           "currency": "",
-                          "description": "Clients on a Care Retainer at month end"
+                          "description": "Clients on a Care Retainer at month end (the forecast levels off at about five)"
                         }
                       ],
                       "ownerId": "founder-q7m2x4ke"
@@ -4694,12 +4819,12 @@
                         {
                           "id": "metric-qf7proj11",
                           "name": "Builds delivered per quarter",
-                          "baseline": "3",
-                          "target": "6",
+                          "baseline": "2",
+                          "target": "3",
                           "frequency": "Quarterly",
                           "unit": "Number",
                           "currency": "",
-                          "description": "Automation Builds handed over in the quarter"
+                          "description": "Automation Builds handed over in the quarter: about 2 at the forecast's pace, 3 with the trained partner"
                         },
                         {
                           "id": "metric-qf7time12",
