@@ -61,17 +61,20 @@ describe("the tiles' stylesheet", () => {
     it("keeps page 3's heading and the cards' title rows in place and scrolls each card's body on its own", () => {
         const page = stylesheet("conversation.css");
         // The page no longer locks to the window: the area grows down and the page scrolls; no card scrolls inside.
-        expect(page).toMatch(/@media \(min-width: 1212px\) and \(min-height: 560px\) ?\{[^@]*\.conversation-page:has\(\.answer-columns\.business-capability\) ?\{ ?min-height: ?100vh;/);
+        expect(page).toMatch(/@media \(min-width: 1212px\) and \(min-height: 560px\) and \(orientation: landscape\) ?\{[^@]*\.conversation-page:has\(\.answer-columns\.business-capability\) ?\{ ?min-height: ?100vh;/);
         expect(page).not.toMatch(/\.conversation-page:has\(\.answer-columns\.business-capability\) ?\{[^}]*overflow: ?hidden;/);
         expect(page).toMatch(/\.conversation-card \.answer-columns\.business-capability ?\{[^}]*grid-template-rows: ?auto;/);
         expect(page).toMatch(/\.answer-columns\.business-capability > \.business-foundation-card ?\{ ?max-height: ?none;/);
         expect(page).toMatch(/\.business-capability > \.business-foundation-card > \.card-scroll ?\{ ?flex: ?1 1 auto;[^}]*overflow: ?visible;/);
     });
 
-    it("sets the page's two cards side by side in the page's two equal columns, stacked only under 1100px", () => {
+    it("sets the page's two cards side by side in the page's two equal columns, stacked where every page's chapters stack (under 1100px or a portrait window)", () => {
         const page = stylesheet("conversation.css");
         expect(page).toMatch(/\.business-capability > \.business-foundation-card ?\{ ?grid-column: ?auto;[^}]*align-self: ?start; ?\}/);
-        expect(page).toMatch(/@container page-card \(max-width: 699px\) ?\{ ?[^}]*\.business-capability(?::not\(\.page-group \.answer-columns\))? > \.business-foundation-card:is\(:nth-child\(1\), :nth-child\(2\)\) ?\{ ?grid-column: ?1 \/ -1;/);
+        // (The one stacking query, 07-floating-cards-and-page-layout.css; owner, 2026-11-22 09:52 and 09:58 UTC+2; layout rules section 23.)
+        const tiles = stylesheet("section-tiles.css");
+        expect(tiles).toMatch(/@media \(max-width: 1099px\), \(orientation: portrait\) ?\{[^@]*\.business-capability:not\(\.page-group \.answer-columns\) > \.business-foundation-card:is\(:nth-child\(1\), :nth-child\(2\)\) ?\{ ?grid-column: ?1 \/ -1;/);
+        expect(page).not.toMatch(/@container page-card \(max-width: 699px\) ?\{[^@]*\.business-capability[^{]*> \.business-foundation-card:is/);
     });
 
     it("draws no rule down the left of a group of sections any more", () => {

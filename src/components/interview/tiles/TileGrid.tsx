@@ -1,5 +1,7 @@
 import { CSSProperties, ReactNode, useLayoutEffect, useMemo, useRef, useState } from "react";
 
+import { useVerticalAcross } from "../../../hooks/useVerticalLayout.ts";
+
 import { TILE_GAP, pageTileSide, useTilesAcross } from "./CardTile.tsx";
 
 import "../../../styles/section-tiles.css";
@@ -23,13 +25,21 @@ export default function TileGrid({ label, className, columns, threeAcross = fals
     const pageSide = useMemo(pageTileSide, []);
     const fitting = useTilesAcross(grid, pageSide);
     const [fitSide, setFitSide] = useState<number | null>(null);
+    // (THE VERTICAL LAYOUT (owner, 2026-11-22 09:58 UTC+2: "Two a row on tablet, one on phone"): where the page's chapters stack, a dialog's tiles and boxes stand two a row,
+    // one on a phone, each the share of the grid's width; the Strategy cards' three across and the Inventory's own grid keep theirs. Layout rules section 23.)
+    const vertical = useVerticalAcross();
+    const verticalAcross = !threeAcross && !bare && vertical > 0 ? vertical : 0;
     useLayoutEffect(() => {
         const node = grid.current;
-        if (!(threeAcross || fill) || !node) {
+        if (!(threeAcross || fill || verticalAcross) || !node) {
             return;
         }
         const measure = () => {
-            if (fill) {
+            if (verticalAcross) {
+                // (The box round the grid sets the width: the grid itself is as wide as its tiles.)
+                const width = (node.parentElement ?? node).clientWidth;
+                setFitSide(Math.max(72, (width - (verticalAcross - 1) * TILE_GAP) / verticalAcross - 0.01));
+            } else if (fill) {
                 const across = Math.max(1, Math.floor((node.clientWidth + TILE_GAP) / (pageSide + TILE_GAP)));
                 setFitSide((node.clientWidth - (across - 1) * TILE_GAP) / across - 0.01);
             } else {
@@ -43,10 +53,10 @@ export default function TileGrid({ label, className, columns, threeAcross = fals
         const observer = new ResizeObserver(measure);
         observer.observe(node);
         return () => observer.disconnect();
-    }, [threeAcross, fill, pageSide]);
-    const side = (threeAcross || fill) && fitSide ? fitSide : pageSide;
-    const placed = !threeAcross && columns !== undefined && fitting >= columns;
-    const across = threeAcross ? 3 : placed ? columns : fitting;
+    }, [threeAcross, fill, pageSide, verticalAcross]);
+    const side = (threeAcross || fill || verticalAcross) && fitSide ? fitSide : pageSide;
+    const placed = !threeAcross && !verticalAcross && columns !== undefined && fitting >= columns;
+    const across = threeAcross ? 3 : verticalAcross ? verticalAcross : placed ? columns : fitting;
     const box = (
         <div
             ref={grid}

@@ -31,8 +31,9 @@
    level, each as tall as its own content. Each card still takes the 13px of
    the page's side padding on its OUTER side only (as a card does when it
    spans the page), so the two are equally wide, one column gap apart and
-   neither over the other. Stacked, Infrastructure above Capability, only
-   when the page is under 1100px wide: each then spans the page. */
+   neither over the other. Stacked, Infrastructure above Capability, where the
+   chapters of every page stack (under 1100px or a portrait window, the one place in
+   07-floating-cards-and-page-layout.css): each then spans the page. */
 .answer-columns.business-foundation.business-engagement.business-capability > .business-foundation-card{
 
     grid-column:auto;
@@ -50,20 +51,6 @@
 .answer-columns.business-foundation.business-engagement.business-capability > .business-foundation-card:nth-child(2){
 
     margin-left:0;
-
-}
-
-@container page-card (max-width: 699px){
-
-    /* (Not in a page of several sections: its columns already give the 13px back (.page-group .answer-columns), and a second bleed stood the frames 13px left of
-       the page title's line at 768; 2026-11-20.) */
-    .answer-columns.business-foundation.business-engagement.business-capability:not(.page-group .answer-columns) > .business-foundation-card:is(:nth-child(1), :nth-child(2)){
-
-        grid-column:1 / -1;
-
-        margin-inline:-13px;
-
-    }
 
 }
 
@@ -90,7 +77,7 @@
 
 }
 
-@media (min-width: 1212px) and (min-height: 560px){
+@media (min-width: 1212px) and (min-height: 560px) and (orientation: landscape){
 
     /* An area whose tiles do not fit GROWS DOWN: the page scrolls, nothing is clipped inside a card. */
     .conversation-page:has(.answer-columns.business-capability){

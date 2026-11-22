@@ -366,10 +366,12 @@
 
 }
 
-/* THE ONE PLACE WHERE CHAPTERS STACK: BELOW 1200px, after the rules it overrides (layout rules sections 13 and 23; owner, 2026-11-20 15:35 UTC+2: the website's tablet/desktop line, styles.css 1200,
-   and Android's large window class from 1200dp). CSS reads no variable inside @media, so this query is written once, here: a page's frames one to a row,
-   a chapter's two groups one under the other (below), a page of one chapter the page's whole width (--one-chapter-width, global.css). */
-@media (max-width: 1199px) {
+/* THE ONE PLACE WHERE CHAPTERS STACK: BELOW 1100px OR IN A WINDOW TALLER THAN IT IS WIDE, after the rules it overrides (layout rules sections 13 and 23; owner, 2026-11-22
+   09:52 UTC+2: "In case a screen gets narrower, or it is no longer a wide-shaped one. Change the page layout from horizontal to vertical"; 09:58, "1100px, landscape
+   only", replacing the 1200px line of 2026-11-20: two chapters and their 28px titles fit from 1100px, so a landscape iPad, 1180 or 1194 wide, keeps them side by side). CSS reads no variable inside @media, so this query is written
+   once, here: a page's frames one to a row, Infrastructure & Capability's two cards one under the other, a chapter's two groups one under the other (below), a page of
+   one chapter the page's whole width (--one-chapter-width, global.css). (The rules that hold only while chapters stand side by side say `and (orientation: landscape)`.) */
+@media (max-width: 1099px), (orientation: portrait) {
 
     :root {
 
@@ -396,6 +398,30 @@
 
     }
 
+    /* (Infrastructure & Capability: its two cards one under the other, each the page's width, as a page's frames; its Inventory and Completed row follows them.
+       Not in a page of several sections: its columns already give the 13px back (.page-group .answer-columns); 2026-11-20.) */
+    .answer-columns.business-foundation.business-engagement.business-capability:not(.page-group .answer-columns) > .business-foundation-card:is(:nth-child(1), :nth-child(2)) {
+
+        grid-column: 1 / -1;
+
+        margin-inline: -13px;
+
+    }
+
+    .answer-columns.business-capability > .section-tiles-completed {
+
+        grid-row: auto;
+
+    }
+
+    /* (A dialog's tiles two a row, each half the dialog's tile box less the gap (owner, 2026-11-22 09:58 UTC+2: "Two a row on tablet, one on phone"; layout rules
+       section 23). The grids TileGrid draws take the same from useVerticalAcross; the Strategic Period's Themes keep their three, a declared exception.) */
+    .section-tile-dialog .section-tiles-box > .section-tiles {
+
+        --section-tile-size: calc((100cqw - var(--space-card)) / 2 - 0.01px);
+
+    }
+
     /* (The line between the two groups runs across, in the gap above the second.) */
     .segment-chapter-groups > .business-foundation-card.segment-chapter-part + .business-foundation-card.segment-chapter-part {
 
@@ -403,6 +429,17 @@
 
         border-top-width: 1px;
         border-top-color: var(--band-divider);
+
+    }
+
+}
+
+/* ON A PHONE (Android's compact window class, 600px and under; owner, 2026-11-22 09:58 UTC+2, "one on phone"): a dialog's tiles one a row, the tile box's width. */
+@media (max-width: 600px) {
+
+    .section-tile-dialog .section-tiles-box > .section-tiles {
+
+        --section-tile-size: calc(100cqw - 0.01px);
 
     }
 
@@ -1004,7 +1041,7 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
    this page scroll? There is nothing lower to reveal"; "make sure all chapters and their master tiles are the same size across pages"): it takes no room above the
    footer, so the page fits the window as every tile page does and its chapters are their size. At the left edge of the page card; where the page card stacks or
    the window is short (under 640px, where the chapters reach the footer's band), it stays under the chapters. */
-@media (min-width: 1212px) and (min-height: 640px) {
+@media (min-width: 1212px) and (min-height: 640px) and (orientation: landscape) {
 
     .business-foundation-segment-frames + .business-foundation-input-actions {
 

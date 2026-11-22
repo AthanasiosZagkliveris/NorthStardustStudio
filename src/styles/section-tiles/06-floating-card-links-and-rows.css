@@ -83,7 +83,7 @@
 }
 
 /* THE ONE COMPLETED TILE (under Offering's Capability's card, outside both sections): the second row of the page's second column, Infrastructure's card taking both
-   rows. Stacked (a page card under 1100px), it follows the two cards across the page. */
+   rows. Stacked (the one place where chapters stack, 07-floating-cards-and-page-layout.css), it follows the two cards across the page. */
 .answer-columns.business-capability > .section-tiles-completed {
 
     /* (Under the two cards, which are the same size and stand in one row like the other tile pages': the Inventory and Completed row is squeezed into what is left.) */
@@ -91,16 +91,6 @@
     grid-row: 2;
 
     min-width: 0;
-
-}
-
-@container page-card (max-width: 699px) {
-
-    .answer-columns.business-capability > .section-tiles-completed {
-
-        grid-row: auto;
-
-    }
 
 }
 
