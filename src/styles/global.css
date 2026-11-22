@@ -1502,3 +1502,18 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input),
 :root[data-theme="dark"] :is(.business-foundation-card, .section-tile-dialog, .legal-entity-card, .floating-card-body) {
   --band-divider: var(--card-band-ink);
 }
+
+/* THE PHONE (Android's compact window class, 600px and under; owner, 2026-11-22 09:52 UTC+2: "for smaller screens (mobiles), the texts, tiles and cards
+   sizes should be adjusted to fit"; layout rules section 23, "The phone"): the three title steps one step down the same five-step scale (36 -> 28, 28 -> 24,
+   24 -> 18), the body and small steps unchanged (18px and 14px: Apple's body text is 17pt, Material's 16sp), and the page's side gutter 16px (bullet-rail.css). */
+@media (max-width: 600px) {
+
+  :root {
+
+    --font-h1: 28px;
+    --font-h2: 24px;
+    --font-h3: 18px;
+
+  }
+
+}

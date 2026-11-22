@@ -254,3 +254,41 @@ body:has(.section-tile-overlay) .app-header {
     box-shadow: var(--shadow-menu);
 
 }
+
+/* THE PHONE (600px and under; layout rules section 23, "The phone"; owner, 2026-11-22 09:52 UTC+2): the header holds the logo, the save signal's glyph, the Menu
+   (which holds the reading mode, Search, Notes, Calendar, Focus and Settings) and the Workbook, in one row 16px in from the window's sides; the logo is drawn
+   32px high (60px elsewhere) and the Organisation's name, shown on every page's title, gives way. */
+@media (max-width: 600px) {
+
+    .app-header {
+
+        padding: 0 16px;
+
+    }
+
+    /* (The logo gives way on the narrowest phones, drawn smaller rather than pushing the Workbook out of the window: 320px left 19px short.) */
+    .app-logo {
+
+        flex-shrink: 1;
+        min-width: 0;
+
+        height: 32px;
+
+        object-fit: contain;
+        object-position: left center;
+
+    }
+
+    .app-header-organization-name {
+
+        display: none;
+
+    }
+
+    .app-header .header-tool {
+
+        margin-left: 4px;
+
+    }
+
+}

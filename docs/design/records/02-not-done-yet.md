@@ -96,7 +96,7 @@ Ordering of work (decided): the **Tile System** first (built, but for 5.3), then
 
 | Id | Requirement | P | State |
 |---|---|---|---|
-| A1 | Minimum supported width **768 px**. Below it a plain notice, no broken layout. | M | New (decided) |
+| A1 | Minimum supported width **320 px** (the phone, 600px and under: layout rules section 23, "The phone"; was 768px with a notice below it, never built). | M | Done 2026-11-22 |
 | A2 | Screen classes Tablet / Laptop / Desktop on width **and** height; one set of breakpoints (768, 1200, heights 900 and 1250) shared by all stylesheets and by the layout check. | M | Fix |
 | A3 | WCAG 2.2 AA is the acceptance level, tested in all four reading modes (light, sepia, dark, auto). | M | Gap |
 | A4 | Every setting that belongs to a business lives with the data it governs; Global Settings keeps only per-user and per-device preferences (section 5.5.6). | S | Fix |
@@ -261,7 +261,6 @@ The plans of 2026-10-14 for the clean-up round, the library automation and its s
   **Later.** Once an asset has replaced the old one (phase 3), the app is built from the library for that asset, and the sync then finds the asset where the library put it.
 
 - The values of old 5.14 that are not on a step (gaps of 10, 14, 18, 20px and others; corners of 1, 2, 3, 7, 10, 12px; three window and container boundaries drawn twice) wait for the owner: each joins a step, becomes a step, or stays a literal in the lint's baseline. The decided breakpoint set (768, 1200, heights 900 and 1250) is not yet used by any query.
-- The 768px floor against WCAG 1.4.10 Reflow (320px at 400% zoom): a declared exception until the owner rules (rulebook, section 20).
 - The library: asset by asset, each with its contract, gallery entry and page code changed to use it (step 5), the style-reading tests converted as each asset gets its contract, then the page check last (step 6) with its baseline rewritten; the sync (`01-library-system.md`, step 7).
 - Optimisation, measured before and after: load (`Conversation`, `Landing` and the registry chunks; the two examples already load on demand; every editor is in one chunk), run (the biggest editors re-render on every key: profile first, memoise only where the profile shows it), code (files over 2,000 lines such as `FinancialModel.ts`, `AnswerBusinessCapability.ts` and `Conversation.tsx`; duplicated helpers; the non-tile paths under `asTiles` in four editors (5.3); the Operations and social-media branches in `Conversation`). The old figures (a bundle of 662 KB, 1.07 MB of CSS, 1,355 tests) are of 2026-10-14 and must be measured again. Bundle-size limits have no official value: the limit is a choice to make after the first measurement. Target for interaction: "good" Interaction to Next Paint is 200 ms or less (web.dev).
 

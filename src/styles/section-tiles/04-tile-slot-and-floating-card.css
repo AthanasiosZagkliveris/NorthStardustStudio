@@ -392,6 +392,18 @@
 
 }
 
+/* THE PHONE (600px and under; layout rules section 23, "The phone"): every floating card is the page card's width, the window less the 16px gutter each side. */
+@media (max-width: 600px) {
+
+    .floating-card-card,
+    .floating-card-host .floating-card-body.floating-card-card {
+
+        width: calc(100vw - 2 * var(--rail-gutter, 16px));
+
+    }
+
+}
+
 .floating-card-back {
 
     display: inline-flex;

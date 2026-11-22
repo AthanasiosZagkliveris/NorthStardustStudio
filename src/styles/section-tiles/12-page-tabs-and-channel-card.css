@@ -1230,3 +1230,99 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-back {
     }
 
 }
+
+/* THE PHONE (600px and under; layout rules sections 10 and 23, "The phone"): a dialog's or a floating card's arrows and rail stand in the footer's band, as the
+   page's do (bullet-rail.css): one row across the window's foot on the header's ground -- Back at the left (12px in), the "‹" arrow, the dots 12px apart,
+   the "›" arrow at the right -- over the layer, never beside it (a 390px phone leaves no room beside a 358px card). The tab's colours stay on its dots. */
+@media (max-width: 600px) {
+
+    .carousel-rail.carousel-rail.carousel-rail {
+
+        position: fixed;
+        top: auto !important;
+        bottom: 0;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 8;
+
+        box-sizing: border-box;
+        width: auto;
+        height: 64px;
+        max-height: none !important;
+
+        padding: 0 calc(var(--gap-12) + 24px + var(--gap-12) + 24px + var(--gap-12)) 0 calc(var(--gap-12) + 24px + var(--gap-12) + 24px + var(--gap-12));
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        border: 0;
+        border-radius: 0;
+        background: var(--bg-surface);
+        box-shadow: var(--shadow-menu);
+
+    }
+
+    .carousel-rail .bullet-rail-list,
+    .carousel-rail.carousel-rail-tab .bullet-rail-list {
+
+        flex-direction: row;
+        align-items: center;
+        /* (The tab's 18px between dots, and the grown bullet's overhang kept inside the scrolling row, so its bloom is never cut.) */
+        gap: var(--rail-dot-gap);
+        padding: var(--rail-dot-overhang);
+
+        overflow-x: auto;
+        overflow-y: visible;
+
+    }
+
+    .carousel-rail .bullet-rail-list > li {
+
+        margin-top: 0 !important;
+
+    }
+
+    .carousel-rail .carousel-rail-back {
+
+        position: absolute;
+        left: var(--gap-12);
+        top: 50%;
+        translate: 0 -50%;
+
+        margin: 0 !important;
+
+    }
+
+    .carousel-rail .strategy-card-nav-tip {
+
+        display: none;
+
+    }
+
+    /* (The arrows in the band, either side of the dots: "‹" after Back, "›" 12px from the right.) */
+    .page-arrow.carousel-arrow.carousel-arrow {
+
+        top: auto !important;
+        bottom: 10px;
+
+        margin-top: 0;
+
+        z-index: 9;
+
+    }
+
+    .page-arrow.carousel-arrow[data-direction="previous"] {
+
+        left: calc(var(--gap-12) + 24px + var(--gap-12)) !important;
+
+    }
+
+    .page-arrow.carousel-arrow[data-direction="next"] {
+
+        right: var(--gap-12) !important;
+
+    }
+
+}

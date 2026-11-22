@@ -87,6 +87,27 @@
 
 }
 
+/* THE PHONE (600px and under; layout rules section 23, "The phone"): the two rectangles share the card's width, half each less the 12px between them, so neither
+   stands past the window (two of 215px ran to 416px on a 390px phone). */
+@media (max-width: 600px) {
+
+    .section-tiles-completed .section-tiles {
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        width: 100%;
+
+    }
+
+    .answer-columns .section-tiles-completed .section-tile-slot,
+    .answer-columns .section-tiles-completed .section-tile-slot > .section-tile {
+
+        width: 100%;
+
+    }
+
+}
+
 .section-tiles-completed[data-squeezed] .section-tile-slot > .section-tile {
 
     grid-template-rows: minmax(0, 1fr);

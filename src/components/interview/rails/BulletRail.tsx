@@ -3,6 +3,7 @@ import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { RailItem } from "./railItems";
 import { PAGE_STATUS_WORDS } from "../../../framework/engine/status/PageStatus";
 import { slotMargin, useRailSlot } from "./useRailSlot.ts";
+import { isPhone } from "../../../hooks/useVerticalLayout.ts";
 
 import "../../../styles/status-shape.css";
 import "../../../styles/bullet-rail.css";
@@ -120,7 +121,8 @@ export default function BulletRail({
         }
         const box = arrowNode.getBoundingClientRect();
         return box.width > 0 ? { left: box.left, right: box.right, top: box.top, bottom: box.bottom } : null;
-    }, items.length >= 2, "ol > li");
+    // (On a phone the rail is a row in the footer's band (bullet-rail.css, "The phone"): no line steps round the arrow.)
+    }, items.length >= 2 && !isPhone(), "ol > li");
 
     // The head: the page arrow on a row of its own, then the rail's
     // name ("PAGES", "SECTIONS"), hidden from assistive technology

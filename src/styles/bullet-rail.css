@@ -265,6 +265,8 @@
     --rail-tab-named-width: 388px;
     --rail-tab-padding: calc(var(--gap-12) + var(--rail-dot-overhang));
     --rail-tab-dots-width: calc(12px + 2 * var(--rail-tab-padding));
+    /* (The 18px between two dots of a rail, the list's gap; the phone's bands use it across.) */
+    --rail-dot-gap: 18px;
 
 }
 
@@ -726,3 +728,111 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
 }
 
+
+/* THE PHONE (600px and under; owner, 2026-11-22 09:52 UTC+2, "for smaller screens (mobiles), the texts, tiles and cards sizes should be adjusted to fit"; layout
+   rules section 23, "The phone"): the side gutters (56px each) would leave a 390px phone a 278px card, so the page's side gutter is 16px and the Pages and
+   Sections rails stand in the footer's band, one row: the "‹" page arrow and the Pages dots at the left, the Sections dots and the "›" arrow at the right, the
+   bullets in a row 12px apart, their names in the tooltips as on every dots-only rail. No tab is drawn round them: the band is their ground. */
+@media (max-width: 600px) {
+
+    :root { --rail-gutter: 16px; }
+
+    .bullet-rails {
+
+        top: auto;
+        bottom: 0;
+        height: 64px;
+
+        z-index: 31;
+
+        padding-inline: var(--gap-12);
+
+        flex-direction: row;
+        align-items: center;
+
+    }
+
+    .bullet-rails::before {
+
+        display: none;
+
+    }
+
+    .bullet-rails-row {
+
+        flex: 1 1 auto;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        height: 100%;
+
+    }
+
+    /* (:root:root: over the tab's colours, which :root[style*="--rail-left-bg"] sets.) */
+    :root:root .bullet-rail.bullet-rail-left,
+    :root:root .bullet-rail.bullet-rail-right {
+
+        position: static;
+
+        flex-direction: row;
+        align-items: center;
+        gap: var(--gap-12);
+
+        width: auto;
+        margin: 0;
+        padding: 0;
+
+        background: none;
+        border: 0;
+        box-shadow: none;
+
+    }
+
+    .bullet-rail-right {
+
+        flex-direction: row-reverse;
+
+    }
+
+    .bullet-rail .bullet-rail-list,
+    .bullet-rail-left .bullet-rail-list,
+    .bullet-rail-right .bullet-rail-list {
+
+        flex-direction: row;
+        align-items: center;
+        /* (The tab's 18px between dots, and the grown bullet's overhang kept round the row, so the lit bullet and its bloom touch nothing.) */
+        gap: var(--rail-dot-gap);
+        padding: var(--rail-dot-overhang);
+
+    }
+
+    .bullet-rail-head > .page-arrow,
+    .bullet-rail-left .bullet-rail-head > .page-arrow,
+    .bullet-rail-right .bullet-rail-head > .page-arrow {
+
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+
+        margin: 0;
+
+    }
+
+    .bullet-rail-head > .bullet-rail-title {
+
+        display: none;
+
+    }
+
+    /* (Back stands at the band's left, 12px in: the row starts after it.) */
+    .bullet-rails {
+
+        padding-left: calc(var(--gap-12) + 24px + var(--gap-12));
+
+    }
+
+}
