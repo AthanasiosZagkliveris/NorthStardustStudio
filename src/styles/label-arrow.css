@@ -94,10 +94,12 @@
 
 }
 
-/* The keyboard focus is the filled triangle: no ring, no frame. */
-.label-arrow:focus-visible {
+/* The keyboard focus is the filled triangle and the app's one ring, 2px of --focus-ring-ink (WCAG 2.4.7; the standards report, group A 5).
+   (:root:root: over a place's own `outline: none`.) */
+:root:root .label-arrow:focus-visible {
 
-    outline: none;
+    outline: 2px solid var(--focus-ring-ink);
+    outline-offset: 2px;
 
 }
 
