@@ -59,6 +59,9 @@ export interface SectionTile {
     /** The tile's own hue, and its dialog's, where the tiles of one frame are each of their own colour (System Selection's Capabilities, owner, 2026-11-22). */
     hue?: number;
 
+    /** A symbol before the tile's title, on its line (a Capability's icon: owner, 2026-11-22 21:10 UTC+2, "The symbols next to their titles"). */
+    titleIcon?: string;
+
     /** The tile's own colour where a hue alone cannot tell two tiles apart (the Capabilities: Foundation's midnight and Manage the Organization's blue share a hue). */
     colour?: string;
 

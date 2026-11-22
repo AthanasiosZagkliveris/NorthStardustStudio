@@ -559,3 +559,18 @@
     text-transform: uppercase;
 
 }
+
+/* A SYMBOL BEFORE A TILE'S TITLE (owner, 2026-11-22 21:10 UTC+2: "The symbols next to their titles"): a Capability's or a System's icon, the title's height, 8px
+   before its words, on their line. */
+.section-tile-title-icon {
+
+    display: inline-block;
+
+    width: 1.2em;
+    height: 1.2em;
+
+    margin-right: var(--gap-8);
+
+    vertical-align: -0.25em;
+
+}

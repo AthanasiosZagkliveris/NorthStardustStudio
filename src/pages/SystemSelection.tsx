@@ -221,10 +221,8 @@ export default function SystemSelection() {
             title: capability.title,
             hue: hueOf(getCapabilityColor(capability.id)),
             colour: getCapabilityColor(capability.id),
-            picture: (() => {
-                const icon = getCapabilityIcon(capabilities.indexOf(capability) + 1);
-                return icon ? <img className="capability-tile-icon" src={icon} alt="" /> : undefined;
-            })(),
+            // (Its icon before its title, on its line: owner, 2026-11-22 21:10 UTC+2, "The symbols next to their titles".)
+            titleIcon: getCapabilityIcon(capabilities.indexOf(capability) + 1),
             empty: own.length === 0,
             items: own.map(system => system.title),
             // (EACH SYSTEM ON THE TILE IS A LINK TO IT (owner, 2026-11-22 21:00 UTC+2: "Fix links"), as a line of every tile is to what it names.)
@@ -238,7 +236,6 @@ export default function SystemSelection() {
     /** A System's tile on its Capability's page. */
     function systemTile(system: FrameworkSystem) {
         const status = systemStatuses[system.number];
-        const icon = getSystemIcon(system.number);
         // (A System's tile as the list had it (owner, 2026-11-22 21:00 UTC+2: "Fix links, text and tile sizes"): its number and name, its
         // status by its shape and word (status-shape.css), its icon at the foot; the dialog's tile size.)
         return (
@@ -252,6 +249,7 @@ export default function SystemSelection() {
                         {/* (Its number and name, whole, on as many lines as it takes; "System" is the dialog's word for all of them, so a tile says the name
                             alone -- "07. Product Development" -- and its accessible name says it whole.) */}
                         <TileTitle className="section-tile-title-broken">
+                            {getSystemIcon(system.number) && <img className="section-tile-title-icon" src={getSystemIcon(system.number)} alt="" />}
                             {(() => {
                                 // (A name of two words or more on two lines, broken before its last word: "07. Product / Development".)
                                 const name = system.title.replace(/ System$/, "");
@@ -268,7 +266,6 @@ export default function SystemSelection() {
                         )}
                     </>
                 )}
-                picture={icon ? <span className="section-tile-picture" aria-hidden="true"><img className="capability-tile-icon" src={icon} alt="" /></span> : undefined}
                 onClick={() => handleSystemSelection(system)}
             />
         );

@@ -7,13 +7,13 @@ import { incompleteTitle, TILE_DIVIDER, drawnTitle, plainTitle, brokenLines, bol
  * What a tile or a box shows: its title, centred, and -- while the section holds nothing yet --
  * a small "+" under the title (decorative; the button is described as "No items yet").
  */
-export function TileFace({ title, empty, items, glyph = true, alerts, marks }: { title: string; empty?: boolean; items?: readonly string[]; glyph?: boolean; alerts?: readonly (readonly string[] | undefined)[]; marks?: readonly (ItemMark | undefined)[] }) {
+export function TileFace({ title, empty, items, glyph = true, alerts, marks, icon }: { title: string; empty?: boolean; items?: readonly string[]; glyph?: boolean; alerts?: readonly (readonly string[] | undefined)[]; marks?: readonly (ItemMark | undefined)[]; /** A symbol before the title, on its line. */ icon?: string }) {
     return (
         <>
             {/* (A title with a forced break is drawn on its lines: the one title that is allowed two.) */}
             {title.includes("\n")
                 ? <TileTitle className="section-tile-title-broken">{brokenLines(title).map((part, at) => <Fragment key={at}>{at > 0 && <br />}{drawnTitle(part)}</Fragment>)}</TileTitle>
-                : <TileTitle>{drawnTitle(plainTitle(title))}</TileTitle>}
+                : <TileTitle>{icon && <img className="section-tile-title-icon" src={icon} alt="" />}{drawnTitle(plainTitle(title))}</TileTitle>}
             {empty && (
                 <>
                     {/* (A tile that has the "+" box does not draw this glyph as well.) */}
@@ -126,18 +126,22 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             node.style.width = "";
             const range = document.createRange();
             range.selectNodeContents(node);
-            const lines = new Map<number, { left: number; right: number }>();
+            // (A line is every box that shares its height: the symbol before a title sits a little lower than its words, on the same line.)
+            const lines: { top: number; bottom: number; left: number; right: number }[] = [];
             for (const rect of Array.from(range.getClientRects?.() ?? [])) {
                 if (rect.width < 0.5) {
                     continue;
                 }
-                const key = Math.round(rect.top);
-                const line = lines.get(key);
-                lines.set(key, line ? { left: Math.min(line.left, rect.left), right: Math.max(line.right, rect.right) } : { left: rect.left, right: rect.right });
+                const line = lines.find(other => rect.top < other.bottom && rect.bottom > other.top);
+                if (line) {
+                    Object.assign(line, { top: Math.min(line.top, rect.top), bottom: Math.max(line.bottom, rect.bottom), left: Math.min(line.left, rect.left), right: Math.max(line.right, rect.right) });
+                } else {
+                    lines.push({ top: rect.top, bottom: rect.bottom, left: rect.left, right: rect.right });
+                }
             }
-            if (lines.size > 1) {
+            if (lines.length > 1) {
                 const style = getComputedStyle(node);
-                const widest = Math.max(...[...lines.values()].map(line => line.right - line.left));
+                const widest = Math.max(...lines.map(line => line.right - line.left));
                 node.style.width = Math.ceil(widest + (parseFloat(style.paddingLeft) || 0) + (parseFloat(style.paddingRight) || 0)) + "px";
             }
             };
