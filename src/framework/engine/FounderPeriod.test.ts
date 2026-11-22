@@ -181,8 +181,8 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     2026-11-22, the examples checked against research (owner, 2026-11-22 10:59 UTC). WRITE_GOLDEN=all: Lumen's consumer prices are entered before VAT, as the
     documents state (it is VAT-registered), and set within the ranges of comparable studios (the collection £156, the workshops £75, commissions £2,800, trade
     £50); yarn £19 a piece, FlameGuard £11.30 a metre, the trade mark £265, the Start Up Loan £25,000 at 7.5%, the angel round in Feb 2027 and the Kickstarter
-    in Nov 2026 (the funding gap £23,724 -> £15,491; break even May 2027). Quillfield: the Assumed Name fee $100, Make $12, Tech E&O and cyber insurance $1,500 a
-    year, the SBA microloan $20,000 at 9.5% over 48 months (the funding gap $14,435 -> $15,389; with the loan, cash stays above zero). The weekly fixture with them.
+    in Nov 2026 (the funding gap £23,724 -> £15,491; break even May 2027). Quillfield: the Assumed Name fee $120, Make $12, Tech E&O and cyber insurance $1,500 a
+    year; its $15,000 microloan stays short (the funding gap $14,435 -> $15,981). The weekly fixture with them.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

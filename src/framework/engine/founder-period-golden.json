@@ -2,18 +2,18 @@
   "lumen": {
     "founders": "| Founder | Roles | Salary / month | Working Hours / month | Delivery Hours / month | Responsibilities |\n| --- | --- | --- | --- | --- | --- |\n| Maya Chen |  | £1,800 | 160 | 128 | Investigate Warping mill; Source yarns; Weave spring collection; Test fire-retardant finish; Sample headboard panels; Run first workshops; Freelance weaving tutor |\n| Oliver Grant |  | £1,800 | 160 | 48 | Set up Product photography; Launch website and journal (completed); Plan trade fair stand; Instagram content calendar; Build trade price list; DPD Local (courier); Royal Mail Tracked 48 |\n| Priya Shah |  | £1,800 | 160 | 40 | Register trade mark and ICO (completed); Set up Xero; Monthly bookkeeping; Set up repair service; Accountant; Lawyer; Hackney Wick Maker Yard; Hackney Sparks; FlameGuard Finishing; Shopify Payments; SumUp in-person card fees |\n\n",
     "forecast": "a4cfc042ccbff:14597",
-    "plan": "9b73cd93bb768:150171",
-    "exported": "1ee7824876463e:52682",
-    "planSettings": "b746178aac487:150167",
+    "plan": "cf9948ecbefe5:150359",
+    "exported": "12e07eb099f996:52827",
+    "planSettings": "112d3f3c7f03f0:150355",
     "forecastSettings": "1e9576c9d8046e:13609"
   },
   "quillfield": {
     "founders": "| Founder | Roles | Salary / month | Working Hours / month | Delivery Hours / month | Responsibilities |\n| --- | --- | --- | --- | --- | --- |\n| Jordan Ellis |  | £4,500 | 160 | 96 | Register business name (completed); Open a business bank account (completed); Contract templates; Write privacy policy; Launch the website with booking; Set up bookkeeping; Investigate password vault; Build component library; Create audit guide; Define handover pack; Set up monitoring; LinkedIn content plan; Start the monthly newsletter; Publish three case studies; Proposal templates; Recruit referral partners; Accountant (CPA); Lawyer; Launch web design; Brooklyn coworking; Referral partners; Freelance developer; QuickBooks Payments |\n\n",
-    "forecast": "554cb33bfdd2c:11838",
-    "plan": "706d20422a300:73020",
-    "exported": "1684fc95695412:40091",
-    "planSettings": "301fa4324913c:73020",
-    "forecastSettings": "1b7844f512a650:11717"
+    "forecast": "e7fed932c9419:11838",
+    "plan": "1f5cae50c6071b:72917",
+    "exported": "9c472bf4d78aa:40138",
+    "planSettings": "14ac9c21c7c3f2:72917",
+    "forecastSettings": "166cdc8f0cdae7:11717"
   },
   "lumen-weekly": {
     "founders": "| Founder | Roles | Salary / month | Working Hours / month | Delivery Hours / month | Responsibilities |\n| --- | --- | --- | --- | --- | --- |\n| Maya Chen |  | £1,800 | 38 | 26 | Investigate Warping mill; Source yarns; Weave spring collection; Test fire-retardant finish; Sample headboard panels; Run first workshops; Freelance weaving tutor |\n| Oliver Grant |  | £1,800 | 38 | 26 | Set up Product photography; Launch website and journal (completed); Plan trade fair stand; Instagram content calendar; Build trade price list; DPD Local (courier); Royal Mail Tracked 48 |\n| Priya Shah |  | £1,800 | 38 | 26 | Register trade mark and ICO (completed); Set up Xero; Monthly bookkeeping; Set up repair service; Accountant; Lawyer; Hackney Wick Maker Yard; Hackney Sparks; FlameGuard Finishing; Shopify Payments; SumUp in-person card fees |\n\n",
@@ -2398,7 +2398,7 @@
       0,
       0
     ],
-    "planShape": "15cc3d0083d27b:146954",
+    "planShape": "1976012fd262c7:147142",
     "planNumbers": [
       64,
       2,
@@ -2643,7 +2643,7 @@
       48,
       2,
       25,
-      2.1,
+      2.15,
       95,
       1.69,
       2.1,
@@ -15814,7 +15814,7 @@
       4,
       5
     ],
-    "exportedShape": "1a28b1b7d67095:51487",
+    "exportedShape": "ea1f9588e5598:51632",
     "exportedNumbers": [
       3,
       1,
@@ -16150,7 +16150,7 @@
       2,
       2,
       25,
-      2.1,
+      2.15,
       95,
       1.69,
       1.69,

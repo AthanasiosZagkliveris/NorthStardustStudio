@@ -1072,7 +1072,7 @@
                       "experience": "Self-service, in store and online.",
                       "offerings": "Buying cheap mass-produced cushions and throws and replacing them every year or two."
                     },
-                    "strengths": "Weaknesses: Environmental cost.",
+                    "strengths": "Strengths: Low prices; sold everywhere, in shops and online.\nWeaknesses: Pills and fades quickly; environmental cost.",
                     "weaknesses": "",
                     "opportunities": "Opportunities: Customers upgrading from their first flat look for “grown-up” pieces.\nThreats: Trend cycles make handmade look expensive by comparison.",
                     "threats": "",
@@ -1289,7 +1289,7 @@
                       "scope": "Half-day frame loom (3 h, £80), full-day floor loom (6 h, £140), 4-week evening course (£260); materials, tea and cake included. Prices include VAT.",
                       "delivery": "Booked and paid online on the studio's website (the workshop booking app); gift vouchers valid for 12 months.",
                       "support": "Directions and what to wear before; the pattern and a discount code after.",
-                      "requirements": "Ages 16+ (until the legal-age check is built); 7 days' notice to cancel; the studio is step-free."
+                      "requirements": "Ages 16+; 7 days' notice to cancel; the studio is step-free."
                     },
                     "questions": {
                       "o1": [
@@ -1609,7 +1609,7 @@
                       "acquisition": "",
                       "experience": "Personal."
                     },
-                    "strengths": "Weaknesses: Little documentation.",
+                    "strengths": "Strengths: Known names and design-press coverage; bespoke colours and sizes.\nWeaknesses: Little documentation; lead times that move.",
                     "weaknesses": "",
                     "opportunities": "Opportunities: Designers want makers who can promise capacity and paperwork.\nThreats: Price competition on small commissions.",
                     "threats": "",
@@ -4207,7 +4207,7 @@
                       "name": "Finishing station",
                       "quantity": "1",
                       "hoursAvailable": "",
-                      "description": "Brought from Maya’s previous studio.\nIroning and finishing.",
+                      "description": "An ironing and finishing table, brought from Maya’s previous studio.",
                       "status": "exists",
                       "cost": {
                         "price": "",
@@ -4390,7 +4390,7 @@
                       "name": "Label printer",
                       "quantity": "1",
                       "hoursAvailable": "",
-                      "description": "A thermal label printer and a second-hand mirrorless camera for product photos.\nWith a product camera.",
+                      "description": "A thermal label printer and a second-hand mirrorless camera for product photos.",
                       "status": "costs",
                       "cost": {
                         "price": "520",
@@ -4773,7 +4773,7 @@
                     "id": "activity-mo6e4wzz",
                     "category": "operational",
                     "name": "Set up Xero",
-                    "description": "Making Tax Digital-compliant VAT and PAYE for three directors.\nVAT returns and payroll.",
+                    "description": "Making Tax Digital VAT returns and PAYE payroll for the three directors.",
                     "performerIds": [
                       "founder-3fhkh0cm",
                       "professional-accountant"
@@ -4965,7 +4965,7 @@
                 "startDate": "2026-10-01",
                 "endDate": "",
                 "name": "Hackney Sparks",
-                "description": "Wiring for the shop-front lighting and the sockets at the looms: installed with the studio fit-out.\nElectrician.",
+                "description": "Electrician: wiring for the shop-front lighting and the sockets at the looms, installed with the studio fit-out.",
                 "responsibleId": "founder-3fhkh0cm",
                 "cost": {
                   "price": "300",
@@ -5125,7 +5125,7 @@
                   "name": "Commission materials",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "description": "Yarn, backing cloth, fittings and hired weaving time for an average commission.\nMaterials and making time for each commission.",
+                  "description": "Yarn, backing cloth, fittings and hired weaving time for an average commission.",
                   "status": "costs",
                   "cost": {
                     "price": "828",
@@ -5169,7 +5169,7 @@
                   "name": "Fire-retardant treatment",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "description": "Applied by a specialist finisher for hospitality orders.\nWith its certificate, for hotel orders.",
+                  "description": "Applied by a specialist finisher for hospitality orders, with its certificate.",
                   "status": "partners-suppliers",
                   "cost": {
                     "price": "",
@@ -5350,7 +5350,7 @@
                   "name": "Warping mill",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "description": "Earlier status: Needs Investigation. Compare buying new vs sharing with another studio.",
+                  "description": "Compare buying new with sharing one with another studio.",
                   "status": "activity",
                   "cost": {
                     "price": "",
@@ -5756,7 +5756,7 @@
                   "name": "Trade fair stands",
                   "quantity": "2",
                   "hoursAvailable": "",
-                  "description": "A shared stand with a loom for live weaving at Clerkenwell Design Week in May and Decorex in the autumn, about £3,000 across the year in all. Estimate.\nClerkenwell Design Week and Decorex.",
+                  "description": "A shared stand with a loom for live weaving at Clerkenwell Design Week in May and Decorex in the autumn, about £3,000 across the year in all. Estimate.",
                   "status": "costs",
                   "cost": {
                     "price": "1500",
@@ -5817,7 +5817,7 @@
                   "name": "Installation travel",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "description": "A day’s van hire, parking and the congestion charge to hang wall textiles on site in London.\nWith van hire.",
+                  "description": "A day’s van hire, parking and the congestion charge to hang wall textiles on site in London.",
                   "status": "costs",
                   "cost": {
                     "price": "75",
@@ -6039,7 +6039,7 @@
                   "id": "activity-3ukis4h4",
                   "category": "production",
                   "name": "Source yarns",
-                  "description": "Earlier category: Production. Agree supply with two British mills and one organic cotton importer.\nBritish wool and organic cotton.",
+                  "description": "Agree supply of British wool with two British mills and of organic cotton with one importer.",
                   "performerIds": [
                     "founder-3aux8uyh"
                   ],
@@ -6069,7 +6069,7 @@
                   "id": "activity-l7ai37v1",
                   "category": "production",
                   "name": "Weave spring collection",
-                  "description": "Earlier category: Production. Cushions, throws and runners in the five core colourways.\n40 pieces.",
+                  "description": "40 cushions, throws and runners in the five core colourways.",
                   "performerIds": [
                     "founder-3aux8uyh",
                     "founder-3fhkh0cm"
@@ -6100,7 +6100,7 @@
                   "id": "activity-qog9c2zr",
                   "category": "production",
                   "name": "Test fire-retardant finish",
-                  "description": "Earlier category: Production. BS 5852 testing for hotel commissions.\nFor hotel orders.",
+                  "description": "BS 5852 Crib 5 testing for hotel commissions.",
                   "performerIds": [
                     "founder-3aux8uyh",
                     "partner-3w37yf3a"
@@ -6129,7 +6129,7 @@
                   "id": "activity-chzfi0gr",
                   "category": "production",
                   "name": "Sample headboard panels",
-                  "description": "Wool bouclé and linen panels to present at Decorex.\nThree panels for hotel pitches.",
+                  "description": "Three wool bouclé and linen panels to present at Decorex and in hotel pitches.",
                   "performerIds": [
                     "founder-3aux8uyh"
                   ],
@@ -6150,7 +6150,7 @@
                   "id": "activity-4etvpuzs",
                   "category": "marketing",
                   "name": "Launch website and journal",
-                  "description": "Earlier category: Marketing. Shopify shop, workshop booking and first three journal posts.",
+                  "description": "Shopify shop, workshop booking and first three journal posts.",
                   "performerIds": [
                     "founder-z2jgpf8v"
                   ],
@@ -6176,7 +6176,7 @@
                   "id": "activity-l76pgijh",
                   "category": "marketing",
                   "name": "Plan trade fair stand",
-                  "description": "Earlier category: Marketing. Live-weaving stand and trade lookbook for May.\nClerkenwell Design Week.",
+                  "description": "Live-weaving stand and trade lookbook for Clerkenwell Design Week in May.",
                   "performerIds": [
                     "founder-z2jgpf8v",
                     "founder-3aux8uyh"
@@ -6207,7 +6207,7 @@
                   "id": "activity-ejrjabpw",
                   "category": "marketing",
                   "name": "Instagram content calendar",
-                  "description": "Earlier category: Marketing. Three posts a week: process, product, people.",
+                  "description": "Three posts a week: process, product, people.",
                   "performerIds": [
                     "founder-z2jgpf8v"
                   ],
@@ -6233,7 +6233,7 @@
                   "id": "activity-n8jupram",
                   "category": "sales",
                   "name": "Build trade price list",
-                  "description": "Earlier category: Sales & Customer.\nWith a swatch box.",
+                  "description": "Trade prices for the core range, with a swatch box.",
                   "performerIds": [
                     "founder-z2jgpf8v",
                     "founder-3fhkh0cm"
@@ -6260,7 +6260,7 @@
                   "id": "activity-1p999t4p",
                   "category": "sales",
                   "name": "Run first workshops",
-                  "description": "Earlier category: Sales & Customer. Two a month from the opening in October; eight places each.\nSix beginner workshops.",
+                  "description": "Six beginner workshops: two a month from the opening in October, eight places each.",
                   "performerIds": [
                     "founder-3aux8uyh",
                     "founder-3fhkh0cm",
@@ -6292,7 +6292,7 @@
                   "id": "activity-gaw5cbvf",
                   "category": "sales",
                   "name": "Set up repair service",
-                  "description": "Earlier category: Sales & Customer. Repair request form, pricing and turnaround times.\nThe lifetime repair service.",
+                  "description": "The lifetime repair service: request form, pricing and turnaround times.",
                   "performerIds": [
                     "founder-3fhkh0cm"
                   ],
@@ -6477,7 +6477,7 @@
                   "startDate": "2026-10-01",
                   "endDate": "",
                   "name": "Shopify Payments",
-                  "description": "Shopify Payments charges 2.0% + 25p on an online order, about £2.10 on a £95 order. The rates come from the Channel Fee Table.\nCard payments.",
+                  "description": "Card payments online: Shopify Payments charges 2.0% + 25p an order, about £2.15 on a £95 order. The rates come from the Channel Fee Table.",
                   "responsibleId": "founder-3fhkh0cm",
                   "cost": {
                     "price": "2",
