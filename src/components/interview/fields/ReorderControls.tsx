@@ -16,7 +16,8 @@ import { useFloatingPanel } from "../../../hooks/useFloatingPanel.ts";
  * There are no up/down arrows. A box is moved by selecting it and
  * pressing the arrow keys, or by dragging it -- see useMovableBox,
  * which also makes the box focusable so the keyboard route exists
- * for everyone, not just pointer users.
+ * for everyone, not just pointer users. A box given no reorder
+ * keeps its place.
  */
 export default function BoxActions({
 
@@ -75,6 +76,7 @@ export default function BoxActions({
 
     /** Choosing an order leaves the drop-down open. */
     keepOpen?: boolean;
+
 
 }) {
 
@@ -256,7 +258,8 @@ export function reorder<T>(list: T[], from: number, to: number): T[] {
  */
 export function useMovableBox(
 
-    onReorder: (from: number, to: number) => void,
+    /** null: a box that keeps its place (and so its number): only selected and removed, never moved (the Strategy boxes; owner, 2026-11-22). */
+    onReorder: ((from: number, to: number) => void) | null,
 
     onRemove?: (index: number) => void
 
@@ -274,7 +277,7 @@ export function useMovableBox(
 
             role: "group",
 
-            "aria-label": `${label}. Use the arrow keys to move it, Delete to remove it.`,
+            "aria-label": onReorder ? `${label}. Use the arrow keys to move it, Delete to remove it.` : `${label}. Delete to remove it.`,
 
             /*
                 Clicking the box selects it.
@@ -307,7 +310,7 @@ export function useMovableBox(
 
             },
 
-            draggable: armed,
+            draggable: armed && !!onReorder,
 
             onDragStart: (event: DragEvent<HTMLElement>) => {
                 // Some browsers refuse to start a drag without it.
@@ -330,7 +333,7 @@ export function useMovableBox(
                 event.preventDefault();
                 event.stopPropagation();
 
-                if (dragIndex !== null && dragIndex !== index) {
+                if (onReorder && dragIndex !== null && dragIndex !== index) {
                     onReorder(dragIndex, index);
                 }
 
@@ -356,13 +359,13 @@ export function useMovableBox(
                     return;
                 }
 
-                if (event.key === "ArrowUp" && index > 0) {
+                if (onReorder && event.key === "ArrowUp" && index > 0) {
                     event.preventDefault();
                     onReorder(index, index - 1);
                     return;
                 }
 
-                if (event.key === "ArrowDown" && index < count - 1) {
+                if (onReorder && event.key === "ArrowDown" && index < count - 1) {
                     event.preventDefault();
                     onReorder(index, index + 1);
                     return;

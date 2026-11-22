@@ -875,7 +875,9 @@ export default function BrandStyleEditor({
                 <div className="brand-style-body brand-style-cards">{card}</div>
             </div>
         );
-        const inkOf = (swatch: string | null) => swatch ? (luminance(swatch) > 0.5 ? "#1c1c1c" : "#ffffff") : undefined;
+        // (The words on a colour's box: dark or white, whichever reads more against it. A luminance line of 0.5 put white on mid colours -- 2.6:1 on #84a98c --
+        // where the dark ink reads 6.6:1; WCAG 1.4.3, the standards report, group A 3.)
+        const inkOf = (swatch: string | null) => swatch ? (contrastRatio(swatch, "#1c1c1c") >= contrastRatio(swatch, "#ffffff") ? "#1c1c1c" : "#ffffff") : undefined;
 
         /** A blank card added and left blank is taken away again. */
         const addOf = (list: "colours" | "typefaces", kind: "colour" | "typeface", label: string): CardBoxAdd | undefined => {

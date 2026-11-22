@@ -1456,6 +1456,8 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input),
 .page-arrow:focus-visible {
   outline: 2px solid var(--line-primary);
   outline-offset: 2px;
+  /* (A halo of the surface under the ring: a dialog's arrows stand on its dim scrim, where the blue alone made 2.6:1; WCAG 2.4.7, the standards report, group A 5.) */
+  box-shadow: 0 0 0 4px var(--bg-surface);
 }
 
 .page-arrow:disabled {
@@ -1515,5 +1517,24 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input),
     --font-h3: 18px;
 
   }
+
+}
+
+/* THE FOCUS RING OF EVERY CONTROL THAT HAD NONE OR A FAINT ONE (WCAG 2.4.7, 2.4.13 as a guide: 2px at 3:1 against its ground; the standards report, group A 5;
+   measured by Tab on every page and its first dialog, 2026-11-22): the app's one ring, 2px of --focus-ring-ink, as the tiles, the back button and the links
+   draw it. (:root:root: over the controls' own `outline: none`.) The "i" kept a 4px glow of 1.5:1; the date cell, the label arrow, a brand's tick and the
+   header's Workbook had none; a radio's 3px glow read 2.9:1 on a tinted band. */
+:root:root :is(.info-note-button, .strategy-add-button, .date-cell-input, .label-arrow, .brand-tick-box, .add-card-tile, .radio-choice-option > input[type="radio"]):focus-visible {
+
+  outline: 2px solid var(--focus-ring-ink);
+  outline-offset: 2px;
+
+}
+
+/* (The "i" stands on every band, the dark title bands too, where the ring ink matched the band, 1.07:1: a halo of the surface under its ring, as a card tile's
+   (card-tile.css), keeps the ring apart from any band.) */
+:root:root .info-note-button:focus-visible {
+
+  box-shadow: 0 0 0 4px var(--bg-surface);
 
 }

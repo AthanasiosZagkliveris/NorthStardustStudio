@@ -363,9 +363,11 @@ export function TileList({
         return () => observer.disconnect();
     }, [items]);
     const shown = items;
+    // (A list of plain lines repeats what the tile's own name and its dialog say, so it is hidden from screen readers -- and so never a Tab stop either, even where
+    // it scrolls: a hidden control that takes the focus is the WCAG 4.1.2 failure the standards report found, group A 2. A list of links is read and reached.)
     const live = !!onLink && !!links && links.some(link => link !== undefined);
     return (
-        <ul className={"section-tile-list" + (shown.some(item => item.includes("\u0001")) ? " section-tile-list-pairs" : "")} ref={list} onClick={!live ? onPlain : undefined} aria-hidden={live ? undefined : "true"} data-scrolls={scrolls ? "" : undefined} tabIndex={scrolls ? 0 : undefined}>
+        <ul className={"section-tile-list" + (shown.some(item => item.includes("\u0001")) ? " section-tile-list-pairs" : "")} ref={list} onClick={!live ? onPlain : undefined} aria-hidden={live ? undefined : "true"} data-scrolls={scrolls ? "" : undefined} tabIndex={!live ? -1 : scrolls ? 0 : undefined}>
             {shown.map((item, position) => {
                 if (item === TILE_DIVIDER) {
                     return <li key={position} className="section-tile-divider" aria-hidden="true" />;

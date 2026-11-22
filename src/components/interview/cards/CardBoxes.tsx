@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { ReactNode, useContext, useEffect, useRef, useSyncExternalStore } from "react";
 
 import { freshCards } from "./freshCards.ts";
 import { CARD_LIST_COLUMNS, OpenCardContext, type ItemMark } from "../tiles/SectionTiles.tsx";
@@ -112,8 +112,6 @@ export default function CardBoxes({
 
     add,
 
-    onReorder,
-
     className,
 
     autoStart = true,
@@ -136,11 +134,6 @@ export default function CardBoxes({
     /** One card, for assistive technology: "Resource". */
     what: string;
     add?: CardBoxAdd;
-    /**
-     * A list the user orders (the activities): a tile can be DRAGGED onto another to move it there (the cards are
-     * renumbered). Pressing a tile still opens its card.
-     */
-    onReorder?: (from: number, to: number) => void;
     /** On the list's root (the grid, or the open card): the grey of the finished ones. */
     className?: string;
     /** A list with nothing in it makes a blank card and opens it (the default); off where the list is one part of a larger dialog. */
@@ -150,8 +143,6 @@ export default function CardBoxes({
 
     const openCard = useContext(OpenCardContext);
     useSyncExternalStore(freshCards.subscribe, freshCards.snapshot);
-    // The tile being dragged and the one it is over.
-    const [drag, setDrag] = useState<{ from: number; over: number | null } | null>(null);
 
     const latest = useRef({ items, add });
     latest.current = { items, add };
@@ -214,31 +205,6 @@ export default function CardBoxes({
                             label={what + " " + item.number + ": " + name}
                             origin={inwardOrigin(index, items.length, across)}
                             onOpen={(pointer) => item.press ? item.press() : openCard?.(item.id, undefined, undefined, pointer, false)}
-                            drag={onReorder ? {
-                                dragging: drag?.from === index,
-                                over: !!drag && drag.over === index && drag.from !== index,
-                                onDragStart: (event) => {
-                                    // (Some browsers refuse to start a drag without data.)
-                                    event.dataTransfer.setData("text/plain", String(index));
-                                    event.dataTransfer.effectAllowed = "move";
-                                    setDrag({ from: index, over: null });
-                                },
-                                onDragOver: (event) => {
-                                    if (drag) {
-                                        event.preventDefault();
-                                        event.dataTransfer.dropEffect = "move";
-                                        setDrag(current => current && current.over !== index ? { ...current, over: index } : current);
-                                    }
-                                },
-                                onDrop: (event) => {
-                                    event.preventDefault();
-                                    if (drag && drag.from !== index) {
-                                        onReorder(drag.from, index);
-                                    }
-                                    setDrag(null);
-                                },
-                                onDragEnd: () => setDrag(null)
-                            } : undefined}
                         />
                     );
                 })}

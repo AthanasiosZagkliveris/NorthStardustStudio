@@ -29,7 +29,7 @@ import {
     strategyThemeName
 } from "../../../framework/engine/answers/AnswerUtils.ts";
 
-import BoxActions, { reorder, useMovableBox } from "../fields/ReorderControls.tsx";
+import BoxActions, { useMovableBox } from "../fields/ReorderControls.tsx";
 import MonthYearPicker from "../fields/MonthYearPicker.tsx";
 import OptionPicker from "../fields/OptionPicker.tsx";
 import { OptionalNote, ResponsibleField } from "../cards/BusinessCardFields.tsx";
@@ -421,8 +421,9 @@ function GoalList({
     const view = useGroupView(groupId, ids);
     useDiscardBlank(view, ids, (id) => sameAsNew(goals.find(entry => entry.id === id), createStrategyGoal()), (id) => onChangeGoals(goals.filter(entry => entry.id !== id)));
 
+    // (A goal keeps its place, so its number -- the Business Plan's, the Roadmap's -- never changes: owner, 2026-11-22 09:59 UTC+2.)
     const box = useMovableBox(
-        (from, to) => onChangeGoals(reorder(goals, from, to)),
+        null,
         (index) => onChangeGoals(
             goals.length > 1
                 ? goals.filter((_goal, position) => position !== index)
@@ -614,8 +615,9 @@ function ObjectiveList({
     const view = useGroupView(groupId, ids);
     useDiscardBlank(view, ids, (id) => sameAsNew(objectives.find(entry => entry.id === id), createStrategyObjective()), (id) => onChangeObjectives(objectives.filter(entry => entry.id !== id)));
 
+    // (A objective keeps its place, so its number -- the Business Plan's, the Roadmap's -- never changes: owner, 2026-11-22 09:59 UTC+2.)
     const box = useMovableBox(
-        (from, to) => onChangeObjectives(reorder(objectives, from, to)),
+        null,
         (index) => onChangeObjectives(
             objectives.length > 1
                 ? objectives.filter((_objective, position) => position !== index)
@@ -970,8 +972,9 @@ function MetricList({
             : [createStrategyMetric()]
     );
 
+    // (A metric keeps its place, so its number -- the Business Plan's, the Roadmap's -- never changes: owner, 2026-11-22 09:59 UTC+2.)
     const box = useMovableBox(
-        (from, to) => onChangeMetrics(reorder(metrics, from, to)),
+        null,
         removeAt
     );
 

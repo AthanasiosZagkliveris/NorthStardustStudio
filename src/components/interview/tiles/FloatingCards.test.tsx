@@ -592,18 +592,15 @@ describe("the Founders tile", () => {
 
 });
 
-describe("activities are ordered by dragging a box", () => {
+describe("no card is dragged: a card keeps its place, and so its number (owner, 2026-11-22 09:59 UTC+2; WCAG 2.5.7)", () => {
 
-    it("moves a box onto another in the Activities dialog, and renumbers", () => {
+    it("keeps the Activities in the order they were made, none draggable", () => {
         render(<Harness initial={seededTwo()} />);
         openTile("Operational");
         const boxes = () => [...screen.getByRole("dialog").querySelectorAll<HTMLElement>(".card-tile-slot")];
-        expect(boxes()[0].getAttribute("draggable")).toBe("true");
-        const dataTransfer = { setData: vi.fn(), effectAllowed: "", dropEffect: "" };
-        fireEvent.dragStart(boxes()[0], { dataTransfer });
-        fireEvent.dragOver(boxes()[1], { dataTransfer });
-        fireEvent.drop(boxes()[1], { dataTransfer });
-        expect(cardBoxes()).toEqual(["Activity 1: Second", "Activity 2: First"]);
+        expect(boxes().length).toBe(2);
+        expect(boxes().some(box => box.hasAttribute("draggable"))).toBe(false);
+        expect(cardBoxes()).toEqual(["Activity 1: First", "Activity 2: Second"]);
     });
 
     it("does not make other lists draggable", () => {

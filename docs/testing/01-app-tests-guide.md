@@ -1393,8 +1393,8 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - offers, beside the providers, only the workspace type chosen on a Workspace card (none when none is chosen)
 - **the Founders tile** (1)
   - lists the founders' names alone, with no rate of their responsibilities
-- **activities are ordered by dragging a box** (2)
-  - moves a box onto another in the Activities dialog, and renumbers
+- **no card is dragged: a card keeps its place, and so its number (owner, 2026-11-22 09:59 UTC+2; WCAG 2.5.7)** (2)
+  - keeps the Activities in the order they were made, none draggable
   - does not make other lists draggable
 - **the point a page tile scales from** (2)
   - is the corner, edge or centre its place in the group sets
@@ -1467,7 +1467,7 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - holds the Workspace fields in the normal card flow, below its name and its Category cell, with no form or card of its own
   - is styled by the resource card's rules: no stylesheet rule names a Workspace form or card any more
 - **the marks on the lines of a tile's list** (2)
-  - draws a category with no card at --list-empty-opacity (.7: 3:1 in every theme) (its text and bullet), and not one that holds a card
+  - draws a category with no card in the muted ink (4.5:1 on every tile ground, never by opacity) (its text and bullet), and not one that holds a card
   - sets Offering's Channel line (Resources) in the channel teal, no frame, and two stacked bullets (own on top, teal under) on a Partners line holding a channel's cards
 - **the slide of a long title** (3)
   - slides a title cut by an ellipsis to its end while the pointer is over its tile, and back when it leaves
@@ -1489,8 +1489,9 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - the Costs option isolates the tiles that have an expense; the cost order and range then apply to them
   - can be sorted by name and by cost
   - a cost reads as the Costs section counts it: times the quantity; a founder's pay and the Workspace's deposit are costs too
-- **the Inventory's figures (owner, 2026-11-13 12:32: "it doesn't present accurate information")** (4)
+- **the Inventory's figures (owner, 2026-11-13 12:32: "it doesn't present accurate information")** (5)
   - a share of revenue is a percentage: no currency on its tile, last in a cost sort, in no range of money
+  - the date orders put the cards by start date, a card with none last, then by name; the cards keep their own order (owner, 2026-11-22 09:59 UTC+2)
   - a cost in another currency says its code on its tile; a figure with pence keeps two decimals
   - the Status sort puts the rows with no status after those with one
   - a bought asset priced Per unit is one-time, as the Financial Foundation counts it

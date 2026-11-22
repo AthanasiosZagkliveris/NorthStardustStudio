@@ -11,6 +11,17 @@ import { useCardEndGround } from "./cardEndGround.ts";
 import { settlePage, InnerBackContext, CrumbsContext, OpenCardContext, InitialBoxContext, type InnerBackApi, type Crumb } from "./DialogLevels.tsx";
 import { CARD_LEVEL, CarouselArrows } from "./CarouselArrows.tsx";
 
+/** The controls Tab reaches inside a layer, in order: shown, enabled, not taken out of the order. */
+function tabStops(layer: HTMLElement): HTMLElement[] {
+    const candidates = layer.querySelectorAll<HTMLElement>("a[href], button, input, select, textarea, summary, [tabindex], [contenteditable=true]");
+    return Array.from(candidates).filter(element =>
+        element.tabIndex >= 0
+        && !(element as HTMLButtonElement).disabled
+        && !element.closest("[inert], [hidden], [aria-hidden=true]")
+        && element.getClientRects().length > 0
+        && getComputedStyle(element).visibility !== "hidden");
+}
+
 /** The record time of a card, under it, as a note's ("Recorded 17/10/2026 14:13"). */
 export function FloatingRecord({ id }: { id: string }) {
     // (Reading the time writes it the first time, so it is read after the render, never in it.)
@@ -226,6 +237,34 @@ export function FloatingCards({
         }
         document.addEventListener("mousedown", onPress);
         return () => document.removeEventListener("mousedown", onPress);
+    }, []);
+
+    // THE KEYBOARD STAYS IN THE TOPMOST CARD (WCAG 2.4.3 and the dialog pattern of aria-modal; the standards report, group A 1): Tab from its last control comes
+    // back to its first, Shift+Tab from its first to its last. The page behind stays live for the pointer (a press on a tile opens it, above), never for Tab.
+    useEffect(() => {
+        function onTab(event: KeyboardEvent) {
+            const layer = overlay.current;
+            const overlays = document.querySelectorAll(".floating-overlay");
+            if (event.key !== "Tab" || event.defaultPrevented || !layer || overlays[overlays.length - 1] !== layer) {
+                return;
+            }
+            const stops = tabStops(layer);
+            if (stops.length === 0) {
+                return;
+            }
+            const active = document.activeElement as HTMLElement | null;
+            // (A popup of the card's own, drawn outside it -- a list, a menu, a calendar -- and the live app header keep their own Tab.)
+            if (active && !layer.contains(active) && active.closest("[role=listbox], [role=menu], .date-cell-popup, [role=dialog]:not(.section-tile-dialog), .app-header")) {
+                return;
+            }
+            const at = active ? stops.indexOf(active) : -1;
+            if (at === -1 || (event.shiftKey && at === 0) || (!event.shiftKey && at === stops.length - 1)) {
+                event.preventDefault();
+                (event.shiftKey ? stops[stops.length - 1] : stops[0]).focus();
+            }
+        }
+        document.addEventListener("keydown", onTab);
+        return () => document.removeEventListener("keydown", onTab);
     }, []);
 
     useEffect(() => {

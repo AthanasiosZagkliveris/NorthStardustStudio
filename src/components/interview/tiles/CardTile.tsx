@@ -1,4 +1,4 @@
-import { CSSProperties, DragEvent, RefObject, useLayoutEffect, useRef, useState } from "react";
+import { CSSProperties, RefObject, useLayoutEffect, useState } from "react";
 import Tile from "./Tile.tsx";
 import { stableCardHue } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { CHANNEL_TILE_HUE, TileFace, TileLinks, incompleteTitle, type ItemMark } from "./SectionTiles.tsx";
@@ -167,19 +167,9 @@ export interface CardTileProps {
     title?: string;
     /** A "+" box at its lower right, as a page tile has one (TilePlus): what it adds, and the add. */
     plus?: { what: string; onAdd: () => void; disabled?: boolean };
-    /** A grid that orders its tiles by dragging one onto another. */
-    drag?: {
-        dragging: boolean;
-        over: boolean;
-        onDragStart: (event: DragEvent) => void;
-        onDragOver: (event: DragEvent) => void;
-        onDrop: (event: DragEvent) => void;
-        onDragEnd: () => void;
-    };
 }
 
-export default function CardTile({ id, name, unnamed = "", number, linkedLines, onLine, lineCards, lines, marks, links = [], tone, own, centred, inactive, faded, missing, label, onOpen, origin, focusId, onFocus, title, drag, plus }: CardTileProps) {
-    const onCircle = useRef(false);
+export default function CardTile({ id, name, unnamed = "", number, linkedLines, onLine, lineCards, lines, marks, links = [], tone, own, centred, inactive, faded, missing, label, onOpen, origin, focusId, onFocus, title, plus }: CardTileProps) {
     const shown = name.trim() || unnamed;
     rememberCardName(id, shown);
     const style = { ...(tone === "legal" || own ? {} : { "--strategy-theme-hue": toneHue(tone) }), transformOrigin: origin } as CSSProperties;
@@ -195,15 +185,8 @@ export default function CardTile({ id, name, unnamed = "", number, linkedLines, 
         <Tile
             as={onOpen ? "button" : "div"}
             frame={{
-            className: "section-tile-slot card-tile-slot" + (faded ? " section-tile-slot-empty" : "") + (plus ? " section-tile-slot-plus" : "") + (missing && missing.length > 0 ? " card-tile-incomplete" : "") + (drag ? " card-tile-movable" : "") + (drag?.dragging ? " card-tile-dragged" : "") + (drag?.over ? " card-tile-drop" : ""),
-            style,
-            draggable: drag ? true : undefined,
-            // A press on a circle never starts a drag of the tile (the circle is a pointer, not a handle).
-            onPointerDownCapture: (event) => { onCircle.current = !!(event.target as HTMLElement).closest?.(".card-tile-symbols"); },
-            onDragStart: drag ? (event) => { if (onCircle.current) { event.preventDefault(); } else { drag.onDragStart(event); } } : undefined,
-            onDragOver: drag?.onDragOver,
-            onDrop: drag?.onDrop,
-            onDragEnd: drag?.onDragEnd
+            className: "section-tile-slot card-tile-slot" + (faded ? " section-tile-slot-empty" : "") + (plus ? " section-tile-slot-plus" : "") + (missing && missing.length > 0 ? " card-tile-incomplete" : ""),
+            style
             }}
             face={face}
             className={className}
