@@ -8,3 +8,12 @@
     padding:8px 14px;
 
 }
+
+/* The add card's focus ring: the app's one ring, 2px of --focus-ring-ink (WCAG 2.4.7; the standards report, group A 5).
+   (:root:root: over a place's own `outline: none`.) */
+:root:root .add-card-tile:focus-visible{
+
+    outline:2px solid var(--focus-ring-ink);
+    outline-offset:2px;
+
+}
