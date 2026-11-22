@@ -7,6 +7,32 @@ import { useEffect, useState } from "react";
  */
 export const VERTICAL_QUERY = "(max-width: 1099px), (orientation: portrait)";
 export const PHONE_QUERY = "(max-width: 600px)";
+/**
+ * THE MASTER TILES IN ONE ROW OF FOUR (owner, 2026-11-22 19:37 UTC+2, "Build 1-3 for Vertical Lay out"; layout rules section 23): in the vertical layout, a window
+ * 880px wide or more (a small laptop, a landscape or a large portrait tablet) has room for the four master tiles of a chapter side by side at a good size.
+ */
+export const ROW_OF_FOUR_QUERY = "(max-width: 1099px) and (min-width: 880px), (orientation: portrait) and (min-width: 880px)";
+
+/** How many master tiles stand in a row: 4 in the vertical layout from 880px wide, else 2 (the 2 x 2). */
+export function masterAcross(): 2 | 4 {
+    return typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia(ROW_OF_FOUR_QUERY).matches ? 4 : 2;
+}
+
+/** masterAcross(), kept current as the window turns or is resized. */
+export function useMasterAcross(): 2 | 4 {
+    const [across, setAcross] = useState(masterAcross);
+    useEffect(() => {
+        if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+            return;
+        }
+        const query = window.matchMedia(ROW_OF_FOUR_QUERY);
+        const update = () => setAcross(masterAcross());
+        query.addEventListener?.("change", update);
+        update();
+        return () => query.removeEventListener?.("change", update);
+    }, []);
+    return across;
+}
 
 /** How many tiles a row a dialog's grid holds in the vertical layout: 2, 1 on a phone, or 0 where the chapters stand side by side (the grid's own rule). */
 export function verticalAcross(): number {

@@ -53,11 +53,17 @@ export default function AppHeader({ organizationName, focusable = false, reloada
 
         <header className="app-header">
 
-            <img
-                src={logo}
-                alt="Tiles"
-                className="app-logo"
-            />
+            {/* THE TILES LOGO AND ITS NAME (owner, 2026-11-22 19:55 UTC+2: "Next to the Icon of the Tiles, add also the name TILES, in capital, semi bold with the
+                proper letter spacing that I have assigned for the bold text. use the Inter fond. the gap between the Icon and the Word should be 12 px"): the word
+                names the app, so the picture beside it says nothing more to a screen reader. */}
+            <div className="app-brand">
+                <img
+                    src={logo}
+                    alt=""
+                    className="app-logo"
+                />
+                <span className="app-brand-name">Tiles</span>
+            </div>
 
             {/* THE BUTTONS AT THE HEADER'S RIGHT END (owner, 2026-11-22 18:58 UTC+2: "Place the headers button at the right side"): the Organisation's name stands
                 before the saved signal and the tools, against them (app-header.css). */}

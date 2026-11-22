@@ -23,13 +23,13 @@ html.focus-mode .app-header {
 
 }
 
-html.focus-mode .app-header > :is(.app-logo, .save-status, .theme-switch, .header-tool, .app-header-organization-name) {
+html.focus-mode .app-header > :is(.app-brand, .save-status, .theme-switch, .header-tool, .app-header-organization-name) {
 
     display: none;
 
 }
 
-html.focus-mode .app-header > :not(.app-logo, .save-status, .theme-switch, .header-tool, .app-header-organization-name) {
+html.focus-mode .app-header > :not(.app-brand, .save-status, .theme-switch, .header-tool, .app-header-organization-name) {
 
     pointer-events: auto;
 

@@ -35,12 +35,51 @@
 
 }
 
+/* The logo and the word TILES beside it, 12px apart (owner, 2026-11-22 19:55 UTC+2). */
+.app-brand {
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    gap: var(--gap-12);
+
+    min-width: 0;
+
+    user-select: none;
+
+    pointer-events: none;
+
+}
+
+/* The name: Inter, semi-bold, in capitals (by CSS: it is read "Tiles"), with the tracking every bold word carries (--bold-tracking, global.css). */
+.app-brand-name {
+
+    font-family: "Inter", sans-serif;
+    font-size: var(--font-h3);
+    font-weight: 600;
+    letter-spacing: var(--bold-tracking);
+    text-transform: uppercase;
+    line-height: 1;
+    /* (The box trimmed to the capitals, so the letters themselves, not their line, stand at the buttons' middle.) */
+    text-box: trim-both cap alphabetic;
+
+    /* Midnight blue, the logo's own board (owner, 2026-11-22 20:08 UTC+2: "For the Tiles Word, use the Midnight blue (#0F172A)"): --text-navy, #0f172a in the light
+       page; the dark and sepia pages take their own reading of it, so the word keeps its contrast. */
+    color: var(--text-navy);
+
+    white-space: nowrap;
+
+}
+
 .app-logo {
 
     flex-shrink: 0;
 
-    /* (The Tiles logo is a square: 48px, a little over the header's 44px buttons, 16px clear above and below; the North Stardust lettering was 60px.) */
-    height: 48px;
+    /* (The Tiles logo is a square as tall as the header's buttons (--add-button-height, 44px): its top, middle and foot level with theirs, and the word's middle
+       with all three (owner, 2026-11-22 20:08 UTC+2: "Make sure that the Icon, the Tiles Text, and the Heading buttons align properly"). The North Stardust
+       lettering was 60px.) */
+    height: var(--add-button-height);
 
     width: auto;
 

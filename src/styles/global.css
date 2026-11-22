@@ -320,6 +320,9 @@ body {
      rectangular, they should have the same size (Hight and width) with the Add segment button"): "+ Add Segment" and the Inventory and Completed rectangles are
      this wide and --add-button-height high (layout rules section 12). */
   --band-button-width: 215px;
+  /* THE MASTER TILES' LARGEST SIDE IN THE VERTICAL LAYOUT (owner, 2026-11-22 19:37 UTC+2, "Build 1-3"): about the side they have on a 1920 x 1000 screen, so a
+     tablet's tiles grow with its width up to the desktop's and no further (SectionTiles.tsx; layout rules section 23). */
+  --quad-cap: 330px;
   /* A founder's card: the marker column left of the content edge (a bullet, a number, the
      fold arrow), so the card's padding on that side is --card-padding + --founder-inset + this. */
   --founder-marker: 35.5px;
