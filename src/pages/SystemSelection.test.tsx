@@ -70,7 +70,9 @@ describe("SystemSelection: the Capabilities as tiles", () => {
 
         expect(screen.getByRole("heading", { level: 1, name: "Capabilities" })).toBeTruthy();
         const foundation = screen.getByRole("button", { name: /^Foundation/ });
-        expect(foundation.closest(".section-tile-slot")?.textContent).toContain("Identity System");
+        expect(foundation.closest(".section-tile-slot")?.textContent).toContain("Identity");
+        // (By its name alone: owner, 2026-11-22 21:11 UTC+2, "remove the System word".)
+        expect(foundation.closest(".section-tile-slot")?.textContent).not.toContain("System");
         expect(screen.getByRole("button", { name: /^Deliver/ })).toBeTruthy();
 
     });

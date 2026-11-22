@@ -224,7 +224,8 @@ export default function SystemSelection() {
             // (Its icon before its title, on its line: owner, 2026-11-22 21:10 UTC+2, "The symbols next to their titles".)
             titleIcon: getCapabilityIcon(capabilities.indexOf(capability) + 1),
             empty: own.length === 0,
-            items: own.map(system => system.title),
+            // (Its Systems by name alone: the tile says they are Systems -- owner, 2026-11-22 21:11 UTC+2, "remove the System word".)
+            items: own.map(system => system.title.replace(/ System$/, "")),
             // (Each System's own symbol before its name, smaller than the title's: owner, 2026-11-22 21:10 UTC+2, "Add symbols to the systems too, in smaller size".)
             itemMarks: own.map(system => ({ icon: getSystemIcon(system.number) || undefined })),
             // (EACH SYSTEM ON THE TILE IS A LINK TO IT (owner, 2026-11-22 21:00 UTC+2: "Fix links"), as a line of every tile is to what it names.)
