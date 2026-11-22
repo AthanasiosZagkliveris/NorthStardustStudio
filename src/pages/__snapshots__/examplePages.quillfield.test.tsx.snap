@@ -236,7 +236,7 @@ exports[`Quillfield Automation > Business System › 4. Revenue & Pricing MM/YY 
 `;
 
 exports[`Quillfield Automation > Business System › 4. Revenue & Pricing MM/YY - MM/YY > tile sustainability-revenue-streams 1`] = `
-"Revenue StreamsRevenue Streamsi1. AI Workflow Audit$2,500 / ProjectPer sale2. Automation Build$7,500 / ProjectPer project3. Automation Care Retainer$1,200 / ClientMonthlyBack‹›Back
+"Revenue StreamsRevenue Streamsi1. AI Workflow Audit$2,500 / ProjectPer project2. Automation Build$7,500 / ProjectPer project3. Automation Care Retainer$1,200 / ClientMonthlyBack‹›Back
 [fields] "
 `;
 
@@ -256,7 +256,7 @@ exports[`Quillfield Automation > Business System › 5. Costs, Funding & Positio
 `;
 
 exports[`Quillfield Automation > Business System › 5. Costs, Funding & Position MM/YY - MM/YY > tile sustainability-revenue-streams 1`] = `
-"Revenue StreamsRevenue Streamsi1. AI Workflow Audit$2,500 / ProjectPer sale2. Automation Build$7,500 / ProjectPer project3. Automation Care Retainer$1,200 / ClientMonthlyBack‹›Back
+"Revenue StreamsRevenue Streamsi1. AI Workflow Audit$2,500 / ProjectPer project2. Automation Build$7,500 / ProjectPer project3. Automation Care Retainer$1,200 / ClientMonthlyBack‹›Back
 [fields] "
 `;
 

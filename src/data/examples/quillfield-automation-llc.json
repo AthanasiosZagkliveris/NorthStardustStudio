@@ -4424,7 +4424,7 @@
                 "price": "2500",
                 "unit": "Project",
                 "unitOther": "",
-                "frequency": "per-sale",
+                "frequency": "per-project",
                 "volume": "1.5",
                 "start": {
                   "month": "02",

@@ -60,56 +60,30 @@ afterEach(() => {
     lastPlace.value = null;
 });
 
-describe("SystemSelection capability description and System opening", () => {
+/* CAPABILITIES AS MASTER TILES (owner, 2026-11-22 20:35 UTC+2): the page is titled Capabilities; a tile for each Capability lists its Systems; pressed, its dialog
+   holds a tile for each System, which opens it at once. */
+describe("SystemSelection: the Capabilities as tiles", () => {
 
-    it("selects a capability on click and opens its description dialog, which Escape closes first", () => {
+    it("is titled Capabilities, with a tile for each Capability listing its Systems", () => {
 
         renderAt();
 
-        fireEvent.click(screen.getByRole("button", { name: "Foundation" }));
-
-        expect(screen.getByText("Developing organizational alignment")).toBeTruthy();
-        expect(screen.getByText("Core principle")).toBeTruthy();
-        expect(screen.queryByText("About Foundation")).toBeNull();
-        expect(screen.getByRole("button", { name: /Identity System/ })).toBeTruthy();
-
-        fireEvent.keyDown(window, { key: "Escape" });
-
-        expect(screen.queryByText("Developing organizational alignment")).toBeNull();
-        expect(screen.getByRole("button", { name: /Identity System/ })).toBeTruthy();
+        expect(screen.getByRole("heading", { level: 1, name: "Capabilities" })).toBeTruthy();
+        const foundation = screen.getByRole("button", { name: /^Foundation/ });
+        expect(foundation.closest(".section-tile-slot")?.textContent).toContain("Identity System");
+        expect(screen.getByRole("button", { name: /^Deliver/ })).toBeTruthy();
 
     });
 
-    it("opens a System immediately, with no confirmation step", () => {
+    it("opens a Capability's dialog of its Systems, its description in its heading's i, and a System opens at once", () => {
 
         renderAt();
 
-        fireEvent.click(screen.getByRole("button", { name: "Foundation" }));
-        fireEvent.click(screen.getByRole("button", { name: /Identity System/ }));
+        fireEvent.click(screen.getByRole("button", { name: /^Foundation/ }));
+        expect(screen.getByRole("button", { name: "Foundation: what this means" })).toBeTruthy();
+        fireEvent.click(screen.getByRole("button", { name: /^01. Identity System/ }));
 
         expect(screen.getByText("Opened Identity System")).toBeTruthy();
-
-    });
-
-});
-
-describe("SystemSelection capability memory", () => {
-
-    it("starts with the capability passed back in router state", () => {
-
-        renderAt({ capability: "foundation" });
-
-        expect(screen.getByRole("button", { name: /Identity System/ })).toBeTruthy();
-        expect(screen.getByRole("heading", { name: "Foundation" })).toBeTruthy();
-        expect(screen.queryByText("Developing organizational alignment")).toBeNull();
-
-    });
-
-    it("starts with nothing selected when no capability is passed", () => {
-
-        renderAt();
-
-        expect(screen.queryByRole("button", { name: /Identity System/ })).toBeNull();
 
     });
 

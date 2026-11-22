@@ -243,7 +243,8 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         openFrom("/assistant", "landing");
         expect(screen.getByRole("heading", { level: 1, name: "Handbook" })).toBeTruthy();
         const tabs = within(screen.getByRole("navigation", { name: "Go to a section" })).getAllByRole("button").map(tab => tab.getAttribute("aria-label") ?? tab.textContent).filter(name => name !== "Back");
-        expect(tabs).toEqual(["App Guide", "Specs & Limitations", "Future Features", "Glossary", "References"]);
+        // (And the Total review, owner, 2026-11-22 20:35 UTC+2: "Create a total review".)
+        expect(tabs).toEqual(["App Guide", "Specs & Limitations", "Future Features", "Review", "Glossary", "References"]);
         expect(screen.getByRole("heading", { name: /^App Guide/ })).toBeTruthy();
         expect(screen.getByRole("heading", { name: "Getting started" })).toBeTruthy();
         act(() => { fireEvent.click(railTab("Future Features")); });

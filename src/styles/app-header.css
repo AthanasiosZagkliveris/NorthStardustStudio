@@ -328,3 +328,15 @@ body:has(.section-tile-overlay) .app-header {
     }
 
 }
+
+/* THE BUTTONS AT THE RIGHT END ON A PHONE TOO (owner, 2026-11-22 20:46 UTC+2: "The header button at the right side!"): the Organisation's name, which takes the push
+   to the right elsewhere, is hidden there, so the saved signal after it takes the push. */
+@media (max-width: 600px) {
+
+    .app-header-organization-name + .save-status {
+
+        margin-left: auto;
+
+    }
+
+}

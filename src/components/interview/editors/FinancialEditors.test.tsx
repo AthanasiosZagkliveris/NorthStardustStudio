@@ -307,7 +307,8 @@ describe("FinancialSustainabilityEditor starts from Page 1 (phase 5f, 2026-11-09
         render(<FinancialSustainabilityEditor value={asFinancialSustainabilityValue(undefined)} foundation={foundation} onChange={() => {}} />);
         openTile("Revenue Streams");
         openStream(1);
-        expect(screen.getByRole("button", { name: "Revenue Stream 1 charged: Per project" })).toBeTruthy();
+        // (A one-off term leaves its one charge: a record, read only (owner, 2026-11-22 20:35 UTC+2; Questions 20, 15.7).)
+        expect(screen.getByRole("textbox", { name: "Revenue Stream 1 charged: Per project" }).getAttribute("aria-readonly")).toBe("true");
         // (WHEN THEY PAY HAS ONE OWNER, the Offering's O3t: one option, a record, read only; owner, 2026-11-16.)
         const timing = (stream: number, words: string) => screen.getByRole("textbox", { name: "Revenue Stream " + stream + " payment timing: " + words });
         expect(timing(1, "Split").getAttribute("aria-readonly")).toBe("true");
@@ -322,7 +323,8 @@ describe("FinancialSustainabilityEditor starts from Page 1 (phase 5f, 2026-11-09
         render(<FinancialSustainabilityEditor value={value} foundation={foundation} onChange={(next) => { saved = next; }} />);
         openTile("Revenue Streams");
         openStream(1);
-        expect(screen.getByRole("button", { name: "Revenue Stream 1 charged: Per sale" })).toBeTruthy();
+        // (A charge saved outside the Offering's terms counts as the terms' own: a project is charged per project (Questions 20, 15.7).)
+        expect(screen.getByRole("textbox", { name: "Revenue Stream 1 charged: Per project" }).getAttribute("aria-readonly")).toBe("true");
         // (The page's own timing gives way to O3t's record: the Offering is paid by a deposit, so Split.)
         expect(screen.getByRole("textbox", { name: "Revenue Stream 1 payment timing: Split" }).getAttribute("aria-readonly")).toBe("true");
         openStream(2);

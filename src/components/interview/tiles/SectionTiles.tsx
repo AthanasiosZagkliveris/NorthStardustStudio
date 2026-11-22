@@ -150,17 +150,39 @@ export default function SectionTiles({
                 box.style.setProperty("--quad-across", String(row));
                 if (hug && box.getBoundingClientRect().width > 0) {
                     // (A width of its own: centred by its auto margins, a frame would otherwise shrink round tiles that measure their frame, to nothing.)
-                    hug.style.width = Math.ceil(row * side + (row - 1) * 12 + extra) + "px";
+                    hug.style.setProperty("width", Math.ceil(row * side + (row - 1) * 12 + extra) + "px", "important");
                     hug.style.maxWidth = "100%";
                     hug.style.marginInline = "auto";
                 }
             } else {
-                side = Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - reserved) / bigRows);
+                const tall = Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - reserved) / bigRows);
                 box.style.removeProperty("--quad-across");
+                // (THE CHAPTER HUGS ITS TILES ON A WIDE SCREEN TOO (owner, 2026-11-22 20:38 UTC+2, option A: "Pick A"): the tiles as large as the window's height
+                // lets both rows stand above the footer, and no larger than their chapter's column allows; the frame its own padding round them, centred in its
+                // column, so what is spare is margin outside the frames.)
                 if (hug) {
                     hug.style.width = "";
                     hug.style.maxWidth = "";
                     hug.style.marginInline = "";
+                }
+                const column = hug ? hug.getBoundingClientRect().width : 0;
+                const extra = hug && box.getBoundingClientRect().width > 0 ? column - box.getBoundingClientRect().width : 26;
+                const fill = column > 0 ? Math.floor((column - extra - 12) / 2) : tall;
+                side = Math.min(tall, fill);
+                if (hug && box.getBoundingClientRect().width > 0 && side >= 150) {
+                    hug.style.setProperty("width", Math.ceil(2 * side + 12 + extra) + "px", "important");
+                    hug.style.maxWidth = "100%";
+                    // (Two chapters side by side stand together, 12px apart as always, the pair centred on the page: the one at the left against the middle, the
+                    // other likewise; a page of one chapter has it centred.)
+                    const frames = [...new Set(Array.from(box.closest(".conversation-card")?.querySelectorAll<HTMLElement>(".section-tiles-quad") ?? []).map(quad => chapterOf(quad)).filter((frame): frame is HTMLElement => !!frame && frame.getClientRects().length > 0))];
+                    const page = box.closest(".conversation-card")?.getBoundingClientRect();
+                    const middle = page ? page.left + page.width / 2 : window.innerWidth / 2;
+                    const own = hug.getBoundingClientRect();
+                    if (frames.length === 2) {
+                        hug.style.marginInline = own.left + own.width / 2 < middle ? "auto 0" : "0 auto";
+                    } else {
+                        hug.style.marginInline = "auto";
+                    }
                 }
             }
             box.style.setProperty("--quad-max-side", Math.max(side, vertical ? 72 : 150) + "px");
@@ -532,7 +554,7 @@ export default function SectionTiles({
                             columns={columns}
                             rows={rows}
                             style={{
-                                ...(tile.channel ? { "--strategy-theme-hue": CHANNEL_TILE_HUE } : {}),
+                                ...(tile.channel ? { "--strategy-theme-hue": CHANNEL_TILE_HUE } : tile.hue !== undefined ? { "--strategy-theme-hue": tile.hue } : {}),
                                 // (With a tail tile every tile is placed by hand: the tail's cell may be the shape's extra column.)
                                 ...(placement ? { gridRow: at.row + 1, gridColumn: at.column + 1 } : {})
                             } as CSSProperties}
@@ -565,7 +587,7 @@ export default function SectionTiles({
                     tile={open}
                     opener={opener.current}
                     initialBox={openBox}
-                    hue={open.channel ? CHANNEL_TILE_HUE : hue}
+                    hue={open.channel ? CHANNEL_TILE_HUE : open.hue ?? hue}
                     step={steppable.length > 1 && steppable.some(tile => tile.id === open.id) ? { what: "section", previous: () => stepDialog(-1), next: () => stepDialog(1), items: steppable.map(tile => ({ id: tile.id, label: tile.title })), current: steppable.findIndex(tile => tile.id === open.id), go: (id: string) => { const target = steppable.find(tile => tile.id === id); if (target && target.id !== open.id) { goDialog(target); } } } : undefined}
                     onClose={() => setOpenId(null)}
                     onOpenCard={cardsFloatOnly(open) ? (id, caption, remover, pointer, fresh, siblings) => {

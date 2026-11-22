@@ -11,56 +11,13 @@
 
 }
 
-.workspace-main {
-
-    flex: 1;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: flex-start;
-
-    /* Top padding clears the fixed app header (80px) plus
-       the page's own original 72px breathing room; bottom
-       padding clears the fixed footer below -- so content is
-       never hidden behind either regardless of how tall the
-       page is. */
-    padding: 152px 40px 124px;
-
-}
-
 /* ==========================================================
    Common Container
 ========================================================== */
 
-.workspace-center {
-
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
-
-    width: 100%;
-    max-width: 1120px;
-
-    gap: 56px;
-
-}
-
 /* ==========================================================
    Message Container
 ========================================================== */
-
-.workspace-message {
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    width: 100%;
-
-}
 
 /* ==========================================================
    Typography
@@ -104,94 +61,15 @@
 
 }
 
-.workspace-subtitle,
-.workspace-current-capability {
-
-    margin: 0 0 24px;
-
-    font-size: var(--font-h3);
-    font-weight: 700;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-    line-height: 1.2;
-
-}
-
 /* The static "Capabilities" sidebar heading only -- NOT
    `.workspace-current-capability` (the dynamic active-Capability
    name on the right, e.g. "Deliver Value"), which keeps its own
    normal casing since it's naming a specific Capability, not
    labeling a section. */
-.workspace-subtitle {
-
-    text-transform: uppercase;
-
-}
-
-.workspace-current-capability {
-
-    /* The active Capability colour (set on the heading), lightened
-       in dark mode like every Capability-coloured text. */
-    color: color-mix(in srgb, var(--capability-color, var(--text-primary)) var(--capability-ink-weight), var(--capability-ink-base));
-
-}
 
 /* ==========================================================
    Two Column Layout
 ========================================================== */
-
-.workspace-content {
-
-    display: flex;
-
-    /* A window too narrow for the list and the Systems side by side
-       puts the Systems under the list rather than cutting either
-       off at the window's edge. */
-    flex-wrap: wrap;
-
-    justify-content: center;
-    align-items: flex-start;
-
-    gap: 40px;
-
-    width: 100%;
-
-    padding: 40px;
-
-}
-
-.workspace-content aside {
-
-    display: flex;
-    flex-direction: column;
-
-    /* At least 300, and as wide as its widest label is bold (each
-       label reserves that width, .hover-width-reserve): at 300 a
-       selected "Manage the Organization" ran 32px past its own
-       highlight. */
-    width: max-content;
-    min-width: 300px;
-
-    margin-left: 50px;
-
-}
-
-.workspace-content section {
-
-    display: flex;
-    flex-direction: column;
-
-    /* As wide as the widest System row, so every row -- title and
-       status line -- fits inside it: the longest title, "Product
-       Development System", reserves 15.5em bold at 5% tracking, the
-       number 2.25em beside it (both in the title's --font-h3), and
-       the row's padding 32px. In em of the title font, so a larger
-       type scale widens the column with it; never wider than the
-       room there is (a narrow window stacks it under the list).
-       `flex: none` keeps the row of two from shrinking it. */
-    flex: none;
-    width: min(100%, calc(32px + 18 * var(--font-h3)));
-
-}
 
 /* ==========================================================
    Footer
@@ -475,8 +353,6 @@
    like): those already carry their own tracking chosen for their
    size, and they are labels rather than titles. */
 .workspace-title,
-.workspace-subtitle,
-.workspace-current-capability,
 .capability-description-title {
 
     letter-spacing: 0.05em;
@@ -540,5 +416,28 @@
     outline-offset: 4px;
 
     border-radius: var(--radius-sm);
+
+}
+
+/* THE CAPABILITIES PAGE (SystemSelection.tsx; owner, 2026-11-22 20:35 UTC+2: "Rename the title to capabilities. Make Master Tiles (Capabilities to their related
+   colour), and each Master Tile will have its own Tiles (systems)"): one frame of six tiles, three a row, each as large as a master tile on a desktop
+   (--quad-cap) and no larger; the frame hugs them (its padding round them), centred under the page title. */
+.answer-columns.business-foundation.business-engagement.business-capability.column-tiles-page.capability-tiles-page > .business-foundation-card {
+
+    grid-column: 1 / -1;
+
+    width: min(100%, calc(3 * var(--quad-cap) + 2 * var(--space-card) + 2 * var(--card-padding) + 2px));
+
+    margin-inline: auto;
+
+    justify-self: center;
+
+}
+
+.capability-tiles-page .section-tiles-box > .section-tiles {
+
+    --section-tile-size: min(calc((100cqw - 2 * var(--space-card)) / 3 - 0.01px), var(--quad-cap));
+
+    justify-content: center;
 
 }

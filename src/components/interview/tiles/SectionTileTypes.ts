@@ -56,6 +56,9 @@ export interface SectionTile {
      */
     channel?: boolean;
 
+    /** The tile's own hue, and its dialog's, where the tiles of one frame are each of their own colour (System Selection's Capabilities, owner, 2026-11-22). */
+    hue?: number;
+
     /** What a link calls this tile (see jumpTo.ts): `data-anchor`, space separated. */
     anchor?: string;
 

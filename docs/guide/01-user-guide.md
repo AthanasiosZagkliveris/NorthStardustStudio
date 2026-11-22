@@ -29,7 +29,7 @@ The header of this screen holds the Menu and the **Handbook**: the App Guide, Sp
 
 ### 3.1 Find your way in
 
-1. On **System Selection**, press **Foundation** in the list of Capabilities. Its description opens; close it with Back or a press outside it. The Foundation's Systems show beside it.
+1. On **Capabilities** (System Selection), each Capability is a tile in its own colour, listing its Systems. Press **Foundation**: its dialog holds a tile for each System, with its status; its "i" says what the Capability is.
 2. Press **Identity System** (or another System). Its **Introduction** says what the System answers and lists its pages.
 3. Press **Start Interview**, or a page in the Introduction's list, to begin.
 

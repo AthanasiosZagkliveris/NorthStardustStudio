@@ -9,6 +9,9 @@
     }
   },
   "colour": {
+    "capability-edges.css": {
+      "rgba(255, 255, 255, 0.9)": 1
+    },
     "capability-overview.css": {
       "#1d2029": 1,
       "#2a2f38": 1,
@@ -54,9 +57,6 @@
       "rgba(255, 255, 255, 0.75)": 2,
       "rgba(60, 40, 20, 0.14)": 1,
       "rgba(60, 40, 20, 0.2)": 1
-    },
-    "capability-edges.css": {
-      "rgba(255, 255, 255, 0.9)": 1
     },
     "section-tiles.css": {
       "#ffffff": 1,
@@ -154,9 +154,7 @@
       "32px": 2
     },
     "workspace.css": {
-      "14px": 1,
-      "40px": 1,
-      "56px": 1
+      "14px": 1
     }
   }
 }

@@ -20,7 +20,6 @@ import {
 } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { railId } from "../rails/railItems.ts";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
-import { FieldMark, FieldStatus } from "../fields/fieldMarks.tsx";
 
 import InfoNote, { InfoPoint } from "../fields/InfoNote.tsx";
 import SectionTiles, { DialogHeading, OPEN_EVENT, type OpenRequest, type SectionTile, type TileAdd } from "../tiles/SectionTiles.tsx";
@@ -406,18 +405,18 @@ export default function StrategyFoundationEditor({
                                         disabled={disabled}
                                     />
                                 </FieldRow>,
-                                0
+                                1
                             )}
                         </SingleColumn>
                     )}
 
+                    {/* (THE SWOT IN BANDS, AS A COMPETITOR'S SWOT (owner, 2026-11-22 20:35 UTC+2: "Fix the structure of the SWOT analysis, to look like SWOT of the
+                        competitor. Right now it look broken"): each quadrant a band of its own, its label over the line, its list and its suggestions in it, the tints
+                        alternating from the Vision's -- Vision, Strengths, Weaknesses, the changes, Opportunities, Threats.) */}
+                    <SingleColumn>
+                    {band(
+                    <FieldRow pair fullList label={quadrant.label}>
                     <div className="strategy-swot-quadrant" data-field-holder="">
-
-                        <FieldLabel className="strategy-field-label">
-                            {quadrant.label}
-                            <FieldMark label={quadrant.label} />
-                        </FieldLabel>
-                        <FieldStatus label={quadrant.label} />
 
                         <NumberedListInput
                             label={quadrant.label}
@@ -432,7 +431,7 @@ export default function StrategyFoundationEditor({
 
                         {/* SW2, "WHICH OF THESE FIT YOU?" (Questions 21, sections 2.3 and 10; the owner's approval of 2026-11-20 22:08 UTC+2): the quadrant's suggestions as ticks,
                             a ticked one a line of the list (the list is the one owner: a line written there is ticked here), the founder's own lines kept. */}
-                        {suggestedFor(quadrant.id).length > 0 && (<SingleColumn>{band((
+                        {suggestedFor(quadrant.id).length > 0 && ((
                             <FieldRow pair fullList label={SW2_LABEL} info={[...SW2_INFO]}>
                                 <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={SW2_LABEL + " " + quadrant.label}>
                                     <BusinessTicks
@@ -451,9 +450,13 @@ export default function StrategyFoundationEditor({
                                     />
                                 </div>
                             </FieldRow>
-                        ), 1)}</SingleColumn>)}
+                        ))}
 
                     </div>
+                    </FieldRow>,
+                    quadrant.id === "strengths" || quadrant.id === "threats" ? 1 : 0
+                    )}
+                    </SingleColumn>
 
                     </Fragment>
 

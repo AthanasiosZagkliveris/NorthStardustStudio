@@ -1544,10 +1544,17 @@
         //  (section 13).)
         if (!window.matchMedia("(max-width: 1099px), (orientation: portrait)").matches) {
             const card = document.querySelector(".conversation-card");
+            // (THE CHAPTER HUGS ITS TILES (owner, 2026-11-22 20:38 UTC+2, option A): its width is its tiles' -- two sides and the gap -- and its own padding and edge,
+            // never more than half the page less 12px.)
             for (const frame of [...document.querySelectorAll(".business-foundation-card")].filter(visible).filter(frame => frame.querySelector(".section-tiles-quad") && !frame.closest(".segment-chapter, .section-tile-dialog"))) {
-                const expected = card ? (rect(card).width - 12) / 2 : rect(frame).width;
-                if (!rules.near(rect(frame).width, expected, 2)) {
-                    fail("a chapter of master tiles is one size on every page (half the page less 12px)", frame, { width: rect(frame).width, expected });
+                const style = getComputedStyle(frame);
+                const tiles = [...frame.querySelectorAll(".section-tiles-quad .section-tile[data-tile]")].filter(visible);
+                const side = tiles.length > 0 ? tiles[0].offsetWidth : 0;
+                const chrome = (parseFloat(style.paddingLeft) || 0) + (parseFloat(style.paddingRight) || 0) + (parseFloat(style.borderLeftWidth) || 0) + (parseFloat(style.borderRightWidth) || 0);
+                const expected = side > 0 ? 2 * side + 12 + chrome : rect(frame).width;
+                const most = card ? (rect(card).width - 12) / 2 : Infinity;
+                if (!rules.near(rect(frame).width, expected, 3) || rect(frame).width > most + 2) {
+                    fail("a chapter of master tiles hugs them (two sides, the gap, its padding)", frame, { width: rect(frame).width, expected, most });
                 }
             }
         }

@@ -34,7 +34,7 @@ export function useMasterAcross(): 2 | 4 {
     return across;
 }
 
-/** How many tiles a row a dialog's grid holds in the vertical layout: 2, 1 on a phone, or 0 where the chapters stand side by side (the grid's own rule). */
+/** How many tiles a row a dialog's grid holds in the vertical layout: 2 (a phone too), or 0 where the chapters stand side by side (the grid's own rule). */
 export function verticalAcross(): number {
     if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
         return 0;
@@ -42,7 +42,9 @@ export function verticalAcross(): number {
     if (!window.matchMedia(VERTICAL_QUERY).matches) {
         return 0;
     }
-    return window.matchMedia(PHONE_QUERY).matches ? 1 : 2;
+    // (Two a row on a phone too (owner, 2026-11-22 20:35 UTC+2, a phone's Profiles tiles the window's width: "fix ... the dialogue tile sizes. Also check the other
+    // tiles"), as the master tiles are: one a row made squares as wide as the phone.)
+    return 2;
 }
 
 /** verticalAcross(), kept current as the window turns or is resized. */

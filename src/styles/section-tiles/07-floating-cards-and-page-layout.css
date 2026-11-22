@@ -434,12 +434,13 @@
 
 }
 
-/* ON A PHONE (Android's compact window class, 600px and under; owner, 2026-11-22 09:58 UTC+2, "one on phone"): a dialog's tiles one a row, the tile box's width. */
+/* ON A PHONE (Android's compact window class, 600px and under): a dialog's tiles two a row, as the master tiles (owner, 2026-11-22 20:35 UTC+2: "fix ... the
+   dialogue tile sizes. Also check the other tiles"; one a row, 09:58, made squares the phone's width). */
 @media (max-width: 600px) {
 
     .section-tile-dialog .section-tiles-box > .section-tiles {
 
-        --section-tile-size: calc(100cqw - 0.01px);
+        --section-tile-size: calc((100cqw - var(--space-card)) / 2 - 0.01px);
 
     }
 

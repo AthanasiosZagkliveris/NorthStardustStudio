@@ -15,7 +15,7 @@ import { offeringStartsById } from "../../../framework/engine/answers/EffectiveA
 import { calculatedLines } from "../../../framework/engine/financial/CalculatedLines.ts";
 import { ownersTakeDrawings } from "../../../framework/engine/financial/FinancialForecast.ts";
 import { type GlobalSettingsValue } from "../../../framework/engine/GlobalSettings.ts";
-import { costStartDates, derivedPlanStart, incomeTaxRate, legalExpenseDates, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, offeringEconomicsOf, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, parseAmount, sustainability, withPlanStart, withDemand, type FinancialSustainabilityValue, type RevenueStreamValue } from "../../../framework/engine/financial/FinancialModel.ts";
+import { chargeOf, chargesAllowed, costStartDates, derivedPlanStart, incomeTaxRate, legalExpenseDates, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, offeringEconomicsOf, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, parseAmount, sustainability, withPlanStart, withDemand, type FinancialSustainabilityValue, type RevenueStreamValue } from "../../../framework/engine/financial/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/export/ExportRenderers.ts";
 import { deliveryAllocation, demandResult } from "../../../framework/engine/DemandCapacity.ts";
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, uniqueChoices } from "../cards/BusinessCardFields.tsx";
@@ -349,7 +349,17 @@ export default function FinancialSustainabilityEditor({
 
     function streamCard(entry: { stream: RevenueStreamValue; orphan: boolean }, index: number, floating = false) {
 
-        const { stream, orphan } = entry;
+        const { orphan } = entry;
+        // (THE STREAM AS THE FIGURES READ IT: the charge the Offering's terms allow, and its Per and invoice delay where the stream leaves them empty (chargeOf, withDemand;
+        // owner, 2026-11-22 20:35 UTC+2, the Revenue Streams analysis, Questions 20, 15.5).)
+        const offeringSays = offeringStartsById(businessFoundationSegments(foundation), entry.stream.offeringId);
+        const stream: RevenueStreamValue = {
+            ...entry.stream,
+            frequency: chargeOf(entry.stream.frequency, offeringSays.charged) as RevenueStreamValue["frequency"],
+            unit: entry.stream.unit || offeringSays.unit || "",
+            paymentDelay: entry.stream.paymentDelay || offeringSays.paymentDelay || ""
+        };
+        const charges = chargesAllowed(offeringSays.charged);
         const fromDemand = demandResult(demand[stream.offeringId]);
         const allocation = deliveryAllocation(capability.delivery[stream.offeringId]);
         const founderIds = new Set(capability.founders.map(founder => founder.id));
@@ -386,7 +396,7 @@ export default function FinancialSustainabilityEditor({
                     <>
                 <div className="financial-inline-grid financial-stream-grid">
 
-                    {listPicker("Charged", what + " charged", REVENUE_CHARGES.map(item => item.label),
+                    {listPicker("Charged", what + " charged", REVENUE_CHARGES.filter(item => !charges || charges.includes(item.id)).map(item => item.label),
                         REVENUE_CHARGES.find(item => item.id === stream.frequency)?.label ?? "",
                         (next) => changeStream(stream.id, {
                             frequency: REVENUE_CHARGES.find(item => item.label === next)?.id ?? ""
@@ -396,7 +406,8 @@ export default function FinancialSustainabilityEditor({
                             "Per sale: paid once for each unit sold (a product, a session, an hour).",
                             "Per project: paid once for each project or contract.",
                             "Monthly, quarterly or annually: paid every period by each client subscribed or on a retainer.",
-                            "Use Monthly, Quarterly or Annually when customers buy every month under Sales Forecast on Foundation & Engagement."
+                            "Use Monthly, Quarterly or Annually when customers buy every month under Sales Forecast on Foundation & Engagement.",
+                            ...(charges ? ["It follows the Offering's On what terms do they pay for it? on Foundation & Engagement."] : [])
                         ],
                         true)}
 

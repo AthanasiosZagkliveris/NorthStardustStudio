@@ -59,7 +59,7 @@ export async function pagesOf(page, base, capability, system) {
     await page.getByText(capability, { exact: true }).first().click();
     await page.waitForTimeout(250);
     await page.keyboard.press("Escape");
-    await page.locator("li.system-item", { hasText: system }).press("Enter");
+    await page.evaluate(async name => { const cap = [...document.querySelectorAll(".capability-tiles-page .section-tile")].find(tile => (tile.closest(".section-tile-slot")?.textContent ?? "").includes(name)); cap?.click(); await new Promise(done => setTimeout(done, 400)); [...document.querySelectorAll(".section-tile-dialog .section-tile")].find(tile => (tile.getAttribute("aria-label") ?? "").includes(name))?.click(); }, system); // (System Selection is a page of Capability tiles since 2026-11-22: the Capability's tile, then its System's.)
     await page.waitForTimeout(800);
     const start = page.getByRole("button", { name: /Start Interview/i });
     if (await start.count()) {
@@ -115,7 +115,7 @@ export async function openPage(page, base, system, pageName, capability = "Found
     await page.getByText(capability, { exact: true }).first().click();
     await page.waitForTimeout(250);
     await page.keyboard.press("Escape");
-    await page.locator("li.system-item", { hasText: system }).press("Enter");
+    await page.evaluate(async name => { const cap = [...document.querySelectorAll(".capability-tiles-page .section-tile")].find(tile => (tile.closest(".section-tile-slot")?.textContent ?? "").includes(name)); cap?.click(); await new Promise(done => setTimeout(done, 400)); [...document.querySelectorAll(".section-tile-dialog .section-tile")].find(tile => (tile.getAttribute("aria-label") ?? "").includes(name))?.click(); }, system); // (System Selection is a page of Capability tiles since 2026-11-22: the Capability's tile, then its System's.)
     await page.waitForTimeout(800);
     const start = page.getByRole("button", { name: /Start Interview/i });
     if (await start.count()) {

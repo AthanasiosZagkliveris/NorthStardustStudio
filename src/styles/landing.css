@@ -346,13 +346,13 @@
 }
 
 /* The add, import and export buttons: the app's add button, a gap apart. */
-/* THE ORGANISATIONS' THREE BUTTONS, ONE ROW OF ONE SIZE (owner, 2026-11-22 18:58 UTC+2: "Fix/improve the Add/Import/Export button"): Add, Import and Export side by
+/* THE ORGANISATIONS' FOUR BUTTONS (Reload joined them, owner, 2026-11-22 20:35 UTC+2), ONE ROW OF ONE SIZE (owner, 2026-11-22 18:58 UTC+2: "Fix/improve the Add/Import/Export button"): Add, Import and Export side by
    side, each a third of the name boxes' width (the row stops where they stop, before the column of the x), one height; where a window is too narrow for the three,
    one under the other, each the whole width. */
 .organization-actions {
 
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--gap-12);
 
     margin-right: calc(var(--size-box-button) + var(--gap-12));

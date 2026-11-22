@@ -48,7 +48,7 @@ describe("Landing import of an Organisation file", () => {
 
 describe("Landing reload", () => {
 
-    it("offers a Reload tool in the header that reloads the app view and keeps the data", async () => {
+    it("offers Reload beside Add, Import and Export, which reloads the app view and keeps the data", async () => {
 
         const reload = vi.fn();
         const original = window.location;
@@ -57,7 +57,8 @@ describe("Landing reload", () => {
         try {
             render(<MemoryRouter><Landing /></MemoryRouter>);
             const button = screen.getByRole("button", { name: /^Reload the app/ });
-            expect(button.closest("header.app-header")).toBeTruthy();
+            // (With Add, Import and Export, owner, 2026-11-22 20:35 UTC+2: "Place the reload with the other similar buttons".)
+            expect(button.closest(".organization-actions")).toBeTruthy();
             fireEvent.click(button);
             await waitFor(() => expect(reload).toHaveBeenCalledTimes(1));
         } finally {

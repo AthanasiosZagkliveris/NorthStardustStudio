@@ -14,15 +14,47 @@ import AppHeader from "../components/shell/AppHeader";
 import AppFooter from "../components/shell/AppFooter";
 import OrganizationCalendarPanel from "../components/calendar/OrganizationCalendarPanel";
 
-import CapabilityList from "../components/capabilities/CapabilityList";
-import SystemList from "../components/systems/SystemList";
 import CapabilityDescriptionDialog from "../components/capabilities/CapabilityDescriptionDialog";
+import InterviewHeader from "../components/interview/editors/InterviewHeader";
+import CardShell from "../components/interview/cards/CardShell";
+import SectionTiles, { DialogHeading, type SectionTile } from "../components/interview/tiles/SectionTiles";
+import TileGrid from "../components/interview/tiles/TileGrid";
+import Tile from "../components/interview/tiles/Tile";
+import { TileFace } from "../components/interview/tiles/TileParts";
+import { PAGE_STATUS_WORDS } from "../framework/engine/status/PageStatus";
+
+/** A tile title of more than 14 letters on two lines, broken at the space nearest its middle (TileFace draws a line feed as a line break). */
+function twoLines(title: string): string {
+    if (title.length <= 14 || !title.includes(" ")) {
+        return title;
+    }
+    const middle = title.length / 2;
+    const spaces = [...title].map((letter, at) => letter === " " ? at : -1).filter(at => at >= 0);
+    const at = spaces.reduce((best, next) => Math.abs(next - middle) < Math.abs(best - middle) ? next : best, spaces[0]);
+    return title.slice(0, at) + "\n" + title.slice(at + 1);
+}
+
+/** A colour's hue (0 to 360), for a tile drawn in a Capability's colour (its hex in data/capabilities.ts). */
+function hueOf(hex: string): number {
+    const value = hex.replace("#", "");
+    const [r, g, b] = [0, 2, 4].map(at => parseInt(value.slice(at, at + 2), 16) / 255);
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    if (max === min) {
+        return 0;
+    }
+    const d = max - min;
+    const h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+    return Math.round((h * 60 + 360) % 360);
+}
 
 import { OrganizationService } from "../services/OrganizationService";
 import { continuePlace, systemProgress, type ContinuePlace } from "../services/ProgressService";
 import type { PageStatus } from "../framework/engine/status/PageStatus";
 
 import "../styles/workspace.css";
+// (The page of tiles is drawn as a System's page is: its card, frame and tiles; owner, 2026-11-22.)
+import "../styles/conversation.css";
+import "../styles/conversation-layout.css";
 
 export default function SystemSelection() {
 
@@ -53,7 +85,7 @@ export default function SystemSelection() {
     // Coming Back from a System (or the Business Documents page)
     // passes the Capability it belonged to, so the list reopens on
     // that Capability instead of making the user pick it again.
-    const [activeCapability, setActiveCapability] =
+    const [, setActiveCapability] =
         useState<string | null>(() => location.state?.capability ?? null);
 
     const [openCapability, setOpenCapability] =
@@ -69,19 +101,6 @@ export default function SystemSelection() {
     // reacts to it changing, not to any particular value.
     const [railOpen, setRailOpen] = useState(false);
     const [railCloseSignal, setRailCloseSignal] = useState(0);
-
-    const filteredSystems = activeCapability
-        ? systems.filter(
-              system => system.capability === activeCapability
-          )
-        : [];
-
-    const capabilityTitle =
-        capabilities.find(
-            capability => capability.id === activeCapability
-        )?.title ?? "";
-
-    const activeCapabilityColor = getCapabilityColor(activeCapability);
 
     // Where to go on: the last place worked, or the next page not yet
     // defined (see continuePlace) -- one "Continue" or "Next" line.
@@ -122,13 +141,13 @@ export default function SystemSelection() {
 
         setSystemStatuses(organizationId
             ? Object.fromEntries(
-                filteredSystems.map(system => [system.number, systemProgress(organizationId, system)])
+                systems.map(system => [system.number, systemProgress(organizationId, system)])
             )
             : {});
 
         // filteredSystems follows activeCapability.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [organizationId, activeCapability]);
+    }, [organizationId]);
 
     // Escape acts as "Back" everywhere in the app: close whichever
     // popup/sliding window is currently open first (the Capability
@@ -169,6 +188,46 @@ export default function SystemSelection() {
     // here that also reset the position to Section 1; without the
     // dialog a reset would silently lose the user's place, so the
     // saved position is simply kept.
+    // (One tile a Capability, in its colour; its Systems its list and its dialog's tiles.)
+    const capabilityTiles: SectionTile[] = capabilities.map(capability => {
+        const own = systems.filter(system => system.capability === capability.id);
+        const description = getCapabilityDescription(capability.title);
+        return {
+            id: capability.id,
+            // (A long name on two lines, broken at the space nearest its middle, so it is read whole: "Manage the / Organization".)
+            title: twoLines(capability.title),
+            hue: hueOf(getCapabilityColor(capability.id)),
+            empty: own.length === 0,
+            items: own.map(system => system.title),
+            content: () => (
+                <div className="column-tile-content" role="group" aria-label={capability.title}>
+                    <div className="business-engagement-section-head">
+                        <DialogHeading title={capability.title} info={description ? [description.tagline, ...description.paragraphs] : undefined} />
+                    </div>
+                    {own.length === 0
+                        ? <p className="legal-entity-empty-note">No Systems in this Capability yet.</p>
+                        : (
+                            <TileGrid label={capability.title + " Systems"}>
+                                {() => own.map(system => {
+                                    const status = systemStatuses[system.number];
+                                    return (
+                                        <Tile
+                                            key={system.id}
+                                            frame={{ className: "section-tile-slot" }}
+                                            className="section-tile"
+                                            aria-label={String(system.number).padStart(2, "0") + ". " + system.title + (status ? ", " + PAGE_STATUS_WORDS[status] : "")}
+                                            face={<TileFace title={String(system.number).padStart(2, "0") + ". " + system.title} items={status ? [PAGE_STATUS_WORDS[status]] : undefined} />}
+                                            onClick={() => handleSystemSelection(system)}
+                                        />
+                                    );
+                                })}
+                            </TileGrid>
+                        )}
+                </div>
+            )
+        };
+    });
+
     function handleSystemSelection(system: FrameworkSystem) {
 
         navigate("/introduction", {
@@ -210,7 +269,7 @@ export default function SystemSelection() {
 
     return (
 
-        <div className="workspace">
+        <div className="workspace conversation-page">
 
             <AppHeader organizationName={organizationName} />
 
@@ -227,19 +286,14 @@ export default function SystemSelection() {
                 suppressClose={openCapability !== null}
             />
 
-            <div className="workspace-main">
+            <main className="conversation-content">
 
-                <div className="workspace-center">
+                <div className="conversation-card">
 
-                    <div className="workspace-message">
-
-                        <h1 className="workspace-title">
-
-                            Select a Framework System
-
-                        </h1>
-
-                    </div>
+                    {/* CAPABILITIES AS MASTER TILES (owner, 2026-11-22 20:35 UTC+2: "Rename the title to capabilities. Make Master Tiles (Capabilities to their related
+                        colour), and each Master Tile will have its own Tiles (systems)"): the page's title over its rule as on a System's page, one frame of a tile for each
+                        Capability in its own colour, listing its Systems; pressed, its dialog holds a tile for each System, with its status, that opens it. */}
+                    <InterviewHeader systemName="Capabilities" />
 
                     {/* Back to the last place worked, when there is one. */}
                     {lastPlace && (
@@ -250,50 +304,19 @@ export default function SystemSelection() {
                         </div>
                     )}
 
-                    <div className="workspace-content">
-
-                        <aside>
-
-                            <h2 className="workspace-subtitle">
-
-                                Capabilities
-
-                            </h2>
-
-                            <CapabilityList
-                                capabilities={capabilities}
-                                activeCapability={activeCapability}
-                                onActiveCapabilityChange={setActiveCapability}
-                                onCapabilityOpen={setOpenCapability}
-                            />
-
-                        </aside>
-
-                        <section>
-
-                            <h2
-                                className="workspace-current-capability"
-                                style={activeCapability ? ({ "--capability-color": activeCapabilityColor } as React.CSSProperties) : undefined}
-                            >
-
-                                {capabilityTitle}
-
-                            </h2>
-
-                            <SystemList
-                                systems={filteredSystems}
-                                color={activeCapability ? activeCapabilityColor : undefined}
-                                statuses={systemStatuses}
-                                onSystemClick={handleSystemSelection}
-                            />
-
-                        </section>
-
+                    <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page capability-tiles-page" style={{ "--answer-column-count": 1 } as React.CSSProperties}>
+                        <CardShell style={{ "--strategy-theme-hue": hueOf(getCapabilityColor("foundation")) } as React.CSSProperties}>
+                            <div className="card-scroll">
+                                <div className="business-capability-section business-capability-tiles-section">
+                                    <SectionTiles label="Capabilities" hue={hueOf(getCapabilityColor("foundation"))} tiles={capabilityTiles} />
+                                </div>
+                            </div>
+                        </CardShell>
                     </div>
 
                 </div>
 
-            </div>
+            </main>
 
             <AppFooter
                 onBack={() => navigate("/")}

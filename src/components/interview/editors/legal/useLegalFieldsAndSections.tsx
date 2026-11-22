@@ -810,10 +810,10 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                             one owner: see the head above. */}
                         {!soleFounderSettled && (
                             <>
-                                {founderLabel("Ownership %")}
+                                {founderLabel("Ownership %", "share")}
 
                                 <NumberCell
-                                    className="legal-entity-column-centre"
+                                    className="legal-entity-column-centre legal-entity-founder-share"
                                     aria-label={"Founder " + (index + 1) + " ownership percentage"}
                                     placeholder="%"
                                     disabled={disabled}
@@ -827,10 +827,10 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
                         {entity.capitalApplies && (
                             <>
-                                {founderLabel(amountLabel("Capital"))}
+                                {founderLabel(amountLabel("Capital"), "capital")}
 
                                 <NumberCell
-                                    className="legal-entity-column-centre"
+                                    className="legal-entity-column-centre legal-entity-founder-capital"
                                     aria-label={"Founder " + (index + 1) + " " + amountName("capital")}
                                     placeholder={currency || "Amount"}
                                     disabled={disabled}

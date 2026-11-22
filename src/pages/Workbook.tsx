@@ -116,7 +116,8 @@ export default function Workbook() {
     // its conclusions, then the end matter -- references, glossary, appendices -- as university report guides set it (Notre Dame Australia, Western Sydney,
     // Reading): the Business Documents (the body), the Review (what to look at again), the References, the Glossary, and the Card Notes (the working notes,
     // an appendix).
-    const tabs = useMemo(() => (landing ? ["guide", "specs", "future", "glossary", "references"] as const : ["documents", "financial-documents", "review", "glossary", "card-notes"] as const)
+    // (THE TOTAL REVIEW IN THE HANDBOOK (owner, 2026-11-22 20:35 UTC+2: "Create a total review"): every Organisation's review, after the app's own sections.)
+    const tabs = useMemo(() => (landing ? ["guide", "specs", "future", "review", "glossary", "references"] as const : ["documents", "financial-documents", "review", "glossary", "card-notes"] as const)
         .map(id => ({ id: id as WorkbookTab, label: TAB_LABELS[id] })), [landing]);
     const first = (wanted?: WorkbookTab): WorkbookTab => wanted && tabs.some(entry => entry.id === wanted) ? wanted : tabs[0].id;
     const [tab, setTab] = useState<WorkbookTab>(() => first(state.tab));
@@ -189,7 +190,7 @@ export default function Workbook() {
     const organisationFunnel = landing && reviews.length > 1;
     const reviewsShown = reviews.filter(section => !organisationsOff.has(section.name));
 
-    const title = TAB_LABELS[tab];
+    const title = tab === "review" && landing ? "Total review" : TAB_LABELS[tab];
 
     // Whose terms the Glossary lists: the open Organisation's; the Handbook's lists the app's terms alone (owner, 2026-11-22: "Glossary App only").
     const glossaryOrganisations = useMemo(() => landing ? [] : organizationId ? [organizationId] : [],

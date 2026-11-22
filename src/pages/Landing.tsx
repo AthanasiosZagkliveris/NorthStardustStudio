@@ -302,7 +302,7 @@ export default function Landing() {
   return (
     <main className="landing">
 
-      <AppHeader reloadable totalReview onReload={refreshExampleOrganizations} />
+      <AppHeader totalReview />
 
       {/* The user's name: the words inside the box alone, no label above it (owner, 2026-11-09: the label and the placeholder said the
           same). The app's user, not an Organisation's founder (owner, 2026-11-22). (THE CAPABILITY GENERATOR IS A FUTURE FEATURE (owner, 2026-11-22 18:58 UTC+2:
@@ -406,13 +406,7 @@ export default function Landing() {
                 Add
             </AddButton>
 
-            <AddButton
-                aria-label="Import Organisation"
-                onClick={() => importInputRef.current?.click()}>
-                <svg className="organization-action-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9M6.5 8.5 10 12l3.5-3.5M4 13v3h12v-3" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                Import
-            </AddButton>
-
+            {/* (Export before Import: keep a copy first, then bring one in; owner, 2026-11-22 20:41 UTC+2: "Swap export with import, as it seems more logical order".) */}
             <AddButton
                 aria-label="Export Organisation"
                 disabled={!selectedId}
@@ -420,6 +414,22 @@ export default function Landing() {
                 onClick={exportOrganization}>
                 <svg className="organization-action-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 12V3M6.5 6.5 10 3l3.5 3.5M4 13v3h12v-3" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 Export
+            </AddButton>
+
+            <AddButton
+                aria-label="Import Organisation"
+                onClick={() => importInputRef.current?.click()}>
+                <svg className="organization-action-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9M6.5 8.5 10 12l3.5-3.5M4 13v3h12v-3" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                Import
+            </AddButton>
+
+            {/* (RELOAD WITH THE OTHER BUTTONS OF THE LIST (owner, 2026-11-22 20:35 UTC+2: "Place the reload with the other similar buttons"): it refreshes the two
+                example Organisations of this list, then reloads the app.) */}
+            <AddButton
+                aria-label="Reload the app and refresh the examples"
+                onClick={async () => { await refreshExampleOrganizations(); window.location.reload(); }}>
+                <svg className="organization-action-icon" viewBox="2.97 2.47 14.05 14.05" aria-hidden="true"><path d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                Reload
             </AddButton>
 
         </div>
