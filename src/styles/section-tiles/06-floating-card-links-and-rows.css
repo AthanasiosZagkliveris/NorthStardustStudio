@@ -260,20 +260,20 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
     --link-symbol-width: 36px;
     --link-slot: calc(var(--link-symbol-width) + 8px);
 
-    --channel-marker: hsl(172 55% 33%);
-
-    /* The faded line of a category with no card: the lowest opacity that keeps 3:1 against the tile ground in every theme (sepia is the worst: 3.05; light 3.21; dark 4.41). */
-    --list-empty-opacity: .7;
+    /* (26% light, was 33%: the teal words of a channel's line read 3.8:1 on the warm tile grounds, 5.3 now; WCAG 1.4.3, the standards report, group A 3.) */
+    --channel-marker: hsl(172 55% 26%);
 }
 
 :root[data-theme="dark"] {
     --channel-marker: hsl(172 50% 58%);
 }
 
-/* A category or group with no card: its line -- the text and the bullet -- 75% transparent. */
-.section-tile-list > li.section-tile-list-empty {
+/* A category or group with no card: its line -- the text and the bullet -- in the muted ink, not faded by opacity (at .7 it read 3.0 to 3.2:1 in light and sepia;
+   the muted ink keeps 4.5:1 on every tile ground; WCAG 1.4.3, the standards report, group A 3). */
+.section-tile-list > li.section-tile-list-empty,
+.section-tile-list > li.section-tile-list-empty .section-tile-link {
 
-    opacity: var(--list-empty-opacity);
+    color: var(--text-muted);
 
 }
 

@@ -200,6 +200,17 @@ describe("the Inventory's figures (owner, 2026-11-13 12:32: \"it doesn't present
         expect(filterFloor([fee, rent, cheap], { ...DEFAULT_FLOOR_FILTER, min: "0", max: "5" }).map(entry => entry.id)).toEqual(["cheap"]);
     });
 
+    test("the date orders put the cards by start date, a card with none last, then by name; the cards keep their own order (owner, 2026-11-22 09:59 UTC+2)", () => {
+        const late = row({ id: "late", name: "Late", start: "2027-03-01" });
+        const early = row({ id: "early", name: "Early", start: "2026-10-01" });
+        const none = row({ id: "none", name: "Undated" });
+        const twin = row({ id: "twin", name: "Another", start: "2026-10-01" });
+        const list = [late, none, early, twin];
+        expect(sortFloor(list, "date-asc").map(entry => entry.id)).toEqual(["twin", "early", "late", "none"]);
+        expect(sortFloor(list, "date-desc").map(entry => entry.id)).toEqual(["late", "twin", "early", "none"]);
+        expect(list.map(entry => entry.id)).toEqual(["late", "none", "early", "twin"]);
+    });
+
     test("a cost in another currency says its code on its tile; a figure with pence keeps two decimals", () => {
         expect(tileLines(row({ amount: 99.5, currency: "USD" }), money, "GBP").pop()).toBe("**USD 99.50** Monthly");
         expect(tileLines(row({ amount: 9.4, currency: "GBP" }), money, "GBP").pop()).toBe("**£9.40** Monthly");

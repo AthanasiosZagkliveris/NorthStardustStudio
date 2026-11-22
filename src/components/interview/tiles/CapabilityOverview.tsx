@@ -560,7 +560,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                     <MenuHead title="Sort" open={!folded.has("sort")} onToggle={() => toggleFold("sort")} controls="funnel-sort" />
                     {!folded.has("sort") && (
                         <div className="capability-overview-menu-body capability-overview-menu-orders" id="funnel-sort" role="group" aria-label="Sort">
-                            {FLOOR_SORTS.filter(sort => !sort.id.startsWith("cost") && (sort.id !== "status" || !emptyColumns.has("status")) && (sort.id !== "kind" || new Set(rows.map(kindClass)).size > 1)).map(sort => (
+                            {FLOOR_SORTS.filter(sort => !sort.id.startsWith("cost") && (sort.id !== "status" || !emptyColumns.has("status")) && (sort.id !== "kind" || new Set(rows.map(kindClass)).size > 1) && (!sort.id.startsWith("date") || rows.some(row => row.start))).map(sort => (
                                 <MenuOption key={sort.id} marked chosen={filter.sort === sort.id} onClick={() => patch({ sort: sort.id })}>
                                     {sort.label}
                                 </MenuOption>

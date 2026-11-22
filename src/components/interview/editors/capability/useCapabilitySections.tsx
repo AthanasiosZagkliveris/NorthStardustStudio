@@ -615,8 +615,9 @@ export function useCapabilitySections(earlier: Earlier) {
         setActivities: (next: BusinessActivityValue[]) => void
     ) {
 
+        // (In the order they were made, so a card keeps its number for life; nothing is moved by hand -- the dates say when, and the Inventory's Sort puts them in
+        // date order: owner, 2026-11-22 09:59 UTC+2, "If we change the order of the cards, there will be a conflict with their order number".)
         const active = activities.filter(activity => !activity.completed);
-        const done = activities.filter(activity => activity.completed);
 
         const change = (activity: BusinessActivityValue) =>
             (patch: Partial<BusinessActivityValue>) => setActivities(
@@ -640,14 +641,6 @@ export function useCapabilitySections(earlier: Earlier) {
                     items={active.map((activity, position) => activityBox(
                         scope, activity, position + 1, change(activity), remove(activity)
                     ))}
-                    /* Dragged onto another box, an activity moves there: the order acts on the ACTIVE list shown and is
-                       written back into the full list -- the completed ones keep their own order. */
-                    onReorder={(from, to) => {
-                        const moved = [...active];
-                        const [taken] = moved.splice(from, 1);
-                        moved.splice(to, 0, taken);
-                        setActivities([...moved, ...done]);
-                    }}
                     add={{
                         label: "Activity",
                         disabled,

@@ -119,26 +119,6 @@ button.card-tile-symbol[aria-pressed="true"] {
 .card-tile-symbol-expense { background: var(--bg-budget); }
 .card-tile-symbol-registration { background: var(--bg-info); }
 
-/* A list that orders its tiles by dragging (the activities): a hand under the pointer, the tile being moved faded, the one it is over marked. */
-.card-tile-movable {
-
-    cursor: grab;
-
-}
-
-.card-tile-dragged {
-
-    opacity: .5;
-
-}
-
-.card-tile-drop {
-
-    outline: 2px dashed var(--line-primary);
-    outline-offset: 2px;
-
-}
-
 /* The table of the overlay holds the same circles. */
 .capability-overview-table td .card-tile-symbols {
 
@@ -214,9 +194,16 @@ button.card-tile-symbol[aria-pressed="true"] {
     text-transform: uppercase;
 }
 
-/* A category or group tile with no card in it: half transparent, still pressable (its + is there). */
-.section-tile-slot-empty {
-    opacity: 0.5;
+/* A category or group tile with no card in it: faded, still pressable (its + is there). Faded by its COLOURS, not by its opacity: its ground half way to the
+   page's and its words in the muted ink, so the words keep 4.5:1 (WCAG 1.4.3; the standards report, group A 3: at half opacity the title read 2.5:1 in light,
+   2.7 in sepia, 3.4 in dark). */
+.section-tile-slot-empty > .section-tile {
+    background: color-mix(in srgb, color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper)) 50%, var(--bg-page));
+}
+
+.section-tile-slot-empty > .section-tile,
+.section-tile-slot-empty > .section-tile :is(.section-tile-title, .section-tile-list, .section-tile-list-line) {
+    color: var(--text-muted);
 }
 
 /* THE ADD CARD TILE (SectionView.tsx, AddTile): one for every grid of a section, category or group view. Half the tile's side, at the top left of its cell;
@@ -306,10 +293,9 @@ button.card-tile-symbol[aria-pressed="true"] {
     letter-spacing: 0.02em;
 }
 
-/* The circles are pointers: the pointer cursor even on a tile that can be dragged (the tile's grab cursor is for the tile). */
+/* The circles are pointers. */
 .card-tile-symbols,
-.card-tile-symbol,
-.card-tile-movable .card-tile-symbols {
+.card-tile-symbol {
     cursor: pointer;
 }
 

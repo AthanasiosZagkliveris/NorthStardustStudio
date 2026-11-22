@@ -82,6 +82,8 @@ export interface FloorRow {
     links: FloorLink[];
     /** Its dates, the first line of its tile ("01/10/2026 - 05/11/2026"), and its warranty ("Warranty until 05/11/2028"). */
     dates?: string;
+    /** Its start date (an ISO date), for the date orders; "" or absent where it has none. */
+    start?: string;
     warranty?: string;
     /** The Customer Channels it is under ("Social Media › Instagram"), when a channel made it or it is connected to a card one made. */
     channels?: string[];
@@ -252,6 +254,7 @@ export function floorRows(
         });
         rows.push({
             dates: periodLine(slot.startDate, slot.endDate, SCHEDULED.has(slot.cost.frequency) && isCostingStatus(slot.status)),
+            start: slot.startDate,
             warranty: slot.warranty ? (slot.warrantyUntil ? "Warranty until " + dayText(slot.warrantyUntil) : "Warranty") : "",
             id: slot.id, kind: "resource", name: slot.name.trim() || "Unnamed Resource", path,
             status: slot.status, statusLabel: statusLabel(slot.status),
@@ -272,6 +275,7 @@ export function floorRows(
         rows.push({
             id: activity.id, kind: "activity", name: activity.name.trim() || "Unnamed Activity", path,
             dates: periodLine(activity.startDate, activity.endDate),
+            start: activity.startDate,
             status: activity.completed ? "completed" : "", statusLabel: activity.completed ? "Completed" : "",
             frequency: "", frequencyLabel: "", amount: null, links
         });
@@ -305,6 +309,7 @@ export function floorRows(
             id: partner.id, kind, name: partner.name.trim() || "Unnamed " + partnerNoun(partner.category),
             // (Its dates first, as a resource's and an activity's tile has them.)
             dates: periodLine(partner.startDate, partner.endDate, SCHEDULED.has(partner.cost.frequency)),
+            start: partner.startDate,
             // (Where it belongs: its CATEGORY -- Partners, Providers or one the user made.)
             path: [
                 section,
@@ -461,7 +466,11 @@ export const FLOOR_SORTS: readonly { id: string; label: string }[] = [
     { id: "cost-desc", label: "Cost, high to low" },
     { id: "cost-asc", label: "Cost, low to high" },
     { id: "status", label: "Status" },
-    { id: "kind", label: "Type" }
+    { id: "kind", label: "Type" },
+    // (THE DATE ORDERS (owner, 2026-11-22 09:59 UTC+2: "we could create an option on the Inventory, to place the tiles or their rows in its table in a chronological
+    // order"): by start date, a card with none last, then by name. The cards' own numbers never change; only the Inventory's view is ordered.)
+    { id: "date-asc", label: "Date, earliest first" },
+    { id: "date-desc", label: "Date, latest first" }
 ];
 
 /** A cost that is a share of revenue (% of Rev): its amount is a percentage, never money. */
@@ -490,6 +499,11 @@ export function sortFloor(rows: readonly FloorRow[], sort: string): FloorRow[] {
         case "cost-asc": return list.sort(byCost(1));
         // (Rows with no status -- suppliers, founders, legal expenses -- after those with one.)
         case "status": return list.sort((a, b) => Number(!a.statusLabel) - Number(!b.statusLabel) || a.statusLabel.localeCompare(b.statusLabel) || byName(a, b));
+        case "date-asc":
+        case "date-desc": {
+            const direction = sort === "date-asc" ? 1 : -1;
+            return list.sort((a, b) => Number(!a.start) - Number(!b.start) || (a.start && b.start ? direction * a.start.localeCompare(b.start) : 0) || byName(a, b));
+        }
         case "kind": return list.sort((a, b) => INCLUDE_ORDER.indexOf(kindClass(a)) - INCLUDE_ORDER.indexOf(kindClass(b)) || byName(a, b));
         default: return list;
     }

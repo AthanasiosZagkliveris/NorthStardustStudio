@@ -823,7 +823,7 @@ describe("the marks on the lines of a tile's list", () => {
 
     const linesOf = (name: string, card = infrastructureCard()) => [...tileButton(name, card).parentElement!.querySelectorAll<HTMLElement>(".section-tile-list > li")];
 
-    it("draws a category with no card at --list-empty-opacity (.7: 3:1 in every theme) (its text and bullet), and not one that holds a card", () => {
+    it("draws a category with no card in the muted ink (4.5:1 on every tile ground, never by opacity) (its text and bullet), and not one that holds a card", () => {
         const base = asBusinessCapabilityValue(undefined);
         render(<Harness initial={{ ...base, activities: [{ id: "operational", name: "", activities: [{ ...createBusinessActivity("operational"), name: "Dye" }] }] }} />);
         const lines = linesOf("Activities");
@@ -831,7 +831,7 @@ describe("the marks on the lines of a tile's list", () => {
             ["Operational", false], ["Pre-Operational", true]
         ]);
         const css = stylesheet("section-tiles.css");
-        expect(css.includes(".section-tile-list > li.section-tile-list-empty { opacity: var(--list-empty-opacity);")).toBe(true);
+        expect(css).toMatch(/\.section-tile-list > li\.section-tile-list-empty,\s*\.section-tile-list > li\.section-tile-list-empty \.section-tile-link \{ color: var\(--text-muted\);/);
     });
 
     it("sets Offering's Channel line (Resources) in the channel teal, no frame, and two stacked bullets (own on top, teal under) on a Partners line holding a channel's cards", () => {
