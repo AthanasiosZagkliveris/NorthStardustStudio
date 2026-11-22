@@ -1495,7 +1495,9 @@
                 const gap = parseFloat(style.getPropertyValue("--space-card")) || spec.fieldGap;
                 const most = parseFloat(style.getPropertyValue("--quad-max-side")) || Infinity;
                 const inner = quad.clientWidth - (parseFloat(style.paddingLeft) || 0) - (parseFloat(style.paddingRight) || 0);
-                const wanted = Math.min((inner - gap) / 2, most);
+                // (In the vertical layout from 880px the master tiles stand in one row of four: --quad-across, owner, 2026-11-22 19:37 UTC+2, layout rules section 23.)
+                const across = parseFloat(style.getPropertyValue("--quad-across")) || 2;
+                const wanted = Math.min((inner - (across - 1) * gap) / across, most);
                 for (const tile of [...quad.querySelectorAll(".section-tile[data-tile]")].filter(visible)) {
                     // (offsetWidth: the tile under the pointer is grown on hover, and a rect would read that.)
                     const side = tile.offsetWidth;
@@ -1552,6 +1554,8 @@
         for (const quad of [...document.querySelectorAll(".section-tiles-quad > .section-tiles")].filter(visible)) {
             const slots = [...quad.children].filter(slot => slot.matches(".section-tile-slot") && visible(slot)).map(slot => ({ slot, box: rect(slot) }));
             if (slots.length < 2) continue;
+            // (Two columns, or the vertical layout's row of four from 880px: --quad-across.)
+            const columns = parseFloat(getComputedStyle(quad.parentElement).getPropertyValue("--quad-across")) || 2;
             const side = slots[0].box.width;
             // (12px apart, rows and columns, at EVERY window height: no narrowing with the height; owner, 2026-11-20 21:07 UTC+2.)
             const gap = 12;
@@ -1560,10 +1564,10 @@
                 fail("the master tiles of a chapter are 12px apart at every window height", quad, { columnGap: drawn.columnGap, rowGap: drawn.rowGap });
             }
             slots.forEach(({ slot, box }, at) => {
-                const column = at % 2, row = Math.floor(at / 2);
+                const column = at % columns, row = Math.floor(at / columns);
                 const x = slots[0].box.left + column * (side + gap), y = slots[0].box.top + row * (side + gap);
                 if (!rules.near(box.width, side, 1) || !rules.near(box.height, side, 1) || !rules.near(box.left, x, 1) || !rules.near(box.top, y, 1)) {
-                    fail("the master tiles of a chapter are equal squares on the shared 2 x 2 grid", slot, { at, width: box.width, height: box.height, left: box.left, top: box.top, x, y });
+                    fail("the master tiles of a chapter are equal squares on the shared 2 x 2 grid (one row of four from 880px in the vertical layout)", slot, { at, width: box.width, height: box.height, left: box.left, top: box.top, x, y });
                 }
             });
         }
@@ -1952,7 +1956,9 @@
                 const tiles = [...group.querySelectorAll(":scope > .section-tile:not([data-tail]), :scope > .section-tile-slot > .section-tile:not([data-tail])")].filter(visible).map(rect);
                 if (tiles.length === 0) continue;
                 const across = rules.distinct(tiles.map(tile => Math.round(tile.left))).length;
-                const wanted = rules.gridColumns(tiles.length);
+                // (A chapter's master tiles in the vertical layout's row of four: four across, three leaving the fourth place empty.)
+                const four = parseFloat(getComputedStyle(group.parentElement).getPropertyValue("--quad-across")) === 4;
+                const wanted = four ? Math.min(tiles.length, 4) : rules.gridColumns(tiles.length);
                 const fitsAll = wanted * tiles[0].width + (wanted - 1) * spec.fieldGap <= rect(group).width + 1;
                 if (fitsAll && across !== wanted) {
                     fail("a group of tiles takes the one shape (a row of up to 3, a 2 x 2 square, else two rows)", group, { across, wanted, n: tiles.length });
