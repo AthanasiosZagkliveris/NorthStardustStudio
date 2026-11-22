@@ -221,8 +221,9 @@ export default function SystemSelection() {
             title: capability.title,
             hue: hueOf(getCapabilityColor(capability.id)),
             colour: getCapabilityColor(capability.id),
-            // (Its icon before its title, on its line: owner, 2026-11-22 21:10 UTC+2, "The symbols next to their titles".)
-            titleIcon: getCapabilityIcon(capabilities.indexOf(capability) + 1),
+            // (Its icon under its title, the logo's size: owner, 2026-11-22 21:39 UTC+2, "Make the Icon same size as the Logo icon (Tiles), and place them under the
+            // capability title".)
+            titleMark: getCapabilityIcon(capabilities.indexOf(capability) + 1),
             empty: own.length === 0,
             // (Its Systems by name alone: the tile says they are Systems -- owner, 2026-11-22 21:11 UTC+2, "remove the System word".)
             items: own.map(system => system.title.replace(/ System$/, "")),
@@ -374,7 +375,7 @@ export default function SystemSelection() {
                         master tiles' size (`--capability-side`, the side a page's 2 x 2 has in this window), centred under the title.) */}
                     <div ref={tilesBox} className="capability-tiles" style={{ "--strategy-theme-hue": hueOf(getCapabilityColor(shown?.id ?? "foundation")), ...(tileSide ? { "--capability-side": tileSide + "px" } : {}),
                         // (FOUR TILES STAND TWO BY TWO (owner, 2026-11-22 21:37 UTC+2: "If there are 4 tiles make the layout 2 x 2"), as a chapter's four; else three a row.)
-                        "--capability-across": shown && shownSystems.length === 4 ? 2 : 3 } as React.CSSProperties}>
+                        ...(shown && shownSystems.length === 4 ? { "--capability-across": 2 } : {}) } as React.CSSProperties}>
                         {shown
                             ? (
                                 // (The Capability's Systems, a tile each, as the Capabilities are: two rows of three at the master tiles' size, in its colour.)

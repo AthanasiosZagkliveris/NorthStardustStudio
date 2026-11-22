@@ -742,7 +742,7 @@ function TileSlot({
                 "data-row": at.row,
                 ...aimHandlers
             }}
-            face={<TileFace title={tile.title} empty={tile.empty} glyph={!(tile.add && tile.cardFor)} icon={tile.titleIcon} />}
+            face={<TileFace title={tile.title} empty={tile.empty} glyph={!(tile.add && tile.cardFor)} icon={tile.titleIcon} mark={tile.titleMark} />}
             picture={tile.picture ? <span className="section-tile-picture" aria-hidden="true">{tile.picture}</span> : undefined}
             className={"section-tile" + (tile.diagram ? " section-tile-diagram" : "") + (tile.inactive ? " section-tile-inactive" : "") + (tile.channel ? " section-tile-channel" : "") + (tile.completed ? " section-tile-completed" : "")}
                 data-tile={tile.id}

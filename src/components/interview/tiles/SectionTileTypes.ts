@@ -61,6 +61,8 @@ export interface SectionTile {
 
     /** A symbol before the tile's title, on its line (a Capability's icon: owner, 2026-11-22 21:10 UTC+2, "The symbols next to their titles"). */
     titleIcon?: string;
+    /** A symbol under the title's words, the size of the app's logo (a Capability's: owner, 2026-11-22 21:39 UTC+2). */
+    titleMark?: string;
 
     /** The tile's own colour where a hue alone cannot tell two tiles apart (the Capabilities: Foundation's midnight and Manage the Organization's blue share a hue). */
     colour?: string;

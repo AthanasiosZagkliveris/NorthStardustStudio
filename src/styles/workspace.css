@@ -575,6 +575,60 @@
 
 }
 
+/* A SYMBOL UNDER A TILE'S TITLE (owner, 2026-11-22 21:39 UTC+2: "Make the Icon same size as the Logo icon (Tiles), and place them under the capability title"):
+   the app logo's size (--add-button-height; 32px on a phone, as the logo, app-header.css), centred under the title's words, above its rule. */
+.section-tile-title-mark {
+
+    display: block;
+
+    width: var(--add-button-height);
+    height: var(--add-button-height);
+
+    margin: var(--gap-8) auto var(--gap-6);
+
+}
+
+/* THE CAPABILITIES ON A SMALL SCREEN (owner, 2026-11-22 21:39 UTC+2: "It bugs on small sizes"): two a row on a phone, and a title breaks between its words only (a
+   word too long for the tile takes the small title size, TileTitle). */
+/* (The title's row is taller on a Capability's tile: its words, two lines at most, and its symbol under them stand above the rule, every rule at one height.) */
+.capability-tiles .section-tile-slot:not(.capability-system-slot) {
+
+    --tile-title-top: 0.45;
+
+}
+
+.capability-tiles .section-tile-slot > .section-tile .section-tile-title {
+
+    overflow-wrap: normal;
+
+    word-break: normal;
+
+}
+
+@media (max-width: 600px) {
+
+    .capability-tiles {
+
+        --capability-across: 2;
+
+    }
+
+    /* (A phone tile is small: its title row takes more of it, so two lines of words and the symbol stand above the rule.) */
+    .capability-tiles .section-tile-slot:not(.capability-system-slot) {
+
+        --tile-title-top: 0.62;
+
+    }
+
+    .section-tile-title-mark {
+
+        width: 32px;
+        height: 32px;
+
+    }
+
+}
+
 /* A SYMBOL BEFORE A LINE OF A TILE'S LIST, IN PLACE OF ITS BULLET (owner, 2026-11-22 21:10 UTC+2: "Add symbols to the systems too, in smaller size"): the
    line's height, smaller than the title's, 6px before its words. */
 .section-tile-list > li.section-tile-list-icon {

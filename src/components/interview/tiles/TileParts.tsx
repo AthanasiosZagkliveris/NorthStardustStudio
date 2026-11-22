@@ -7,13 +7,13 @@ import { incompleteTitle, TILE_DIVIDER, drawnTitle, plainTitle, brokenLines, bol
  * What a tile or a box shows: its title, centred, and -- while the section holds nothing yet --
  * a small "+" under the title (decorative; the button is described as "No items yet").
  */
-export function TileFace({ title, empty, items, glyph = true, alerts, marks, icon }: { title: string; empty?: boolean; items?: readonly string[]; glyph?: boolean; alerts?: readonly (readonly string[] | undefined)[]; marks?: readonly (ItemMark | undefined)[]; /** A symbol before the title, on its line. */ icon?: string }) {
+export function TileFace({ title, empty, items, glyph = true, alerts, marks, icon, mark }: { title: string; empty?: boolean; items?: readonly string[]; glyph?: boolean; alerts?: readonly (readonly string[] | undefined)[]; marks?: readonly (ItemMark | undefined)[]; /** A symbol before the title, on its line. */ icon?: string; /** A symbol under the title's words, above its rule. */ mark?: string }) {
     return (
         <>
             {/* (A title with a forced break is drawn on its lines: the one title that is allowed two.) */}
             {title.includes("\n")
                 ? <TileTitle className="section-tile-title-broken">{brokenLines(title).map((part, at) => <Fragment key={at}>{at > 0 && <br />}{drawnTitle(part)}</Fragment>)}</TileTitle>
-                : <TileTitle>{icon && <img className="section-tile-title-icon" src={icon} alt="" />}{drawnTitle(plainTitle(title))}</TileTitle>}
+                : <TileTitle>{icon && <img className="section-tile-title-icon" src={icon} alt="" />}{drawnTitle(plainTitle(title))}{mark && <img className="section-tile-title-mark" src={mark} alt="" />}</TileTitle>}
             {empty && (
                 <>
                     {/* (A tile that has the "+" box does not draw this glyph as well.) */}
@@ -128,8 +128,10 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             range.selectNodeContents(node);
             // (A line is every box that shares its height: the symbol before a title sits a little lower than its words, on the same line.)
             const lines: { top: number; bottom: number; left: number; right: number }[] = [];
+            // (The symbol under the words is not a line of them: the rule runs under the words' width.)
+            const mark = node.querySelector(".section-tile-title-mark")?.getBoundingClientRect();
             for (const rect of Array.from(range.getClientRects?.() ?? [])) {
-                if (rect.width < 0.5) {
+                if (rect.width < 0.5 || (mark && rect.top >= mark.top - 0.5 && rect.bottom <= mark.bottom + 0.5)) {
                     continue;
                 }
                 const line = lines.find(other => rect.top < other.bottom && rect.bottom > other.top);
@@ -174,12 +176,27 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             node.title = [...node.childNodes].map(part => part.nodeName === "BR" ? " " : part.textContent ?? "").join("");
         };
         apply();
+        // (A symbol in the title takes its height when its picture has loaded: measured again then, so the list stands under it.)
+        const pictures = Array.from(node.querySelectorAll("img")).filter(picture => !picture.complete);
+        pictures.forEach(picture => picture.addEventListener("load", apply));
+        // (And when the type's own font has loaded: its words are wider than the fallback's and may take a line more.)
+        let live = true;
+        void document.fonts?.ready.then(() => { if (live) apply(); });
+        document.fonts?.addEventListener?.("loadingdone", apply);
+        const forget = () => {
+            live = false;
+            pictures.forEach(picture => picture.removeEventListener("load", apply));
+            document.fonts?.removeEventListener?.("loadingdone", apply);
+        };
         if (typeof ResizeObserver === "undefined") {
-            return;
+            return forget;
         }
         const observer = new ResizeObserver(apply);
         observer.observe(tile);
-        return () => observer.disconnect();
+        return () => {
+            forget();
+            observer.disconnect();
+        };
     });
     const numbered = typeof children === "string" ? /^(\d+\.)\s([\s\S]*)$/.exec(children) : null;
     return (
