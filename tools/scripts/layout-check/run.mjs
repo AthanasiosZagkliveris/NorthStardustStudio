@@ -769,6 +769,9 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
                     // (The pointer off every control: a "+" box under it at the last pass's place showed its hover look, no stroke.)
                     await page.mouse.move(width - 1, height - 1);
                     await page.waitForTimeout(300);
+                    // (The page at rest before it is measured: fonts loaded, transitions ended (layout-probe.js, quiet()). 2026-11-22: on a busy run a page
+                    // was measured mid-transition, and the wide check found different things from run to run.)
+                    await page.evaluate(() => window.__layoutProbe.quiet());
                     // The page as drawn, then every section tile's dialog opened in turn
                     // (a page with no tiles is just the page).
                     const found = await page.evaluate(spec => window.__layoutProbe.checkWithTiles(spec), SPEC);

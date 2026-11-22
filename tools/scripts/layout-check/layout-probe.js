@@ -2,7 +2,7 @@
     THE LAYOUT PROBE: measured in the page itself (docs/ai/09-layout-rules.md).
 
     Loaded into an open page of the app (see run.mjs), it adds
-    window.__layoutProbe with two calls:
+    window.__layoutProbe with these calls (and checkWithTiles, checkFloating):
 
       inventory()   what the page's cards and fields measure now: the
                     distinct values in use, per rule (Step 1 of the
@@ -3413,6 +3413,40 @@
     }
 
     /**
+     * THE PAGE AT REST (2026-11-22, the owner chose "Make the check steady"): waits until the fonts are loaded, every finite animation and
+     * transition has ended, and two frames have been drawn, at most `limit` ms. A busy machine (many pages checked side by side, the dev app
+     * running) had measured pages mid-transition, so the wide check found different things from run to run (the 24px entries were found
+     * only on busy runs). An endless animation (a spinner) is not waited for. Returns whether the page came to rest within the limit.
+     */
+    async function quiet(limit = 3000) {
+        const started = Date.now();
+        const frame = () => new Promise(resolve => requestAnimationFrame(() => resolve()));
+        if (document.fonts && document.fonts.status !== "loaded") {
+            await Promise.race([document.fonts.ready, new Promise(resolve => setTimeout(resolve, limit))]);
+        }
+        const moving = () => (document.getAnimations ? document.getAnimations() : []).filter(animation => {
+            if (animation.playState !== "running" && animation.playState !== "pending") {
+                return false;
+            }
+            const end = animation.effect && animation.effect.getComputedTiming ? animation.effect.getComputedTiming().endTime : Infinity;
+            return Number.isFinite(end);
+        });
+        while (Date.now() - started < limit) {
+            const running = moving();
+            if (running.length === 0) {
+                await frame();
+                await frame();
+                if (moving().length === 0) {
+                    return true;
+                }
+                continue;
+            }
+            await Promise.race([Promise.all(running.map(animation => animation.finished.catch(() => null))), new Promise(resolve => setTimeout(resolve, 100))]);
+        }
+        return false;
+    }
+
+    /**
      * EVERY SECTION TILE'S DIALOG (docs/ai/09-layout-rules.md, "Section tiles and
      * dialog"): the sections of 3. Infrastructure & Capability are drawn only
      * while their tile's dialog is open, so the check opens each tile in turn,
@@ -3424,7 +3458,13 @@
      *     await window.__layoutProbe.checkWithTiles(spec, { settle: 220, only: null })
      */
     async function checkWithTiles(spec, { settle = 220, only = null } = {}) {
-        const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
+        // (Each settle is the fixed wait, then the page at rest: see quiet().)
+        const pause = async ms => {
+            await new Promise(resolve => setTimeout(resolve, ms));
+            if (ms === settle) {
+                await quiet();
+            }
+        };
         const failures = check(spec);
         // (What was opened, for a run's report: root.__layoutProbe.stats.)
         const stats = root.__layoutProbe.stats = { dialogs: 0, boxes: 0 };
@@ -4091,6 +4131,6 @@
         return failures;
     }
 
-    root.__layoutProbe = { inventory, check, checkWithTiles, checkFloating, rules };
+    root.__layoutProbe = { inventory, check, checkWithTiles, checkFloating, quiet, rules };
 
 })(typeof window !== "undefined" ? window : globalThis);
