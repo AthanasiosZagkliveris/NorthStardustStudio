@@ -69,3 +69,45 @@ describe("SW2, Which of these fit you?", () => {
     });
 
 });
+
+describe("the SWOT by the ratings (owner, 2026-11-22 21:23 UTC+2: \"Fix the SWOT using the rating system\")", () => {
+
+    it("writes a rated change's line straight into the Opportunities or the Threats, moves it with the rating, and asks no tick for it", () => {
+        const [first] = SW1_CHANGES;
+        const help = changeEffectLines({ [first.id]: 5 }).opportunities[0];
+        const hurt = changeEffectLines({ [first.id]: 1 }).threats[0];
+        let saved: Record<string, unknown> = {};
+        const swot = { strengths: [], weaknesses: [], opportunities: ["Retailer interest"], threats: ["Rising prices"] };
+        const { rerender } = render(
+            <StrategyFoundationEditor
+                value={{ swot, swotEdited: ["opportunities", "threats"], changeEffects: { [first.id]: 0 } }}
+                onChange={(next) => { saved = next as unknown as Record<string, unknown>; }}
+                choices={{ stage: "plan", changeStarts: [first.id], segments: [], reachBeyond: false }}
+                swotSuggestions={{ strengths: [], weaknesses: [], opportunities: [help], threats: [hurt] }}
+            />
+        );
+        openTile("SWOT Analysis");
+        const rating = (point: number) => document.querySelectorAll<HTMLInputElement>("input[type=radio][name='strategy-change-effects-" + first.id + "']")[point - 1];
+        const shown = () => [...document.querySelectorAll<HTMLTextAreaElement | HTMLInputElement>(".strategy-swot-quadrant textarea, .strategy-swot-quadrant input[type=text]")].map(field => field.value);
+        const again = () => rerender(
+            <StrategyFoundationEditor
+                value={saved}
+                onChange={(next) => { saved = next as unknown as Record<string, unknown>; }}
+                choices={{ stage: "plan", changeStarts: [first.id], segments: [], reachBeyond: false }}
+                swotSuggestions={{ strengths: [], weaknesses: [], opportunities: [help], threats: [hurt] }}
+            />
+        );
+        fireEvent.click(rating(5));
+        again();
+        expect(shown()).toContain(help);
+        expect(shown()).not.toContain(hurt);
+        fireEvent.click(rating(1));
+        again();
+        expect(shown()).toContain(hurt);
+        expect(shown()).not.toContain(help);
+        expect(shown()).toEqual(expect.arrayContaining(["Retailer interest", "Rising prices"]));
+        // (The rating is the answer: no "Which of these fit you?" tick repeats it.)
+        expect(screen.queryByRole("checkbox", { name: new RegExp("Which of these fit you\? .*" + first.label.toLowerCase()) })).toBeNull();
+    });
+
+});

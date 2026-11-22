@@ -183,6 +183,9 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     £50); yarn £19 a piece, FlameGuard £11.30 a metre, the trade mark £265, the Start Up Loan £25,000 at 7.5%, the angel round in Feb 2027 and the Kickstarter
     in Nov 2026 (the funding gap £23,724 -> £15,491; break even May 2027). Quillfield: the Assumed Name fee $120, Make $12, Tech E&O and cyber insurance $1,500 a
     year; its $15,000 microloan stays short (the funding gap $14,435 -> $15,981). Then Lumen's story moved 18 months back to its April 2025 opening (fees of each date; gap £15,240, break even Nov 2025). The weekly fixture with them.
+
+    2026-11-22, the SWOT by the ratings (owner, 21:23 UTC+2: "Fix the SWOT using the rating system"): a rated change's line stands in the Business Plan's
+    Opportunities or Threats, in a quadrant the founder wrote too. Words only; no amount changed.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

@@ -490,7 +490,7 @@
 
     width: auto;
 
-    max-width: calc(50% - var(--card-width) / 2);
+    max-width: calc(50% - var(--rail-frame-span, var(--card-width)) / 2);
 
     box-sizing: border-box;
 
@@ -500,7 +500,8 @@
 
 .bullet-rail-left {
 
-    right: calc(50% + var(--card-width) / 2);
+    /* (Beside the page's outermost frame where its chapters hug their tiles: --rail-frame-span, SectionTiles' railsBesideFrames.) */
+    right: calc(50% + var(--rail-frame-span, var(--card-width)) / 2);
 
     padding: 12px var(--rail-offset) 12px var(--rail-offset);
 
@@ -510,7 +511,7 @@
 
 .bullet-rail-right {
 
-    left: calc(50% + var(--card-width) / 2);
+    left: calc(50% + var(--rail-frame-span, var(--card-width)) / 2);
 
     padding: 12px var(--rail-offset);
 

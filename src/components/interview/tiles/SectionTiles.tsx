@@ -185,6 +185,9 @@ export default function SectionTiles({
                     }
                 }
             }
+            if (hug) {
+                railsBesideFrames(box);
+            }
             box.style.setProperty("--quad-max-side", Math.max(side, vertical ? 72 : 150) + "px");
             // The type of the four tiles from the type scale by their size: 24px titles and 18px lists from 250px a side, else 18px and 14px.
             // (EVERY CHAPTER HAS THE SAME TYPE (owner, 2026-11-19 22:47 UTC+2, the Segment chapters): the width is the first chapter's, the one shown, so a chapter
@@ -213,6 +216,8 @@ export default function SectionTiles({
         return () => {
             window.removeEventListener("resize", fit);
             watch?.disconnect();
+            // (The next page sets its own frames' span, or has none: its rail then stands beside the page's width.)
+            box.closest<HTMLElement>(".conversation-page")?.style.removeProperty("--rail-frame-span");
         };
     }, [big, bigRows, across]);
 
@@ -657,6 +662,30 @@ export default function SectionTiles({
  * tiles staying where they are, from the corner (or edge) that keeps it inside its card.
  */
 /** The chapter frame a page's master tiles stand in, which hugs them in the vertical layout: a Segment's chapter (its title band and its two groups), else the card. */
+/**
+ * THE PAGE'S RAILS STAND BESIDE ITS FRAMES (owner, 2026-11-22 21:23 UTC+2: "What's happened to the rails?"): the chapters hug their tiles, so the page tab
+ * stands against the outermost frame, not against the page's width, and shows its names where the room beside that frame holds them (BulletRail). The span is
+ * the width, centred on the window, that the frames take: --rail-frame-span on the page (bullet-rail.css); a page with no hugging frame keeps --card-width.
+ */
+function railsBesideFrames(box: HTMLElement): void {
+    const page = box.closest<HTMLElement>(".conversation-page");
+    const frames = [...new Set(Array.from(box.closest(".conversation-card")?.querySelectorAll<HTMLElement>(".section-tiles-quad") ?? []).map(quad => chapterOf(quad)).filter((frame): frame is HTMLElement => !!frame && frame.getClientRects().length > 0))];
+    if (!page || frames.length === 0) {
+        return;
+    }
+    const middle = window.innerWidth / 2;
+    const reach = Math.max(...frames.map(frame => {
+        const r = frame.getBoundingClientRect();
+        return Math.max(middle - r.left, r.right - middle);
+    }));
+    const span = Math.ceil(2 * reach) + "px";
+    if (page.style.getPropertyValue("--rail-frame-span") !== span) {
+        page.style.setProperty("--rail-frame-span", span);
+        // (The rail measures its room again: its names show where they now fit.)
+        window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+    }
+}
+
 function chapterOf(box: HTMLElement): HTMLElement | null {
     return box.closest<HTMLElement>(".segment-chapter") ?? box.closest<HTMLElement>(".business-foundation-card");
 }

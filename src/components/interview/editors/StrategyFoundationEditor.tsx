@@ -38,8 +38,8 @@ import { SingleColumn } from "./foundation/shared.tsx";
 import { namesInSentence } from "../../../framework/engine/choices/CompetitorQuestions.ts";
 import { DIFFERENTIATION_PHRASES } from "../../../framework/engine/choices/AmbassadorChoices.ts";
 import {
-    SC1_STANCES, SC2_MAX, SC_INFO, SC_LABELS, SW1_INFO, SW1_LABEL, SW2_INFO, SW2_LABEL, type StrategyChoiceContext,
-    changeEffectLines, changeEffectsShown, changeRows, compassChoicesShown, compassDraft, growthOptions
+    RATED_LINES, SC1_STANCES, SC2_MAX, SC_INFO, SC_LABELS, SW1_INFO, SW1_LABEL, SW2_INFO, SW2_LABEL, type StrategyChoiceContext,
+    changeEffectLines, changeEffectsShown, changeRows, compassChoicesShown, compassDraft, growthOptions, withRatedLines
 } from "../../../framework/engine/choices/StrategyChoices.ts";
 
 interface StrategyFoundationEditorProps {
@@ -184,14 +184,16 @@ export default function StrategyFoundationEditor({
     const changeLines = changeEffectLines(foundation.changeEffects);
     // (Each line once: the starts read from the saved answers already hold SW1's saved lines, and the page adds them as they are rated.)
     const starts = { opportunities: [...new Set([...(swotStarts?.opportunities ?? []), ...changeLines.opportunities])], threats: [...new Set([...(swotStarts?.threats ?? []), ...changeLines.threats])] };
-    const swotShown = strategySwotShown(foundation, starts);
-    /** SW2's lines for a quadrant: the suggestions, with SW1's lines as they are rated, each once. */
-    const suggestedFor = (quadrant: string): string[] => [...new Set([
-        ...((swotSuggestions as Record<string, string[] | undefined> | undefined)?.[quadrant] ?? []),
-        ...(quadrant === "opportunities" ? changeLines.opportunities : quadrant === "threats" ? changeLines.threats : [])
-    ])];
+    const swotShown = withRatedLines(strategySwotShown(foundation, starts), foundation.changeEffects);
+    /*
+        THE SWOT BY THE RATINGS (owner, 2026-11-22 21:23 UTC+2: "Fix the SWOT using the rating system"): a change's rating is the answer, so its line stands in the
+        Opportunities (4 or 5) or the Threats (1 or 2) at once, and moves or goes as the rating does; SW2's ticks hold the other suggestions only, never asking again.
+    */
+    const ratedLines = RATED_LINES;
+    /** SW2's lines for a quadrant: the Business System's suggestions, each once (SW1's lines are written by the ratings). */
+    const suggestedFor = (quadrant: string): string[] => [...new Set(((swotSuggestions as Record<string, string[] | undefined> | undefined)?.[quadrant] ?? []).filter(line => !ratedLines.has(line)))];
     const effects = changeEffectsShown(foundation.changeEffects, choices?.changeStarts ?? []);
-    /** SW1 saved whole once touched: each ticked change with its rating (0 while unrated). */
+    /** SW1 saved whole once touched: each ticked change with its rating (0 while unrated); its lines follow the ratings (withRatedLines). */
     const saveEffects = (ticked: readonly string[], ratings: Readonly<Record<string, number>>) => update({ changeEffects: Object.fromEntries(ticked.map(id => [id, ratings[id] ?? 0])) });
     const compassShown = choices ? compassChoicesShown(foundation, swotShown, choices) : undefined;
     const draft = choices && compassShown ? compassDraft(isRangeSet(foundation.period) ? formatRangeAbbrev(foundation.period) : "", compassShown, choices) : "";
