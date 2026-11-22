@@ -391,7 +391,8 @@ export function TileList({
                         </li>
                     );
                 }
-                const drawn = brokenLines(item).map((part, at, parts) => <Fragment key={at}><span className="section-tile-list-line">{boldWords(part)}</span>{at < parts.length - 1 && " "}</Fragment>);
+                const symbol = marks?.[position]?.icon;
+                const drawn = <>{symbol && <img className="section-tile-list-symbol" src={symbol} alt="" />}{brokenLines(item).map((part, at, parts) => <Fragment key={at}><span className="section-tile-list-line">{boldWords(part)}</span>{at < parts.length - 1 && " "}</Fragment>)}</>;
                 return (
                     <li
                         key={position}
@@ -403,7 +404,8 @@ export function TileList({
                             marks?.[position]?.bullet ? "section-tile-list-bullet" : "",
                             marks?.[position]?.centre ? "section-tile-list-centre" : "",
                             marks?.[position]?.plain ? "section-tile-list-plain" : "",
-                            marks?.[position]?.rule ? "section-tile-list-rule" : ""
+                            marks?.[position]?.rule ? "section-tile-list-rule" : "",
+                            marks?.[position]?.icon ? "section-tile-list-icon" : ""
                         ].filter(Boolean).join(" ") || undefined}
                         title={alerts?.[position] ? plainTitle(item).replace(/\*\*/g, "") + ": " + incompleteTitle(alerts[position]!) : plainTitle(item).replace(/\*\*/g, "")}
                     >

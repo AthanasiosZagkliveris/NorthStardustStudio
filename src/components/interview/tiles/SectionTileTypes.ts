@@ -242,6 +242,8 @@ export interface ItemMark {
     plain?: boolean;
     /** A hairline stands under this line: it ends one topic of the list and the next begins (the Strategic Period's dates, then its Themes). */
     rule?: boolean;
+    /** A small symbol before this line, in place of its bullet (a System's icon on its Capability's tile). */
+    icon?: string;
 }
 
 

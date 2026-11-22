@@ -574,3 +574,36 @@
     vertical-align: -0.25em;
 
 }
+
+/* A SYMBOL BEFORE A LINE OF A TILE'S LIST, IN PLACE OF ITS BULLET (owner, 2026-11-22 21:10 UTC+2: "Add symbols to the systems too, in smaller size"): the
+   line's height, smaller than the title's, 6px before its words. */
+.section-tile-list > li.section-tile-list-icon {
+
+    padding-left: 0;
+
+}
+
+.section-tile-list > li.section-tile-list-icon .section-tile-list-line {
+
+    display: inline;
+
+}
+
+.section-tile-list > li.section-tile-list-icon::before {
+
+    content: none;
+
+}
+
+.section-tile-list-symbol {
+
+    display: inline-block;
+
+    width: 1em;
+    height: 1em;
+
+    margin-right: var(--gap-6);
+
+    vertical-align: -0.15em;
+
+}
