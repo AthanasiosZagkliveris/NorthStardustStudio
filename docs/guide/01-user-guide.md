@@ -29,7 +29,7 @@ The header of this screen holds the Menu and the **Handbook**: the App Guide, Sp
 
 ### 3.1 Find your way in
 
-1. On **Capabilities** (System Selection), each Capability is a tile in its own colour and with its icon, listing its Systems, two rows of three. Press **Foundation**: its dialog holds a tile for each System, with its status; its "i" says what the Capability is.
+1. On **Capabilities** (System Selection), each Capability is a tile in its own colour and with its icon, listing its Systems, two rows of three. Press **Foundation**: its page holds a tile for each System, with its status; the "i" beside its title says what the Capability is. Back returns to the Capabilities.
 2. Press **Identity System** (or another System). Its **Introduction** says what the System answers and lists its pages.
 3. Press **Start Interview**, or a page in the Introduction's list, to begin.
 

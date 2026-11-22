@@ -75,15 +75,30 @@ describe("SystemSelection: the Capabilities as tiles", () => {
 
     });
 
-    it("opens a Capability's dialog of its Systems, its description in its heading's i, and a System opens at once", () => {
+    it("opens a Capability's page of its Systems, its description in the title's i (the earlier dialog), and a System opens at once", () => {
 
         renderAt();
 
         fireEvent.click(screen.getByRole("button", { name: /^Foundation/ }));
-        expect(screen.getByRole("button", { name: "Foundation: what this means" })).toBeTruthy();
+        expect(document.querySelector(".interview-header h1")?.textContent).toContain("Foundation");
+        fireEvent.click(screen.getByRole("button", { name: "Foundation: what this means" }));
+        expect(screen.getByText("Developing organizational alignment")).toBeTruthy();
+        expect(screen.getByText("Core principle")).toBeTruthy();
+        fireEvent.keyDown(window, { key: "Escape" });
+        expect(screen.queryByText("Core principle")).toBeNull();
         fireEvent.click(screen.getByRole("button", { name: /^01. Identity System/ }));
 
         expect(screen.getByText("Opened Identity System")).toBeTruthy();
+
+    });
+
+    it("reopens the Capability's page that Back from a System passes, and Escape returns to the Capabilities", () => {
+
+        renderAt({ capability: "foundation" });
+
+        expect(screen.getByRole("button", { name: /^01. Identity System/ })).toBeTruthy();
+        fireEvent.keyDown(window, { key: "Escape" });
+        expect(screen.getByRole("button", { name: /^Deliver/ })).toBeTruthy();
 
     });
 

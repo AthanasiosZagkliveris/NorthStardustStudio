@@ -17,8 +17,7 @@ import OrganizationCalendarPanel from "../components/calendar/OrganizationCalend
 
 import CapabilityDescriptionDialog from "../components/capabilities/CapabilityDescriptionDialog";
 import InterviewHeader from "../components/interview/editors/InterviewHeader";
-import SectionTiles, { DialogHeading, type SectionTile } from "../components/interview/tiles/SectionTiles";
-import TileGrid from "../components/interview/tiles/TileGrid";
+import SectionTiles, { type SectionTile } from "../components/interview/tiles/SectionTiles";
 import Tile from "../components/interview/tiles/Tile";
 import { TileTitle } from "../components/interview/tiles/TileParts";
 import { getSystemIcon } from "../data/systemIcons";
@@ -80,8 +79,12 @@ export default function SystemSelection() {
     // Coming Back from a System (or the Business Documents page)
     // passes the Capability it belonged to, so the list reopens on
     // that Capability instead of making the user pick it again.
-    const [, setActiveCapability] =
+    // (THE CAPABILITY'S OWN PAGE (owner, 2026-11-22 21:09 UTC+2: "When you click on a Capability, It should open a page (Title with proper size, capitals, symbols.).
+    // Its help text should be the previous one"): the Capability shown, or none (the Capabilities); Back from a System brings its Capability's page back.)
+    const [shownCapability, setActiveCapability] =
         useState<string | null>(() => location.state?.capability ?? null);
+    const shownCapabilityRef = useRef(shownCapability);
+    shownCapabilityRef.current = shownCapability;
 
     const [openCapability, setOpenCapability] =
         useState<Capability | null>(null);
@@ -167,6 +170,12 @@ export default function SystemSelection() {
                 return;
             }
 
+            // (A Capability's page goes back to the Capabilities first.)
+            if (shownCapabilityRef.current) {
+                setActiveCapability(null);
+                return;
+            }
+
             navigate("/");
 
         }
@@ -202,9 +211,11 @@ export default function SystemSelection() {
     }, []);
 
     // (One tile a Capability, in its colour (the Framework's own, data/capabilities.ts) and with its icon; its Systems its list and its dialog's tiles.)
+    const shown = capabilities.find(capability => capability.id === shownCapability) ?? null;
+    const shownSystems = shown ? systems.filter(system => system.capability === shown.id) : [];
+
     const capabilityTiles: SectionTile[] = capabilities.map(capability => {
         const own = systems.filter(system => system.capability === capability.id);
-        const description = getCapabilityDescription(capability.title);
         return {
             id: capability.id,
             title: capability.title,
@@ -218,58 +229,50 @@ export default function SystemSelection() {
             items: own.map(system => system.title),
             // (EACH SYSTEM ON THE TILE IS A LINK TO IT (owner, 2026-11-22 21:00 UTC+2: "Fix links"), as a line of every tile is to what it names.)
             links: own.map(system => ({ go: () => handleSystemSelection(system) })),
-            content: () => (
-                <div className="column-tile-content" role="group" aria-label={capability.title}>
-                    <div className="business-engagement-section-head">
-                        <DialogHeading title={capability.title} info={description ? [description.tagline, ...description.paragraphs] : undefined} />
-                    </div>
-                    {own.length === 0
-                        ? <p className="legal-entity-empty-note">No Systems in this Capability yet.</p>
-                        : (
-                            <TileGrid label={capability.title + " Systems"}>
-                                {() => own.map(system => {
-                                    const status = systemStatuses[system.number];
-                                    const icon = getSystemIcon(system.number);
-                                    // (A System's tile as the list had it (owner, 2026-11-22 21:00 UTC+2: "Fix links, text and tile sizes"): its number and name, its
-                                    // status by its shape and word (status-shape.css), its icon at the foot; the dialog's tile size.)
-                                    return (
-                                        <Tile
-                                            key={system.id}
-                                            frame={{ className: "section-tile-slot capability-system-slot" }}
-                                            className="section-tile"
-                                            aria-label={String(system.number).padStart(2, "0") + ". " + system.title + (status ? ", " + PAGE_STATUS_WORDS[status] : "")}
-                                            face={(
-                                                <>
-                                                    {/* (Its number and name, whole, on as many lines as it takes; "System" is the dialog's word for all of them, so a tile says the name
-                                                        alone -- "07. Product Development" -- and its accessible name says it whole.) */}
-                                                    <TileTitle className="section-tile-title-broken">
-                                                        {(() => {
-                                                            // (A name of two words or more on two lines, broken before its last word: "07. Product / Development".)
-                                                            const name = system.title.replace(/ System$/, "");
-                                                            const cut = name.lastIndexOf(" ");
-                                                            const number = String(system.number).padStart(2, "0") + ". ";
-                                                            return cut > 0 ? <>{number + name.slice(0, cut)}<br />{name.slice(cut + 1)}</> : number + name;
-                                                        })()}
-                                                    </TileTitle>
-                                                    {status && (
-                                                        <span className="system-status capability-system-status">
-                                                            <span className="status-shape" data-status={status} aria-hidden="true" />
-                                                            <span className="system-status-word">{PAGE_STATUS_WORDS[status]}</span>
-                                                        </span>
-                                                    )}
-                                                </>
-                                            )}
-                                            picture={icon ? <span className="section-tile-picture" aria-hidden="true"><img className="capability-tile-icon" src={icon} alt="" /></span> : undefined}
-                                            onClick={() => handleSystemSelection(system)}
-                                        />
-                                    );
-                                })}
-                            </TileGrid>
-                        )}
-                </div>
-            )
+            // (Pressed, it opens its Capability's page: press, not a dialog.)
+            press: () => setActiveCapability(capability.id),
+            content: () => null
         };
     });
+
+    /** A System's tile on its Capability's page. */
+    function systemTile(system: FrameworkSystem) {
+        const status = systemStatuses[system.number];
+        const icon = getSystemIcon(system.number);
+        // (A System's tile as the list had it (owner, 2026-11-22 21:00 UTC+2: "Fix links, text and tile sizes"): its number and name, its
+        // status by its shape and word (status-shape.css), its icon at the foot; the dialog's tile size.)
+        return (
+            <Tile
+                key={system.id}
+                frame={{ className: "section-tile-slot capability-system-slot" }}
+                className="section-tile"
+                aria-label={String(system.number).padStart(2, "0") + ". " + system.title + (status ? ", " + PAGE_STATUS_WORDS[status] : "")}
+                face={(
+                    <>
+                        {/* (Its number and name, whole, on as many lines as it takes; "System" is the dialog's word for all of them, so a tile says the name
+                            alone -- "07. Product Development" -- and its accessible name says it whole.) */}
+                        <TileTitle className="section-tile-title-broken">
+                            {(() => {
+                                // (A name of two words or more on two lines, broken before its last word: "07. Product / Development".)
+                                const name = system.title.replace(/ System$/, "");
+                                const cut = name.lastIndexOf(" ");
+                                const number = String(system.number).padStart(2, "0") + ". ";
+                                return cut > 0 ? <>{number + name.slice(0, cut)}<br />{name.slice(cut + 1)}</> : number + name;
+                            })()}
+                        </TileTitle>
+                        {status && (
+                            <span className="system-status capability-system-status">
+                                <span className="status-shape" data-status={status} aria-hidden="true" />
+                                <span className="system-status-word">{PAGE_STATUS_WORDS[status]}</span>
+                            </span>
+                        )}
+                    </>
+                )}
+                picture={icon ? <span className="section-tile-picture" aria-hidden="true"><img className="capability-tile-icon" src={icon} alt="" /></span> : undefined}
+                onClick={() => handleSystemSelection(system)}
+            />
+        );
+    }
 
     function handleSystemSelection(system: FrameworkSystem) {
 
@@ -336,7 +339,27 @@ export default function SystemSelection() {
                     {/* CAPABILITIES AS MASTER TILES (owner, 2026-11-22 20:35 UTC+2: "Rename the title to capabilities. Make Master Tiles (Capabilities to their related
                         colour), and each Master Tile will have its own Tiles (systems)"): the page's title over its rule as on a System's page, one frame of a tile for each
                         Capability in its own colour, listing its Systems; pressed, its dialog holds a tile for each System, with its status, that opens it. */}
-                    <InterviewHeader systemName="Capabilities" />
+                    {shown ? (
+                        <InterviewHeader
+                            systemName="Capabilities"
+                            pageTitle={shown.title}
+                            pageTitleCapitals
+                            icon={getCapabilityIcon(capabilities.indexOf(shown) + 1)}
+                            note={(
+                                <button
+                                    type="button"
+                                    className="info-note-button capability-page-info"
+                                    aria-label={shown.title + ": what this means"}
+                                    aria-haspopup="dialog"
+                                    onClick={() => setOpenCapability(shown)}
+                                >
+                                    i
+                                </button>
+                            )}
+                        />
+                    ) : (
+                        <InterviewHeader systemName="Capabilities" />
+                    )}
 
                     {/* Back to the last place worked, when there is one. */}
                     {lastPlace && (
@@ -349,8 +372,19 @@ export default function SystemSelection() {
 
                     {/* (NO FRAME (owner, 2026-11-22 20:58 UTC+2: "the capability tiles do not need to be in a frame"): the six tiles, two rows of three, each the
                         master tiles' size (`--capability-side`, the side a page's 2 x 2 has in this window), centred under the title.) */}
-                    <div ref={tilesBox} className="capability-tiles" style={{ "--strategy-theme-hue": hueOf(getCapabilityColor("foundation")), ...(tileSide ? { "--capability-side": tileSide + "px" } : {}) } as React.CSSProperties}>
-                        <SectionTiles label="Capabilities" hue={hueOf(getCapabilityColor("foundation"))} tiles={capabilityTiles} />
+                    <div ref={tilesBox} className="capability-tiles" style={{ "--strategy-theme-hue": hueOf(getCapabilityColor(shown?.id ?? "foundation")), ...(tileSide ? { "--capability-side": tileSide + "px" } : {}) } as React.CSSProperties}>
+                        {shown
+                            ? (
+                                // (The Capability's Systems, a tile each, as the Capabilities are: two rows of three at the master tiles' size, in its colour.)
+                                <div className="section-tiles-box">
+                                    <div className="section-tiles" role="group" aria-label={shown.title + " Systems"} style={{ "--tile-colour": getCapabilityColor(shown.id) } as React.CSSProperties}>
+                                        {shownSystems.length === 0
+                                            ? <p className="legal-entity-empty-note">No Systems in this Capability yet.</p>
+                                            : shownSystems.map(systemTile)}
+                                    </div>
+                                </div>
+                            )
+                            : <SectionTiles label="Capabilities" hue={hueOf(getCapabilityColor("foundation"))} tiles={capabilityTiles} />}
                     </div>
 
                 </div>
@@ -358,7 +392,7 @@ export default function SystemSelection() {
             </main>
 
             <AppFooter
-                onBack={() => navigate("/")}
+                onBack={() => shown ? setActiveCapability(null) : navigate("/")}
             />
 
             <CapabilityDescriptionDialog

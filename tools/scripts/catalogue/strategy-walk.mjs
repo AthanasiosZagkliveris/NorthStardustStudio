@@ -33,7 +33,7 @@ async function openStrategy() {
     await page.getByText("Foundation", { exact: true }).first().click();
     await page.waitForTimeout(250);
     await page.keyboard.press("Escape");
-    await page.evaluate(async name => { const cap = [...document.querySelectorAll(".capability-tiles .section-tile")].find(tile => (tile.closest(".section-tile-slot")?.textContent ?? "").includes(name)); cap?.click(); await new Promise(done => setTimeout(done, 400)); [...document.querySelectorAll(".section-tile-dialog .section-tile")].find(tile => (tile.getAttribute("aria-label") ?? "").includes(name))?.click(); }, "Strategy System");
+    await page.evaluate(async name => { const cap = [...document.querySelectorAll(".capability-tiles .section-tile")].find(tile => (tile.closest(".section-tile-slot")?.textContent ?? "").includes(name)); cap?.click(); await new Promise(done => setTimeout(done, 400)); [...document.querySelectorAll(".capability-system-slot .section-tile")].find(tile => (tile.getAttribute("aria-label") ?? "").includes(name))?.click(); }, "Strategy System");
     await page.waitForTimeout(900);
     const start = page.getByRole("button", { name: /Start Interview/i });
     if (await start.count()) { await start.first().click(); await page.waitForTimeout(600); }

@@ -536,3 +536,26 @@
     height: var(--fold-arrow-size);
 
 }
+
+/* A CAPABILITY'S PAGE (owner, 2026-11-22 21:09 UTC+2): its Systems' tiles at the master tiles' size, three a row as the Capabilities, in its colour; the "i" beside
+   its title opens the Capability's description as before. */
+.capability-tiles .capability-system-slot > .section-tile {
+
+    background: color-mix(in srgb, var(--tile-colour, var(--bg-surface)) 10%, var(--bg-surface));
+
+}
+
+.interview-header h1 > .capability-page-info {
+
+    margin-left: var(--gap-6, 6px);
+
+    vertical-align: middle;
+
+}
+
+/* (A System's name in capitals, as every tile's title is.) */
+.capability-tiles .capability-system-slot > .section-tile .section-tile-title {
+
+    text-transform: uppercase;
+
+}
