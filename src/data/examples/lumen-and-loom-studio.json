@@ -9,7 +9,7 @@
         {
           "sectionNumber": 1,
           "value": {
-            "description": "Lumen & Loom Studio Ltd is a London-based textile design studio, founded in 2026 by Maya Chen, Oliver Grant and Priya Shah and based at a shared workshop in Hackney Wick, East London. We design and handweave sustainable home textiles (cushions, throws, table linen and wall hangings) from British wool, organic cotton and recycled yarns. Alongside our own collection we run small-group weaving workshops and take bespoke commissions for interior designers and boutique hotels.",
+            "description": "Lumen & Loom Studio Ltd is a London-based textile design studio, founded in 2025 by Maya Chen, Oliver Grant and Priya Shah and based at a shared workshop in Hackney Wick, East London. We design and handweave sustainable home textiles (cushions, throws, table linen and wall hangings) from British wool, organic cotton and recycled yarns. Alongside our own collection we run small-group weaving workshops and take bespoke commissions for interior designers and boutique hotels.",
             "mission": "To bring slow, handmade craft back into everyday homes: making beautiful, durable textiles from responsibly sourced materials, paying fair prices along our supply chain, and teaching people the skills to make and repair for themselves.",
             "positioning": "For design-conscious Londoners and interior professionals who want homeware with a story, Lumen & Loom is an independent textile studio that makes every piece by hand in London from traceable, low-impact yarns. Each piece is made in a small batch, can be repaired for life, and comes with the name of the weaver who made it, and our studio is open: customers can learn to weave with us. ",
             "vision": "By 2030, to be London's best-known independent weaving studio: a self-sustaining team of eight makers, a collection stocked by twenty UK independent retailers, a waiting list for our workshops, and a verified low-carbon supply chain from sheep to sofa.",
@@ -219,7 +219,7 @@
               {
                 "id": "expense-pb9sv685",
                 "name": "Incorporation",
-                "date": "2026-03-02",
+                "date": "2025-03-02",
                 "responsibility": "founder-3fhkh0cm",
                 "cost": "50",
                 "frequency": "One time",
@@ -232,7 +232,7 @@
               {
                 "id": "expense-4pm3sqt4",
                 "name": "Confirmation statement",
-                "date": "2027-03-02",
+                "date": "2026-03-02",
                 "responsibility": "founder-3fhkh0cm",
                 "cost": "50",
                 "frequency": "Annually",
@@ -246,20 +246,20 @@
               {
                 "id": "expense-y97pryvw",
                 "name": "Trade mark",
-                "date": "2026-08-12",
+                "date": "2025-02-12",
                 "responsibility": "founder-z2jgpf8v",
-                "cost": "265",
+                "cost": "220",
                 "frequency": "One time",
                 "links": [
                   "number-1sm5nsnz"
                 ],
-                "description": "UK trade mark in 2 classes, filed online with the IPO: £205 for the first class and £60 for the second (fees since 1 April 2026).",
+                "description": "UK trade mark in 2 classes, filed online with the IPO: £170 for the first class and £50 for the second (the fees until 31 March 2026).",
                 "fromRequirement": ""
               },
               {
                 "id": "expense-ew64in77",
                 "name": "ICO data protection fee",
-                "date": "2026-08-12",
+                "date": "2025-02-17",
                 "responsibility": "founder-3fhkh0cm",
                 "cost": "52",
                 "frequency": "Annually",
@@ -287,8 +287,8 @@
                 "managementExperience": "Led the fabric house's four-person design studio for three years, owning a £120,000 sampling and development budget and taking two collections a year from brief to launch.",
                 "achievements": [
                   "Designed the fabric house's best-selling jacquard collection: £380,000 of sales in its first two years (2021–2023)",
-                  "Delivered 40 handwoven commissions for interior designers and two boutique hotels as a freelancer, 2023–2025",
-                  "Taught 30 beginners' weaving workshops in 2025, most of them sold out"
+                  "Delivered 40 handwoven commissions for interior designers and two boutique hotels as a freelancer, 2022–2024",
+                  "Taught 30 beginners' weaving workshops in 2024, most of them sold out"
                 ],
                 "skills": [
                   {
@@ -318,7 +318,7 @@
                 "industryExperience": "Nine years in homeware sales: wholesale account manager for a UK homeware brand selling to independent retailers and department stores, then head of trade sales at a sustainable furniture company.",
                 "managementExperience": "Head of trade sales for four years: led a team of three account managers, held a £1.2 million annual sales target and ran the trade marketing budget.",
                 "achievements": [
-                  "Grew trade sales from £450,000 to £1.2 million a year in four years (2021–2025)",
+                  "Grew trade sales from £450,000 to £1.2 million a year in four years (2020–2024)",
                   "Opened 60 new independent retail stockists across the UK in 2023",
                   "Co-founded a seasonal makers' market in 2019 that broke even in its first season and ran for three"
                 ],
@@ -3852,7 +3852,7 @@
                 "hours": "160",
                 "deliveryHours": "128",
                 "deliveryShare": "",
-                "startDate": "2026-10-01",
+                "startDate": "2025-04-01",
                 "extras": {}
               },
               {
@@ -3867,7 +3867,7 @@
                 "hours": "160",
                 "deliveryHours": "48",
                 "deliveryShare": "",
-                "startDate": "2026-10-01",
+                "startDate": "2025-04-01",
                 "extras": {}
               },
               {
@@ -3882,7 +3882,7 @@
                 "hours": "160",
                 "deliveryHours": "40",
                 "deliveryShare": "",
-                "startDate": "2026-10-01",
+                "startDate": "2025-04-01",
                 "extras": {}
               }
             ],
@@ -3913,7 +3913,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -3963,7 +3963,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4005,7 +4005,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4047,7 +4047,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4089,7 +4089,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4139,7 +4139,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "10",
@@ -4181,7 +4181,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4223,7 +4223,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4265,7 +4265,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "10",
@@ -4314,7 +4314,7 @@
                       "deposit": "",
                       "category": "workstation",
                       "group": "furniture-fittings",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4364,7 +4364,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4406,7 +4406,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "3",
@@ -4448,7 +4448,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "activity-1t2mxo8g",
                       "usefulLife": "",
@@ -4490,7 +4490,7 @@
                       "deposit": "",
                       "category": "equipment",
                       "group": "devices-tools",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4540,7 +4540,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4582,7 +4582,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4624,7 +4624,7 @@
                       "deposit": "",
                       "category": "",
                       "group": "",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4666,7 +4666,7 @@
                       "deposit": "",
                       "category": "digital",
                       "group": "software-web",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4714,7 +4714,7 @@
                       "deposit": "",
                       "category": "digital",
                       "group": "cloud-security",
-                      "startDate": "2026-10-01",
+                      "startDate": "2025-04-01",
                       "endDate": "",
                       "activityId": "",
                       "usefulLife": "",
@@ -4753,7 +4753,7 @@
                     "id": "activity-rf2dybpu",
                     "category": "operational",
                     "name": "Register trade mark and ICO",
-                    "description": "Filed with the IPO and registered with the ICO in August 2026.",
+                    "description": "Filed with the IPO and registered with the ICO in February 2025.",
                     "performerIds": [
                       "founder-3fhkh0cm",
                       "professional-lawyer"
@@ -4763,8 +4763,8 @@
                     "offeringIds": [],
                     "type": "",
                     "madeBy": "",
-                    "startDate": "2026-08-10",
-                    "endDate": "2026-08-20",
+                    "startDate": "2025-02-10",
+                    "endDate": "2025-02-20",
                     "offeringShares": {},
                     "resources": [],
                     "performerPeople": {}
@@ -4783,8 +4783,8 @@
                     "offeringIds": [],
                     "type": "",
                     "madeBy": "",
-                    "startDate": "2026-10-01",
-                    "endDate": "2026-10-30",
+                    "startDate": "2025-04-01",
+                    "endDate": "2025-04-30",
                     "offeringShares": {},
                     "resources": [
                       {
@@ -4808,7 +4808,7 @@
                     "offeringIds": [],
                     "type": "",
                     "madeBy": "",
-                    "startDate": "2026-11-02",
+                    "startDate": "2025-05-02",
                     "endDate": "",
                     "offeringShares": {},
                     "resources": [],
@@ -4828,8 +4828,8 @@
                     "offeringIds": [],
                     "type": "",
                     "madeBy": "resource-044hvqz1",
-                    "startDate": "2026-10-05",
-                    "endDate": "2026-10-30",
+                    "startDate": "2025-04-05",
+                    "endDate": "2025-04-30",
                     "offeringShares": {},
                     "resources": [
                       {
@@ -4863,7 +4863,7 @@
                 },
                 "offeringShares": {},
                 "madeBy": "",
-                "startDate": "2026-10-01",
+                "startDate": "2025-04-01",
                 "endDate": "",
                 "name": "Accountant",
                 "description": "Hale & Co Accountants: the monthly bookkeeping review, VAT returns, payroll for the three directors, and the year-end accounts and Company Tax Return.",
@@ -4895,7 +4895,7 @@
                 },
                 "offeringShares": {},
                 "madeBy": "",
-                "startDate": "2026-10-01",
+                "startDate": "2025-04-01",
                 "endDate": "",
                 "name": "Lawyer",
                 "description": "Shareholders’ agreement and trade terms & conditions.",
@@ -4930,7 +4930,7 @@
                 },
                 "offeringShares": {},
                 "madeBy": "",
-                "startDate": "2026-10-01",
+                "startDate": "2025-04-01",
                 "endDate": "",
                 "name": "Hackney Wick Maker Yard",
                 "description": "The landlord of the unit: about 450 sq ft at about £33 a sq ft a year (Hackney Wick asks £31–£53), £1,250 a month, with the service charge for the shared yard and a deposit of three months' rent.\nThe landlord.",
@@ -4962,7 +4962,7 @@
                 },
                 "offeringShares": {},
                 "madeBy": "resource-lm-fitout",
-                "startDate": "2026-10-01",
+                "startDate": "2025-04-01",
                 "endDate": "",
                 "name": "Hackney Sparks",
                 "description": "Electrician: wiring for the shop-front lighting and the sockets at the looms, installed with the studio fit-out.",
@@ -5004,7 +5004,7 @@
                   "deposit": "",
                   "category": "materials",
                   "group": "materials-stock",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5051,7 +5051,7 @@
                   "deposit": "",
                   "category": "materials",
                   "group": "materials-stock",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5096,7 +5096,7 @@
                   "deposit": "",
                   "category": "materials",
                   "group": "materials-stock",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5143,7 +5143,7 @@
                   "deposit": "",
                   "category": "materials",
                   "group": "materials-stock",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5187,7 +5187,7 @@
                   "deposit": "",
                   "category": "documents",
                   "group": "certificates",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5232,12 +5232,12 @@
                   "deposit": "",
                   "category": "equipment",
                   "group": "production-machinery",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "10",
                   "warranty": true,
-                  "warrantyUntil": "2028-09-30",
+                  "warrantyUntil": "2027-03-30",
                   "rateOverride": "",
                   "costOption": "",
                   "amortisationYears": "",
@@ -5280,7 +5280,7 @@
                   "deposit": "",
                   "category": "equipment",
                   "group": "devices-tools",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5324,7 +5324,7 @@
                   "deposit": "",
                   "category": "equipment",
                   "group": "devices-tools",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5368,7 +5368,7 @@
                   "deposit": "",
                   "category": "equipment",
                   "group": "production-machinery",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "activity-wbylnmmc",
                   "usefulLife": "",
@@ -5413,7 +5413,7 @@
                   "deposit": "",
                   "category": "equipment",
                   "group": "devices-tools",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5462,7 +5462,7 @@
                   "deposit": "",
                   "category": "equipment",
                   "group": "devices-tools",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5511,7 +5511,7 @@
                   "deposit": "",
                   "category": "digital",
                   "group": "sales-delivery-tools",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5559,7 +5559,7 @@
                   "deposit": "",
                   "category": "digital",
                   "group": "sales-delivery-tools",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5604,7 +5604,7 @@
                   "deposit": "",
                   "category": "digital",
                   "group": "sales-delivery-tools",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5653,8 +5653,8 @@
                   "deposit": "",
                   "category": "workspace",
                   "group": "site-hire",
-                  "startDate": "2026-10-03",
-                  "endDate": "2027-09-25",
+                  "startDate": "2025-04-03",
+                  "endDate": "2026-03-25",
                   "activityId": "",
                   "usefulLife": "",
                   "warranty": false,
@@ -5672,73 +5672,73 @@
                         "id": "payment-ezvh69at",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2026-10-03"
+                        "date": "2025-04-03"
                       },
                       {
                         "id": "payment-jj5tw9wo",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2026-11-04"
+                        "date": "2025-05-04"
                       },
                       {
                         "id": "payment-xxw0a793",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2026-12-07"
+                        "date": "2025-06-07"
                       },
                       {
                         "id": "payment-cm7orhdu",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-01-08"
+                        "date": "2025-07-08"
                       },
                       {
                         "id": "payment-4jxychrt",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-02-10"
+                        "date": "2025-08-10"
                       },
                       {
                         "id": "payment-j3wa47b5",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-03-14"
+                        "date": "2025-09-14"
                       },
                       {
                         "id": "payment-yup0op3a",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-04-16"
+                        "date": "2025-10-16"
                       },
                       {
                         "id": "payment-tkpg1eph",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-05-18"
+                        "date": "2025-11-18"
                       },
                       {
                         "id": "payment-5985ec91",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-06-20"
+                        "date": "2025-12-20"
                       },
                       {
                         "id": "payment-ye9dsxjg",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-07-22"
+                        "date": "2026-01-22"
                       },
                       {
                         "id": "payment-aqpszxis",
                         "title": "",
                         "percent": "8.33",
-                        "date": "2027-08-24"
+                        "date": "2026-02-24"
                       },
                       {
                         "id": "payment-jl708rh1",
                         "title": "",
                         "percent": "8.37",
-                        "date": "2027-09-25"
+                        "date": "2026-03-25"
                       }
                     ]
                   },
@@ -5775,8 +5775,8 @@
                   "deposit": "",
                   "category": "workspace",
                   "group": "site-hire",
-                  "startDate": "2027-03-01",
-                  "endDate": "2027-05-10",
+                  "startDate": "2025-09-01",
+                  "endDate": "2025-11-10",
                   "activityId": "",
                   "usefulLife": "",
                   "warranty": false,
@@ -5835,7 +5835,7 @@
                   "deposit": "",
                   "category": "documents",
                   "group": "",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5882,7 +5882,7 @@
                   "deposit": "",
                   "category": "documents",
                   "group": "licences",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5934,7 +5934,7 @@
                   "deposit": "",
                   "category": "documents",
                   "group": "royalties",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -5986,7 +5986,7 @@
                   "deposit": "",
                   "category": "documents",
                   "group": "insurances",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "activityId": "",
                   "usefulLife": "",
@@ -6029,8 +6029,8 @@
                   ],
                   "type": "",
                   "madeBy": "resource-25sgrc67",
-                  "startDate": "2026-10-05",
-                  "endDate": "2026-10-16",
+                  "startDate": "2025-04-05",
+                  "endDate": "2025-04-16",
                   "offeringShares": {},
                   "resources": [],
                   "performerPeople": {}
@@ -6051,8 +6051,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-10-01",
-                  "endDate": "2026-10-30",
+                  "startDate": "2025-04-01",
+                  "endDate": "2025-04-30",
                   "offeringShares": {
                     "offering-nvfuu2km": "50",
                     "offering-kfyakcw5": "50"
@@ -6068,7 +6068,7 @@
                 {
                   "id": "activity-l7ai37v1",
                   "category": "production",
-                  "name": "Weave spring collection",
+                  "name": "Weave the first collection",
                   "description": "40 cushions, throws and runners in the five core colourways.",
                   "performerIds": [
                     "founder-3aux8uyh",
@@ -6081,8 +6081,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-10-12",
-                  "endDate": "2027-01-15",
+                  "startDate": "2025-04-12",
+                  "endDate": "2025-07-15",
                   "offeringShares": {},
                   "resources": [
                     {
@@ -6112,8 +6112,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-10-19",
-                  "endDate": "2026-11-27",
+                  "startDate": "2025-04-19",
+                  "endDate": "2025-05-27",
                   "offeringShares": {},
                   "resources": [
                     {
@@ -6140,8 +6140,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-10-26",
-                  "endDate": "2026-12-18",
+                  "startDate": "2025-04-26",
+                  "endDate": "2025-06-18",
                   "offeringShares": {},
                   "resources": [],
                   "performerPeople": {}
@@ -6162,8 +6162,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-08-24",
-                  "endDate": "2026-09-30",
+                  "startDate": "2025-02-24",
+                  "endDate": "2025-03-30",
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
                     "offering-8e935f0e": "30",
@@ -6189,8 +6189,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2027-01-11",
-                  "endDate": "2027-05-14",
+                  "startDate": "2025-07-11",
+                  "endDate": "2025-11-14",
                   "offeringShares": {
                     "offering-vhtapa3v": "50",
                     "offering-kfyakcw5": "50"
@@ -6219,7 +6219,7 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-10-05",
+                  "startDate": "2025-04-05",
                   "endDate": "",
                   "offeringShares": {
                     "offering-nvfuu2km": "60",
@@ -6245,8 +6245,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-10-05",
-                  "endDate": "2026-11-27",
+                  "startDate": "2025-04-05",
+                  "endDate": "2025-05-27",
                   "offeringShares": {},
                   "resources": [
                     {
@@ -6260,7 +6260,7 @@
                   "id": "activity-1p999t4p",
                   "category": "sales",
                   "name": "Run first workshops",
-                  "description": "Six beginner workshops: two a month from the opening in October, eight places each.",
+                  "description": "Six beginner workshops: two a month from the opening in April, eight places each.",
                   "performerIds": [
                     "founder-3aux8uyh",
                     "founder-3fhkh0cm",
@@ -6273,8 +6273,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-10-12",
-                  "endDate": "2026-12-14",
+                  "startDate": "2025-04-12",
+                  "endDate": "2025-06-14",
                   "offeringShares": {},
                   "resources": [
                     {
@@ -6304,8 +6304,8 @@
                   ],
                   "type": "",
                   "madeBy": "",
-                  "startDate": "2026-11-02",
-                  "endDate": "2027-01-29",
+                  "startDate": "2025-05-02",
+                  "endDate": "2025-07-29",
                   "offeringShares": {
                     "offering-nvfuu2km": "50",
                     "offering-vhtapa3v": "50"
@@ -6334,7 +6334,7 @@
                   },
                   "offeringShares": {},
                   "madeBy": "",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "name": "Freelance weaving tutor",
                   "description": "Covers the 4-week evening course when Maya is on commissions. £23.50 an hour; a three-hour workshop for eight takes about 0.8 of an hour of the tutor's time (the Delivery card), 0.1 of an hour, £2.35, each participant.",
@@ -6368,7 +6368,7 @@
                   },
                   "offeringShares": {},
                   "madeBy": "resource-etzbztap",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "name": "FlameGuard Finishing",
                   "description": "Flame-retardant treatment to BS 5852 Crib 5, with the water-soak, and its certificate for hospitality orders: about £11.30 a metre treated, £121 at least; a typical commission needs about 12 metres.\nTottenham.",
@@ -6402,7 +6402,7 @@
                   },
                   "offeringShares": {},
                   "madeBy": "",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "name": "DPD Local (courier)",
                   "description": "Tracked next-day UK delivery for every homeware order. One parcel per order, whatever it holds.",
@@ -6436,7 +6436,7 @@
                   },
                   "offeringShares": {},
                   "madeBy": "",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "name": "Royal Mail Tracked 48",
                   "description": "Tracked delivery for trade re-orders and swatch sample boxes; one parcel per order.",
@@ -6474,7 +6474,7 @@
                     "~basis": "own"
                   },
                   "madeBy": "",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "name": "Shopify Payments",
                   "description": "Card payments online: Shopify Payments charges 2.0% + 25p an order, about £2.15 on a £95 order. The rates come from the Channel Fee Table.",
@@ -6513,7 +6513,7 @@
                     "~basis": "own"
                   },
                   "madeBy": "",
-                  "startDate": "2026-10-01",
+                  "startDate": "2025-04-01",
                   "endDate": "",
                   "name": "SumUp in-person card fees",
                   "description": "SumUp’s in-person rate of 1.69%: about £2.10 on a £125 market or open-day sale.",
@@ -6647,8 +6647,8 @@
           "sectionNumber": 5,
           "value": {
             "planStart": {
-              "month": "10",
-              "year": "2026"
+              "month": "04",
+              "year": "2025"
             },
             "planYears": "3",
             "vatBasis": "",
@@ -6685,8 +6685,8 @@
                       "id": "milestone-nggdpw43",
                       "amount": "4000",
                       "month": {
-                        "month": "10",
-                        "year": "2026"
+                        "month": "04",
+                        "year": "2025"
                       },
                       "condition": "Grant agreement signed"
                     },
@@ -6694,8 +6694,8 @@
                       "id": "milestone-jcp73iph",
                       "amount": "4000",
                       "month": {
-                        "month": "04",
-                        "year": "2027"
+                        "month": "10",
+                        "year": "2025"
                       },
                       "condition": "Six-month progress report"
                     }
@@ -6706,7 +6706,7 @@
                 "needIds": [
                   "establishment"
                 ],
-                "conditions": "Must stay in Hackney for two years and create one local job by 2028.",
+                "conditions": "Must stay in Hackney for two years and create one local job by 2027.",
                 "equity": "",
                 "loan": {
                   "rate": "",
@@ -6753,18 +6753,18 @@
                 "needIds": [
                   "initial-operating"
                 ],
-                "conditions": "Personal loan to Priya Shah at 7.5% fixed (the rate since 6 April 2026), lent on to the company; £25,000 is the most one founder can borrow. 12 months of free mentoring.",
+                "conditions": "Personal loan to Priya Shah at 6% fixed (the rate until 5 April 2026), lent on to the company; £25,000 is the most one founder can borrow. 12 months of free mentoring.",
                 "equity": "",
                 "loan": {
-                  "rate": "7.5",
+                  "rate": "6",
                   "interestType": "fixed",
                   "start": {
-                    "month": "10",
-                    "year": "2026"
+                    "month": "04",
+                    "year": "2025"
                   },
                   "repaymentStart": {
-                    "month": "11",
-                    "year": "2026"
+                    "month": "05",
+                    "year": "2025"
                   },
                   "frequency": "monthly",
                   "payments": "60",
@@ -6783,8 +6783,8 @@
                 "schedule": {
                   "kind": "one-time",
                   "month": {
-                    "month": "02",
-                    "year": "2027"
+                    "month": "08",
+                    "year": "2025"
                   },
                   "periodAmount": "",
                   "frequency": "monthly",
@@ -6800,7 +6800,7 @@
                 "needIds": [
                   "initial-operating"
                 ],
-                "conditions": "SEIS advance assurance first (investors get 50% income tax relief); board observer seat; pitch in December 2026, close in February 2027.",
+                "conditions": "SEIS advance assurance first (investors get 50% income tax relief); board observer seat; pitch in June 2025, close in August 2025.",
                 "equity": "10",
                 "loan": {
                   "rate": "",
@@ -6830,8 +6830,8 @@
                 "schedule": {
                   "kind": "one-time",
                   "month": {
-                    "month": "11",
-                    "year": "2026"
+                    "month": "05",
+                    "year": "2025"
                   },
                   "periodAmount": "",
                   "frequency": "monthly",
@@ -6843,7 +6843,7 @@
                   "milestones": [],
                   "note": ""
                 },
-                "purpose": "Pre-sell the Heritage Throw limited edition for Christmas; Kickstarter keeps 5% and card processing about 3–5%.",
+                "purpose": "Pre-sell the Heritage Throw limited edition in the spring; Kickstarter keeps 5% and card processing about 3–5%.",
                 "needIds": [],
                 "conditions": "",
                 "equity": "",
@@ -6875,8 +6875,8 @@
                 "schedule": {
                   "kind": "one-time",
                   "month": {
-                    "month": "10",
-                    "year": "2026"
+                    "month": "04",
+                    "year": "2025"
                   },
                   "periodAmount": "",
                   "frequency": "monthly",
@@ -6927,8 +6927,8 @@
                 "frequency": "per-sale",
                 "volume": "10",
                 "start": {
-                  "month": "10",
-                  "year": "2026"
+                  "month": "04",
+                  "year": "2025"
                 },
                 "development": "gradual",
                 "initialVolume": "3",
@@ -6953,8 +6953,8 @@
                 "frequency": "per-sale",
                 "volume": "32",
                 "start": {
-                  "month": "10",
-                  "year": "2026"
+                  "month": "04",
+                  "year": "2025"
                 },
                 "development": "gradual",
                 "initialVolume": "12",
@@ -6979,8 +6979,8 @@
                 "frequency": "per-project",
                 "volume": "3",
                 "start": {
-                  "month": "01",
-                  "year": "2027"
+                  "month": "07",
+                  "year": "2025"
                 },
                 "development": "gradual",
                 "initialVolume": "0.5",
@@ -7005,8 +7005,8 @@
                 "frequency": "per-sale",
                 "volume": "3",
                 "start": {
-                  "month": "06",
-                  "year": "2027"
+                  "month": "12",
+                  "year": "2025"
                 },
                 "development": "gradual",
                 "initialVolume": "1",
@@ -7035,7 +7035,7 @@
         {
           "sectionNumber": 1,
           "value": {
-            "situation": "Lumen & Loom Studio Ltd was incorporated in March 2026 by Maya Chen, Oliver Grant and Priya Shah and opens its Hackney Wick studio in October 2026. We sell a handwoven homeware collection online and at London markets, run beginner weaving workshops, and are starting bespoke commissions and a trade collection for interior designers and boutique hotels. Customers find us through Instagram, markets, word of mouth and design fairs. We are funded by £13,000 of founders’ capital, a £25,000 Start Up Loan and an £8,000 Hackney grant (half received). Monthly fixed costs are about £7,300, mostly three modest director salaries and rent; revenue starts small and is expected to cover costs from May 2027. To close a funding gap of about £15,500 before then, we are raising £20,000 from angels under SEIS (closing in February 2027) and £6,000 on Kickstarter before Christmas 2026.",
+            "situation": "Lumen & Loom Studio Ltd was incorporated in March 2025 by Maya Chen, Oliver Grant and Priya Shah and opened its Hackney Wick studio in April 2025. We sell a handwoven homeware collection online and at London markets, run beginner weaving workshops, and are starting bespoke commissions and a trade collection for interior designers and boutique hotels. Customers find us through Instagram, markets, word of mouth and design fairs. We are funded by £13,000 of founders’ capital, a £25,000 Start Up Loan and an £8,000 Hackney grant (half received at the opening). Monthly fixed costs are about £7,300, mostly three modest director salaries and rent; revenue starts small and is expected to cover costs from November 2025. To close a funding gap of about £15,200 before then, we are raising £20,000 from angels under SEIS (closing in August 2025) and £6,000 on Kickstarter in May 2025.",
             "situationSource": "",
             "swot": {
               "strengths": [
@@ -7060,7 +7060,7 @@
                 "Cost-of-living pressure on discretionary spending",
                 "Rising wool and energy prices",
                 "Larger brands launching “artisan” lines",
-                "Rent review on the studio in 2028"
+                "Rent review on the studio in 2027"
               ]
             },
             "swotEdited": [
@@ -7072,19 +7072,19 @@
             "compass": "By 2030, Lumen & Loom is London’s best-known independent weaving studio: a team of eight makers, a collection stocked by twenty UK independents, commissions for boutique hotels across the UK, a workshop programme with a waiting list, and a fully traceable low-carbon supply chain. Profitable, and still making every piece by hand in Hackney.",
             "period": {
               "start": {
-                "month": "10",
-                "year": "2026"
+                "month": "04",
+                "year": "2025"
               },
               "end": {
-                "month": "09",
-                "year": "2029"
+                "month": "03",
+                "year": "2028"
               }
             },
             "themes": [
               {
                 "id": "theme-c1woqy5y",
                 "name": "Financial Resilience",
-                "description": "Close the funding gap, reach break even by May 2027 and build three months of reserves, so the studio can grow without living month to month."
+                "description": "Close the funding gap, reach break even by November 2025 and build three months of reserves, so the studio can grow without living month to month."
               },
               {
                 "id": "theme-p8f8o5y7",
@@ -7130,18 +7130,18 @@
                       "description": "Secure the £20k angel round, the £6k Kickstarter and the remaining grant instalment.",
                       "period": {
                         "start": {
-                          "month": "10",
-                          "year": "2026"
+                          "month": "04",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "04",
-                          "year": "2027"
+                          "month": "10",
+                          "year": "2025"
                         }
                       },
                       "initiatives": [
                         "Prepare SEIS advance assurance and pitch deck",
-                        "Pitch to Kiln Collective and two other angel networks in December 2026",
-                        "Run the Heritage Throw Kickstarter in November 2026",
+                        "Pitch to Kiln Collective and two other angel networks in June 2025",
+                        "Run the Heritage Throw Kickstarter in May 2025",
                         "Submit the six-month grant progress report on time"
                       ],
                       "metrics": [
@@ -7153,7 +7153,7 @@
                           "frequency": "Monthly",
                           "unit": "Currency",
                           "currency": "GBP",
-                          "description": "Funding received or agreed: £46,000 now, £72,000 with the angel round and the Kickstarter, against the £61.5k Funding Need"
+                          "description": "Funding received or agreed: £46,000 now, £72,000 with the angel round and the Kickstarter, against the £61.2k Funding Need"
                         }
                       ],
                       "ownerId": "founder-3fhkh0cm"
@@ -7164,12 +7164,12 @@
                       "description": "Monthly revenue covers fixed and variable costs.",
                       "period": {
                         "start": {
-                          "month": "10",
-                          "year": "2026"
+                          "month": "04",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "05",
-                          "year": "2027"
+                          "month": "11",
+                          "year": "2025"
                         }
                       },
                       "initiatives": [
@@ -7216,12 +7216,12 @@
                       "description": "Trade range, price list and swatch box launched at Clerkenwell Design Week.",
                       "period": {
                         "start": {
-                          "month": "01",
-                          "year": "2027"
+                          "month": "07",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "06",
-                          "year": "2027"
+                          "month": "12",
+                          "year": "2025"
                         }
                       },
                       "initiatives": [
@@ -7249,12 +7249,12 @@
                       "description": "Win and deliver commissions for boutique hotels on time.",
                       "period": {
                         "start": {
-                          "month": "01",
-                          "year": "2027"
+                          "month": "07",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "09",
-                          "year": "2028"
+                          "month": "03",
+                          "year": "2027"
                         }
                       },
                       "initiatives": [
@@ -7301,16 +7301,16 @@
                       "description": "Beginner and intermediate workshops at 90% occupancy.",
                       "period": {
                         "start": {
-                          "month": "10",
-                          "year": "2026"
+                          "month": "04",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "09",
-                          "year": "2027"
+                          "month": "03",
+                          "year": "2026"
                         }
                       },
                       "initiatives": [
-                        "Launch gift vouchers before Christmas 2026",
+                        "Launch gift vouchers before Christmas 2025",
                         "Add a 4-week evening course",
                         "Partner with two local cafés and a bookshop for listings"
                       ],
@@ -7344,12 +7344,12 @@
                       "description": "Past participants return, share their work and recommend us.",
                       "period": {
                         "start": {
-                          "month": "01",
-                          "year": "2027"
+                          "month": "07",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "09",
-                          "year": "2029"
+                          "month": "03",
+                          "year": "2028"
                         }
                       },
                       "initiatives": [
@@ -7385,12 +7385,12 @@
                       "description": "From about 15 to 30 pieces a month: the collection, the trade range and commission pieces.",
                       "period": {
                         "start": {
-                          "month": "04",
-                          "year": "2027"
+                          "month": "10",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "09",
-                          "year": "2028"
+                          "month": "03",
+                          "year": "2027"
                         }
                       },
                       "initiatives": [
@@ -7418,12 +7418,12 @@
                       "description": "Every yarn traced to farm or mill, with a carbon estimate per product.\nTraceable, from farm to cloth.",
                       "period": {
                         "start": {
-                          "month": "10",
-                          "year": "2026"
+                          "month": "04",
+                          "year": "2025"
                         },
                         "end": {
-                          "month": "09",
-                          "year": "2027"
+                          "month": "03",
+                          "year": "2026"
                         }
                       },
                       "initiatives": [

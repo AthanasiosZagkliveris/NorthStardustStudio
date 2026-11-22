@@ -72,9 +72,9 @@ describe("the forecast's accounting conventions", () => {
         expect(forecast.profitAndLoss.rows.some(entry => /drawings/i.test(entry.label))).toBe(false);
         expect(forecast.profitKept).toBeNull();
         // Their salaries are a cost, analysed by nature.
-        // (The plan starts in Mar 2026 with a registration fee; the salaries begin when the studio opens, in Oct 2026.)
+        // (The plan starts in Feb 2025 with the trade mark and ICO fees; the salaries begin when the studio opens, in Apr 2025.)
         const salaries = forecast.profitAndLoss.rows.find(entry => entry.label === "Salaries")!.values;
-        const opens = forecast.months.indexOf("Oct 2026");
+        const opens = forecast.months.indexOf("Apr 2025");
         salaries.slice(0, opens).forEach(amount => expect(amount).toBeCloseTo(0, 6));
         expect(salaries[opens]).toBeCloseTo(5400, 6);
         // Lumen's founders put in £13,000; the Hackney grant is income, not capital.

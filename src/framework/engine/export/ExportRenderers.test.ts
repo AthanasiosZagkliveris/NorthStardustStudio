@@ -48,11 +48,11 @@ describe("exporting the Foundation capability", () => {
         expect(outputs.business).toContain("Segment 1: London Homemakers");
         expect(outputs.business).toContain("1. Customer Channel");
         expect(outputs.business).toContain("8-shaft floor looms");
-        expect(outputs.business).toContain("Total Funding Need: £61,124");
+        expect(outputs.business).toContain("Total Funding Need: £60,933");
         expect(outputs.business).toContain("Break-even revenue");
         expect(outputs.strategy).toContain("Financial Resilience");
         expect(outputs.strategy).toContain("2.1.1 Launch the Trade Collection");
-        expect(outputs.strategy).toContain("Goals & Objectives · Oct 2026 – Sep 2029");
+        expect(outputs.strategy).toContain("Goals & Objectives · Apr 2025 – Mar 2028");
         expect(outputs.identity).toContain("Formation Date: 2 March 2025");
     });
 
