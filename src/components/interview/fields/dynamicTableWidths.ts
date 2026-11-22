@@ -3,7 +3,7 @@
     a cache). Moved out of DynamicTable.tsx as they were (2026-11-10, the owner: "optimise the app and the folders"): the same values and the
     same code; the table imports them.
 */
-import type { TableColumn } from "./DynamicTable.tsx";
+import type { TableColumn } from "./dynamicTableTypes.ts";
 
 // Fallback/minimum width for the automatic row-number
 // column when its label is the default "#" -- a Table
@@ -79,7 +79,7 @@ let measureCanvas: HTMLCanvasElement | null = null;
 
 // Memoizes measureTextWidth by its exact (font, text) input. Every
 // Table's contentMaxWidths recomputes over EVERY cell on EVERY
-// keystroke anywhere in that Table (see the useMemo below) -- with
+// keystroke anywhere in that Table (see its useMemo in useColumnWidths.ts) -- with
 // this cache, only the cell whose text actually changed since the
 // last measurement pays for a real canvas `measureText` call; every
 // other cell's unchanged text is a plain Map lookup instead. Shared

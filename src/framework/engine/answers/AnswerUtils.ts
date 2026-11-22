@@ -296,7 +296,7 @@ export function defaultAnswerValue(answer: AnswerDefinition): unknown {
             const row: TableAnswerRow = {};
 
             // A `repeatable`/`repeatableValue` column's cell holds a
-            // LIST of values (see DynamicTable's own `createRow`) --
+            // LIST of values (see the table's `createRow`, dynamicTableRows.ts) --
             // seeded here the same way, so the very first row a
             // fresh Table starts with already has the right shape
             // instead of relying on DynamicTable to paper over a
