@@ -428,7 +428,7 @@
 
     container: capability-tiles / inline-size;
 
-    width: min(100%, calc(3 * var(--capability-side, var(--quad-cap)) + 2 * var(--space-card)));
+    width: min(100%, calc(var(--capability-across, 3) * var(--capability-side, var(--quad-cap)) + (var(--capability-across, 3) - 1) * var(--space-card)));
 
     margin-inline: auto;
 
@@ -438,7 +438,7 @@
 
 .capability-tiles .section-tiles-box > .section-tiles {
 
-    --section-tile-size: min(calc((100cqw - 2 * var(--space-card)) / 3 - 0.01px), var(--capability-side, var(--quad-cap)));
+    --section-tile-size: min(calc((100cqw - (var(--capability-across, 3) - 1) * var(--space-card)) / var(--capability-across, 3) - 0.01px), var(--capability-side, var(--quad-cap)));
 
     justify-content: center;
 

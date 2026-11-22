@@ -372,7 +372,9 @@ export default function SystemSelection() {
 
                     {/* (NO FRAME (owner, 2026-11-22 20:58 UTC+2: "the capability tiles do not need to be in a frame"): the six tiles, two rows of three, each the
                         master tiles' size (`--capability-side`, the side a page's 2 x 2 has in this window), centred under the title.) */}
-                    <div ref={tilesBox} className="capability-tiles" style={{ "--strategy-theme-hue": hueOf(getCapabilityColor(shown?.id ?? "foundation")), ...(tileSide ? { "--capability-side": tileSide + "px" } : {}) } as React.CSSProperties}>
+                    <div ref={tilesBox} className="capability-tiles" style={{ "--strategy-theme-hue": hueOf(getCapabilityColor(shown?.id ?? "foundation")), ...(tileSide ? { "--capability-side": tileSide + "px" } : {}),
+                        // (FOUR TILES STAND TWO BY TWO (owner, 2026-11-22 21:37 UTC+2: "If there are 4 tiles make the layout 2 x 2"), as a chapter's four; else three a row.)
+                        "--capability-across": shown && shownSystems.length === 4 ? 2 : 3 } as React.CSSProperties}>
                         {shown
                             ? (
                                 // (The Capability's Systems, a tile each, as the Capabilities are: two rows of three at the master tiles' size, in its colour.)
