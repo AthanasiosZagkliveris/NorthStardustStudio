@@ -1,6 +1,6 @@
 # The library (Library 1 to 7)
 
-Status: **index**, updated 2026-11-21. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-11-22. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
 The library system (1), the assets library with the component defaults (2), the generated lists of components and fields (3, 4), the library measured against the app (5), and its two logs (6, 7).
 

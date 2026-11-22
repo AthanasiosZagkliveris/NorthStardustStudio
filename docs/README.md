@@ -1,6 +1,6 @@
 # The documents of NorthStardustStudio
 
-Status: **index**, updated 2026-11-21. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
+Status: **index**, updated 2026-11-22. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
 
 ## How the documents are kept
 
@@ -100,7 +100,7 @@ What every screen shares, from the shared components (1) to the smallest text: t
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [design/interface/01-shared-components.md](design/interface/01-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-11-21 |
+| [design/interface/01-shared-components.md](design/interface/01-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-11-22 |
 | [design/interface/02-text-holders.md](design/interface/02-text-holders.md) | generated | The text holders: sizes, style classes and rules. | 2026-11-21 |
 | [design/interface/03-free-text-categories.md](design/interface/03-free-text-categories.md) | current design | Free texts in four categories: the categories, the owner's decisions, the proposed limits and what is still to build. | 2026-11-21 |
 | [design/interface/04-frequency-options.md](design/interface/04-frequency-options.md) | generated | The Frequency options by group, compared with the code. | 2026-11-21 |
@@ -171,8 +171,8 @@ Standing rules, references and playbooks for an AI assistant working on the proj
 | [ai/07-framework-dsl-grammar.md](ai/07-framework-dsl-grammar.md) | reference | Grammar of the Markdown that defines a System's content. | 2026-11-21 |
 | [ai/06-framework-conventions-and-patterns.md](ai/06-framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-11-21 |
 | [ai/02-review.md](ai/02-review.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured and the report (sections 1 to 12), and the checklist to tick before saying done (section 13). | 2026-11-21 |
-| [ai/04-code-map.md](ai/04-code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-21 |
-| [ai/09-layout-rules.md](ai/09-layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-21 |
+| [ai/04-code-map.md](ai/04-code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-22 |
+| [ai/09-layout-rules.md](ai/09-layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-22 |
 | [ai/08-card-kinds.md](ai/08-card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-11-21 |
 | [ai/05-folder-plan.md](ai/05-folder-plan.md) | reference | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder (it was document 25; the number is retired). | 2026-11-21 |
 
@@ -188,7 +188,7 @@ The pages of the four Systems (Identity, Brand, Business, Strategy), the Invento
 | [specifications/03-business-system/01-foundation.md](specifications/03-business-system/01-foundation.md) | specification | Page 1, Foundation & Engagement, Section 1: the Foundation. | 2026-11-21 |
 | [specifications/03-business-system/02-channels.md](specifications/03-business-system/02-channels.md) | specification | Page 1, Foundation & Engagement, Section 2, part 1: the channels. | 2026-11-21 |
 | [specifications/03-business-system/03-customer-relationships.md](specifications/03-business-system/03-customer-relationships.md) | specification | Page 1, Foundation & Engagement, Section 2, part 2: customer relationships (section 18 holds a worked example and the column rules). | 2026-11-21 |
-| [specifications/03-business-system/04-infrastructure-and-capability.md](specifications/03-business-system/04-infrastructure-and-capability.md) | specification | Page 2, Section 3: Infrastructure & Capability. | 2026-11-21 |
+| [specifications/03-business-system/04-infrastructure-and-capability.md](specifications/03-business-system/04-infrastructure-and-capability.md) | specification | Page 2, Section 3: Infrastructure & Capability. | 2026-11-22 |
 | [specifications/03-business-system/05-revenue-and-pricing.md](specifications/03-business-system/05-revenue-and-pricing.md) | specification | Section 4: Revenue & Pricing, drawn on the page Financials. | 2026-11-21 |
 | [specifications/03-business-system/06-costs-funding-and-position.md](specifications/03-business-system/06-costs-funding-and-position.md) | specification | Section 5: Costs, Funding & Position, drawn on the page Financials. | 2026-11-21 |
 | [specifications/05-inventory/README.md](specifications/05-inventory/README.md) | current design | The Inventory: the help tile of Infrastructure & Capability that holds every card of the page, as tiles or a table, under one funnel. | 2026-11-21 |

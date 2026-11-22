@@ -1,6 +1,6 @@
 # The interface (Interface 1 to 10)
 
-Status: **index**, updated 2026-11-21. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-11-22. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
 What every screen shares, from the shared components (1) to the smallest text: the text holders (2), the free texts (3), the Frequency options (4), the reactions (5), the text links (6), the pop-ups (7), the tooltips (8), the help texts (9) and the guide to what an "i" says (10).
 
@@ -8,7 +8,7 @@ The standard for these documents is [the standard of the documents](../../standa
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [01-shared-components.md](01-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-11-21 |
+| [01-shared-components.md](01-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-11-22 |
 | [02-text-holders.md](02-text-holders.md) | generated | The text holders: sizes, style classes and rules. | 2026-11-21 |
 | [03-free-text-categories.md](03-free-text-categories.md) | current design | Free texts in four categories: the categories, the owner's decisions, the proposed limits and what is still to build. | 2026-11-21 |
 | [04-frequency-options.md](04-frequency-options.md) | generated | The Frequency options by group, compared with the code. | 2026-11-21 |
