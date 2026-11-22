@@ -1466,6 +1466,23 @@
 
 }
 
+/* THE PHONE (600px and under; layout rules section 23, "The phone"): the Capital stands under the Name (a 14em column left the Name 96px). */
+@media (max-width: 600px) {
+
+    .founders-profile-sole-row {
+
+        grid-template-columns: minmax(0, 1fr);
+
+    }
+
+    .founders-profile-sole-row > .optional-field:not(:has(> .optional-field-body)) > .optional-field-head {
+
+        margin-top: 0;
+
+    }
+
+}
+
 /* The sections of one relationship (its audience and its buyer's category; its buyer and user relationship and the user's life stage) stand one field gap (12px) apart, as every section of the card does. */
 .legal-entity-org-set{
 
@@ -1575,6 +1592,33 @@
 .legal-entity-grid-organization.legal-entity-audience.legal-entity-org-fields{
 
     grid-template-columns:repeat(2, minmax(0, 1fr));
+
+}
+
+/* THE PHONE (600px and under; layout rules section 23, "The phone"): the two columns stand one under the other (two of 166px held "Quillfield Autom..." and cut
+   the Activities' codes), with no divider between them. */
+@media (max-width: 600px){
+
+    .legal-entity-grid-organization.legal-entity-audience.legal-entity-org-fields{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+    .legal-entity-grid-organization.legal-entity-audience.legal-entity-org-fields::before{
+
+        display:none;
+
+    }
+
+    .legal-entity-grid-organization.legal-entity-audience.legal-entity-org-fields > .legal-entity-field{
+
+        padding-left:0;
+        padding-right:0;
+
+        border-left:0;
+
+    }
 
 }
 

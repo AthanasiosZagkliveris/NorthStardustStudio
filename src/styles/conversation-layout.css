@@ -69,3 +69,14 @@
     gap: var(--gap-12);
 
 }
+/* THE PHONE (600px and under; layout rules section 23, "The phone"): the page's sides are the 16px gutter (--rail-gutter, bullet-rail.css), not 40px: the rails
+   stand in the footer's band there, and a 390px phone keeps 358px for the card. */
+@media (max-width: 600px) {
+
+    .conversation-content {
+
+        padding-inline: var(--rail-gutter, 16px);
+
+    }
+
+}

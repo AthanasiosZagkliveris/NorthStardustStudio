@@ -597,3 +597,36 @@
     white-space: normal;
 
 }
+
+/* THE PHONE (600px and under; layout rules section 23, "The phone"; owner, 2026-11-22 09:52 UTC+2): a tile's title one step down the scale, the small step (14px,
+   as its list), in capitals with no added tracking, its words whole -- never cut at a letter ("ORGANI / SATION" at 18px in a 136px tile). Measured on every
+   page at 390 and 360 wide: every master tile's title fits. The chapter's heading keeps its words whole too. */
+@media (max-width: 600px) {
+
+    .section-tile-title {
+
+        font-size: var(--font-small);
+
+        letter-spacing: 0;
+
+        overflow-wrap: normal;
+        word-break: normal;
+
+    }
+
+    /* (A master tile's sides 8px, not the card padding's 12: "COMMUNICATION & VOICE" in capitals needs 125px, a 360px phone's tile gives 129 so.) */
+    .section-tiles-quad .section-tile {
+
+        padding-inline: calc(var(--gap-8) + 1px);
+
+    }
+
+    .answer-column-label,
+    .tiles-frame-head {
+
+        overflow-wrap: normal;
+        word-break: normal;
+
+    }
+
+}

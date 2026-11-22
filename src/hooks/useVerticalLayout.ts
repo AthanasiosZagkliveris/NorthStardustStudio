@@ -34,3 +34,8 @@ export function useVerticalAcross(): number {
     }, []);
     return across;
 }
+
+/** Whether the window is a phone's (PHONE_QUERY): there the rails stand in a row in the footer's band (bullet-rail.css), and nothing is placed round an arrow in a column. */
+export function isPhone(): boolean {
+    return typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia(PHONE_QUERY).matches;
+}

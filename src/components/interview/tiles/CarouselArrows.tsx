@@ -4,6 +4,7 @@ import { CSSProperties, RefObject, useEffect, useLayoutEffect, useRef, useState 
 import { type CarouselStep } from "./SectionTileTypes.ts";
 import { arrowLevel } from "./SectionTileGeometry.tsx";
 import { type RailSlot, slotMargin, useRailSlot } from "../rails/useRailSlot.ts";
+import { isPhone } from "../../../hooks/useVerticalLayout.ts";
 
 /** The carousel arrow's box: the page arrow's (24 x 44), 10% larger. */
 export const CAROUSEL_ARROW_WIDTH = 24;
@@ -272,7 +273,7 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
     const named = step.what === "section" && room >= namedWidth;
 
     // (The one placement of every rail: useRailSlot, shared with the page's rails.)
-    const slot = useRailSlot(railRef, () => at ? { left: at.side === "left" ? at.left : window.innerWidth - at.right - CAROUSEL_ARROW_WIDTH, right: (at.side === "left" ? at.left : window.innerWidth - at.right - CAROUSEL_ARROW_WIDTH) + CAROUSEL_ARROW_WIDTH, top: at.top - 22, bottom: at.top + 22 } : null, !!at?.tab && !covered);
+    const slot = useRailSlot(railRef, () => at ? { left: at.side === "left" ? at.left : window.innerWidth - at.right - CAROUSEL_ARROW_WIDTH, right: (at.side === "left" ? at.left : window.innerWidth - at.right - CAROUSEL_ARROW_WIDTH) + CAROUSEL_ARROW_WIDTH, top: at.top - 22, bottom: at.top + 22 } : null, !!at?.tab && !covered && !isPhone());
     railSlot.current = slot;
 
     if (!at || !topmost || covered) {

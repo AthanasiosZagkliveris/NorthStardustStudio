@@ -225,6 +225,20 @@
 
 }
 
+/* THE PHONE (600px and under; layout rules section 23, "The phone"): the band holds Back and the page's rails (bullet-rail.css), so it is a surface: the
+   header's ground and its soft shadow, as the app's top band has, so the page scrolls under it. */
+@media (max-width: 600px) {
+
+    .workspace-footer {
+
+        background: var(--bg-surface);
+
+        box-shadow: var(--shadow-menu);
+
+    }
+
+}
+
 .workspace-footer > *,
 .workspace-footer-actions {
 
