@@ -1037,6 +1037,13 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
+/* (As wide as the Inventory and Completed rectangles, --band-button-width, global.css.) */
+.business-foundation-segment-frames + .business-foundation-input-actions > .strategy-add-button {
+
+    min-width: var(--band-button-width);
+
+}
+
 /* "+ ADD SEGMENT" STANDS IN THE FOOTER'S BAND, level with Back, as the Inventory and Completed tiles do on Infrastructure & Capability (owner, 2026-11-11: "why does
    this page scroll? There is nothing lower to reveal"; "make sure all chapters and their master tiles are the same size across pages"): it takes no room above the
    footer, so the page fits the window as every tile page does and its chapters are their size. At the left edge of the page card; where the page card stacks or

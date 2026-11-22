@@ -1,4 +1,6 @@
-import logo from "../../assets/organization-framework.svg";
+// THE TILES LOGO (owner, 2026-11-22 18:58 UTC+2: "Replace the North Stardust logo with the Tiles logo"): the approved flat logo, the nine-tile T on its midnight
+// board (project Library, designs/tiles-logo/final), the same in every reading mode.
+import logo from "../../assets/tiles-logo.svg";
 
 import { lazy, Suspense } from "react";
 import AddButton from "../controls/AddButton.tsx";
@@ -53,9 +55,17 @@ export default function AppHeader({ organizationName, focusable = false, reloada
 
             <img
                 src={logo}
-                alt="North Stardust Organisation Framework"
+                alt="Tiles"
                 className="app-logo"
             />
+
+            {/* THE BUTTONS AT THE HEADER'S RIGHT END (owner, 2026-11-22 18:58 UTC+2: "Place the headers button at the right side"): the Organisation's name stands
+                before the saved signal and the tools, against them (app-header.css). */}
+            {organizationName && (
+                <h1 className="app-header-organization-name" title={organizationName}>
+                    {organizationName}
+                </h1>
+            )}
 
             {/* Whether the open Organization's edits are saved --
                 only where one is open. */}
@@ -109,12 +119,6 @@ export default function AppHeader({ organizationName, focusable = false, reloada
 
             {/* Undo after a removal: one toast for the whole app. */}
             {organizationName && <UndoToast />}
-
-            {organizationName && (
-                <h1 className="app-header-organization-name" title={organizationName}>
-                    {organizationName}
-                </h1>
-            )}
 
         </header>
 

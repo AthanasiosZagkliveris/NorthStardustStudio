@@ -72,7 +72,9 @@ export default function InterviewHeader({
                     {systemNumber ? `${systemNumber}. ${systemName}` : systemName}
                     {pageTitle && (
                         <span className={"interview-header-page-title" + (pageTitleCapitals ? " interview-header-page-title-capitals" : "")}>
-                            {` — ${pageTitle}`}
+                            {/* (In the vertical layout the page's title stands on a line of its own under the System's name, without the dash: 01-interview.css.) */}
+                            <span className="interview-header-dash">{" — "}</span>
+                            {pageTitle}
                         </span>
                     )}
                     {note}

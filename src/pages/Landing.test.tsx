@@ -128,8 +128,8 @@ describe("Landing user name", () => {
 
         render(<MemoryRouter><Landing /></MemoryRouter>);
 
-        const box = screen.getByRole("textbox", { name: "Your name, as it should appear on your documents" });
-        expect(box.getAttribute("placeholder")).toBe("Your name, as it should appear on your documents");
+        const box = screen.getByRole("textbox", { name: "Your name" });
+        expect(box.getAttribute("placeholder")).toBe("Your name");
         expect(document.querySelector(".user-name-label")).toBeNull();
         expect(screen.queryByText(/^User Name$/i)).toBeNull();
 

@@ -1152,8 +1152,10 @@
 }
 
 /* THE NOTES BAND RUNS TO THE DIALOG'S FOOT (owner's screenshot, 2026-11-20 18:35 UTC+2: a strip of the dialog's inner shade stood under it): its 12px under
-   the Notes cell are the dialog's last 12px; the dialog keeps no padding, gap or empty foot below it, and the band takes the dialog's lower corners. */
-.section-tile-dialog:has(.brand-inventory .brand-asset-slot-icon > .brand-slot-aside){
+   the Notes cell are the dialog's last 12px; the dialog keeps no padding, gap or empty foot below it, and the band takes the dialog's lower corners. (Named
+   with its overlay: the dialog's own padding, .section-tile-overlay.business-foundation > .section-tile-dialog.business-foundation-card, was as specific and
+   later, so the strip stood again; owner's screenshot, 2026-11-22 18:28 UTC+2, "The bottom part of the Icon and Logo".) */
+.section-tile-overlay > .section-tile-dialog:has(.brand-inventory .brand-asset-slot-icon > .brand-slot-aside){
 
     padding-bottom:0;
     row-gap:0;

@@ -8,6 +8,7 @@ import { cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, 
 import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext, StackUnderContext } from "./DialogLevels.tsx";
 import { TileFace, TileLinks, TilePlus, useTileAim } from "./TileParts.tsx";
 import { OPEN_EVENT, FloatingCards, TileDialog } from "./FloatingCards.tsx";
+import { verticalAcross } from "../../../hooks/useVerticalLayout.ts";
 
 export * from "./SectionTileTypes.ts";
 export * from "./SectionTileGeometry.tsx";
@@ -122,7 +123,10 @@ export default function SectionTiles({
             // (The Inventory and Completed row stands in the footer's band and takes no room above it, so the chapters and their tiles are the same size on every page of a window.)
             // (The grid keeps its 12px gap above the Inventory and Completed row, which has no height of its own: every page keeps it, so the tiles are one size on every page.)
             const reserved = 12;
-            const side = Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - reserved) / bigRows);
+            // (IN THE VERTICAL LAYOUT THE TILES FILL THEIR CHAPTER (owner, 2026-11-22 18:58 UTC+2: "the Chapter frame, and the master Tiles, should shrink or grow
+            // proportionally. The chapter frame should always hug (having a specific gap) the master tiles"; layout rules section 23): the page scrolls there, so the
+            // window's height holds them to nothing, and the frame stands its 12px padding round them at every width.)
+            const side = verticalAcross() > 0 ? 9999 : Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - reserved) / bigRows);
             box.style.setProperty("--quad-max-side", Math.max(side, 150) + "px");
             // The type of the four tiles from the type scale by their size: 24px titles and 18px lists from 250px a side, else 18px and 14px.
             // (EVERY CHAPTER HAS THE SAME TYPE (owner, 2026-11-19 22:47 UTC+2, the Segment chapters): the width is the first chapter's, the one shown, so a chapter

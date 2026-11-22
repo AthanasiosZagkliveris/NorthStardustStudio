@@ -508,12 +508,15 @@ export function useCapabilitySections(earlier: Earlier) {
 
                 </div>
 
-                </BandSection>
-                {/* (The Team's costs and the Resources stand in the Team & Responsibilities section, one band with the Team and the Responsible: owner, 2026-11-19 00:20
-                    UTC+2, "Team, Resources and Responsible should be a section".) */}
-                <BandSection name="team">
+                {/* (THE TEAM'S COSTS STAND WITH THE TEAM, as the Resources' with the Resources (owner, 2026-11-22 18:58 UTC+2: "In the Activities, Team section, do not mix
+                    up the dividing lines between different parts and expenses"): a line between the Team, the Resources and the Responsible, none between a part and its
+                    costs.) */}
                 {performerCosts(scope, activity)}
 
+                </BandSection>
+                {/* (The Resources stand in the Team & Responsibilities section, one band with the Team and the Responsible: owner, 2026-11-19 00:20
+                    UTC+2, "Team, Resources and Responsible should be a section".) */}
+                <BandSection name="team">
                 <div className="business-capability-stack business-capability-activity-fields">
 
                     {activityResources(scope, activity, number, onActivity)}

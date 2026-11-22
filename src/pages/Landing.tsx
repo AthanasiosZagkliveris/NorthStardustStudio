@@ -20,8 +20,9 @@ import "../styles/global.css";
 import "../styles/landing.css";
 import "../styles/system-confirmation.css";
 
-/** The user's name box's words, its placeholder and its accessible name: what is asked and why (it starts the first founder's name, which the documents print). */
-const USER_NAME_WORDS = "Your name, as it should appear on your documents";
+/** The user's name box's words, its placeholder and its accessible name: a plain message (owner, 2026-11-22 18:58 UTC+2: "The App User's name - should be a simple
+ * message. Do not link it with the organization ownership or founders"): the app's user, whoever owns or founds the Organisations. */
+const USER_NAME_WORDS = "Your name";
 
 export default function Landing() {
 
@@ -304,7 +305,8 @@ export default function Landing() {
       <AppHeader reloadable totalReview onReload={refreshExampleOrganizations} />
 
       {/* The user's name: the words inside the box alone, no label above it (owner, 2026-11-09: the label and the placeholder said the
-          same). It says why it is asked: it starts the first founder's name on Identity › Legal Entity, which the documents print. */}
+          same). The app's user, not an Organisation's founder (owner, 2026-11-22). (THE CAPABILITY GENERATOR IS A FUTURE FEATURE (owner, 2026-11-22 18:58 UTC+2:
+          "Move the Capability generator to future features"): the Landing page opens System Selection alone; its page stays, unlinked, until it is built.) */}
       <section className="user-name-section">
 
           <TextBox
@@ -394,21 +396,25 @@ export default function Landing() {
 
         <div className="organization-actions">
 
+            {/* (Their words short, one line each in a row of three: what they act on is the list above them; their names say it in full.) */}
             <AddButton
+                aria-label="Add Organisation"
                 onClick={addOrganization}>
-                + Add Organisation
+                + Add
             </AddButton>
 
             <AddButton
+                aria-label="Import Organisation"
                 onClick={() => importInputRef.current?.click()}>
-                Import Organisation
+                Import
             </AddButton>
 
             <AddButton
+                aria-label="Export Organisation"
                 disabled={!selectedId}
                 title={selectedId ? undefined : "Select an Organisation to export"}
                 onClick={exportOrganization}>
-                Export Organisation
+                Export
             </AddButton>
 
         </div>
@@ -456,13 +462,6 @@ export default function Landing() {
     System Selection
 </button>
 
-<button
-    className="landing-card"
-    disabled={!canProceed}
-    onClick={() => handleProceed("/generator")}
->
-    Capability Generator
-</button>
 
       </div>
 

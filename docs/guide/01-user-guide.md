@@ -16,10 +16,10 @@ The app helps you write down the decisions your business runs on: who you are, w
 
 The first screen lists your Organisations: each business you plan is one Organisation.
 
-1. **Write your name** in the box at the top. It starts the first founder's name on Founders & Ownership and appears on your documents.
-2. **Press "+ Add Organisation"** and type its name in the new row. Press a row to select it; the selected Organisation is the one you work on.
+1. **Write your name** in the box at the top: the app's user, whoever founds or owns the Organisations (it fills in no founder).
+2. **Press "+ Add"** and type the Organisation's name in the new row. Press a row to select it; the selected Organisation is the one you work on.
 3. **Press "System Selection"** to start work on the selected Organisation.
-4. **Keep a copy**: "Export Organisation" saves the selected one as a file; "Import Organisation" opens such a file, here or on another device. The x at the end of a row removes that Organisation, after you confirm.
+4. **Keep a copy**: "Export" saves the selected Organisation as a file; "Import" opens such a file, here or on another device. The x at the end of a row removes that Organisation, after you confirm.
 
 Two examples come with the app, Lumen & Loom Studio and Quillfield Automation: open them to see a finished Foundation. The **Reload** button beside the reading mode reloads the app and refreshes the examples.
 

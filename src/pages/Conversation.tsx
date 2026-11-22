@@ -1556,13 +1556,15 @@ export default function Conversation() {
                             onSelect={id => id === INTRODUCTION_RAIL_ID
                                 ? goToIntroduction()
                                 : goToPage(pageIndexFromRailId(id, session.getSections()))}
-                            arrow={
+                            // (A System of one page has no page arrow (owner, 2026-11-22 18:58 UTC+2: "If a system consists of only a single page there is no
+                            // need for navigation arrow"): its rail's Introduction is one press away.)
+                            arrow={railPages.length <= 1 ? undefined : (
                                 <PageArrow
                                     direction="previous"
                                     label={session.isFirstSection() ? "Previous page: the Introduction" : undefined}
                                     onClick={previousPage}
                                 />
-                            }
+                            )}
                         />
                         {/* THE SEGMENT RAIL (owner, 2026-11-19, relayed: "the Segments go in the right-hand page rail"): on a page of one Segment at a time the
                             page's right-hand rail -- empty on a page drawn as tiles (layout rules section 13) -- lists the Segments, each by its id, the one shown

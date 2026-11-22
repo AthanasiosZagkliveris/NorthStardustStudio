@@ -309,8 +309,10 @@ describe("Conversation records the last place worked", () => {
         expect(current()).toMatch(/^Identity System/);
         fireEvent.keyDown(document.body, { key: "Escape" });
 
-        // Its one page leads back to the Introduction.
-        fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
+        // Its one page has no page arrow (owner, 2026-11-22: "If a system consists of only a single page there is no need for navigation arrow"); the rail's
+        // Introduction leads back.
+        expect(screen.queryByRole("button", { name: "Previous page" })).toBeNull();
+        fireEvent.click(screen.getByRole("button", { name: "Introduction" }));
         expect(screen.getByRole("button", { name: "Start Interview" })).toBeTruthy();
 
     });

@@ -1029,22 +1029,15 @@ export default function OrganizationCalendarPanel({
                 }
 
             }}
-            title="Framework Navigator"
+            title="Calendar"
         >
 
             <div className="org-calendar-inner">
 
-                <div className="org-rail-handles" aria-label="Framework Navigator">
+                <div className="org-rail-handles" aria-label="Calendar">
 
-                    {/*
-                        The rail's own proper name -- not a handle
-                        itself (no hover/click behavior), just a
-                        small always-visible label identifying the
-                        whole 3-handle rail, the same way each
-                        individual handle below identifies its own
-                        flyout.
-                    */}
-                    <div className="org-rail-name">Framework Navigator</div>
+                    {/* THE CALENDAR ALONE (owner, 2026-11-22 18:58 UTC+2: "The left Side panel should have only the calendar. Remove any other information and tag
+                        (capabilities, systems, and Framework Navigator)"): the page itself lists the Capabilities and the Systems. */}
 
                     <div className="org-rail-handle-group">
 
@@ -1061,37 +1054,6 @@ export default function OrganizationCalendarPanel({
 
                     </div>
 
-                    {!alone && (<>
-                    <div className="org-rail-handle-group">
-
-                        <PressRow
-                            className={`org-rail-handle org-rail-handle-capabilities${activeTab === "capabilities" ? " org-rail-handle-active" : ""}`}
-                            pressed={activeTab === "capabilities"}
-                            onReach={() => setActiveTab("capabilities")}
-                            onPress={() => setActiveTab("capabilities")}
-                        >
-                            <span className="org-rail-handle-label">Capabilities</span>
-                        </PressRow>
-
-                        {activeTab === "capabilities" && flyoutContent}
-
-                    </div>
-
-                    <div className="org-rail-handle-group">
-
-                        <PressRow
-                            className={`org-rail-handle org-rail-handle-systems${activeTab === "systems" ? " org-rail-handle-active" : ""}`}
-                            pressed={activeTab === "systems"}
-                            onReach={() => setActiveTab("systems")}
-                            onPress={() => setActiveTab("systems")}
-                        >
-                            <span className="org-rail-handle-label">Systems</span>
-                        </PressRow>
-
-                        {activeTab === "systems" && flyoutContent}
-
-                    </div>
-                    </>)}
 
                 </div>
 

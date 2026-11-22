@@ -316,6 +316,10 @@ body {
      1200px; the page's whole width below it (the grid and its 13px sides), where chapters stack: set in the one stacking query, 07-floating-cards-and-page-layout.css
      (layout rules sections 13 and 23). */
   --one-chapter-width: calc(50% + 7px);
+  /* THE BUTTONS OF THE FOOTER'S BAND ARE ONE SIZE (owner, 2026-11-22 18:58 UTC+2: "When laptop (smaller screens) and the Inventory and completed button/tiles are
+     rectangular, they should have the same size (Hight and width) with the Add segment button"): "+ Add Segment" and the Inventory and Completed rectangles are
+     this wide and --add-button-height high (layout rules section 12). */
+  --band-button-width: 215px;
   /* A founder's card: the marker column left of the content edge (a bullet, a number, the
      fold arrow), so the card's padding on that side is --card-padding + --founder-inset + this. */
   --founder-marker: 35.5px;

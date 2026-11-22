@@ -28,7 +28,7 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Calendar | System Selection › the left rail (the Framework Navigator) | Foundation 1, C.2; `01-contents.md` |
+| Calendar | System Selection › the left rail (the Calendar) | Foundation 1, C.2; `01-contents.md` |
 | Capabilities | System Selection › the left rail and the list: Foundation, Deliver Value, Manage Information, Manage the Organisation, Communicate, Measure & Improve | `01-contents.md` |
 | Capability (founders) | Business › 2 Infrastructure & Capability › Offering's Capability › Capacity & Delivery (the skills the business still needs, LC1) | Questions 2, 9; Foundation 2 |
 | Capability Generator | Organisations (home) › the Capability Generator button; an unfinished page (a text box, and "Analyse Capability" does nothing yet) | `01-contents.md` |

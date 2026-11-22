@@ -90,8 +90,10 @@
 
 }
 
-/* Nothing is indented past the content column (the old group indent is dropped): every field starts at the name cell's left edge and ends at its right edge. */
-.floating-card-body .column-tile-content > .business-foundation-card > :not(.strategy-box-head),
+/* Nothing is indented past the content column (the old group indent is dropped): every field starts at the name cell's left edge and ends at its right edge.
+   (Not the card's bands, which run to its side (13-business-foundation.css, "THE BANDS AND THE RULES RUN FROM SIDE TO SIDE"): held to 100% here, they stopped 12px
+   short, a strip of the card's ground down its right side; owner's screenshot, 2026-11-22 19:12 UTC+2, "there is a vertical band at the side of the floated cards".) */
+.floating-card-body .column-tile-content > .business-foundation-card > :not(.strategy-box-head, .business-segment-grid-single),
 .floating-card-body .column-tile-content > .business-foundation-card :is(.business-foundation-field, .business-foundation-label-info, .fold-group-body, .business-foundation-tick-row) {
 
     margin-left: 0;

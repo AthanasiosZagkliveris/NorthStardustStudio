@@ -342,6 +342,64 @@ export default function FinancialFoundationEditor({
         return offeringEconomicsOf(sustainability(revenuePage, page, lines, legalEntity, format, calculated), lines, capability);
     }
 
+    /** The id of an Offering's tile in Cost of each Offering (its Revenue Stream's). */
+    function offeringCostId(streamId: string): string {
+        return "offering-cost:" + streamId;
+    }
+
+    /** ONE OFFERING'S COST, floating from its tile (owner, 2026-11-22 18:58 UTC+2): the figures of one sale, read, never typed (Questions 20, 15.2). */
+    function offeringCostCard(id: string): ReactNode {
+        const economics = offeringEconomicsHere();
+        const at = economics.rows.findIndex(entry => offeringCostId(entry.streamId) === id);
+        const row = economics.rows[at];
+        if (!row) {
+            return null;
+        }
+        const below = row.contribution !== null && row.contribution < 0;
+        const percent = (share: number | null) => share === null ? "—" : Math.round(share * 100) + "%";
+        return (
+            <div className="column-tile-content financial-page financial-funding-floating">
+                <BusinessCard
+                    className="financial-funding-card"
+                    kind="Offering"
+                    anchor={id}
+                    number={at + 1}
+                    name={offerings.find(entry => entry.id === row.offeringId)?.label ?? "Unnamed Offering"}
+                    open
+                    disabled={disabled}
+                >
+                    <FigureTiles tiles={[
+                                        { label: "Price", value: row.price === null ? "\u2014" : format(row.price) },
+                                        { label: "Direct cost", value: format(row.direct), info: ["Its own costs of each sale: materials, per-order and per-project costs, and the fees of the channels it sells through, as the break even counts them."] },
+                                        {
+                                            label: "Contribution",
+                                            value: row.contribution === null ? "\u2014" : format(row.contribution),
+                                            ...(below ? { tone: "risk" as const, detail: "Each sale costs more than its price." } : {}),
+                                            info: ["The price less the direct cost: what one sale gives towards the running costs."]
+                                        },
+                                        {
+                                            label: "Full cost",
+                                            value: format(row.full),
+                                            detail: "Running costs " + format(row.runningOfOne),
+                                            info: [
+                                                "The direct cost and its share of the running costs for one sale.",
+                                                row.sharedBy === "hours" && row.hours !== null
+                                                    ? "Its share: " + row.hours.toLocaleString("en-GB", { maximumFractionDigits: 2 }) + " delivery hours a sale at the rate above" + (row.ownMonthly > 0.005 ? ", and its own " + format(row.ownMonthly) + " a month over its sales." : ".")
+                                                    : "Its share by its revenue: no delivery hours a sale are given for it on Capacity & Delivery" + (row.ownMonthly > 0.005 ? "; and its own " + format(row.ownMonthly) + " a month over its sales." : ".")
+                                            ]
+                                        },
+                                        {
+                                            label: "Margin",
+                                            value: percent(row.margin),
+                                            ...(row.margin !== null && row.margin < 0 ? { tone: "risk" as const } : {}),
+                                            info: ["The price less the full cost, as a share of the price. A sale with a margin below nothing and a contribution above it still helps cover the running costs; the full cost is for planning and long-run pricing."]
+                                        }
+                                    ]} />
+                </BusinessCard>
+            </div>
+        );
+    }
+
     function costsSection() {
 
         const setting = (text: string, empty = "not set") => text.trim() !== "" ? text.trim() : empty;
@@ -428,44 +486,26 @@ export default function FinancialFoundationEditor({
                     </p>
                 )}
 
-                {/* A CARD FOR EACH OFFERING SOLD (Questions 20, 15.2): its name, then the figures of one sale as the totals above are drawn (FigureTiles), so they wrap at
-                    any width; a sale below its direct cost, or a margin below nothing, in the risk tone. */}
+                {/* A TILE FOR EACH OFFERING SOLD (Questions 20, 15.2; owner, 2026-11-22 18:58 UTC+2: "For the Offerings Costs make a tile for each offering with its cost"):
+                    its number and name, its full cost of one sale, its price and margin, as Revenue Streams' tiles are; pressed, its card floats with the figures of one sale
+                    (offeringCostCard, the master tile's cardFor). */}
                 <div className="financial-offering-costs" data-anchor="financial-offering-costs">
-                    {economics.rows.map(row => {
-                        const below = row.contribution !== null && row.contribution < 0;
-                        return (
-                            <div key={row.streamId} className="financial-offering-cost">
-                                <p className="financial-total"><strong>{nameOfStream(row.offeringId)}</strong></p>
-                                <FigureTiles tiles={[
-                                    { label: "Price", value: row.price === null ? "\u2014" : format(row.price) },
-                                    { label: "Direct cost", value: format(row.direct), info: ["Its own costs of each sale: materials, per-order and per-project costs, and the fees of the channels it sells through, as the break even counts them."] },
-                                    {
-                                        label: "Contribution",
-                                        value: row.contribution === null ? "\u2014" : format(row.contribution),
-                                        ...(below ? { tone: "risk" as const, detail: "Each sale costs more than its price." } : {}),
-                                        info: ["The price less the direct cost: what one sale gives towards the running costs."]
-                                    },
-                                    {
-                                        label: "Full cost",
-                                        value: format(row.full),
-                                        detail: "Running costs " + format(row.runningOfOne),
-                                        info: [
-                                            "The direct cost and its share of the running costs for one sale.",
-                                            row.sharedBy === "hours" && row.hours !== null
-                                                ? "Its share: " + row.hours.toLocaleString("en-GB", { maximumFractionDigits: 2 }) + " delivery hours a sale at the rate above" + (row.ownMonthly > 0.005 ? ", and its own " + format(row.ownMonthly) + " a month over its sales." : ".")
-                                                : "Its share by its revenue: no delivery hours a sale are given for it on Capacity & Delivery" + (row.ownMonthly > 0.005 ? "; and its own " + format(row.ownMonthly) + " a month over its sales." : ".")
-                                        ]
-                                    },
-                                    {
-                                        label: "Margin",
-                                        value: percent(row.margin),
-                                        ...(row.margin !== null && row.margin < 0 ? { tone: "risk" as const } : {}),
-                                        info: ["The price less the full cost, as a share of the price. A sale with a margin below nothing and a contribution above it still helps cover the running costs; the full cost is for planning and long-run pricing."]
-                                    }
-                                ]} />
-                            </div>
-                        );
-                    })}
+                    {economics.rows.length > 0 && (
+                        <CardBoxes
+                            label="Cost of each Offering"
+                            what="Offering"
+                            autoStart={false}
+                            items={economics.rows.map((row, at): CardBox => ({
+                                id: offeringCostId(row.streamId),
+                                number: at + 1,
+                                name: nameOfStream(row.offeringId),
+                                unnamed: "Offering " + (at + 1),
+                                own: true,
+                                lines: ["Full cost " + format(row.full), row.price === null ? "Not priced yet" : "Price " + format(row.price), "Margin " + percent(row.margin)],
+                                content: () => null
+                            }))}
+                        />
+                    )}
                     {economics.rows.length === 0 && (
                         <p className="financial-muted">No Revenue Stream yet: each Offering's cost shows once it is sold on Revenue Streams.</p>
                     )}
@@ -1072,6 +1112,11 @@ export default function FinancialFoundationEditor({
         rail: railId(FINANCIAL_FOUNDATION_SECTIONS[index]),
         items: entry.items,
         // (Capital & Funding's sources float from their tiles: owner, 2026-11-18 12:41.)
+        // (Cost of each Offering's Offerings float from their tiles, as the funding sources do: owner, 2026-11-22 18:58 UTC+2.)
+        ...(entry.id === "financial-costs" ? {
+            holds: faceEconomics.rows.map(row => offeringCostId(row.streamId)),
+            cardFor: (id: string) => offeringCostCard(id)
+        } : {}),
         ...(entry.id === "financial-funding" ? {
             // (Its dialog opens however many sources it holds: the founders' capital and each category's tiles are in it.)
             view: true,
