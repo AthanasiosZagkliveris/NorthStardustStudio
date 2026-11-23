@@ -356,19 +356,28 @@ export function TileList({
             node.style.height = "auto";
             node.style.maxHeight = "none";
             let fit = 0;
+            let last: HTMLElement | null = null;
             for (const child of Array.from(node.children) as HTMLElement[]) {
                 // (Its bottom within the LIST: the list is not the child's offset parent, so the list's own place in the layer is taken away -- else every line looked that much lower and the list was cut a line short.)
                 const bottom = child.offsetTop - (child.offsetParent === node ? 0 : node.offsetTop) + child.offsetHeight;
                 // (With the 4px kept under the last line for its underline, inside the room: a list of 24px rows never reaches the tile's + box.)
                 if (bottom + 4 <= room + 0.5) {
                     fit = bottom;
+                    last = child;
                 } else {
                     break;
                 }
             }
-            // (A column page's tile shows text: it ends at a whole LINE, not at a whole item.)
+            // (A list never ends on its own divider: the line under the last whole item goes with the item that did not fit.)
+            if (last && last.matches(".section-tile-divider") && last.previousElementSibling) {
+                const before = last.previousElementSibling as HTMLElement;
+                fit = before.offsetTop - (before.offsetParent === node ? 0 : node.offsetTop) + before.offsetHeight;
+            }
+            // (A column page's tile of text -- ONE item, a paragraph -- ends at a whole LINE; a list of items there ends at a whole item, so a name never stands
+            // without what is said of it and no line is cut through: owner, 2026-11-23 19:41 UTC+2, "Fix the errors", the Strategic Period's and Customer's
+            // Relationship's lists.)
             const lineHeight = parseFloat(getComputedStyle(node).lineHeight) || 0;
-            const byLines = !!node.closest(".column-tiles-page") && lineHeight > 0;
+            const byLines = !!node.closest(".column-tiles-page") && lineHeight > 0 && node.children.length <= 1;
             const whole = byLines
                 ? Math.floor(room / lineHeight) * lineHeight
                 : Array.from(node.children).length > 0 && fit > 0 ? fit : room;

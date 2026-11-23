@@ -27,7 +27,7 @@ import { systemContents } from "../components/systems/systemContents";
 import BulletRail from "../components/interview/rails/BulletRail";
 import useRailTab from "../hooks/useRailTab.ts";
 import PageArrow from "../components/interview/fields/PageArrow";
-import { arrowLevel } from "../components/interview/tiles/SectionTileGeometry.tsx";
+import { masterSide } from "../components/interview/tiles/SectionTileGeometry.tsx";
 import { getSystemIcon } from "../data/systemIcons";
 import "../styles/status-shape.css";
 import "../styles/system-list.css";
@@ -261,9 +261,9 @@ export default function SystemSelection() {
             }
             const top = box.getBoundingClientRect().top + window.scrollY;
             const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
-            // (On a Capability's page, the frame's heading and its padding come before the tiles.)
+            // (On a Capability's page, the frame's edge and padding (13px), its heading and the 12px under it come before the tiles.)
             const head = box.querySelector<HTMLElement>(".capability-systems-frame > .tiles-frame-head");
-            const above = head ? head.offsetHeight + 12 + 24 : 0;
+            const above = head ? 13 + head.offsetHeight + 12 : 0;
             const tall = Math.max(150, Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - 12 - above) / 2));
             // (A CAPABILITY'S SYSTEMS AS A CHAPTER (owner, 2026-11-23 17:52 UTC+2: "Align them to the left"; "Fix the size of the tiles and the 'chapter' frame, to
             // hug the tiles"): two across stand in half the page, as a chapter does (half the page less 6px), three across in the whole; the tiles as large as
@@ -274,22 +274,9 @@ export default function SystemSelection() {
                 const page = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect().width ?? box.clientWidth;
                 const pad = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--card-padding")) || 12;
                 const room = (across === 2 ? page / 2 - 6 : page) - 2 * pad - 2 - (across - 1) * 12;
-                const side = Math.max(120, Math.min(tall, Math.floor(room / across)));
-                // (THE ARROWS IN THE MIDDLE BETWEEN THE ROWS (owner, 2026-11-23 19:16 UTC+2: "enlarge the tiles and system frames, so the navigation arrow to be in
-                // the mid between the Tiles"): where the Systems stand in two rows, the tiles take the side that puts the gap between the rows at the one arrow level
-                // (arrowLevel: the arrows never move), the frame round them growing past half the page where it must, never past the page. The tiles only grow: in the
-                // vertical layout the page scrolls under arrows fixed at the window's middle, and the tiles keep their side.)
-                const level = arrowLevel();
-                const rows = Math.ceil(count / across);
-                if (rows === 2 && level !== null) {
-                    const tilesTop = box.querySelector<HTMLElement>(".section-tile")?.getBoundingClientRect().top ?? top - window.scrollY + above;
-                    const whole = Math.floor((page - 2 * pad - 2 - (across - 1) * 12) / across);
-                    const even = Math.round(level - 6 - tilesTop);
-                    if (even >= side && even <= whole) {
-                        setTileSide(even);
-                        return;
-                    }
-                }
+                // (THE SAME SIDE AS EVERY PAGE'S MASTER TILES (owner, 2026-11-23 19:48 UTC+2: "Can we be consistent and use the same sizes?"): masterSide, the side
+                // the window gives a chapter's tiles, so the SYSTEMS frame is a chapter's frame and the arrows stand between its rows as on every page.)
+                const side = Math.max(120, Math.min(tall, Math.floor(room / across), masterSide() ?? Infinity));
                 setTileSide(side);
                 return;
             }

@@ -38,7 +38,7 @@ export const APP_GUIDE: readonly HandbookPart[] = [
                 "Import: opens an Organisation saved as a file. Export: saves the selected Organisation as a file.",
                 "The x inside a row removes that Organisation, after you confirm.",
                 "The arrow beside a row opens that Organisation's Capabilities.",
-                "Calendar, in the Menu, opens your own Calendar: your general notes, and each Organisation's dates when you tick it under Calendars."
+                "Calendar, in the Menu, opens your own Calendar: your general notes, and each Organisation's dates when you tick it under Calendars. Other, in its funnel, sets a period of your own."
             ] },
             { text: "Two example Organisations come with the app, Lumen & Loom Studio and Quillfield Automation: open them to see every page answered. Reload, in the header, refreshes them." }
         ]
@@ -47,7 +47,7 @@ export const APP_GUIDE: readonly HandbookPart[] = [
         heading: "Systems, pages and tiles",
         blocks: [
             { points: [
-                "On the Capabilities page, choose a Capability: its page shows its Systems. The arrows and the left and right keys go round the Capabilities. Then choose a System. Its Introduction says what it covers; Start Interview opens its first page.",
+                "On the Capabilities page, choose a Capability: its page shows its Systems, each listing its pages, chapters or sections; press a line to go straight there. The arrow beside the Capability's name opens what it is. The arrows and the left and right keys go round the Capabilities. Then choose a System. Its Introduction says what it covers; Start Interview opens its first page.",
                 "A System's tile lists what it holds: its PAGES; the CHAPTERS of its one page; or the SECTIONS of its one chapter.",
                 "The rail at the left lists the System's pages, each bullet showing its state: empty, in progress or defined. The arrows go to the previous and the next page.",
                 "A page holds large tiles. Press a tile to open its dialog; press a card in it to open the card beside the dialog. The arrows beside a card step through its list.",
@@ -79,7 +79,7 @@ export const APP_GUIDE: readonly HandbookPart[] = [
                 "Search (also Ctrl+K): pages, fields, glossary terms and your answers.",
                 "Notes: your own notes in a panel at the right. A note can link to a page, a card or a field, and a dated note shows in the Calendar.",
                 "Calendar: every date your cards hold, in a panel at the left. Press a day to see what falls on it.",
-                "Focus: on a System's page, hides the rails and the help so you can write without distraction.",
+                "Focus: on the Business System's pages, hides the rails, the help and the header so you can write without distraction.",
                 "Settings: the rates and limits every calculation uses.",
                 "Appearance: Light, Sepia, Dark, or Auto to follow your computer."
             ] },

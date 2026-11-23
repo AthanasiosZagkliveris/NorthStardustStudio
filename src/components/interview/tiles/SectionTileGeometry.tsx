@@ -229,6 +229,33 @@ export function tileName(title: string, items: readonly string[] = []): string {
 
 
 /**
+ * THE ONE SIDE OF A MASTER TILE (owner, 2026-11-23 19:48 UTC+2: "Can we be consistent and use the same sizes?"; layout rules section 4, "The page's sizes"): the side
+ * every page's master tiles -- a chapter's, a Capability's Systems' -- have in a window on a wide screen, worked out from the window alone, never from a page:
+ * a chapter's column is half the page title's rule less both rails' room (--rail-inset each side) and the 12px between two chapters; a tile is half that column
+ * less the frame's padding and edge (26px) and the 12px between two tiles; and no taller than lets two rows stand between the frame's head (the rule, 12px, the
+ * frame's 61px head) and the footer with its 12px gaps. 150px at least. Null where there is no page title.
+ */
+export function masterSide(): number | null {
+    const underline = document.querySelector<HTMLElement>(".interview-header .interview-divider") ?? document.querySelector<HTMLElement>(".interview-divider");
+    const card = document.querySelector<HTMLElement>(".conversation-card")?.getBoundingClientRect();
+    if (!underline || !card || card.width <= 300) {
+        return null;
+    }
+    const rule = underline.getBoundingClientRect();
+    const title = document.querySelector<HTMLElement>(".interview-header h1");
+    const line = title ? parseFloat(getComputedStyle(title).lineHeight) : NaN;
+    const further = title && Number.isFinite(line) && line > 0 ? Math.max(0, Math.round(title.getBoundingClientRect().height / line) - 1) * line : 0;
+    const top = rule.bottom - further + 12 + 61;
+    const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
+    const inset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-inset")) || 54;
+    const column = (rule.width - 2 * inset - 12) / 2;
+    const natural = Math.floor((column - 26 - 12) / 2);
+    const tall = Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - 12) / 2);
+    return Math.max(150, Math.min(natural, tall));
+}
+
+
+/**
  * THE ONE ARROW LEVEL (owner, 2026-11-18 21:34 UTC+2: "A: Level page arrows everywhere"; layout rules section 10, "One arrow level"): the viewport's y where every
  * page arrow and every dialog's and floating card's carousel arrow has its centre, the same on every page of a window -- the arrows never move. It is the level of the
  * gap between the two rows of a page of four tiles at this window: the page title's underline where the title is one line (pinned; a long title that wraps, as
@@ -253,10 +280,8 @@ export function arrowLevel(): number | null {
         const line = title ? parseFloat(getComputedStyle(title).lineHeight) : NaN;
         const further = title && Number.isFinite(line) && line > 0 ? Math.max(0, Math.round(title.getBoundingClientRect().height / line) - 1) * line : 0;
         const top = underline.bottom - further + 12 + 61;
-        const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
-        const natural = (Math.floor((card.width - 12) / 2) - 26 - 12) / 2;
-        const tile = Math.min(natural, Math.max(Math.floor((window.innerHeight - top - footer - 36) / 2), 150));
-        const gap = natural > 0 ? Math.max(6, Math.min(12, Math.round(12 * tile / natural))) : 12;
+        const tile = masterSide() ?? 150;
+        const gap = 12;
         // (Whole pixels: the page arrows (--arrow-level) and the carousel arrows read the same number, so they never stand a fraction apart.)
         return Math.round(top + tile + gap / 2);
     }

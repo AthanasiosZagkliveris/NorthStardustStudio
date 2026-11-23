@@ -4,7 +4,7 @@ import { freshCards } from "../cards/freshCards.ts";
 import { cardNameOf } from "../cards/cardNames.ts";
 import "../../../styles/section-tiles.css";
 import { type SectionTile, type TileLink, type TileAdd, type OpenRequest, type FloatingCentre, type FloatingOpen } from "./SectionTileTypes.ts";
-import { cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
+import { masterSide, cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
 import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext, StackUnderContext } from "./DialogLevels.tsx";
 import { TileFace, TileLinks, TilePlus, useTileAim } from "./TileParts.tsx";
 import { OPEN_EVENT, FloatingCards, TileDialog } from "./FloatingCards.tsx";
@@ -168,7 +168,9 @@ export default function SectionTiles({
                 const column = hug ? hug.getBoundingClientRect().width : 0;
                 const extra = hug && box.getBoundingClientRect().width > 0 ? column - box.getBoundingClientRect().width : 26;
                 const fill = column > 0 ? Math.floor((column - extra - 12) / 2) : tall;
-                side = Math.min(tall, fill);
+                // (ONE SIDE ON EVERY PAGE (owner, 2026-11-23 19:48 UTC+2: "Can we be consistent and use the same sizes?"): never larger than masterSide, the side
+                // the window gives every page's master tiles, so a page with one rail or none has the tiles of a page with two.)
+                side = Math.min(tall, fill, masterSide() ?? Infinity);
                 // (THE FRAMES ON THE PAGE'S BORDERS (owner, 2026-11-23 16:19 UTC+2: "Fix the layout of all the pages to follow the proper borders"): two chapters side
                 // by side fill their columns, the outer edges on the page title's rule and 12px between them, their tiles centred inside; a chapter standing alone
                 // -- one page of one chapter, or the one chapter of two shown at a time -- hugs its tiles at the LEFT, in the left half (owner, 2026-11-23 18:07
@@ -176,7 +178,11 @@ export default function SectionTiles({
                 const own = hug?.getBoundingClientRect();
                 const beside = hug && own ? [...new Set(Array.from(box.closest(".conversation-card")?.querySelectorAll<HTMLElement>(".section-tiles-quad") ?? []).map(quad => chapterOf(quad)))]
                     .filter((frame): frame is HTMLElement => !!frame && frame !== hug && frame.getClientRects().length > 0 && frame.offsetWidth > 0 && Math.abs(frame.getBoundingClientRect().top - own.top) < 2) : [];
-                if (hug && box.getBoundingClientRect().width > 0 && side >= 150 && beside.length === 0) {
+                // (A chapter that holds two groups side by side -- a Segment's chapter on Foundation & Engagement -- is two chapters in one frame: it fills the page
+                // between its rails as two chapters do, never hugs (owner, 2026-11-23 19:41 and 19:45 UTC+2: "Fix the errors"; "the chapter frames / tiles are not
+                // properly placed. Check with the other pages and fix it properly").)
+                const pair = hug ? hug.querySelectorAll(".section-tiles-quad").length > 1 : false;
+                if (hug && box.getBoundingClientRect().width > 0 && side >= 150 && beside.length === 0 && !pair) {
                     hug.style.setProperty("width", Math.ceil(2 * side + 12 + extra) + "px", "important");
                     hug.style.maxWidth = "100%";
                     hug.style.marginInline = "0 auto";
