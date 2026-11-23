@@ -1,6 +1,6 @@
 # Responsive layout: one plan from monitor to phone
 
-Status: **proposal**, written 2026-11-23 for the owner's review; nothing in it is built beyond what section 2 lists as "today". The owner asked: "Get an app developer and designer role. Do online research … Visit the folder of my website … Visit real life popular websites and apps … Check the existing layout of the app in all these different sizes … Review your proposal … come back with a solid well structured, in details proposal." Once approved, its rules move into AI 9 (the layout rules, section 4 "The page's sizes" and section 23 "The vertical layout") and this proposal is archived.
+Status: **proposal**, written 2026-11-23, updated the same day (23:20 UTC+2) with three adjustments from a review the owner passed on (section 7). It waits for the owner's approval of section 7's five decisions; nothing in it is built beyond what section 2 lists as "today". The owner asked: "Get an app developer and designer role. Do online research … Visit the folder of my website … Visit real life popular websites and apps … Check the existing layout of the app in all these different sizes … Review your proposal … come back with a solid well structured, in details proposal." Once approved, its rules move into AI 9 (the layout rules, section 4 "The page's sizes" and section 23 "The vertical layout") and this proposal is archived.
 
 **Contents**
 
@@ -224,7 +224,7 @@ What breaks:
 - Square tiles, frames hugging their tiles with 13px all round, 12px gaps and 12px above the footer band.
 - Rails and arrows together, in the page or out of it, never split.
 - Everything aligned left inside the page.
-- WCAG 2.2 AA: 4.5:1 text contrast, 24px targets, reflow at 320px (the Phone tier), and text that can grow to 200% (the fluid sizes are in px clamps, so the browser's zoom still scales them).
+- WCAG 2.2 AA: 4.5:1 text contrast, 24px targets, reflow at 320px (the Phone tier), and text that can grow to 200%: the fluid sizes are written in `rem` (`clamp(1.5rem, …, 2.25rem)`), so the browser's zoom and the user's own font-size setting both scale them (adjustment 2).
 
 ## 5. Review of my earlier proposal
 
@@ -270,11 +270,17 @@ Each step is one commit; the whole is one PR.
 
 ## 7. Decisions for the owner
 
-1. **The tiers** (section 4.1): Phone under 600, Tablet 600 to 899 or portrait, Laptop 900 to 1439 landscape, Monitor 1440 and up.
-2. **The type table** (section 4.2), with the body held at 16 on Phone, Tablet and Laptop and 18 on Monitor.
-3. **Tablet and Phone rails in the footer band** (section 4.3).
-4. **The nine Resource symbols** (section 4.4): these references, or other shapes for any of them.
-5. **Turning the device** (section 4.5): a height line at 480 (Phone, landscape) and at 640 (side by side needs that much); the user's place kept through a turn; the safe areas.
+**For approval, with the review's adjustments folded in** (the owner passed the review on at 23:20 UTC+2):
+
+1. **The tiers 600 / 900 / 1440 with a height floor.**
+   - A landscape window under the floor never takes the side-by-side, no-scroll layout: a phone turned to 915 x 412 stacks and scrolls.
+   - The review suggested 550px. Section 4.5's 640px is the stricter of the two and is what two rows of 150px tiles need, so **640** is the floor. 480 stays the compact-height line for a phone in landscape.
+2. **The type table as written, its `clamp()` bounds in `rem`, not px,** so the user's own font size (iOS Dynamic Type in the browser, Android's font scale, the browser's default size) scales the text as well as the page zoom.
+3. **The footer band and the safe areas.**
+   - The band pads its foot with `env(safe-area-inset-bottom)`, so the home indicator and the browser's bars never cover it.
+   - Heights are measured in dynamic viewport units (`dvh`, with `vh` as the fallback), so the bar that shows and hides as the page scrolls never pushes the band off the screen.
+4. **The nine Resource symbols** as proposed.
+5. **Turning the device** (section 4.5), with the floor of item 1.
 
 ## 8. Sources
 
