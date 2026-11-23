@@ -297,6 +297,9 @@ The code that sets these sizes:
 | Rails and arrows | Together, inside the page, under the title rule, at its ends. Each arrow is centred on its rail. The page's symbol is on the left rail's line. The right rail stands against its chapter. | bullet-rail.css |
 | Arrow level | The first row's top + side + 6 (the middle of the gap between the rows) | `arrowLevel` |
 | A text tile's last line | A whole line, ending in "…" where the text runs on; a list ends at a whole item | `TileList` (line-clamp) |
+| A tile with too little room | A list or a text cut to less than two lines is not shown: the tile keeps its title and its symbol (owner, 2026-11-23 21:49 UTC+2) | `TileList` (`data-no-room`) |
+| The page tags' place | Always 12px under the top of the chapter they stand against (a Segment's chapter included), measured again when the page title settles | `useRailTab` |
+| A rail too long for the window | Its bullets lie in a row in the footer's band, by its middle (the Pages rail before it, the Sections rail after it), without a tab; its arrow keeps its place (owner, 2026-11-23 21:49 UTC+2: "place them horizontally at the footing") | `BulletRail` (`data-across`), bullet-rail.css |
 | The vertical layout (under 1100px or portrait) | Its own steps (section 23). That layout may scroll. | `SectionTiles` (vertical) |
 
 The layout check measures these sizes:

@@ -355,6 +355,7 @@ export function TileList({
             }
             node.style.height = "auto";
             node.style.maxHeight = "none";
+            node.removeAttribute("data-no-room");
             // (A paragraph clamped on an earlier measure is measured whole again.)
             node.querySelectorAll<HTMLElement>("[data-clamped]").forEach(line => {
                 line.removeAttribute("data-clamped");
@@ -404,6 +405,15 @@ export function TileList({
                 ? Math.floor(room / lineHeight) * lineHeight
                 : Array.from(node.children).length > 0 && fit > 0 ? fit : room;
             node.style.height = Math.min(byLines ? whole : whole + 4, room) + "px";
+            // (TOO LITTLE ROOM SHOWS THE TITLE ALONE (owner, 2026-11-23 21:49 UTC+2: "If there is not enough space for listed items or text on the Tiles, then hide it,
+            // and keep only the Tile's title, and symbol"): a list or a text cut to less than two lines is not shown; the tile keeps its title and its symbol, and
+            // its whole text is in its dialog and its tooltip.)
+            const shownHeight = node.clientHeight;
+            const cut = node.scrollHeight > shownHeight + 1 || clamped;
+            const line = lineHeight > 0 ? lineHeight : parseFloat(getComputedStyle(node).lineHeight) || 24;
+            if (cut && shownHeight < 2 * line - 1) {
+                node.setAttribute("data-no-room", "");
+            }
         };
         const measure = () => {
             snap();

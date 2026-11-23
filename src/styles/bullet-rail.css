@@ -950,3 +950,61 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
     }
 
 }
+
+/* A RAIL TOO LONG FOR THE WINDOW LIES ACROSS THE FOOTER (owner, 2026-11-23 21:49 UTC+2: "place them horizontally at the footing"; BulletRail, data-across): its
+   bullets in a row in the footer's band, by the band's middle -- the Pages rail ending 6px before it, the Sections rail starting 6px after it --, without a tab, as
+   the phone's rails; its name in the tooltips; its arrow keeps its place. */
+@media (min-width: 1100px) and (orientation: landscape) {
+
+    :root:root .bullet-rails .bullet-rail[data-across] {
+
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        z-index: 31;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        width: auto;
+        height: 64px;
+        margin: 0;
+        padding: 0;
+
+        background: none;
+        border: 0;
+        box-shadow: none;
+
+    }
+
+    :root:root .bullet-rails .bullet-rail-left[data-across] {
+
+        left: auto;
+        right: calc(50% + 6px);
+
+    }
+
+    :root:root .bullet-rails .bullet-rail-right[data-across] {
+
+        right: auto;
+        left: calc(50% + 6px);
+
+    }
+
+    .bullet-rail[data-across] .bullet-rail-list {
+
+        flex-direction: row;
+        align-items: center;
+        gap: var(--rail-dot-gap);
+        padding: var(--rail-dot-overhang);
+
+    }
+
+    .bullet-rail[data-across] .bullet-rail-head > .bullet-rail-title {
+
+        display: none;
+
+    }
+
+}

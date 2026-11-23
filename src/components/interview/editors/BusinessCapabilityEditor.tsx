@@ -84,7 +84,10 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
             // (As large as the page's tiles where the room allows, smaller where it does not, down to 150px, under which they stay the footer's bricks.)
             const room = footerBox ? Math.floor(footerBox.top - 12 - (cardsBottom + 12)) : 0;
             const squareSide = Math.min(pageSide, room);
-            const squares = !stacked && !!footerBox && !!tiles && pageSide > 0 && columnsLeft.length >= 2 && squareSide >= 150;
+            // (ALWAYS THE FOOTER'S BUTTONS NOW (owner, 2026-11-23 20:58 and 21:57 UTC+2: "The footing should have minimum space for a button (Inventory, add chapter,
+            // completed)"; "the inventory and completed tiles are off place"): the page follows its tiles, so the room under the cards is no longer kept for squares;
+            // on a wide screen the row is the band's two buttons, level with Back, whatever the window's height.)
+            const squares = false && !stacked && !!footerBox && !!tiles && pageSide > 0 && columnsLeft.length >= 2 && squareSide >= 150;
             row.style.removeProperty("--completed-width");
             if (tiles) {
                 tiles.style.gridTemplateColumns = "";

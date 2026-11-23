@@ -57,6 +57,13 @@
 
 }
 
+/* (A list or a text with room for less than two lines is not shown: the tile keeps its title and its symbol (TileList, data-no-room; owner, 2026-11-23 21:49 UTC+2).) */
+.section-tile-list[data-no-room] {
+
+    visibility: hidden;
+
+}
+
 
 .section-tiles {
 

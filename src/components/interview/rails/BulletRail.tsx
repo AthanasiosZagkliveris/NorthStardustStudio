@@ -128,6 +128,23 @@ export default function BulletRail({
     // (On a phone the rail is a row in the footer's band (bullet-rail.css, "The phone"): no line steps round the arrow.)
     }, items.length >= 2 && !isPhone(), "ol > li");
 
+    // A RAIL TOO LONG FOR THE WINDOW LIES ACROSS THE FOOTER (owner, 2026-11-23 21:49 UTC+2: "in case that the bullets of the page/card tag, get a lot that they start
+    // breaking the layout, place them horizontally at the footing"): where its tab would reach within 12px of the footer's band, its bullets stand in a row in the
+    // band (data-across, bullet-rail.css), as the phone's rails do; its arrow keeps its place. Measured standing, every time the page settles.
+    useLayoutEffect(() => {
+        const node = nav.current;
+        if (!node || isPhone()) {
+            node?.removeAttribute("data-across");
+            return;
+        }
+        node.removeAttribute("data-across");
+        const list = node.querySelector<HTMLElement>(".bullet-rail-list");
+        const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
+        if (list && items.length >= 2 && list.getBoundingClientRect().bottom > window.innerHeight - footer - 12) {
+            node.setAttribute("data-across", "");
+        }
+    });
+
     // The head: the page arrow on a row of its own, then the rail's
     // name ("PAGES", "SECTIONS"), hidden from assistive technology
     // (the nav's own label says it).
