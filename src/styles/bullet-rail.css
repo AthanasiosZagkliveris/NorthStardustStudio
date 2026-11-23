@@ -889,7 +889,8 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
     .bullet-rails .bullet-rail.bullet-rail-right {
 
-        right: calc(50% - var(--card-width) / 2);
+        /* (Against the chapter's right edge where the chapters end short of the rule's: --rail-frame-shift, SectionTiles' railsBesideFrames.) */
+        right: calc(50% - var(--card-width) / 2 + var(--rail-frame-shift, 0px));
         left: auto;
 
     }

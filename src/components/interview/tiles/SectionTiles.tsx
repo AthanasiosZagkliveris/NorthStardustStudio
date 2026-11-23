@@ -261,6 +261,7 @@ export default function SectionTiles({
             watch?.disconnect();
             // (The next page sets its own frames' span, or has none: its rail then stands beside the page's width.)
             box.closest<HTMLElement>(".conversation-page")?.style.removeProperty("--rail-frame-span");
+            box.closest<HTMLElement>(".conversation-page")?.style.removeProperty("--rail-frame-shift");
         };
     }, [big, bigRows, across]);
 
@@ -721,6 +722,15 @@ function railsBesideFrames(box: HTMLElement): void {
         const r = frame.getBoundingClientRect();
         return Math.max(middle - r.left, r.right - middle);
     }));
+    // (THE RIGHT RAIL ON THE CHAPTER'S RIGHT EDGE (owner, 2026-11-23 20:41 UTC+2: "The upper right page tag should be attached to the chapter"): how far the frames
+    // end before the rail's room at the title rule's right end, read by bullet-rail.css.)
+    const rule = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect();
+    const inset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-inset")) || 54;
+    const end = Math.max(...frames.map(frame => frame.getBoundingClientRect().right));
+    const shift = rule ? Math.max(0, Math.round(rule.right - inset - end)) + "px" : "0px";
+    if (page.style.getPropertyValue("--rail-frame-shift") !== shift) {
+        page.style.setProperty("--rail-frame-shift", shift);
+    }
     const span = Math.ceil(2 * reach) + "px";
     if (page.style.getPropertyValue("--rail-frame-span") !== span) {
         page.style.setProperty("--rail-frame-span", span);
