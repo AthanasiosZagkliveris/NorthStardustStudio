@@ -71,3 +71,14 @@ export function useVerticalAcross(): number {
 export function isPhone(): boolean {
     return typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia(PHONE_QUERY).matches;
 }
+
+/**
+ * WHERE THE RAILS STAND IN THE FOOTER'S BAND: the stacked layout (VERTICAL_QUERY) and any touch screen (owner, 2026-11-24 00:21 UTC+2: "When the tablet is on
+ * landscape, place the rail at the footing"); bullet-rail.css says the same with "(pointer: coarse)".
+ */
+export const BAND_QUERY = VERTICAL_QUERY + ", (pointer: coarse)";
+
+/** Whether the page's rails stand in the footer's band (BAND_QUERY). */
+export function railsInBand(): boolean {
+    return typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia(BAND_QUERY).matches;
+}

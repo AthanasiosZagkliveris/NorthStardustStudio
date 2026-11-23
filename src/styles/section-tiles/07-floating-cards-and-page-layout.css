@@ -1078,6 +1078,20 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
+/* (ABOVE THE BAND ON A TOUCH SCREEN (owner, 2026-11-24 00:21 UTC+2: "place the rail at the footing, and any other buttons (inventory, completed, etc.) above it"):
+   the band holds the rails there; the button stands on it, its foot 6px above the band, at the chapter's left edge.) */
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) and (pointer: coarse) {
+
+    .business-foundation-segment-frames + .business-foundation-input-actions {
+
+        bottom: calc(64px + 6px);
+
+        height: auto;
+
+    }
+
+}
+
 @media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
 
     .business-foundation-segment-frames {

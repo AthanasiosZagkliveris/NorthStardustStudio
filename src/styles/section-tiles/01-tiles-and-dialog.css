@@ -75,20 +75,31 @@
 
 }
 
+/* (Three a row, so the nine categories stand in a 3 x 3, centred under the title: owner, 2026-11-24 00:21 UTC+2, "I want the symbols in a grid 3x3".) */
 .section-tile-list[data-symbols] {
 
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(3, var(--icon-size));
+    justify-content: center;
+    align-content: start;
     gap: var(--space-card);
 
     width: 100%;
 
 }
 
-.section-tile-list[data-symbols] > li {
+.section-tile-list[data-symbols] > li,
+.section-tile-list[data-symbols] .section-tile-link {
 
+    display: block;
+
+    width: var(--icon-size);
+    height: var(--icon-size);
+
+    margin: 0;
     padding: 0;
+
+    overflow: visible;
 
 }
 

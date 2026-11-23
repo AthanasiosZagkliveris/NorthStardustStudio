@@ -146,7 +146,7 @@ The log of every change (1), what has not been done (2), and the generated catal
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [design/records/01-log.md](design/records/01-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-11-23 |
+| [design/records/01-log.md](design/records/01-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-11-24 |
 | [design/records/02-not-done-yet.md](design/records/02-not-done-yet.md) | living list | What has not been done: the road, the plans, the requirements still open, the open decisions and the open points of the reviews. | 2026-11-22 |
 | [design/records/03-catalogue-record.md](design/records/03-catalogue-record.md) | generated | The catalogue record of the app's pages, tiles, cards and controls, from the card scan and the probes. | 2026-11-21 |
 | [design/records/04-structure-tables.md](design/records/04-structure-tables.md) | generated | The structure tables of the app (pages, chapters, tiles, views, components, fields, card kinds), from the catalogue. | 2026-11-21 |
@@ -157,7 +157,7 @@ What the app's tests check, file by file, and how they run.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [testing/01-app-tests-guide.md](testing/01-app-tests-guide.md) | reference | The app's tests: where they are, how they run (Vitest, the pre-commit hook, CI), and what every test file checks, in six groups (screens, business rules, saved data and examples, whole pages, design system and docs, content files). | 2026-11-23 |
+| [testing/01-app-tests-guide.md](testing/01-app-tests-guide.md) | reference | The app's tests: where they are, how they run (Vitest, the pre-commit hook, CI), and what every test file checks, in six groups (screens, business rules, saved data and examples, whole pages, design system and docs, content files). | 2026-11-24 |
 
 ## 11. Rules for the assistant (`ai/`)
 
@@ -172,7 +172,7 @@ Standing rules, references and playbooks for an AI assistant working on the proj
 | [ai/06-framework-conventions-and-patterns.md](ai/06-framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-11-21 |
 | [ai/02-review.md](ai/02-review.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured and the report (sections 1 to 12), and the checklist to tick before saying done (section 13). | 2026-11-21 |
 | [ai/04-code-map.md](ai/04-code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-22 |
-| [ai/09-layout-rules.md](ai/09-layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-23 |
+| [ai/09-layout-rules.md](ai/09-layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-24 |
 | [ai/08-card-kinds.md](ai/08-card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-11-21 |
 | [ai/05-folder-plan.md](ai/05-folder-plan.md) | reference | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder (it was document 25; the number is retired). | 2026-11-21 |
 

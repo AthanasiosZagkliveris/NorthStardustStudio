@@ -68,6 +68,24 @@
 
 }
 
+/* (BACK BESIDE THE PAGE'S TITLE ON A TABLET (AppFooter; owner, 2026-11-24 00:21 UTC+2): first in the title's row, before the page's symbol, its word and arrow as in the
+   footer; it never shrinks, the title gives way.) */
+.interview-header-title-row > .interview-header-back.back-link{
+
+    order:-1;
+
+    position:static;
+
+    flex-shrink:0;
+
+    margin:0;
+
+    translate:none;
+
+    pointer-events:auto;
+
+}
+
 .interview-header-icon{
 
     width:36px;
@@ -113,35 +131,13 @@
 
 }
 
-/* THE TITLE IN THE VERTICAL LAYOUT (layout rules section 23; owner, 2026-11-22 18:58 UTC+2: "When the screen became narrower, the page name should go Under the
-   System Name. The em dash between them do not need to exist anymore. The Icon should stay at the System's level"): the page's title on a line of its own, no dash,
-   and the icon level with the System's name, the first line. (The one query of the vertical layout, 07-floating-cards-and-page-layout.css.) */
-@media (max-width: 900px), (orientation: portrait), (max-height: 639px){
+/* THE TITLE ON ONE ROW, OR THE PAGE'S NAME ALONE (owner, 2026-11-24 00:21 UTC+2: "Generally, If the system and the page title do not fit in a single row, then use
+   only the symbol and the page title"; it replaces the vertical layout's second line of 2026-11-22): where "System — Page" does not stand on one row, the System's
+   name and the dash step aside (InterviewHeader, .interview-header-page-only) and the symbol stands beside the page's name. */
+.interview-header h1.interview-header-page-only .interview-header-system,
+.interview-header h1.interview-header-page-only .interview-header-dash{
 
-    .interview-header-title-row{
-
-        align-items:flex-start;
-
-    }
-
-    .interview-header-icon{
-
-        /* (centred on the first line: the h1's line is 1.2 of its size, global.css) */
-        margin-top:calc((var(--font-h1) * 1.2 - 36px) / 2);
-
-    }
-
-    .interview-header-page-title{
-
-        display:block;
-
-    }
-
-    .interview-header-dash{
-
-        display:none;
-
-    }
+    display:none;
 
 }
 

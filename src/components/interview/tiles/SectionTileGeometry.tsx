@@ -251,14 +251,19 @@ export function masterSide(): number | null {
     // (The room is the window's -- the widest page it allows, 1400px at most, its 56px gutters --, never the page's own width, which follows the tiles.)
     const column = (widestPage() - 2 * inset - 12) / 2;
     const natural = Math.floor((column - 26 - 12) / 2);
-    const tall = Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - 12) / 2);
+    // (On a touch screen side by side, the band holds the rails and the page's buttons -- Inventory, Completed, "+ Add Segment" -- stand in a row above it: the
+    // tiles leave that row's room, the band's button and 12px, on every page alike.)
+    const buttons = typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches ? 44 + 12 : 0;
+    const tall = Math.floor((window.innerHeight - top - footer - buttons - 12 - 12 - 12 - 12) / 2);
     // (120px at the least: a 640px-tall window, the shortest that keeps chapters side by side, gives 147.)
     return Math.max(120, Math.min(natural, tall));
 }
 
 /** The rails' room at each end of the page (--rail-inset, bullet-rail.css). */
 function railInset(): number {
-    return parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-inset")) || 54;
+    const inset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-inset"));
+    // (0 on a touch screen, whose rails stand in the footer's band: bullet-rail.css.)
+    return Number.isFinite(inset) ? inset : 54;
 }
 
 /** The widest page the window allows: 1400px at most, the window less its 56px gutters (--rail-gutter). */

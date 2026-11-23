@@ -126,7 +126,11 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 const cardsRight = Math.max(...cards.map(card => card.getBoundingClientRect().right));
                 const slots = [...tiles.querySelectorAll<HTMLElement>(".section-tile-slot")].map(slot => slot.getBoundingClientRect()).filter(box => box.width > 0);
                 const shift = slots.length > 0 && cards.length > 0 ? Math.round((cardsLeft + cardsRight) / 2 - (Math.min(...slots.map(box => box.left)) + Math.max(...slots.map(box => box.right))) / 2) : 0;
-                tiles.style.transform = "translate(" + shift + "px, " + Math.round(footerBox.top + (footer - side) / 2 - top) + "px)";
+                // (ABOVE THE BAND ON A TOUCH SCREEN (owner, 2026-11-24 00:21 UTC+2: "place the rail at the footing, and any other buttons (inventory, completed, etc.)
+                // above it"): the band holds the rails there, so the row stands on it, 6px above.)
+                const above = typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches;
+                const rowTop = above ? footerBox.top - 6 - side : footerBox.top + (footer - side) / 2;
+                tiles.style.transform = "translate(" + shift + "px, " + Math.round(rowTop - top) + "px)";
             } else {
                 row.style.height = "";
                 row.style.overflow = "";

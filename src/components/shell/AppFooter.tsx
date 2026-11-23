@@ -1,4 +1,6 @@
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { railsInBand } from "../../hooks/useVerticalLayout.ts";
 import BackButton from "../controls/BackButton.tsx";
 import AddButton from "../controls/AddButton.tsx";
 import "../../styles/workspace.css";
@@ -99,11 +101,33 @@ export default function AppFooter({
         };
     }, []);
 
+    // BACK BESIDE THE PAGE'S TITLE ON A TABLET (owner, 2026-11-24 00:21 UTC+2: "For the Back, just place it on the top left side next to the page's title"; "When the
+    // Tablet is in portrait, again place the button at the top left side next to the page's title"): where the footer's band holds the rails (railsInBand) on a
+    // window wider than a phone's, Back stands first in the page title's row, and the band keeps its room for the rails.
+    const [titleRow, setTitleRow] = useState<HTMLElement | null>(null);
+    useLayoutEffect(() => {
+        const place = () => {
+            const row = railsInBand() && window.innerWidth > 600 ? document.querySelector<HTMLElement>(".interview-header-title-row") : null;
+            setTitleRow(current => current === row ? current : row);
+        };
+        place();
+        const later = [100, 400, 1000].map(delay => window.setTimeout(place, delay));
+        window.addEventListener("resize", place);
+        window.addEventListener("tiles-fit", place);
+        return () => {
+            later.forEach(timer => window.clearTimeout(timer));
+            window.removeEventListener("resize", place);
+            window.removeEventListener("tiles-fit", place);
+        };
+    }, []);
+
     return (
 
         <footer className="workspace-footer" ref={footer}>
 
-            <BackButton className="back-link" onClick={onBack} />
+            {titleRow
+                ? createPortal(<BackButton className="back-link interview-header-back" onClick={onBack} />, titleRow)
+                : <BackButton className="back-link" onClick={onBack} />}
 
             <div className="workspace-footer-actions">
 

@@ -442,7 +442,8 @@ export function TileList({
             const shownHeight = node.clientHeight;
             const cut = node.scrollHeight > shownHeight + 1 || clamped;
             const line = lineHeight > 0 ? lineHeight : parseFloat(getComputedStyle(node).lineHeight) || 24;
-            if (cut && shownHeight < 2 * line - 1) {
+            // (Nor is a list whose first item does not fit whole and cannot end at a line: a name with what is said of it, cut under the name.)
+            if ((cut && shownHeight < 2 * line - 1) || (!byLines && !clamped && fit === 0 && node.children.length > 0)) {
                 node.setAttribute("data-no-room", "");
             }
         };

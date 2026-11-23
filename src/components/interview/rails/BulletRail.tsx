@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { RailItem } from "./railItems";
 import { PAGE_STATUS_WORDS } from "../../../framework/engine/status/PageStatus";
 import { slotMargin, useRailSlot } from "./useRailSlot.ts";
-import { verticalAcross } from "../../../hooks/useVerticalLayout.ts";
+import { railsInBand } from "../../../hooks/useVerticalLayout.ts";
 
 import "../../../styles/status-shape.css";
 import "../../../styles/bullet-rail.css";
@@ -126,14 +126,14 @@ export default function BulletRail({
         const box = arrowNode.getBoundingClientRect();
         return box.width > 0 ? { left: box.left, right: box.right, top: box.top, bottom: box.bottom } : null;
     // (On a phone the rail is a row in the footer's band (bullet-rail.css, "The phone"): no line steps round the arrow.)
-    }, items.length >= 2 && !(verticalAcross() > 0), "ol > li");
+    }, items.length >= 2 && !railsInBand(), "ol > li");
 
     // A RAIL TOO LONG FOR THE WINDOW LIES ACROSS THE FOOTER (owner, 2026-11-23 21:49 UTC+2: "in case that the bullets of the page/card tag, get a lot that they start
     // breaking the layout, place them horizontally at the footing"): where its tab would reach within 12px of the footer's band, its bullets stand in a row in the
     // band (data-across, bullet-rail.css), as the phone's rails do; its arrow keeps its place. Measured standing, every time the page settles.
     useLayoutEffect(() => {
         const node = nav.current;
-        if (!node || (verticalAcross() > 0)) {
+        if (!node || railsInBand()) {
             node?.removeAttribute("data-across");
             return;
         }

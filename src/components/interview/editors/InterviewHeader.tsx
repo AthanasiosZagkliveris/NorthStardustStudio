@@ -68,10 +68,16 @@ export default function InterviewHeader({
         const fit = () => {
             node.style.removeProperty("font-size");
             node.style.removeProperty("line-height");
+            node.classList.remove("interview-header-page-only");
+            const line = parseFloat(getComputedStyle(node).lineHeight) || (parseFloat(getComputedStyle(node).fontSize) || 0) * 1.2;
+            // (THE PAGE'S NAME ALONE WHERE BOTH DO NOT FIT (owner, 2026-11-24 00:21 UTC+2: "If the system and the page title do not fit in a single row, then use
+            // only the symbol and the page title"): on every window; the System's name stays in the page's symbol, its tooltip and the document's title.)
+            if (pageTitle && line > 0 && node.getBoundingClientRect().height > line * 1.5) {
+                node.classList.add("interview-header-page-only");
+            }
             if (verticalAcross() > 0) {
                 return;
             }
-            const line = parseFloat(getComputedStyle(node).lineHeight) || 0;
             // (Its line keeps its height, so the rule under it, and the tiles, stand where they do on every page.)
             if (line > 0) {
                 node.style.lineHeight = line + "px";
@@ -112,9 +118,7 @@ export default function InterviewHeader({
                 {/* (THE SYSTEM'S NAME WITHOUT ITS ORDER NUMBER (owner, 2026-11-23 17:28 UTC+2: "Hide the Systems order numbers on their tiles, and titles, but keep them
                     as information, documents and coding"): the number stays in the documents, the code and the heading's data, not drawn.) */}
                 <h1 ref={heading} data-system-number={systemNumber}>
-                    {nameCapitals
-                        ? <span className="interview-header-page-title-capitals">{systemName}</span>
-                        : systemName}
+                    <span className={"interview-header-system" + (nameCapitals ? " interview-header-page-title-capitals" : "")}>{systemName}</span>
                     {pageTitle && (
                         <span className={"interview-header-page-title" + (pageTitleCapitals ? " interview-header-page-title-capitals" : "")}>
                             {/* (In the vertical layout the page's title stands on a line of its own under the System's name, without the dash: 01-interview.css.) */}
