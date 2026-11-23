@@ -247,11 +247,50 @@ export function masterSide(): number | null {
     const further = title && Number.isFinite(line) && line > 0 ? Math.max(0, Math.round(title.getBoundingClientRect().height / line) - 1) * line : 0;
     const top = rule.bottom - further + 12 + 61;
     const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
-    const inset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-inset")) || 54;
-    const column = (rule.width - 2 * inset - 12) / 2;
+    const inset = railInset();
+    // (The room is the window's -- the widest page it allows, 1400px at most, its 56px gutters --, never the page's own width, which follows the tiles.)
+    const column = (widestPage() - 2 * inset - 12) / 2;
     const natural = Math.floor((column - 26 - 12) / 2);
     const tall = Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - 12) / 2);
     return Math.max(150, Math.min(natural, tall));
+}
+
+/** The rails' room at each end of the page (--rail-inset, bullet-rail.css). */
+function railInset(): number {
+    return parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-inset")) || 54;
+}
+
+/** The widest page the window allows: 1400px at most, the window less its 56px gutters (--rail-gutter). */
+function widestPage(): number {
+    return Math.min(1400, document.documentElement.clientWidth - 2 * 56);
+}
+
+/**
+ * THE PAGE FOLLOWS ITS TILES (owner, 2026-11-23 20:58 and 21:05 UTC+2: "The frame chapter should hug its tiles"; "I do not want the user, specially on landscape size
+ * screens to scroll down"; "Looks good, let's refine it"; layout rules section 4, "The page's sizes"): a page of tiles is as wide as two chapters of the master side
+ * -- each its tiles, the 12px between them and its 13px round them --, the 12px between the chapters and the rails' room at both ends, never wider than the window
+ * allows. The page is centred in the window; inside it everything stands at the left.
+ */
+export function tilesPageWidth(side: number): number {
+    return Math.min(widestPage(), 2 * (2 * side + 12 + 26) + 12 + 2 * railInset());
+}
+
+/** Sets the page's width from its tiles on the page's root (.conversation-page: --tiles-page-width, data-tiles-page), or takes it away (side null). */
+export function setTilesPage(page: HTMLElement | null, side: number | null): void {
+    if (!page) {
+        return;
+    }
+    if (side === null) {
+        page.removeAttribute("data-tiles-page");
+        page.style.removeProperty("--tiles-page-width");
+        return;
+    }
+    const width = Math.floor(tilesPageWidth(side)) + "px";
+    if (page.style.getPropertyValue("--tiles-page-width") !== width) {
+        page.style.setProperty("--tiles-page-width", width);
+        page.setAttribute("data-tiles-page", "");
+        window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+    }
 }
 
 

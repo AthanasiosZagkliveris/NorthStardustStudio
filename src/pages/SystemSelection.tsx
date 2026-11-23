@@ -27,7 +27,7 @@ import { systemContents } from "../components/systems/systemContents";
 import BulletRail from "../components/interview/rails/BulletRail";
 import useRailTab from "../hooks/useRailTab.ts";
 import PageArrow from "../components/interview/fields/PageArrow";
-import { masterSide } from "../components/interview/tiles/SectionTileGeometry.tsx";
+import { masterSide, setTilesPage } from "../components/interview/tiles/SectionTileGeometry.tsx";
 import { getSystemIcon } from "../data/systemIcons";
 import "../styles/status-shape.css";
 import "../styles/system-list.css";
@@ -276,10 +276,14 @@ export default function SystemSelection() {
                 const room = (across === 2 ? page / 2 - 6 : page) - 2 * pad - 2 - (across - 1) * 12;
                 // (THE SAME SIDE AS EVERY PAGE'S MASTER TILES (owner, 2026-11-23 19:48 UTC+2: "Can we be consistent and use the same sizes?"): masterSide, the side
                 // the window gives a chapter's tiles, so the SYSTEMS frame is a chapter's frame and the arrows stand between its rows as on every page.)
-                const side = Math.max(120, Math.min(tall, Math.floor(room / across), masterSide() ?? Infinity));
+                const master = masterSide();
+                const side = Math.max(120, Math.min(tall, Math.floor(room / across), master ?? Infinity));
+                // (The page as wide as its tiles, as every page of tiles: tilesPageWidth.)
+                setTilesPage(document.querySelector<HTMLElement>(".conversation-page"), master);
                 setTileSide(side);
                 return;
             }
+            setTilesPage(document.querySelector<HTMLElement>(".conversation-page"), null);
             setTileSide(tall);
         };
         fit();
@@ -299,6 +303,8 @@ export default function SystemSelection() {
         const tile = box?.querySelector<HTMLElement>(".section-tile");
         if (box && tile) {
             box.toggleAttribute("data-large", tile.offsetWidth >= 250);
+            box.toggleAttribute("data-compact", tile.offsetWidth < 230);
+            box.toggleAttribute("data-tiny", tile.offsetWidth < 170);
         }
     });
 

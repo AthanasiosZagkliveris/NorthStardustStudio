@@ -879,6 +879,28 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
     }
 
+    /* (THE PAGE FOLLOWS ITS TILES (owner, 2026-11-23 21:05 UTC+2; layout rules section 4, "The page's sizes"): a page of tiles is as wide as its chapters and its
+       rails (--tiles-page-width, SectionTileGeometry's setTilesPage), centred in the window; the rails, the arrows and the footer's buttons are placed from it.) */
+    .conversation-page[data-tiles-page] {
+
+        --card-width: var(--tiles-page-width);
+
+    }
+
+    .conversation-page[data-tiles-page] .conversation-card {
+
+        max-width: var(--tiles-page-width);
+
+    }
+
+    /* (Its foot: the footer's band and the 12px above it, as the tile pages' (16-business-infrastructure.css), the Capability pages' too, so no page of tiles
+       scrolls.) */
+    .conversation-page[data-tiles-page] > .conversation-content {
+
+        padding-bottom: calc(64px + var(--space-card));
+
+    }
+
     /* (The rails on the page's ends: the left one's outer edge on the title rule's left end, the right one's on its right end.) */
     .bullet-rails .bullet-rail.bullet-rail-left {
 
@@ -923,7 +945,7 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
        from the title rule's left end, past the rail's room, where the chapter frame starts.) */
     body:has(.bullet-rail-left .bullet-rail-dot) .business-foundation-segment-frames + .business-foundation-input-actions {
 
-        left: calc(max(var(--rail-gutter, 56px), (var(--view-width) - 1400px) / 2) + var(--rail-inset));
+        left: calc((var(--view-width) - var(--card-width)) / 2 + var(--rail-inset));
 
     }
 

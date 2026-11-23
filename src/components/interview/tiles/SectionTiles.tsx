@@ -4,7 +4,7 @@ import { freshCards } from "../cards/freshCards.ts";
 import { cardNameOf } from "../cards/cardNames.ts";
 import "../../../styles/section-tiles.css";
 import { type SectionTile, type TileLink, type TileAdd, type OpenRequest, type FloatingCentre, type FloatingOpen } from "./SectionTileTypes.ts";
-import { masterSide, cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
+import { masterSide, setTilesPage, cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
 import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext, StackUnderContext } from "./DialogLevels.tsx";
 import { TileFace, TileLinks, TilePlus, useTileAim } from "./TileParts.tsx";
 import { OPEN_EVENT, FloatingCards, TileDialog } from "./FloatingCards.tsx";
@@ -147,6 +147,7 @@ export default function SectionTiles({
                 const extra = hug && box.getBoundingClientRect().width > 0 ? hug.getBoundingClientRect().width - box.getBoundingClientRect().width : 26;
                 const fill = Math.floor(((room > 0 ? room - extra : box.clientWidth) - (row - 1) * 12) / row);
                 side = Math.max(isPhone() ? fill : Math.min(fill, cap), 72);
+                setTilesPage(box.closest<HTMLElement>(".conversation-page"), null);
                 box.style.setProperty("--quad-across", String(row));
                 if (hug && box.getBoundingClientRect().width > 0) {
                     // (A width of its own: centred by its auto margins, a frame would otherwise shrink round tiles that measure their frame, to nothing.)
@@ -174,7 +175,10 @@ export default function SectionTiles({
                 const fill = column > 0 ? Math.floor((column - extra - 12) / 2) : tall;
                 // (ONE SIDE ON EVERY PAGE (owner, 2026-11-23 19:48 UTC+2: "Can we be consistent and use the same sizes?"): never larger than masterSide, the side
                 // the window gives every page's master tiles, so a page with one rail or none has the tiles of a page with two.)
-                side = Math.min(tall, fill, masterSide() ?? Infinity);
+                const master = masterSide();
+                side = Math.min(tall, fill, master ?? Infinity);
+                // (The page as wide as its tiles: tilesPageWidth.)
+                setTilesPage(box.closest<HTMLElement>(".conversation-page"), master);
                 // (THE FRAMES ON THE PAGE'S BORDERS (owner, 2026-11-23 16:19 UTC+2: "Fix the layout of all the pages to follow the proper borders"): two chapters side
                 // by side fill their columns, the outer edges on the page title's rule and 12px between them, their tiles centred inside; a chapter standing alone
                 // -- one page of one chapter, or the one chapter of two shown at a time -- hugs its tiles at the LEFT, in the left half (owner, 2026-11-23 18:07
@@ -250,6 +254,10 @@ export default function SectionTiles({
             } else {
                 box.removeAttribute("data-large");
             }
+            // (Under 230px a side the titles take the small step: data-compact, 01-tiles-and-dialog.css.)
+            box.toggleAttribute("data-compact", !vertical && actual < 230);
+            // (Under 170px a side the chapter's heading takes the body step: data-tiny.)
+            box.toggleAttribute("data-tiny", !vertical && actual < 170);
         };
         fit();
         window.addEventListener("resize", fit);
@@ -262,6 +270,7 @@ export default function SectionTiles({
             // (The next page sets its own frames' span, or has none: its rail then stands beside the page's width.)
             box.closest<HTMLElement>(".conversation-page")?.style.removeProperty("--rail-frame-span");
             box.closest<HTMLElement>(".conversation-page")?.style.removeProperty("--rail-frame-shift");
+            setTilesPage(box.closest<HTMLElement>(".conversation-page"), null);
         };
     }, [big, bigRows, across]);
 

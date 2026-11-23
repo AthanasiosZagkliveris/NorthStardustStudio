@@ -1057,7 +1057,7 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
         z-index: 31;
 
-        left: max(var(--rail-gutter, 56px), (var(--view-width) - 1400px) / 2);
+        left: calc((var(--view-width) - var(--card-width, min(1400px, calc(var(--view-width) - 2 * var(--rail-gutter, 56px))))) / 2);
 
         bottom: 0;
 

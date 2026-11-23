@@ -269,27 +269,40 @@ track of the grid it stands in.
 
 ### The page's sizes (one set for every page)
 
-Owner, 2026-11-23 19:48 UTC+2: "Can we be consistent and use the same sizes? Is there any document report the sizes?" This table owns the sizes of a page of chapters: every System page and every Capability page take them, and no page sets its own. The master side is worked out from the window alone (`masterSide`, SectionTileGeometry.tsx); `SectionTiles` and the Capability pages never draw a master tile larger, and `arrowLevel` places the arrows from it.
+The owner asked on 2026-11-23 (19:48, 20:58 and 21:05 UTC+2): "Can we be consistent and use the same sizes?"; "The tiles should always be square … The frame chapter should hug its tiles … I do not want the user, specially on landscape size screens to scroll down"; "Looks good, let's refine it adjusting the text size".
+
+This table owns the sizes of a page of tiles. Every System page and every Capability page takes them, and no page sets its own.
+
+**The page follows its tiles.** The window gives one master side. The page is drawn as wide as two chapters of that side plus the rails, and is centred in the window. Inside the page everything stands at the left.
+
+The code that sets these sizes:
+- `masterSide` and `tilesPageWidth` (SectionTileGeometry.tsx) work out the master side and the page width.
+- `setTilesPage` gives the page its width through `--tiles-page-width` and `data-tiles-page` on `.conversation-page`.
+- `SectionTiles` and the Capability pages draw the tiles at that size.
+- `arrowLevel` places the arrows from it.
 
 | What | Size | Where it is set |
 |---|---|---|
-| Page width (the title rule) | min(1400px, the window less its gutters) | `--card-width`, bullet-rail.css |
+| Master tile side | Always square. The smaller of two limits: the height (two rows between the page title and the footer, with their 12px gaps) and the width (four tiles of the widest page the window allows, 1400px at most). 150px at the least. Examples: 301px at 1920 x 950, 211px at 1440 x 770, 191px at 1536 x 730, 150px at 1366 x 640 (the visible area). | `masterSide` |
+| Page width (the title rule) | 2 x (2 x side + 12 + 26) + 12 + 2 x 54: two chapters, the gap between them and the rails' room. It never exceeds the widest page the window allows. The page is centred in the window. | `tilesPageWidth`, `setTilesPage`, bullet-rail.css |
 | Rail room at each end of the rule | 54px (the dots-only tab) | `--rail-inset`, bullet-rail.css |
-| A chapter's column | (page width - 2 x 54 - 12) / 2 | `masterSide` |
+| A frame's padding and edge | 12px + 1px on all four sides: the frame hugs its tiles | `--card-padding`, global.css; `SectionTiles` (hug, `data-hug-pair`) |
 | Between two chapters, between two tiles, under a frame's head | 12px | `--space-card`, global.css |
-| A frame's padding and edge | 12px + 1px each side (26px across) | `--card-padding`, global.css |
 | A frame's head (its title) | 36px | `--section-head-height`, global.css |
-| First tile row's top | the rule's bottom + 12 + 61 (edge and padding 13, head 36, 12) | `masterSide`, `arrowLevel` |
-| Master tile side | min((column - 26 - 12) / 2, what lets two rows stand above the footer with its 12px gaps), 150px at least: 301px at 1870 x 1000, 258px at 1536 x 864, 210px at 1366 x 768 | `masterSide` |
-| Frame of a lone chapter | hugs its tiles: 2 x side + 12 + 26, at the page's left against the left rail | `SectionTiles` (hug) |
-| Two chapters, or one with two groups | each hugs its tiles too (13px round them on all four sides), the two 12px apart at the page's left; what the page leaves over is at their right (owner, 2026-11-23 20:12 UTC+2: "The chapter's side gaps seems larger that its top down") | `SectionTiles` (`data-hug-pair`: the grid's two tracks the chapters' width, a third the rest, so a row across the page, Inventory and Completed, keeps its place) |
-| Arrow level | the first row's top + side + 6 (the middle of the gap between the rows) | `arrowLevel` |
-| The page arrows | each centred in its rail's room at its end of the title rule, inside the page, the right one mirroring the left | bullet-rail.css |
-| "+ Add Segment" | in the footer's band, its left edge on the chapter frame's left edge (the rule's left end + 54px) | bullet-rail.css |
-| A text tile's last line | a whole line, ending in "…" where the text runs on | `TileList` (line-clamp) |
-| The vertical layout (under 1100px or portrait) | its own steps: section 23 | `SectionTiles` (vertical) |
+| First tile row's top | The rule's bottom + 12 + 61 (edge and padding 13, head 36, 12) | `masterSide`, `arrowLevel` |
+| A lone chapter | Keeps the two-chapter page width. It hugs its tiles at the page's left, against the left rail. | `SectionTiles` |
+| The page title | One line. On a wide screen it steps down 2px at a time to 24px at the least, and its line keeps its height. | `InterviewHeader` |
+| Type in small tiles | Under 230px a side: titles 14px with the bold tracking, so words stay whole, and chapter headings 24px (`data-compact`). Under 170px: chapter headings 18px (`data-tiny`). | 01-tiles-and-dialog.css |
+| The footer's band | One button high (64px), with Back, "+ Add Segment", Inventory and Completed in it. At least 12px between the chapter's foot and the band. "+ Add Segment" starts on the chapter's left edge. | `--tiles-page-width` page foot, bullet-rail.css |
+| Rails and arrows | Together, inside the page, under the title rule, at its ends. Each arrow is centred on its rail. The page's symbol is on the left rail's line. The right rail stands against its chapter. | bullet-rail.css |
+| Arrow level | The first row's top + side + 6 (the middle of the gap between the rows) | `arrowLevel` |
+| A text tile's last line | A whole line, ending in "…" where the text runs on; a list ends at a whole item | `TileList` (line-clamp) |
+| The vertical layout (under 1100px or portrait) | Its own steps (section 23). That layout may scroll. | `SectionTiles` (vertical) |
 
-The layout check measures them: every page's master tiles one side in a window, and the arrows between the rows (`checkCapabilityArrows`, the probe's tile rules).
+The layout check measures these sizes:
+- `checkLandscapePages`: no page of tiles scrolls at 1920 x 950, 1536 x 730, 1440 x 770 or 1366 x 640, and every master tile is square and one size.
+- `checkCapabilityArrows`: the Capability pages' arrows stand between the rows.
+- The probe's tile rules.
 
 ### Heights
 

@@ -1,4 +1,6 @@
-import type { ReactNode } from "react";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
+
+import { verticalAcross } from "../../../hooks/useVerticalLayout.ts";
 
 import { getCapabilityColor } from "../../../data/capabilities";
 import { getSystemIcon } from "../../../data/systemIcons";
@@ -53,6 +55,41 @@ export default function InterviewHeader({
 }: InterviewHeaderProps) {
 
     const color = getCapabilityColor(capabilityId);
+
+    // (THE PAGE TITLE ON ONE LINE (owner, 2026-11-23 21:05 UTC+2: "let's refine it adjusting the text size"): a page of tiles is as wide as its tiles, so a long title
+    // -- "Business System — 1. Foundation & Engagement" -- may not fit its rule; on a wide screen it steps down, 2px at a time, to 24px at the least, until it stands on
+    // one line, so every page's tiles start at one height. The vertical layout keeps its two lines.)
+    const heading = useRef<HTMLHeadingElement | null>(null);
+    useLayoutEffect(() => {
+        const node = heading.current;
+        if (!node) {
+            return;
+        }
+        const fit = () => {
+            node.style.removeProperty("font-size");
+            node.style.removeProperty("line-height");
+            if (verticalAcross() > 0) {
+                return;
+            }
+            const line = parseFloat(getComputedStyle(node).lineHeight) || 0;
+            // (Its line keeps its height, so the rule under it, and the tiles, stand where they do on every page.)
+            if (line > 0) {
+                node.style.lineHeight = line + "px";
+            }
+            let size = parseFloat(getComputedStyle(node).fontSize) || 0;
+            while (line > 0 && size > 24 && node.getBoundingClientRect().height > line * 1.5) {
+                size -= 2;
+                node.style.fontSize = size + "px";
+            }
+        };
+        fit();
+        void document.fonts?.ready.then(fit);
+        const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(() => fit());
+        if (node.parentElement) {
+            observer?.observe(node.parentElement);
+        }
+        return () => observer?.disconnect();
+    }, [systemName, pageTitle]);
     const icon = ownIcon ?? (systemNumber ? getSystemIcon(Number(systemNumber)) : undefined);
 
     return (
@@ -74,7 +111,7 @@ export default function InterviewHeader({
 
                 {/* (THE SYSTEM'S NAME WITHOUT ITS ORDER NUMBER (owner, 2026-11-23 17:28 UTC+2: "Hide the Systems order numbers on their tiles, and titles, but keep them
                     as information, documents and coding"): the number stays in the documents, the code and the heading's data, not drawn.) */}
-                <h1 data-system-number={systemNumber}>
+                <h1 ref={heading} data-system-number={systemNumber}>
                     {nameCapitals
                         ? <span className="interview-header-page-title-capitals">{systemName}</span>
                         : systemName}
