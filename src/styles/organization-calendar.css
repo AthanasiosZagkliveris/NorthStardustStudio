@@ -31,7 +31,7 @@
        is just a conservative safety margin in case of any
        transient layout shift, and still comfortably above
        ordinary page content (which sets no z-index of its own). */
-    z-index:25;
+    z-index:27;
 
     width:44px;
 
@@ -1071,10 +1071,7 @@
 .org-calendar-funnel-row{
 
     display:flex;
-    flex-wrap:wrap;
     align-items:center;
-
-    gap:var(--gap-6);
 
 }
 
@@ -1364,5 +1361,127 @@ body:has(.org-calendar-panel-open) .workspace-footer .back-link{
     box-shadow:none;
 
     background:transparent;
+
+}
+
+/* THE CALENDAR'S ONE FUNNEL (owner, 2026-11-23 17:47 UTC+2; CalendarFunnel.tsx): what it shows now in words, the funnel at the row's right end; its panel
+   under it, the Inventory's folded groups (capability-overview.css), over the calendar. */
+.org-calendar-funnel{
+
+    position:relative;
+
+}
+
+.org-calendar-funnel-row{
+
+    flex-wrap:nowrap;
+    justify-content:space-between;
+
+    gap:var(--gap-12);
+
+}
+
+.org-calendar-funnel-summary{
+
+    min-width:0;
+
+    font-size:var(--font-small);
+
+    color:var(--text-subtle);
+
+}
+
+.org-calendar-funnel-panel{
+
+    position:absolute;
+    top:calc(100% + 4px);
+    left:0;
+    right:0;
+    z-index:5;
+
+    box-sizing:border-box;
+    max-height:min(70vh, 560px);
+    overflow:auto;
+
+    padding:var(--gap-12);
+
+    border:1px solid var(--line-box);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+    box-shadow:var(--shadow-menu);
+
+}
+
+.org-calendar-funnel-ticks{
+
+    display:flex;
+    flex-direction:column;
+    gap:var(--gap-6);
+
+}
+
+/* (Its choices one under another, as the Inventory's.) */
+.org-calendar-funnel-panel .radio-choice{
+
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:var(--gap-6);
+
+}
+
+
+
+/* (The Calendar's funnel is the shared FunnelButton in the Workbook's tokens -- the app's blue, glossary.css' .workbook-tools .funnel-box --: an outline at its
+   start, filled only while it leaves something out; owner, 2026-11-23 18:09 UTC+2, "Use only existing components!!".) */
+.org-calendar-funnel .funnel-box{
+
+    --plus-ground:var(--bg-surface);
+    --plus-fill:var(--text-primary);
+
+}
+
+/* (THE FUNNEL'S SPACING (owner, 2026-11-23 18:24 UTC+2: "Fix the spacing"): its groups 8px apart, a group's choices 6px apart, a span the user made with its x on
+   its own line, 8px after its words; the form for "Other" one column, 8px apart, under the choices.) */
+.org-calendar-funnel-panel{
+
+    display:flex;
+    flex-direction:column;
+    gap:var(--gap-8);
+
+}
+
+.org-calendar-funnel-custom{
+
+    display:inline-flex;
+    align-items:center;
+    gap:var(--gap-8);
+
+}
+
+.org-calendar-funnel-panel .org-calendar-funnel-form{
+    flex-direction:column;
+    align-items:stretch;
+    gap:var(--gap-8);
+
+    margin-top:var(--gap-8);
+
+}
+
+/* (Its name on a line of its own, its two dates side by side, Save and Cancel side by side.) */
+.org-calendar-funnel-panel .org-calendar-funnel-form{
+
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+}
+
+.org-calendar-funnel-panel .org-calendar-funnel-form > .interview-input{
+
+    grid-column:1 / -1;
+
+    min-height:0;
 
 }

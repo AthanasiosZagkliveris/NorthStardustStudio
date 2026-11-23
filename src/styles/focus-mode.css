@@ -68,3 +68,11 @@ html.focus-mode .conversation-content {
     background: var(--bg-list-hover);
 
 }
+
+/* (The page title stays where the page starts in focus, not under the header's place: owner, 2026-11-23 17:57 UTC+2, "Fix the focus option" -- the chapters'
+   titles were cut under the title band, which kept the header's 80px.) */
+html.focus-mode .interview-header {
+
+    top: 40px;
+
+}

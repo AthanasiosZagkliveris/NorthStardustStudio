@@ -36,8 +36,9 @@ export const APP_GUIDE: readonly HandbookPart[] = [
                 "Write your name in the box at the top.",
                 "Add: makes a new Organisation; type its name in its row. Press a row to select it: the selected Organisation is the one you work on.",
                 "Import: opens an Organisation saved as a file. Export: saves the selected Organisation as a file.",
-                "The x at the end of a row removes that Organisation, after you confirm.",
-                "System Selection: opens the selected Organisation's Systems."
+                "The x inside a row removes that Organisation, after you confirm.",
+                "The arrow beside a row opens that Organisation's Capabilities.",
+                "Calendar, in the Menu, opens your own Calendar: your general notes, and each Organisation's dates when you tick it under Calendars."
             ] },
             { text: "Two example Organisations come with the app, Lumen & Loom Studio and Quillfield Automation: open them to see every page answered. Reload, in the header, refreshes them." }
         ]
@@ -46,11 +47,27 @@ export const APP_GUIDE: readonly HandbookPart[] = [
         heading: "Systems, pages and tiles",
         blocks: [
             { points: [
-                "On System Selection, choose a Capability, then a System. Its Introduction says what it covers; Start Interview opens its first page.",
+                "On the Capabilities page, choose a Capability: its page shows its Systems. The arrows and the left and right keys go round the Capabilities. Then choose a System. Its Introduction says what it covers; Start Interview opens its first page.",
+                "A System's tile lists what it holds: its PAGES; the CHAPTERS of its one page; or the SECTIONS of its one chapter.",
                 "The rail at the left lists the System's pages, each bullet showing its state: empty, in progress or defined. The arrows go to the previous and the next page.",
                 "A page holds large tiles. Press a tile to open its dialog; press a card in it to open the card beside the dialog. The arrows beside a card step through its list.",
                 "A card that still lacks an answer shows the field in red with a short reason, and its tile flashes until it is given.",
                 "Answer the Systems in order: each later page starts from what the earlier ones say."
+            ] }
+        ]
+    },
+    {
+        heading: "What the symbols mean",
+        blocks: [
+            { points: [
+                "○ An empty circle: not started. Nothing is answered yet.",
+                "◐ A half-filled circle: in progress. Some answers are given, some still wait.",
+                "● A filled circle: defined. Every answer the page asks for is given.",
+                "The shapes stand beside a Capability's Systems, a System's pages, chapters and tiles, and on the rails; the colour is never the only sign.",
+                "A short word on a tile (KPI) shows its full name when you hover over it.",
+                "› and ‹ arrows go to the next and the previous page; a ▷ beside a title drops its help under it.",
+                "+ adds a card or a line. An x removes one, after you confirm where a removal cannot be undone.",
+                "The funnel picks what a list shows: All first, or one choice at a time."
             ] }
         ]
     },

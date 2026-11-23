@@ -2,7 +2,6 @@ import DayButton from "../controls/DayButton.tsx";
 import { useEffect, useRef, useState } from "react";
 
 import AddButton from "../controls/AddButton.tsx";
-import RadioChoice from "../controls/RadioChoice.tsx";
 import { useEscapeCloses } from "../interview/fields/useEscapeCloses";
 import TextLink from "../interview/fields/TextLink.tsx";
 import NavArrow from "../controls/NavArrow.tsx";
@@ -14,7 +13,7 @@ import { isoToDisplay } from "../interview/fields/DateCellInput.tsx";
 import NotesField from "../interview/fields/NotesField.tsx";
 import CalendarFunnel, { CALENDAR_INCLUDES } from "./CalendarFunnel.tsx";
 import { CARD_DATE_KINDS, type CardDateKind } from "../../framework/engine/cards/CalendarCardDates.ts";
-import { type CalendarPeriod, loadCustomPeriods, presetPeriods, saveCustomPeriods } from "../../services/CalendarPeriods.ts";
+import { type CalendarPeriod, loadCustomPeriods, presetPeriods, saveCustomPeriods, userPeriods } from "../../services/CalendarPeriods.ts";
 
 import { Capability } from "../../types/capability";
 import { FrameworkSystem } from "../../types/system";
@@ -24,6 +23,7 @@ import "../../styles/notepad.css";
 import "../../styles/organization-calendar.css";
 import "../../styles/system-confirmation.css";
 import { OPEN_CALENDAR } from "./calendarOpen";
+import { useRuleLevel } from "../../hooks/useRuleLevel";
 import { USER_CALENDAR_ID, loadUserAnnotations, saveUserAnnotation } from "../../services/UserCalendar";
 
 interface OrganizationCalendarPanelProps {
@@ -280,6 +280,9 @@ export default function OrganizationCalendarPanel({
     useEscapeCloses(activeTab !== null, () => setActiveTab(null), () => suppressCloseForFlyout);
 
     const panelRef = useRef<HTMLElement | null>(null);
+    // (Its head's rule level with the page title's: useRuleLevel.)
+    const sideHead = useRef<HTMLDivElement | null>(null);
+    useRuleLevel(sideHead, activeTab === "calendar");
 
     /**
      * Holds the "apply to every other occurrence?" question while
@@ -350,9 +353,11 @@ export default function OrganizationCalendarPanel({
     // (THE USER'S CALENDARS (owner, 2026-11-23 16:19 UTC+2): on the user's own Calendar, which calendars show -- their own notes and each Organisation's dates, all to
     // begin with -- as a personal calendar shows or hides each of its calendars; the card kinds an Organisation's Calendar offers ("Include") are that Organisation's.)
     const userCalendar = organizationId === USER_CALENDAR_ID;
-    const calendarOptions = userCalendar ? [{ id: "", label: "Your notes" }, ...OrganizationService.list().map(entry => ({ id: entry.id, label: entry.name }))] : [];
+    const calendarOptions = userCalendar ? [{ id: "", label: "User" }, ...OrganizationService.list().map(entry => ({ id: entry.id, label: entry.name }))] : [];
     const [calendarsShown, setCalendarsShown] = useState<ReadonlySet<string> | null>(null);
-    const calendars = calendarsShown ?? new Set(calendarOptions.map(option => option.id));
+    // (The user's own calendar to begin with (owner, 2026-11-23 17:28 UTC+2: "Rename Your Notes to User. User Calendar should be the default option"); each
+    // Organisation's is a tick away, or All.)
+    const calendars = calendarsShown ?? new Set([""]);
     // A note (a time and words) is made only when the user asks for one, on a new date or one already recorded.
     const [notesOpen, setNotesOpen] = useState<ReadonlySet<string>>(new Set());
     useEffect(() => {
@@ -524,7 +529,7 @@ export default function OrganizationCalendarPanel({
 
     // (Card dates of a kind the funnel leaves out are not shown; every other task always is.)
     const shown = tasks.filter(task => (!userCalendar || calendars.has(task.organizationId ?? "")) && (!task.kind || (kinds.has(task.kind) && (userCalendar || CALENDAR_INCLUDES.some(entry => includes.has(entry.id) && (!task.noun || entry.nouns.includes(task.noun)) && (task.noun !== undefined))))));
-    const periods = [...presetPeriods(today), ...customPeriods];
+    const periods = [...(organizationId === USER_CALENDAR_ID ? userPeriods(today) : presetPeriods(today)), ...customPeriods];
     const period = periods.find(candidate => candidate.id === periodId) ?? null;
     const periodTasks = period
         ? shown.filter(task => task.date >= period.from && task.date <= period.to).sort((one, other) => one.date.localeCompare(other.date) || one.description.localeCompare(other.description))
@@ -562,33 +567,6 @@ export default function OrganizationCalendarPanel({
 
                 <>
 
-                    {/*
-                        The single, app-wide date-presentation
-                        control -- moved out of the cramped
-                        header pill into its own full-width,
-                        clearly-labeled row so it's the first
-                        thing anyone opening this flyout
-                        notices, not something they have to
-                        spot in a corner. This is now the ONLY
-                        place that setting can be changed from
-                        (the Operational Log's own in-table
-                        toggle was removed -- see
-                        OperationalLogEditor.tsx).
-                    */}
-                    <div className="org-calendar-date-format-row">
-
-                        <span className="org-calendar-date-format-label">Date presentation</span>
-
-                        <RadioChoice
-                            label="Date presentation"
-                            group="org-calendar-date-format"
-                            options={[{ id: "US", label: "MM/DD (US)" }, { id: "EU", label: "DD/MM (EU)" }]}
-                            value={dateFormat}
-                            onChange={(next) => PreferencesService.setDateFormat(next)}
-                        />
-
-                    </div>
-
                     <CalendarFunnel
                         periods={periods}
                         periodId={periodId}
@@ -615,6 +593,8 @@ export default function OrganizationCalendarPanel({
                         includes={includes}
                         onIncludes={setIncludes}
                         calendars={userCalendar ? { options: calendarOptions, shown: calendars, onChange: setCalendarsShown } : undefined}
+                        dateFormat={dateFormat}
+                        onDateFormat={(next) => PreferencesService.setDateFormat(next)}
                     />
 
                     <div className="org-calendar-month-nav">
@@ -928,7 +908,7 @@ export default function OrganizationCalendarPanel({
             aria-label="Calendar"
         >
 
-            <div className="notepad-head">
+            <div className="notepad-head" ref={sideHead}>
                 <h2 className="notepad-title">{organizationId === USER_CALENDAR_ID ? "Your Calendar" : "Calendar"}</h2>
                 <NavArrow direction="previous" label="Close calendar" className="page-arrow notepad-close" onClick={() => setActiveTab(null)} />
             </div>

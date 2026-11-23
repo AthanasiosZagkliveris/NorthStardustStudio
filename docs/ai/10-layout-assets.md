@@ -160,7 +160,7 @@ A frameless X inside a cell, at its right end, that removes what the cell holds 
 | barLength | 14 |
 | barThickness | 2 |
 | strokeWidth | 0 |
-| growth | 1.2 |
+| growth | 1.25 |
 | outlineWidth | 2 |
 | outlineOffset | 2 |
 | tolerancePx | 0.5 |

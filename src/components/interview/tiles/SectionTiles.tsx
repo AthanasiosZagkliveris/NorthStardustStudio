@@ -171,14 +171,15 @@ export default function SectionTiles({
                 side = Math.min(tall, fill);
                 // (THE FRAMES ON THE PAGE'S BORDERS (owner, 2026-11-23 16:19 UTC+2: "Fix the layout of all the pages to follow the proper borders"): two chapters side
                 // by side fill their columns, the outer edges on the page title's rule and 12px between them, their tiles centred inside; a chapter standing alone
-                // -- one page of one chapter, or the one chapter of two shown at a time -- hugs its tiles, centred under the title.)
+                // -- one page of one chapter, or the one chapter of two shown at a time -- hugs its tiles at the LEFT, in the left half (owner, 2026-11-23 18:07
+                // UTC+2: "I said align to the left!").)
                 const own = hug?.getBoundingClientRect();
                 const beside = hug && own ? [...new Set(Array.from(box.closest(".conversation-card")?.querySelectorAll<HTMLElement>(".section-tiles-quad") ?? []).map(quad => chapterOf(quad)))]
                     .filter((frame): frame is HTMLElement => !!frame && frame !== hug && frame.getClientRects().length > 0 && frame.offsetWidth > 0 && Math.abs(frame.getBoundingClientRect().top - own.top) < 2) : [];
                 if (hug && box.getBoundingClientRect().width > 0 && side >= 150 && beside.length === 0) {
                     hug.style.setProperty("width", Math.ceil(2 * side + 12 + extra) + "px", "important");
                     hug.style.maxWidth = "100%";
-                    hug.style.marginInline = "auto";
+                    hug.style.marginInline = "0 auto";
                 }
             }
             if (hug) {

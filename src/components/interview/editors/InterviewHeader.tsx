@@ -72,10 +72,12 @@ export default function InterviewHeader({
                     />
                 )}
 
-                <h1>
+                {/* (THE SYSTEM'S NAME WITHOUT ITS ORDER NUMBER (owner, 2026-11-23 17:28 UTC+2: "Hide the Systems order numbers on their tiles, and titles, but keep them
+                    as information, documents and coding"): the number stays in the documents, the code and the heading's data, not drawn.) */}
+                <h1 data-system-number={systemNumber}>
                     {nameCapitals
                         ? <span className="interview-header-page-title-capitals">{systemName}</span>
-                        : systemNumber ? `${systemNumber}. ${systemName}` : systemName}
+                        : systemName}
                     {pageTitle && (
                         <span className={"interview-header-page-title" + (pageTitleCapitals ? " interview-header-page-title-capitals" : "")}>
                             {/* (In the vertical layout the page's title stands on a line of its own under the System's name, without the dash: 01-interview.css.) */}

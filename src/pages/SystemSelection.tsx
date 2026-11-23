@@ -25,6 +25,7 @@ import Tile from "../components/interview/tiles/Tile";
 import { TileList, TileTitle } from "../components/interview/tiles/TileParts";
 import { systemContents } from "../components/systems/systemContents";
 import BulletRail from "../components/interview/rails/BulletRail";
+import useRailTab from "../hooks/useRailTab.ts";
 import PageArrow from "../components/interview/fields/PageArrow";
 import { getSystemIcon } from "../data/systemIcons";
 import "../styles/status-shape.css";
@@ -202,11 +203,8 @@ export default function SystemSelection() {
                 }
                 const at = capabilities.findIndex(capability => capability.id === shownCapabilityRef.current);
                 event.preventDefault();
-                if (event.key === "ArrowLeft") {
-                    setActiveCapability(at > 0 ? capabilities[at - 1].id : null);
-                } else if (at < capabilities.length - 1) {
-                    setActiveCapability(capabilities[at + 1].id);
-                }
+                // (Round as a carousel: before the first, the last; after the last, the first.)
+                setActiveCapability(capabilities[(at + (event.key === "ArrowLeft" ? capabilities.length - 1 : 1)) % capabilities.length].id);
                 return;
             }
 
@@ -262,12 +260,28 @@ export default function SystemSelection() {
             }
             const top = box.getBoundingClientRect().top + window.scrollY;
             const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
-            setTileSide(Math.max(150, Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - 12) / 2)));
+            // (On a Capability's page, the frame's heading and its padding come before the tiles.)
+            const head = box.querySelector<HTMLElement>(".capability-systems-frame > .tiles-frame-head");
+            const above = head ? head.offsetHeight + 12 + 24 : 0;
+            const tall = Math.max(150, Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - 12 - above) / 2));
+            // (A CAPABILITY'S SYSTEMS AS A CHAPTER (owner, 2026-11-23 17:52 UTC+2: "Align them to the left"; "Fix the size of the tiles and the 'chapter' frame, to
+            // hug the tiles"): two across stand in half the page, as a chapter does (half the page less 6px), three across in the whole; the tiles as large as
+            // that room and the window's height allow, the frame round them.)
+            const count = shownCapabilityRef.current ? systems.filter(system => system.capability === shownCapabilityRef.current).length : 0;
+            if (count > 0) {
+                const across = count >= 3 && count <= 4 ? 2 : Math.min(count, 3);
+                const page = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect().width ?? box.clientWidth;
+                const pad = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--card-padding")) || 12;
+                const room = (across === 2 ? page / 2 - 6 : page) - 2 * pad - 2 - (across - 1) * 12;
+                setTileSide(Math.max(120, Math.min(tall, Math.floor(room / across))));
+                return;
+            }
+            setTileSide(tall);
         };
         fit();
         window.addEventListener("resize", fit);
         return () => window.removeEventListener("resize", fit);
-    }, []);
+    }, [shownCapability]);
 
     // (THE MASTER TILES' TYPE (owner, 2026-11-23 16:19 UTC+2: "Check the text size (Titles and listed items)"): from 250px a side the lists take the body step, 18px,
     // as a page's master tiles' do (data-large, SectionTiles' fit); under it 14px.)
@@ -276,6 +290,27 @@ export default function SystemSelection() {
         const tile = box?.querySelector<HTMLElement>(".section-tile");
         if (box && tile) {
             box.toggleAttribute("data-large", tile.offsetWidth >= 250);
+        }
+    });
+
+    // (The rail's tab in the frame's colours, 12px under its top, as a page's: useRailTab.)
+    useRailTab();
+
+    // (THE RAIL BESIDE THE SYSTEMS' FRAME: the frame's span, centred on the window, as a page of chapters gives its rails (SectionTiles' railsBesideFrames).)
+    const systemsFrame = useRef<HTMLDivElement | null>(null);
+    useLayoutEffect(() => {
+        const frame = systemsFrame.current;
+        const page = frame?.closest<HTMLElement>(".conversation-page");
+        if (!frame || !page) {
+            document.querySelector<HTMLElement>(".conversation-page")?.style.removeProperty("--rail-frame-span");
+            return;
+        }
+        const r = frame.getBoundingClientRect();
+        const middle = window.innerWidth / 2;
+        const span = Math.ceil(2 * Math.max(middle - r.left, r.right - middle)) + "px";
+        if (page.style.getPropertyValue("--rail-frame-span") !== span) {
+            page.style.setProperty("--rail-frame-span", span);
+            window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
         }
     });
 
@@ -308,15 +343,29 @@ export default function SystemSelection() {
     });
 
     /** A System's tile on its Capability's page. */
+    /** Where a System's tile grows from: its outer corner in the grid (scaleOrigin's rule for a chapter's master tiles). */
+    function originOf(index: number): string {
+        const across = shownSystems.length >= 3 && shownSystems.length <= 4 ? 2 : Math.min(shownSystems.length, 3);
+        const rows = Math.ceil(shownSystems.length / across);
+        const column = index % across;
+        const row = Math.floor(index / across);
+        const x = across <= 1 ? "50%" : column === 0 ? "0%" : column === across - 1 ? "100%" : "50%";
+        const y = rows <= 1 ? "0%" : row === 0 ? "0%" : row === rows - 1 ? "100%" : "50%";
+        return x + " " + y;
+    }
+
     function systemTile(system: FrameworkSystem) {
         const status = systemStatuses[system.number];
         const contents = systemContents(system, sectionStatuses[system.number]);
-        // (A System's tile as the list had it (owner, 2026-11-22 21:00 UTC+2: "Fix links, text and tile sizes"): its number and name, its
-        // status by its shape and word (status-shape.css), its icon at the foot; the dialog's tile size.)
+        // (A System's tile (owner, 2026-11-22 21:00 and 2026-11-23 17:28 UTC+2): its name -- its order number kept in its accessible name and the documents,
+        // not drawn ("Hide the Systems order numbers on their tiles, and titles") --, its icon under it, then what it holds under a heading, each line's bullet
+        // its status; no status word ("Remove the note (not started, defines) under their symbols": the Handbook's App Guide says what the shapes mean).)
         return (
             <Tile
                 key={system.id}
-                frame={{ className: "section-tile-slot capability-system-slot" }}
+                // (THE TILE GROWS FROM ITS OUTER CORNER (owner, 2026-11-23 17:52 UTC+2: "Fix the direction the Tiles scale up"), as a chapter's master tiles do: a
+                // tile at the frame's left grows to the right, one at its right to the left, the top row down, the bottom row up -- never out of the frame.)
+                frame={{ className: "section-tile-slot capability-system-slot", style: { transformOrigin: originOf(shownSystems.indexOf(system)) } }}
                 className="section-tile"
                 aria-label={String(system.number).padStart(2, "0") + ". " + system.title + (status ? ", " + PAGE_STATUS_WORDS[status] : "")}
                 face={(
@@ -326,24 +375,15 @@ export default function SystemSelection() {
                             2026-11-23 15:32 UTC+2: "Place each system's icon, to look like the capabilities (size, colour and position)"): the logo's size, in its
                             Capability's colour (the icon's own).) */}
                         <TileTitle className="section-tile-title-broken">
-                            <span className="section-tile-title-words">{(() => {
-                                // (A name of two words or more on two lines, broken before its last word: "07. Product / Development".)
-                                const name = system.title.replace(/ System$/, "");
-                                const cut = name.lastIndexOf(" ");
-                                const number = String(system.number).padStart(2, "0") + ". ";
-                                return cut > 0 ? <>{number + name.slice(0, cut)}<br />{name.slice(cut + 1)}</> : number + name;
-                            })()}</span>
+                            {/* (Its name on one line where the tile holds it, "Social Media"; between its words where it does not: owner, 2026-11-23 18:03 UTC+2.) */}
+                            <span className="section-tile-title-words">{system.title.replace(/ System$/, "")}</span>
                             {getSystemIcon(system.number) && <img className="section-tile-title-mark" src={getSystemIcon(system.number)} alt="" />}
                         </TileTitle>
                         <div className="capability-system-body">
-                            {status && (
-                                <span className="system-status capability-system-status">
-                                    <span className="status-shape" data-status={status} aria-hidden="true" />
-                                    <span className="system-status-word">{PAGE_STATUS_WORDS[status]}</span>
-                                </span>
-                            )}
-                            {/* (WHAT IT HOLDS (owner, 2026-11-23 15:32 UTC+2): its page's tiles, or its pages where it has several -- systemContents.) */}
-                            {contents.length > 0 && <TileList items={contents.map(line => line.label)} marks={contents.map(line => line.status ? { status: line.status } : undefined)} />}
+                            {/* (WHAT IT HOLDS, UNDER ITS HEADING (owner, 2026-11-23 17:28 UTC+2): its PAGES, the CHAPTERS of its one page, or the TILES of its one
+                                chapter -- systemContents.) */}
+                            {contents.lines.length > 0 && <span className="capability-system-kind">{contents.kind}</span>}
+                            {contents.lines.length > 0 && <TileList items={contents.lines.map(line => line.label)} marks={contents.lines.map(line => ({ status: line.status, tip: line.full }))} />}
                         </div>
                     </>
                 )}
@@ -473,11 +513,17 @@ export default function SystemSelection() {
                         master tiles' size (`--capability-side`, the side a page's 2 x 2 has in this window), centred under the title.) */}
                     <div ref={tilesBox} className="capability-tiles" style={{ "--strategy-theme-hue": hueOf(getCapabilityColor(shown?.id ?? "foundation")), ...(tileSide ? { "--capability-side": tileSide + "px" } : {}),
                         // (FOUR TILES STAND TWO BY TWO (owner, 2026-11-22 21:37 UTC+2: "If there are 4 tiles make the layout 2 x 2"), as a chapter's four; else three a row.)
-                        ...(shown && shownSystems.length === 4 ? { "--capability-across": 2 } : {}) } as React.CSSProperties}>
+                        // (And three, two by two, the fourth place empty: owner, 2026-11-23 17:28 UTC+2, "If there are 3 tiles the lay out should still be 2 x 2".)
+                        ...(shown && shownSystems.length >= 3 && shownSystems.length <= 4 ? { "--capability-across": 2 } : {}) } as React.CSSProperties}>
                         {shown
                             ? (
-                                // (The Capability's Systems, a tile each, as the Capabilities are: two rows of three at the master tiles' size, in its colour.)
-                                <div className="section-tiles-box">
+                                // (The Capability's Systems, a tile each, as the Capabilities are, in its colour; IN ONE FRAME WITH NO TITLE, THE TILES FROM ITS LEFT
+                                // (owner, 2026-11-23 17:28 UTC+2: "Place all the system tiles in a frame without title, so the rail system to have a proper design";
+                                // "Align all the tiles to the left side"): the frame a chapter's, the rail at its edge.)
+                                <div className="section-tiles-box capability-systems-frame" ref={systemsFrame} style={{ "--tile-colour": getCapabilityColor(shown.id) } as React.CSSProperties}>
+                                    {/* (ITS HEADING, AS EVERY CHAPTER'S (owner, 2026-11-23 18:02 UTC+2: "Add to all of the capability chapters, SYSTEMS as title"): the chapters' own
+                                        heading -- business-engagement-section-head, tiles-frame-head --.) */}
+                                    <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">Systems</span></div>
                                     <div className="section-tiles" role="group" aria-label={shown.title + " Systems"} style={{ "--tile-colour": getCapabilityColor(shown.id) } as React.CSSProperties}>
                                         {shownSystems.length === 0
                                             ? <p className="legal-entity-empty-note">No Systems in this Capability yet.</p>
@@ -497,6 +543,9 @@ export default function SystemSelection() {
                 as a System's pages do (layout rules section 10, the page's rails). */}
             {shown && (() => {
                 const at = capabilities.indexOf(shown);
+                // (THE ARROWS GO ROUND (owner, 2026-11-23 17:28 UTC+2: "Their navigation arrows should work as carousel, after the first it should move to the last").)
+                const before = capabilities[(at + capabilities.length - 1) % capabilities.length];
+                const after = capabilities[(at + 1) % capabilities.length];
                 return (
                     <div className="bullet-rails">
                         <div className="bullet-rails-row">
@@ -506,7 +555,7 @@ export default function SystemSelection() {
                                 items={capabilities.map(capability => ({ id: capability.id, label: capability.title }))}
                                 activeId={shown.id}
                                 onSelect={id => setActiveCapability(id)}
-                                arrow={<PageArrow direction="previous" label={at > 0 ? "Previous Capability: " + capabilities[at - 1].title : "The Capabilities"} onClick={() => setActiveCapability(at > 0 ? capabilities[at - 1].id : null)} />}
+                                arrow={<PageArrow direction="previous" label={"Previous Capability: " + before.title} onClick={() => setActiveCapability(before.id)} />}
                             />
                             <BulletRail
                                 side="right"
@@ -514,7 +563,7 @@ export default function SystemSelection() {
                                 items={[]}
                                 activeId={null}
                                 onSelect={() => undefined}
-                                arrow={at < capabilities.length - 1 ? <PageArrow direction="next" label={"Next Capability: " + capabilities[at + 1].title} onClick={() => setActiveCapability(capabilities[at + 1].id)} /> : undefined}
+                                arrow={<PageArrow direction="next" label={"Next Capability: " + after.title} onClick={() => setActiveCapability(after.id)} />}
                             />
                         </div>
                     </div>

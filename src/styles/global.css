@@ -393,6 +393,8 @@ body {
   --plus-fill-lightness: 38%;
   /* THE HOVER LIFT of page 3: the glow a tile, a cell or a list row takes under the pointer is its old amount (18%, 28%) times this. One place to change it. */
   --hover-lift: 1.2;
+  /* THE IN-CELL X GROWS BY A QUARTER under the pointer and the focus (owner, 2026-11-23 17:28 UTC+2: "Make the in cells x delete button (global change) 25% growing"). */
+  --cell-x-lift: 1.25;
   /* THE FOCUS RING INK of page 3 (cells, tiles, links, "+", x): the primary line in light and sepia; in dark a clean white, never the light blue (the dark
      primary, #7aa7f5, drew a thin blue line round a focused cell). */
   --focus-ring-ink: var(--line-primary);

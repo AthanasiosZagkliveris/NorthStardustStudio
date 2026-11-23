@@ -1549,9 +1549,10 @@
             // pages to follow the proper borders"): each is half the page less 6px, the pair's outer edges on the page title's rule.)
             const chapters = [...document.querySelectorAll(".business-foundation-card")].filter(visible).filter(frame => frame.querySelector(".section-tiles-quad") && !frame.closest(".segment-chapter, .section-tile-dialog"));
             for (const frame of chapters) {
-                const paired = chapters.some(other => other !== frame && Math.abs(rect(other).top - rect(frame).top) < 2);
-                if (paired && card) {
-                    const half = (rect(card).width - 12) / 2;
+                const partner = chapters.find(other => other !== frame && Math.abs(rect(other).top - rect(frame).top) < 2);
+                if (partner && card) {
+                    // (The pair's room: from the outer edge of one to the outer edge of the other -- the page's width less its rails, 2026-11-23 18:07 UTC+2.)
+                    const half = (Math.max(rect(frame).right, rect(partner).right) - Math.min(rect(frame).left, rect(partner).left) - 12) / 2;
                     if (!rules.near(rect(frame).width, half, 3)) {
                         fail("two chapters side by side stand on the page's borders (half the page each, 12px apart)", frame, { width: rect(frame).width, expected: half });
                     }

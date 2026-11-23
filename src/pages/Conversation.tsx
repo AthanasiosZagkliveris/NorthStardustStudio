@@ -1360,7 +1360,11 @@ export default function Conversation() {
                 (The Organization Calendar / Capabilities / System
                 slide-in panel lives only on the System Selection page.)
             */}
-            <AppHeader organizationName={organizationName} focusable={!showIntroduction} />
+            {/* (FOCUS WHERE IT HELPS (owner, 2026-11-23 17:57 UTC+2: "think where the focus option is really helpful. Maybe it should appear as option only in that parts"):
+                the Business System's pages -- Foundation & Engagement, Infrastructure & Capability and Financials --, the densest in the app, chapters of master
+                tiles with floating cards over them, where the header and the rails take room the work needs; the other pages are short, and their rails are how
+                one finds one's way.) */}
+            <AppHeader organizationName={organizationName} focusable={!showIntroduction && system?.number === 3} />
 
             <main className="conversation-content" onFocus={recordFocusedCard}>
                 <div className="conversation-card">

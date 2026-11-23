@@ -249,6 +249,8 @@ export interface ItemMark {
     icon?: string;
     /** Its bullet drawn as a status (○ not started, ◐ in progress, ● defined: status-shape.css), the Pages rail's and the System list's (a System on its Capability's tile). */
     status?: PageStatus;
+    /** The line's tooltip, where it says more than the line (the full words of an abbreviation: "Key Performance Indicators" for KPI). */
+    tip?: string;
 }
 
 

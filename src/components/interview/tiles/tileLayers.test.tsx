@@ -157,7 +157,7 @@ describe("the page's cards and titles", () => {
         expect(panel.parentElement!.classList.contains("card-title-block")).toBe(true);
         const css = stylesheet("title-arrow.css");
         expect(css).toMatch(/\.card-title-block \{[^}]*position: relative;/);
-        expect(css).toMatch(/\.card-title-block > \.card-title-help \{[^}]*position: absolute;[^}]*left: 0;[^}]*right: 0;[^}]*z-index: 20;/);
+        expect(css).toMatch(/\.card-title-block > \.card-title-help \{[^}]*position: absolute;[^}]*left: 0;[^}]*right: 0;[^}]*z-index: 22;/);
     });
 
     it("closes the guidance with Escape (the key goes no further) and with a press outside it", () => {

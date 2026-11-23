@@ -17,7 +17,7 @@ Status: **reference**, written 2026-11-21, updated 2026-11-21. The app's tests: 
 
 ### Where they are and how they run
 
-The app has 2,316 tests in 202 files (2,314 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
+The app has 2,317 tests in 204 files (2,314 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
 
 They are written with Vitest and come in two kinds:
 
@@ -43,11 +43,11 @@ More than four tests in five check either the screens (991) or the business rule
 
 | Group | Tests | Files | Where | What it protects |
 | --- | --- | --- | --- | --- |
-| Screens | 991 | 93 | `src/components/` | every card, tile, field, rail and dialog draws and behaves as specified |
+| Screens | 993 | 94 | `src/components/` | every card, tile, field, rail and dialog draws and behaves as specified |
 | Business rules | 905 | 70 | `src/framework/engine/` | the questions, choices, money, legal and channel logic gives the right answers |
 | Saved data and examples | 126 | 10 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
 | Whole pages | 115 | 10 | `src/pages/` | each page opens, moves and exports as a whole |
-| Design system and docs | 116 | 18 | `src/library/`, `src/styles/`, `src/docs/`, `src/test/` | the look stays on the tokens; the docs name only what exists |
+| Design system and docs | 117 | 19 | `src/library/`, `src/styles/`, `src/docs/`, `src/test/` | the look stays on the tokens; the docs name only what exists |
 | Content files | 63 | 1 | `src/framework/parser/` | the Systems' Markdown links resolve and their three files agree |
 
 ### What each group checks
@@ -1710,7 +1710,13 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - offers nothing for an empty row removed
   - marks every × named Remove on the page, and Delete on a movable box
 
-### src/components/systems/ (1 file, 3 tests)
+### src/components/systems/ (2 files, 5 tests)
+
+#### systemContents.test.ts (2)
+
+- **what a System's tile lists (owner, 2026-11-23 17:28 UTC+2)** (2)
+  - lists the pages of a System of several pages, the chapters of one page, the master tiles of one chapter
+  - leaves the System's own word off a line, and shows an abbreviation with its full words as the tooltip
 
 #### SystemList.test.tsx (3)
 
@@ -3537,7 +3543,12 @@ Each test draws one page of an example organisation and compares it with the sav
   - points from each table to an id that exists in the table above it
   - holds the four Foundation systems and the three parts of the app
 
-### src/styles/ with its subfolder (3 files, 46 tests): stylesheets and colour tokens
+### src/styles/ with its subfolder (4 files, 47 tests): stylesheets and colour tokens
+
+#### layers.test.ts (1)
+
+- **the layers' order** (1)
+  - stacks the page's rails, a title's help, the Calendar, Notes and the header in that order, and the header's Menu above the side panels
 
 #### lintStyles.test.ts (11)
 

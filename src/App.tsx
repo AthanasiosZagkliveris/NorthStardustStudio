@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import TitleTooltips from "./components/controls/TitleTooltips";
 import ScrollbarGrab from "./components/controls/ScrollbarGrab";
+import PointerStill from "./components/controls/PointerStill";
 
 // Loaded lazily, one chunk per page, instead of all four being
 // bundled and evaluated together up front. This matters most for
@@ -37,6 +38,8 @@ export default function App() {
             <TitleTooltips />
 
             <ScrollbarGrab />
+
+            <PointerStill />
 
             <Routes>
 

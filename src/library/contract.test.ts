@@ -82,7 +82,7 @@ describe("the asset contracts", () => {
     });
 
 
-    it("gives the in-cell x its 24px target, no frame, the X in red, the growth of a fifth with a soft glow, the ring and the reduced motion (owner, 2026-11-14 12:29)", () => {
+    it("gives the in-cell x its 24px target, no frame, the X in red, the growth of a quarter with a soft glow (owner, 2026-11-23 17:28 UTC+2), the ring and the reduced motion (owner, 2026-11-14 12:29)", () => {
         const x = assets.find(asset => asset.name === "Cell remove x")!;
         const g = x.geometry;
         const css = stylesheet("remove-button.css");
@@ -91,8 +91,8 @@ describe("the asset contracts", () => {
         expect(css).toContain(".cell-remove{ position:relative; width:var(--size-cell-x); height:var(--size-cell-x);");
         expect(css).toContain("color:var(--x-red); border:0; border-radius:var(--radius-sm); background:none;");
         expect(css).toContain("width:" + g.barLength + "px; height:" + g.barThickness + "px;");
-        expect(css).toContain(".cell-remove:is(:hover, :focus-visible):not(:disabled){ transform:scale(var(--hover-lift)); filter:drop-shadow(");
-        expect(stylesheet("global.css")).toContain("--hover-lift: " + g.growth + ";");
+        expect(css).toContain(".cell-remove:is(:hover, :focus-visible):not(:disabled){ transform:scale(var(--cell-x-lift)); filter:drop-shadow(");
+        expect(stylesheet("global.css")).toContain("--cell-x-lift: " + g.growth + ";");
         expect(css).toContain(".cell-remove:focus-visible:not(:disabled){ outline:" + g.outlineWidth + "px solid var(--focus-ring-ink, var(--line-primary)); outline-offset:" + g.outlineOffset + "px;");
         expect(css).toContain("@media (prefers-reduced-motion: reduce){ .cell-remove:is(:hover, :focus-visible):not(:disabled){ transform:none; }");
         expect(stylesheet("chip.css")).toContain("min-height: var(--chip-height);");

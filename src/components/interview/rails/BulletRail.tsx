@@ -92,7 +92,11 @@ export default function BulletRail({
             });
             const width = Math.max(named, Math.ceil(need + padding));
             node.style.setProperty("--rail-own-named-width", width + "px");
-            node.classList.toggle("bullet-rail-compact", wraps || room < width);
+            // (THE PAGE'S RAILS AS BULLETS ALONE (owner, 2026-11-23 17:28 UTC+2: "Remove entirely the PAGES title and the name titles next to each bullet on the
+            // chapter rails. The names should appear on their tooltips."): always the bullets, each name in its tooltip; the measure above stays for the rail's own width.)
+            void wraps;
+            void room;
+            node.classList.add("bullet-rail-compact");
         };
         fit();
         window.addEventListener("resize", fit);

@@ -429,7 +429,7 @@ export function TileList({
                             marks?.[position]?.icon ? "section-tile-list-icon" : "",
                             marks?.[position]?.status ? "section-tile-list-status" : ""
                         ].filter(Boolean).join(" ") || undefined}
-                        title={alerts?.[position] ? plainTitle(item).replace(/\*\*/g, "") + ": " + incompleteTitle(alerts[position]!) : plainTitle(item).replace(/\*\*/g, "") + (marks?.[position]?.status ? ", " + PAGE_STATUS_WORDS[marks[position]!.status!] : "")}
+                        title={alerts?.[position] ? plainTitle(item).replace(/\*\*/g, "") + ": " + incompleteTitle(alerts[position]!) : (marks?.[position]?.tip ?? plainTitle(item).replace(/\*\*/g, "")) + (marks?.[position]?.status ?", " + PAGE_STATUS_WORDS[marks[position]!.status!] : "")}
                     >
                         {link && onLink
                             ? (
