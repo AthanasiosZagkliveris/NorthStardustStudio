@@ -119,7 +119,14 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 const top = row.getBoundingClientRect().top;
                 tiles.style.position = "relative";
                 tiles.style.zIndex = "40";
-                tiles.style.transform = "translateY(" + Math.round(footerBox.top + (footer - side) / 2 - top) + "px)";
+                // (Centred under the two cards (owner, 2026-11-10 20:50 UTC+2, "Place the inventory and the completed tiles in the centre"), measured from the cards:
+                // the row spans the page's grid, which reaches past the cards where they hug their tiles -- owner, 2026-11-23 22:18 UTC+2, "Is the inventory and completed
+                // tiles at their proper position?".)
+                const cardsLeft = Math.min(...cards.map(card => card.getBoundingClientRect().left));
+                const cardsRight = Math.max(...cards.map(card => card.getBoundingClientRect().right));
+                const slots = [...tiles.querySelectorAll<HTMLElement>(".section-tile-slot")].map(slot => slot.getBoundingClientRect()).filter(box => box.width > 0);
+                const shift = slots.length > 0 && cards.length > 0 ? Math.round((cardsLeft + cardsRight) / 2 - (Math.min(...slots.map(box => box.left)) + Math.max(...slots.map(box => box.right))) / 2) : 0;
+                tiles.style.transform = "translate(" + shift + "px, " + Math.round(footerBox.top + (footer - side) / 2 - top) + "px)";
             } else {
                 row.style.height = "";
                 row.style.overflow = "";
