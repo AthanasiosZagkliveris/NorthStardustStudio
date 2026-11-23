@@ -1535,6 +1535,15 @@
             }
         }
 
+        // 16a2. A TILE'S SYMBOL HAS ONE GAP ABOVE AND BELOW (owner, 2026-11-23 18:29 and 18:30 UTC+2: "The gap above and bellow the capability's and system's symbol
+        //       should be the same"; "Across all tiles"): 12px from the title's rule to the symbol; the list under the title stands 12px under it, the symbol's foot.
+        for (const mark of [...document.querySelectorAll(".section-tile-title-mark")].filter(visible)) {
+            const words = mark.parentElement?.querySelector(".section-tile-title-words");
+            if (words && !rules.near(rect(mark).top - rect(words).bottom, 12, 2)) {
+                fail("a tile's symbol stands 12px under its title's rule, as the list stands 12px under the symbol", mark, { gap: rect(mark).top - rect(words).bottom });
+            }
+        }
+
         // 16b. THE 2 x 2 OF MASTER TILES (layout rules section 23; owner, 2026-11-20 21:01 UTC+2, the Financials): the tiles of one chapter are equal squares on
         //      the shared grid -- one side, two columns and two rows of that side, one gap apart, the first place top left -- so three tiles leave the fourth
         //      place empty and nothing overlaps at rest. (Measured at rest: the probe's own style holds the hover growth back.)

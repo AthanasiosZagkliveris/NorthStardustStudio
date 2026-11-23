@@ -7,7 +7,9 @@ describe("what a System's tile lists (owner, 2026-11-23 17:28 UTC+2)", () => {
     const of = (title: string) => systemContents(systems.find(system => system.title === title)!);
 
     it("lists the pages of a System of several pages, the chapters of one page, the master tiles of one chapter", () => {
-        expect(of("Business System")).toEqual({ kind: "Pages", lines: [{ label: "Foundation & Engagement" }, { label: "Infrastructure & Capability" }, { label: "Financials" }] });
+        expect(of("Business System").kind).toBe("Pages");
+        expect(of("Business System").lines.map(line => line.label)).toEqual(["Foundation & Engagement", "Infrastructure & Capability", "Financials"]);
+        expect(of("Business System").lines.map(line => line.target?.section)).toEqual([1, 3, 4]);
         expect(of("Identity System").kind).toBe("Chapters");
         expect(of("Strategy System").kind).toBe("Sections");
     });

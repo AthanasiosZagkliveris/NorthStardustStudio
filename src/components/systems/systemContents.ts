@@ -19,6 +19,9 @@ export interface SystemContentLine {
     label: string;
     full?: string;
     status?: PageStatus;
+    /** Where the line leads (owner, 2026-11-23 18:27 UTC+2: "Add links also, so by clicking on a page to get there"): the section to open and, for a section's
+     *  part, the place on its page to scroll to (its Sections rail id). */
+    target?: { section: number; anchor?: string };
 }
 
 /** What a System's tile lists and the heading over it. */
@@ -70,7 +73,7 @@ export function systemContents(system: FrameworkSystem, statuses?: ReadonlyMap<n
             kind: "Pages",
             lines: pages.map(section => {
                 const group = groupOf(system.number, section.number);
-                return { ...lineWords(group?.title ?? plain(section.title), system), status: statusOf(group?.members ?? [section.number]) };
+                return { ...lineWords(group?.title ?? plain(section.title), system), status: statusOf(group?.members ?? [section.number]), target: { section: section.number } };
             })
         };
     }
@@ -86,7 +89,7 @@ export function systemContents(system: FrameworkSystem, statuses?: ReadonlyMap<n
             lines: framed.map((number, at) => {
                 const section = sections.find(candidate => candidate.number === number);
                 const own = [number, ...(group.handsTiles !== undefined && at === 0 ? [group.handsTiles] : [])];
-                return { ...lineWords(group.frameTitles?.[group.members.indexOf(number)] ?? plain(section?.title ?? ""), system), status: statusOf(own) };
+                return { ...lineWords(group.frameTitles?.[group.members.indexOf(number)] ?? plain(section?.title ?? ""), system), status: statusOf(own), target: { section: pages[0].number } };
             })
         };
     }
@@ -100,8 +103,8 @@ export function systemContents(system: FrameworkSystem, statuses?: ReadonlyMap<n
                 return [];
             }
             const status = statuses ? statuses.get(number) ?? "not-started" : undefined;
-            const parts = sectionRailItems(section.answer).map(item => item.label.replace(/^\d+\.\s+/, ""));
-            return (parts.length > 0 ? parts : [plain(section.title)]).map(label => ({ ...lineWords(label, system), status }));
+            const parts = sectionRailItems(section.answer).map(item => ({ label: item.label.replace(/^\d+\.\s+/, ""), anchor: item.id as string | undefined }));
+            return (parts.length > 0 ? parts : [{ label: plain(section.title), anchor: undefined }]).map(part => ({ ...lineWords(part.label, system), status, target: { section: pages[0].number, anchor: part.anchor } }));
         })
     };
 }

@@ -496,7 +496,7 @@
 
 /* A SYSTEM'S TILE ON ITS CAPABILITY'S PAGE (owner, 2026-11-22 21:00 UTC+2, and 2026-11-23 15:32 UTC+2): its number and name as its title, its icon under it, then
    its status by shape and word (status-shape.css, as the Systems' list had it) and what it holds -- its page's tiles, or its pages (systemContents). */
-.capability-system-slot > .section-tile .capability-system-body {
+.capability-system-slot > .capability-system-links > .capability-system-body {
 
     grid-row: 2;
 
@@ -526,11 +526,8 @@
    width of a chapter (half the page) and the help's type; its words as the description had them -- the tagline, the paragraphs, the core principle. */
 .capability-help-block > .capability-help {
 
-    top: var(--space-label);
-
-    right: auto;
-
-    width: min(100%, calc(50% - var(--space-card) / 2));
+    /* (Under the chapter's title, the frame's width: owner, 2026-11-23 18:26 UTC+2.) */
+    top: 0;
 
     /* (IN THE CAPABILITY'S COLOURS, WITH ITS EDGE (owner, 2026-11-23 17:53 UTC+2: "Fix the colours of the capabilities description, add a wireframe"): a light wash
        of the Capability's colour, a 1px edge in it, as a chapter's help is in its chapter's.) */
@@ -767,7 +764,9 @@
     width: var(--add-button-height);
     height: var(--add-button-height);
 
-    margin: var(--gap-8) auto var(--gap-6);
+    /* (THE SAME GAP ABOVE AND BELOW THE SYMBOL (owner, 2026-11-23 18:29 and 18:30 UTC+2: "The gap above and bellow the capability's and system's symbol should
+       be the same"; "Across all tiles"): 12px from the title's rule to the symbol, 12px from the symbol to what follows -- the list stands 12px under the title.) */
+    margin: var(--gap-12) auto 0;
 
 }
 
@@ -873,18 +872,23 @@
 
 /* (THE SYSTEMS' CHAPTER AS A PAGE'S CHAPTER (owner, 2026-11-23 18:14 UTC+2: "fix the chapters titles and frames layout properly"): its frame 12px under the page
    title's rule, as every chapter's; its heading with a gap above the tiles, as the Financials' chapter has. The help's holder takes no room.) */
-.conversation-card > .capability-help-block {
+.conversation-card > .capability-tiles {
 
-    height: 0;
-
-    /* (Its own gap in the card taken back: the frame stands where a chapter does.) */
-    margin: 0 0 calc(-1 * var(--space-card));
+    margin-top: 0;
 
 }
 
-.conversation-card > .capability-help-block + .capability-tiles {
+.capability-systems-frame > .capability-help-block {
 
-    margin-top: 0;
+    height: 0;
+
+}
+
+/* (The chapter's title in the Capability's colour, as a chapter's title is in its chapter's: owner, 2026-11-23 18:31 UTC+2, "fix the colour of the Systems word as
+   title".) */
+.capability-systems-frame > .tiles-frame-head .field-group-title {
+
+    color: color-mix(in srgb, var(--tile-colour, var(--text-strong)) 85%, var(--text-strong));
 
 }
 

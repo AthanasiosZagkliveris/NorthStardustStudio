@@ -379,17 +379,33 @@ export default function SystemSelection() {
                             <span className="section-tile-title-words">{system.title.replace(/ System$/, "")}</span>
                             {getSystemIcon(system.number) && <img className="section-tile-title-mark" src={getSystemIcon(system.number)} alt="" />}
                         </TileTitle>
-                        <div className="capability-system-body">
-                            {/* (WHAT IT HOLDS, UNDER ITS HEADING (owner, 2026-11-23 17:28 UTC+2): its PAGES, the CHAPTERS of its one page, or the TILES of its one
-                                chapter -- systemContents.) */}
-                            {contents.lines.length > 0 && <span className="capability-system-kind">{contents.kind}</span>}
-                            {contents.lines.length > 0 && <TileList items={contents.lines.map(line => line.label)} marks={contents.lines.map(line => ({ status: line.status, tip: line.full }))} />}
-                        </div>
                     </>
                 )}
                 onClick={() => handleSystemSelection(system)}
-            />
+            >
+                {/* (WHAT IT HOLDS, UNDER ITS HEADING (owner, 2026-11-23 17:28 UTC+2): its PAGES, the CHAPTERS of its one page, or the SECTIONS of its one chapter --
+                    systemContents --, EACH A LINK THERE (18:27 UTC+2: "Add links also, so by clicking on a page to get there"): laid over the tile as every tile's
+                    links are (section-tile-links-layer), so the tile's own press stays the System's.) */}
+                {contents.lines.length > 0 && (
+                    <div className="section-tile-links-layer capability-system-links">
+                        <div className="capability-system-body">
+                            <span className="capability-system-kind">{contents.kind}</span>
+                            <TileList
+                                items={contents.lines.map(line => line.label)}
+                                marks={contents.lines.map(line => ({ status: line.status, tip: line.full }))}
+                                links={contents.lines.map(line => line.target ? { go: () => openPlace(system, line.target!) } : undefined)}
+                                onLink={(link) => { if ("go" in link) link.go(); }}
+                            />
+                        </div>
+                    </div>
+                )}
+            </Tile>
         );
+    }
+
+    /** A line of a System's tile: its page, and the place on it to scroll to. */
+    function openPlace(system: FrameworkSystem, target: { section: number; anchor?: string }) {
+        navigate("/introduction", { state: { system, targetSectionNumber: target.section, ...(target.anchor ? { resume: { anchor: target.anchor } } : {}) } });
     }
 
     function handleSystemSelection(system: FrameworkSystem) {
@@ -477,29 +493,6 @@ export default function SystemSelection() {
                         <InterviewHeader systemName="Capabilities" />
                     )}
 
-                    {shown && (() => {
-                        const description = getCapabilityDescription(shown.title);
-                        return (
-                            <div className="card-title-block capability-help-block" ref={helpBlock}>
-                                {helpOpen && (
-                                    <div className="answer-column-questions card-title-help capability-help" id="capability-help" role="region" aria-label={"Help for " + shown.title} style={{ "--capability-color": shown.color } as React.CSSProperties}>
-                                        {description?.tagline && <p className="capability-description-tagline">{description.tagline}</p>}
-                                        <div className="capability-description-body">
-                                            {(description?.paragraphs ?? []).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-                                            {!description && <p>A description of this Capability is on its way.</p>}
-                                        </div>
-                                        {description?.corePrinciple && (
-                                            <div className="capability-description-principle">
-                                                <span className="capability-description-principle-label">Core principle</span>
-                                                <p>{description.corePrinciple}</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })()}
-
                     {/* Back to the last place worked, when there is one. */}
                     {lastPlace && (
                         <div className="workspace-continue">
@@ -524,6 +517,30 @@ export default function SystemSelection() {
                                     {/* (ITS HEADING, AS EVERY CHAPTER'S (owner, 2026-11-23 18:02 UTC+2: "Add to all of the capability chapters, SYSTEMS as title"): the chapters' own
                                         heading -- business-engagement-section-head, tiles-frame-head --.) */}
                                     <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">Systems</span></div>
+                                    {/* (THE CAPABILITY'S HELP UNDER THE CHAPTER'S TITLE (owner, 2026-11-23 18:26 UTC+2: "Fix the drop down capability description text position"), as
+                                        the Infrastructure chapter's help drops under its own: inside the frame, its width, over the tiles.) */}
+                                {shown && (() => {
+                                    const description = getCapabilityDescription(shown.title);
+                                    return (
+                                        <div className="card-title-block capability-help-block" ref={helpBlock}>
+                                            {helpOpen && (
+                                                <div className="answer-column-questions card-title-help capability-help" id="capability-help" role="region" aria-label={"Help for " + shown.title} style={{ "--capability-color": shown.color } as React.CSSProperties}>
+                                                    {description?.tagline && <p className="capability-description-tagline">{description.tagline}</p>}
+                                                    <div className="capability-description-body">
+                                                        {(description?.paragraphs ?? []).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+                                                        {!description && <p>A description of this Capability is on its way.</p>}
+                                                    </div>
+                                                    {description?.corePrinciple && (
+                                                        <div className="capability-description-principle">
+                                                            <span className="capability-description-principle-label">Core principle</span>
+                                                            <p>{description.corePrinciple}</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })()}
                                     <div className="section-tiles" role="group" aria-label={shown.title + " Systems"} style={{ "--tile-colour": getCapabilityColor(shown.id) } as React.CSSProperties}>
                                         {shownSystems.length === 0
                                             ? <p className="legal-entity-empty-note">No Systems in this Capability yet.</p>
