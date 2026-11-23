@@ -16,17 +16,6 @@
     padding: 112px 4vh 4vh;
 }
 
-.landing-cards {
-
-    display: flex;
-
-    gap: 3vw;
-
-    flex-wrap: wrap;
-
-    justify-content: center;
-}
-
 .landing-card {
 
     width: 320px;
@@ -160,8 +149,7 @@
    :focus-within below) so it doesn't fight that state. */
 .organization-row-main:hover:not(:focus-within) {
 
-    transform: scale(1.03);
-
+    /* (No growth under the pointer (owner, 2026-11-23 16:19 UTC+2: "Hovering over an organization cell does not need anymore to scale up"): its edge and glow say it.) */
     border-color: var(--line-primary);
 
     box-shadow:
@@ -256,93 +244,6 @@
        there wasn't even a text-selection highlight to fall back
        on. The ring is independent of both backgrounds. */
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
-}
-
-/* The app's one card/box delete control -- same size, drawn X,
-   border and hover as `.profile-card-remove` /
-   `.brand-holder-clear` / `.strategy-box-remove`, which are
-   defined together under "Delete controls" in conversation.css
-   (see there for why the X is two rotated bars rather than a
-   typed character). Kept in step by hand: this page does not
-   load that stylesheet. */
-.organization-remove {
-
-    position: relative;
-
-    width: 32px;
-    height: 32px;
-
-    flex-shrink: 0;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 0;
-
-    border: 1px solid var(--line-box);
-    border-radius: var(--radius-md);
-
-    background: var(--bg-surface);
-
-    color: var(--text-default);
-
-    font: inherit;
-    font-size: 0;
-    line-height: 1;
-
-    cursor: pointer;
-
-    transition:
-        background-color .15s ease,
-        border-color .15s ease,
-        color .15s ease;
-}
-
-.organization-remove::before,
-.organization-remove::after {
-
-    content: "";
-
-    position: absolute;
-
-    top: 50%;
-    left: 50%;
-
-    width: 14px;
-    height: 2px;
-
-    margin: -1px 0 0 -7px;
-
-    border-radius: 1px;
-
-    background: currentColor;
-}
-
-.organization-remove::before {
-    transform: rotate(45deg);
-}
-
-.organization-remove::after {
-    transform: rotate(-45deg);
-}
-
-.organization-remove:hover {
-
-    background: var(--bg-danger-strong);
-
-    border-color: var(--line-danger-strong);
-
-    color: var(--text-on-fill);
-}
-
-.organization-remove:focus-visible {
-
-    outline: none;
-
-    border-color: var(--line-primary);
-
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 }
 
 /* The add, import and export buttons: the app's add button, a gap apart. */
@@ -499,5 +400,21 @@
 .user-preferences-label {
 
     letter-spacing: 0.05em;
+
+}
+
+/* THE ORGANISATION'S X INSIDE ITS CELL AND ITS ARROW BESIDE IT (owner, 2026-11-23 16:19 UTC+2): the in-cell x (CellRemoveButton) at the cell's right end, 12px after
+   the name; the page arrow after the cell opens the Organisation's Capabilities. */
+.organization-row-main > .organization-cell-remove {
+
+    flex: none;
+
+    margin-left: var(--gap-12);
+
+}
+
+.organization-row > .organization-open {
+
+    flex: none;
 
 }

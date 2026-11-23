@@ -15,7 +15,7 @@ export function TileFace({ title, empty, items, glyph = true, alerts, marks, ico
             {/* (A title with a forced break is drawn on its lines: the one title that is allowed two.) */}
             {title.includes("\n")
                 ? <TileTitle className="section-tile-title-broken">{brokenLines(title).map((part, at) => <Fragment key={at}>{at > 0 && <br />}{drawnTitle(part)}</Fragment>)}</TileTitle>
-                : <TileTitle>{icon && <img className="section-tile-title-icon" src={icon} alt="" />}{drawnTitle(plainTitle(title))}{mark && <img className="section-tile-title-mark" src={mark} alt="" />}</TileTitle>}
+                : <TileTitle>{icon && <img className="section-tile-title-icon" src={icon} alt="" />}{mark ? <span className="section-tile-title-words">{drawnTitle(plainTitle(title))}</span> : drawnTitle(plainTitle(title))}{mark && <img className="section-tile-title-mark" src={mark} alt="" />}</TileTitle>}
             {empty && (
                 <>
                     {/* (A tile that has the "+" box does not draw this glyph as well.) */}
@@ -127,7 +127,8 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             const fitWidth = () => {
             node.style.width = "";
             const range = document.createRange();
-            range.selectNodeContents(node);
+            // (A title with a symbol under it measures its words alone: TileFace's `mark`.)
+            range.selectNodeContents(node.querySelector(".section-tile-title-words") ?? node);
             // (A line is every box that shares its height: the symbol before a title sits a little lower than its words, on the same line.)
             const lines: { top: number; bottom: number; left: number; right: number }[] = [];
             // (The symbol under the words is not a line of them: the rule runs under the words' width.)

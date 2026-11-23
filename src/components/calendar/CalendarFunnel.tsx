@@ -30,8 +30,11 @@ export default function CalendarFunnel({
     kinds,
     onKinds,
     includes,
-    onIncludes
+    onIncludes,
+    calendars
 }: {
+    /** The user's own Calendar (UserCalendar.ts): which calendars show, their notes and each Organisation's, in the place of the Organisation's "Include". */
+    calendars?: { options: readonly { id: string; label: string }[]; shown: ReadonlySet<string>; onChange: (next: ReadonlySet<string>) => void };
     periods: readonly CalendarPeriod[];
     periodId: string | null;
     onPeriod: (id: string | null) => void;
@@ -94,12 +97,23 @@ export default function CalendarFunnel({
                     selected={kinds}
                     onChange={onKinds}
                 />
-                <MultiPicker
-                    label="Include"
-                    options={CALENDAR_INCLUDES.map(entry => ({ id: entry.id, label: entry.label }))}
-                    selected={includes}
-                    onChange={onIncludes}
-                />
+                {calendars
+                    ? (
+                        <MultiPicker
+                            label="Calendars"
+                            options={calendars.options}
+                            selected={calendars.shown}
+                            onChange={calendars.onChange}
+                        />
+                    )
+                    : (
+                        <MultiPicker
+                            label="Include"
+                            options={CALENDAR_INCLUDES.map(entry => ({ id: entry.id, label: entry.label }))}
+                            selected={includes}
+                            onChange={onIncludes}
+                        />
+                    )}
             </div>
 
             {adding && (

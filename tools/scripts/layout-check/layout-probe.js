@@ -1545,8 +1545,18 @@
         if (!window.matchMedia("(max-width: 1099px), (orientation: portrait)").matches) {
             const card = document.querySelector(".conversation-card");
             // (THE CHAPTER HUGS ITS TILES (owner, 2026-11-22 20:38 UTC+2, option A): its width is its tiles' -- two sides and the gap -- and its own padding and edge,
-            // never more than half the page less 12px.)
-            for (const frame of [...document.querySelectorAll(".business-foundation-card")].filter(visible).filter(frame => frame.querySelector(".section-tiles-quad") && !frame.closest(".segment-chapter, .section-tile-dialog"))) {
+            // never more than half the page less 12px. TWO CHAPTERS SIDE BY SIDE ON THE PAGE'S BORDERS (owner, 2026-11-23 16:19 UTC+2: "Fix the layout of all the
+            // pages to follow the proper borders"): each is half the page less 6px, the pair's outer edges on the page title's rule.)
+            const chapters = [...document.querySelectorAll(".business-foundation-card")].filter(visible).filter(frame => frame.querySelector(".section-tiles-quad") && !frame.closest(".segment-chapter, .section-tile-dialog"));
+            for (const frame of chapters) {
+                const paired = chapters.some(other => other !== frame && Math.abs(rect(other).top - rect(frame).top) < 2);
+                if (paired && card) {
+                    const half = (rect(card).width - 12) / 2;
+                    if (!rules.near(rect(frame).width, half, 3)) {
+                        fail("two chapters side by side stand on the page's borders (half the page each, 12px apart)", frame, { width: rect(frame).width, expected: half });
+                    }
+                    continue;
+                }
                 const style = getComputedStyle(frame);
                 const tiles = [...frame.querySelectorAll(".section-tiles-quad .section-tile[data-tile]")].filter(visible);
                 const side = tiles.length > 0 ? tiles[0].offsetWidth : 0;
@@ -3349,7 +3359,9 @@
         {
             const dialog = [...document.querySelectorAll(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog")].filter(visible).pop();
             const shade = [...document.querySelectorAll(".floating-chapter-shade")].find(visible);
-            if (dialog && shade && dialog.dataset.tile !== "overview" && dialog.dataset.tile !== "completed") {
+            // (A card standing over its dialog shades the dialog it covers, inside it -- no second dim over the page: allowed.)
+            const inside = dialog && shade && rect(shade).left >= rect(dialog).left - 1 && rect(shade).right <= rect(dialog).right + 1 && rect(shade).top >= rect(dialog).top - 1 && rect(shade).bottom <= rect(dialog).bottom + 1;
+            if (dialog && shade && !inside && dialog.dataset.tile !== "overview" && dialog.dataset.tile !== "completed") {
                 fail("a floating card adds no shade over a dialog's dim", shade, { dialog: dialog.dataset.tile ?? null });
             }
         }

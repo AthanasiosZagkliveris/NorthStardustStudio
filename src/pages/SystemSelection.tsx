@@ -10,6 +10,9 @@ import { FrameworkSystem } from "../types/system";
 import { Capability } from "../types/capability";
 
 import { getCapabilityDescription } from "../framework/engine/CapabilityDescriptions.ts";
+import FoldArrow from "../components/interview/fields/FoldArrow.tsx";
+import "../styles/title-arrow.css";
+import "../styles/capability-description.css";
 
 import AppHeader from "../components/shell/AppHeader";
 import AppFooter from "../components/shell/AppFooter";
@@ -45,7 +48,7 @@ function hueOf(hex: string): number {
 }
 
 import { OrganizationService } from "../services/OrganizationService";
-import { continuePlace, systemProgress, type ContinuePlace } from "../services/ProgressService";
+import { continuePlace, systemPages, systemProgress, type ContinuePlace } from "../services/ProgressService";
 import type { PageStatus } from "../framework/engine/status/PageStatus";
 
 import "../styles/workspace.css";
@@ -138,7 +141,14 @@ export default function SystemSelection() {
     // Read after rendering too, for the same reason as lastPlace.
     const [systemStatuses, setSystemStatuses] = useState<Record<number, PageStatus | null>>({});
 
+    // (Each System's sections' statuses, for the status bullets of what its tile lists: owner, 2026-11-23 16:19 UTC+2.)
+    const [sectionStatuses, setSectionStatuses] = useState<Record<number, ReadonlyMap<number, PageStatus>>>({});
+
     useEffect(() => {
+
+        setSectionStatuses(organizationId
+            ? Object.fromEntries(systems.map(system => [system.number, new Map((systemPages(organizationId, system) ?? []).map(page => [page.number, page.status]))]))
+            : {});
 
         setSystemStatuses(organizationId
             ? Object.fromEntries(
@@ -150,6 +160,30 @@ export default function SystemSelection() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [organizationId]);
 
+    // (THE CAPABILITY'S HELP UNDER ITS TITLE (owner, 2026-11-23 16:19 UTC+2: "Adjust the capabilities discription to fit the size of the other pop up help cells.
+    // instead of i use an arrow. Use the idea of the Infrastructure arrow, text size and position, but maintain its original design"): the title arrow drops the
+    // Capability's description -- its tagline, its paragraphs and its core principle, as the description had them -- in a help panel the size of a chapter's.)
+    const [helpOpen, setHelpOpen] = useState(false);
+    const helpOpenRef = useRef(helpOpen);
+    helpOpenRef.current = helpOpen;
+    const helpBlock = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        setHelpOpen(false);
+    }, [shownCapability]);
+    useEffect(() => {
+        if (!helpOpen) {
+            return;
+        }
+        const press = (event: MouseEvent) => {
+            const header = document.querySelector(".conversation-card .interview-header");
+            if (event.target instanceof Node && !helpBlock.current?.contains(event.target) && !header?.contains(event.target)) {
+                setHelpOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", press);
+        return () => document.removeEventListener("mousedown", press);
+    }, [helpOpen]);
+
     // Escape acts as "Back" everywhere in the app: close whichever
     // popup/sliding window is currently open first (the Capability
     // description, then the Navigator rail itself), and only once
@@ -159,7 +193,29 @@ export default function SystemSelection() {
 
         function handleKeyDown(event: KeyboardEvent) {
 
+            // (THE LEFT AND RIGHT KEYS TURN A CAPABILITY'S PAGES (owner, 2026-11-23 16:19 UTC+2: "Fix the keys left and right to work with turn pages"), as a System's
+            // pages turn: the arrow keys alone, where nothing else uses them.)
+            if ((event.key === "ArrowLeft" || event.key === "ArrowRight") && shownCapabilityRef.current && !event.defaultPrevented && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+                const inside = event.target instanceof Element ? event.target : null;
+                if (inside?.closest("input, textarea, select, [contenteditable=true], [role=listbox], [role=menu], [role=slider], .option-picker")) {
+                    return;
+                }
+                const at = capabilities.findIndex(capability => capability.id === shownCapabilityRef.current);
+                event.preventDefault();
+                if (event.key === "ArrowLeft") {
+                    setActiveCapability(at > 0 ? capabilities[at - 1].id : null);
+                } else if (at < capabilities.length - 1) {
+                    setActiveCapability(capabilities[at + 1].id);
+                }
+                return;
+            }
+
             if (event.key !== "Escape") {
+                return;
+            }
+
+            if (helpOpenRef.current) {
+                setHelpOpen(false);
                 return;
             }
 
@@ -213,6 +269,16 @@ export default function SystemSelection() {
         return () => window.removeEventListener("resize", fit);
     }, []);
 
+    // (THE MASTER TILES' TYPE (owner, 2026-11-23 16:19 UTC+2: "Check the text size (Titles and listed items)"): from 250px a side the lists take the body step, 18px,
+    // as a page's master tiles' do (data-large, SectionTiles' fit); under it 14px.)
+    useLayoutEffect(() => {
+        const box = tilesBox.current;
+        const tile = box?.querySelector<HTMLElement>(".section-tile");
+        if (box && tile) {
+            box.toggleAttribute("data-large", tile.offsetWidth >= 250);
+        }
+    });
+
     // (One tile a Capability, in its colour (the Framework's own, data/capabilities.ts) and with its icon; its Systems its list and its dialog's tiles.)
     const shown = capabilities.find(capability => capability.id === shownCapability) ?? null;
     const shownSystems = shown ? systems.filter(system => system.capability === shown.id) : [];
@@ -244,7 +310,7 @@ export default function SystemSelection() {
     /** A System's tile on its Capability's page. */
     function systemTile(system: FrameworkSystem) {
         const status = systemStatuses[system.number];
-        const contents = systemContents(system);
+        const contents = systemContents(system, sectionStatuses[system.number]);
         // (A System's tile as the list had it (owner, 2026-11-22 21:00 UTC+2: "Fix links, text and tile sizes"): its number and name, its
         // status by its shape and word (status-shape.css), its icon at the foot; the dialog's tile size.)
         return (
@@ -260,13 +326,13 @@ export default function SystemSelection() {
                             2026-11-23 15:32 UTC+2: "Place each system's icon, to look like the capabilities (size, colour and position)"): the logo's size, in its
                             Capability's colour (the icon's own).) */}
                         <TileTitle className="section-tile-title-broken">
-                            {(() => {
+                            <span className="section-tile-title-words">{(() => {
                                 // (A name of two words or more on two lines, broken before its last word: "07. Product / Development".)
                                 const name = system.title.replace(/ System$/, "");
                                 const cut = name.lastIndexOf(" ");
                                 const number = String(system.number).padStart(2, "0") + ". ";
                                 return cut > 0 ? <>{number + name.slice(0, cut)}<br />{name.slice(cut + 1)}</> : number + name;
-                            })()}
+                            })()}</span>
                             {getSystemIcon(system.number) && <img className="section-tile-title-mark" src={getSystemIcon(system.number)} alt="" />}
                         </TileTitle>
                         <div className="capability-system-body">
@@ -277,7 +343,7 @@ export default function SystemSelection() {
                                 </span>
                             )}
                             {/* (WHAT IT HOLDS (owner, 2026-11-23 15:32 UTC+2): its page's tiles, or its pages where it has several -- systemContents.) */}
-                            {contents.length > 0 && <TileList items={contents} />}
+                            {contents.length > 0 && <TileList items={contents.map(line => line.label)} marks={contents.map(line => line.status ? { status: line.status } : undefined)} />}
                         </div>
                     </>
                 )}
@@ -355,23 +421,44 @@ export default function SystemSelection() {
                         // (THE CAPABILITY'S NAME ALONE (owner, 2026-11-23 15:32 UTC+2: "Remove the Capabilities word on the title"), in capitals, with its icon.)
                         <InterviewHeader
                             systemName={shown.title}
+                            capabilityId={shown.id}
                             nameCapitals
                             icon={getCapabilityIcon(capabilities.indexOf(shown) + 1)}
                             note={(
-                                <button
-                                    type="button"
-                                    className="info-note-button capability-page-info"
-                                    aria-label={shown.title + ": what this means"}
-                                    aria-haspopup="dialog"
-                                    onClick={() => setOpenCapability(shown)}
-                                >
-                                    i
-                                </button>
+                                <FoldArrow variant="label"
+                                    open={helpOpen}
+                                    name={(helpOpen ? "Hide help for " : "Show help for ") + shown.title}
+                                    controls="capability-help"
+                                    onToggle={() => setHelpOpen(current => !current)}
+                                />
                             )}
                         />
                     ) : (
                         <InterviewHeader systemName="Capabilities" />
                     )}
+
+                    {shown && (() => {
+                        const description = getCapabilityDescription(shown.title);
+                        return (
+                            <div className="card-title-block capability-help-block" ref={helpBlock}>
+                                {helpOpen && (
+                                    <div className="answer-column-questions card-title-help capability-help" id="capability-help" role="region" aria-label={"Help for " + shown.title} style={{ "--capability-color": shown.color } as React.CSSProperties}>
+                                        {description?.tagline && <p className="capability-description-tagline">{description.tagline}</p>}
+                                        <div className="capability-description-body">
+                                            {(description?.paragraphs ?? []).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+                                            {!description && <p>A description of this Capability is on its way.</p>}
+                                        </div>
+                                        {description?.corePrinciple && (
+                                            <div className="capability-description-principle">
+                                                <span className="capability-description-principle-label">Core principle</span>
+                                                <p>{description.corePrinciple}</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })()}
 
                     {/* Back to the last place worked, when there is one. */}
                     {lastPlace && (

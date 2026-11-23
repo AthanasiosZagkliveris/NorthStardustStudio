@@ -379,10 +379,11 @@ export function NotepadPanel() {
     return (
         <aside className="notepad-panel" aria-label="Notes" ref={panel}>
 
-            {/* The head (owner, 2026-11-09): "Notes" with the closing arrow beside it, and the dividing line under them; "+ Add note" first under the line. */}
+            {/* The head: the fold arrow at the panel's inner edge and "Notes" at its outer one, the Calendar's head mirrored (owner, 2026-11-23 16:19 UTC+2: "On
+                the Notes right side panel, swap the arrow with the title, to match the calendar"), the dividing line under them; "+ Add note" first under the line. */}
             <div className="notepad-head">
-                <h2 className="notepad-title">Notes</h2>
                 <NavArrow direction="next" label="Close notes" className="page-arrow notepad-close" onClick={() => NotepadService.close()} />
+                <h2 className="notepad-title">Notes</h2>
             </div>
 
             <div className="notepad-list">

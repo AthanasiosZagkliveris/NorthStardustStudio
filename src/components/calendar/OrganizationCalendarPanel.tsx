@@ -8,7 +8,7 @@ import TextLink from "../interview/fields/TextLink.tsx";
 import NavArrow from "../controls/NavArrow.tsx";
 import { CalendarTaskAnnotation, OrganizationService } from "../../services/OrganizationService";
 import { NotepadService } from "../../services/NotepadService";
-import { CalendarTask, getCalendarTasks } from "../../services/CalendarTaskService";
+import { CalendarTask, getCalendarTasks, getUserCalendarTasks } from "../../services/CalendarTaskService";
 import { DateFormat, PreferencesService } from "../../services/PreferencesService.ts";
 import { isoToDisplay } from "../interview/fields/DateCellInput.tsx";
 import NotesField from "../interview/fields/NotesField.tsx";
@@ -96,7 +96,7 @@ interface OrganizationCalendarPanelProps {
      * actually produced it. Optional: the link only renders when
      * this is provided.
      */
-    onOpenTask?: (systemNumber: number, sectionNumber: number) => void;
+    onOpenTask?: (systemNumber: number, sectionNumber: number, organizationId?: string) => void;
 
     /**
      * Reports whenever this rail's own flyout opens or closes
@@ -347,6 +347,12 @@ export default function OrganizationCalendarPanel({
     const [kinds, setKinds] = useState<ReadonlySet<CardDateKind>>(() => new Set(CARD_DATE_KINDS.map(kind => kind.id)));
     // Which cards the dates are included from (all to begin with).
     const [includes, setIncludes] = useState<ReadonlySet<string>>(() => new Set(CALENDAR_INCLUDES.map(entry => entry.id)));
+    // (THE USER'S CALENDARS (owner, 2026-11-23 16:19 UTC+2): on the user's own Calendar, which calendars show -- their own notes and each Organisation's dates, all to
+    // begin with -- as a personal calendar shows or hides each of its calendars; the card kinds an Organisation's Calendar offers ("Include") are that Organisation's.)
+    const userCalendar = organizationId === USER_CALENDAR_ID;
+    const calendarOptions = userCalendar ? [{ id: "", label: "Your notes" }, ...OrganizationService.list().map(entry => ({ id: entry.id, label: entry.name }))] : [];
+    const [calendarsShown, setCalendarsShown] = useState<ReadonlySet<string> | null>(null);
+    const calendars = calendarsShown ?? new Set(calendarOptions.map(option => option.id));
     // A note (a time and words) is made only when the user asks for one, on a new date or one already recorded.
     const [notesOpen, setNotesOpen] = useState<ReadonlySet<string>>(new Set());
     useEffect(() => {
@@ -371,7 +377,7 @@ export default function OrganizationCalendarPanel({
             return;
         }
 
-        setTasks(getCalendarTasks(organizationId));
+        setTasks(organizationId === USER_CALENDAR_ID ? getUserCalendarTasks() : getCalendarTasks(organizationId));
         // (The user's own Calendar keeps its words apart from every Organisation's: UserCalendar.ts.)
         setAnnotations(organizationId === USER_CALENDAR_ID ? loadUserAnnotations() : OrganizationService.getTaskAnnotations(organizationId));
 
@@ -517,7 +523,7 @@ export default function OrganizationCalendarPanel({
     }
 
     // (Card dates of a kind the funnel leaves out are not shown; every other task always is.)
-    const shown = tasks.filter(task => !task.kind || (kinds.has(task.kind) && CALENDAR_INCLUDES.some(entry => includes.has(entry.id) && (!task.noun || entry.nouns.includes(task.noun)) && (task.noun !== undefined))));
+    const shown = tasks.filter(task => (!userCalendar || calendars.has(task.organizationId ?? "")) && (!task.kind || (kinds.has(task.kind) && (userCalendar || CALENDAR_INCLUDES.some(entry => includes.has(entry.id) && (!task.noun || entry.nouns.includes(task.noun)) && (task.noun !== undefined))))));
     const periods = [...presetPeriods(today), ...customPeriods];
     const period = periods.find(candidate => candidate.id === periodId) ?? null;
     const periodTasks = period
@@ -608,6 +614,7 @@ export default function OrganizationCalendarPanel({
                         onKinds={setKinds}
                         includes={includes}
                         onIncludes={setIncludes}
+                        calendars={userCalendar ? { options: calendarOptions, shown: calendars, onChange: setCalendarsShown } : undefined}
                     />
 
                     <div className="org-calendar-month-nav">
@@ -702,7 +709,7 @@ export default function OrganizationCalendarPanel({
                                     {task.noteId
                                         ? <TextLink className="org-calendar-task-link" onClick={() => NotepadService.open([task.noteId as string])}>{task.name}</TextLink>
                                         : onOpenTask
-                                            ? <TextLink className="org-calendar-task-link" title={task.originLabel + " " + task.sectionTitle} onClick={() => onOpenTask(task.systemNumber, task.sectionNumber)}>{task.name ?? task.description}</TextLink>
+                                            ? <TextLink className="org-calendar-task-link" title={task.originLabel + " " + task.sectionTitle} onClick={() => onOpenTask(task.systemNumber, task.sectionNumber, task.organizationId)}>{task.name ?? task.description}</TextLink>
                                             : <span className="org-calendar-agenda-text">{task.name ?? task.description}</span>}
                                 </div>
                             ))}
@@ -760,7 +767,7 @@ export default function OrganizationCalendarPanel({
                                                     <TextLink
                                                         className="org-calendar-task-link"
                                                         title={task.originLabel + " " + task.sectionTitle}
-                                                        onClick={() => onOpenTask(task.systemNumber, task.sectionNumber)}
+                                                        onClick={() => onOpenTask(task.systemNumber, task.sectionNumber, task.organizationId)}
                                                     >
                                                         {task.name ?? task.description}
                                                     </TextLink>

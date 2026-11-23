@@ -77,17 +77,21 @@ describe("SystemSelection: the Capabilities as tiles", () => {
 
     });
 
-    it("opens a Capability's page of its Systems, its description in the title's i (the earlier dialog), and a System opens at once", () => {
+    it("opens a Capability's page of its Systems, its description under the title's arrow (owner, 2026-11-23 16:19 UTC+2), the arrow keys turn its pages, and a System opens at once", () => {
 
         renderAt();
 
         fireEvent.click(screen.getByRole("button", { name: /^Foundation/ }));
         expect(document.querySelector(".interview-header h1")?.textContent).toContain("Foundation");
-        fireEvent.click(screen.getByRole("button", { name: "Foundation: what this means" }));
+        fireEvent.click(screen.getByRole("button", { name: "Show help for Foundation" }));
         expect(screen.getByText("Developing organizational alignment")).toBeTruthy();
         expect(screen.getByText("Core principle")).toBeTruthy();
         fireEvent.keyDown(window, { key: "Escape" });
         expect(screen.queryByText("Core principle")).toBeNull();
+        fireEvent.keyDown(window, { key: "ArrowRight" });
+        expect(document.querySelector(".interview-header h1")?.textContent).toContain("Deliver Value");
+        fireEvent.keyDown(window, { key: "ArrowLeft" });
+        expect(document.querySelector(".interview-header h1")?.textContent).toContain("Foundation");
         fireEvent.click(screen.getByRole("button", { name: /^01. Identity System/ }));
 
         expect(screen.getByText("Opened Identity System")).toBeTruthy();

@@ -305,6 +305,7 @@ export default function Workbook() {
                             off={organisationsOff}
                             options={[...new Set(reviews.map(section => section.name))]}
                             label="Choose which Organisations show"
+                            allOption
                             onToggle={(option) => setOrganisationsOff(current => toggled(current, option))}
                         />
                     </WorkbookTools>

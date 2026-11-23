@@ -85,7 +85,6 @@
     },
     "landing.css": {
       "12px": 2,
-      "1px": 1,
       "24px": 1
     },
     "numbered-list.css": {
@@ -140,8 +139,7 @@
     },
     "landing.css": {
       "10px": 1,
-      "14px": 1,
-      "3vw": 1
+      "14px": 1
     },
     "organization-calendar.css": {
       "10px": 4,

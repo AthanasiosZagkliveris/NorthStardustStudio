@@ -136,7 +136,14 @@ export default function AppHeader({ organizationName, focusable = false, reloada
                         onCapabilityOpen={() => undefined}
                         onCapabilitySelect={() => undefined}
                         onSystemOpen={() => undefined}
-                        onOpenTask={() => undefined}
+                        onOpenTask={(systemNumber, sectionNumber, owner) => {
+                            // (A date of an Organisation opens that Organisation, on the page it comes from.)
+                            const system = systems.find(candidate => candidate.number === systemNumber);
+                            if (owner && system) {
+                                OrganizationService.setSelected(owner);
+                                navigate("/introduction", { state: { system, targetSectionNumber: sectionNumber } });
+                            }
+                        }}
                     />
                 </Suspense>
             )}

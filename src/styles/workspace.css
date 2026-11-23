@@ -522,6 +522,40 @@
 
 }
 
+/* A CAPABILITY'S HELP (owner, 2026-11-23 16:19 UTC+2): dropped by the title's arrow, floating under the title as a chapter's help does (title-arrow.css), the
+   width of a chapter (half the page) and the help's type; its words as the description had them -- the tagline, the paragraphs, the core principle. */
+.capability-help-block > .capability-help {
+
+    top: var(--space-label);
+
+    right: auto;
+
+    width: min(100%, calc(50% - var(--space-card) / 2));
+
+}
+
+.capability-help > :first-child {
+
+    margin-top: 0;
+
+}
+
+.capability-help > :last-child,
+.capability-help .capability-description-body > p:last-child {
+
+    margin-bottom: 0;
+
+}
+
+/* THE CAPABILITIES' AND THE SYSTEMS' TILES STAY IN THEIR GRID UNDER THE POINTER (owner, 2026-11-23 16:21 UTC+2: "check the Brand system, when clicking on it, it seem
+   that there is a bug, and rearrenge the tiles"): a tile there opens a page, so it does not grow over its neighbours while the page loads; its shadow and its
+   pointer say it can be pressed. */
+.capability-tiles .section-tile-slot:hover {
+
+    transform: none;
+
+}
+
 /* A LINE WHOSE BULLET IS ITS STATUS (a System on its Capability's tile: owner, 2026-11-23 15:32 UTC+2): the status shape in place of the bullet, 6px before its
    name. */
 .section-tile-list > li.section-tile-list-status {
@@ -586,11 +620,16 @@
 
 }
 
-.interview-header h1 > .capability-page-info {
+/* (The title's arrow beside a Capability's name, as a chapter's beside its heading: the title's capital height, in the Capability's colour, 12px after the name.) */
+.interview-header h1 > .label-arrow {
 
-    margin-left: var(--gap-6, 6px);
+    margin-left: var(--gap-12);
+    /* (Its hit area takes no height from the title row: the rule stays where every page title has it.) */
+    margin-block: -8px;
 
-    vertical-align: middle;
+    vertical-align: baseline;
+
+    color: var(--capability-color, currentColor);
 
 }
 
@@ -613,6 +652,40 @@
     margin-right: var(--gap-8);
 
     vertical-align: -0.25em;
+
+}
+
+/* THE RULE UNDER THE TITLE'S WORDS, THE SYMBOL UNDER THE RULE (owner, 2026-11-23 16:19 UTC+2: "The underline should be under the title"): the title's own rule drawn under
+   its words, the symbol below it. */
+.section-tile-title:has(> .section-tile-title-mark) {
+
+    padding-bottom: 0;
+
+    border-bottom-color: transparent;
+
+}
+
+.section-tile-title-words {
+
+    display: block;
+
+    padding-bottom: 4px;
+
+    border-bottom: 1px solid color-mix(in srgb, currentColor 40%, transparent);
+
+}
+
+/* (The Capabilities' and the Systems' tiles in the master tiles' type: their titles in capitals, as every master tile's, and from 250px a side their lists at the body
+   step, as data-large gives a page's master tiles.) */
+.capability-tiles .section-tile-slot > .section-tile .section-tile-title {
+
+    text-transform: uppercase;
+
+}
+
+.capability-tiles[data-large] .section-tile-list {
+
+    font-size: var(--font-body);
 
 }
 

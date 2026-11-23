@@ -1,6 +1,7 @@
 import PressRow from "../components/controls/PressRow.tsx";
 import { useEffect, useRef, useState } from "react";
-import RemoveButton from "../components/controls/RemoveButton.tsx";
+import CellRemoveButton from "../components/controls/CellRemoveButton.tsx";
+import NavArrow from "../components/controls/NavArrow.tsx";
 import AddButton from "../components/controls/AddButton.tsx";
 import TextBox from "../components/controls/TextBox.tsx";
 import { useNavigate } from "react-router-dom";
@@ -281,13 +282,10 @@ export default function Landing() {
 
     }
 
-    const canProceed = organizations.length > 0 && selectedId !== null;
+    /** An Organisation's arrow: it is selected, and its Capabilities open. */
+    function openOrganization(id: string) {
 
-    function handleProceed(path: string) {
-
-        if (!canProceed) {
-            return;
-        }
+        selectOrganization(id);
 
         // Renaming an Organization debounces its actual localStorage
         // write (see LocalOrganizationStore) --
@@ -295,7 +293,7 @@ export default function Landing() {
         // away is guaranteed to be on disk, not just still queued.
         OrganizationService.flushPendingWrites();
 
-        navigate(path);
+        navigate("/assistant");
 
     }
 
@@ -382,11 +380,22 @@ export default function Landing() {
 
                         </h1>
 
+                        {/* (THE X INSIDE THE CELL (owner, 2026-11-23 16:19 UTC+2: "Instead of having the x (delete) buttons out next to the organisation's cells, place
+                            them in, and use the proper x button"): the in-cell x, frameless, at the cell's right end, as a Journey subchannel's line has it.) */}
+                        <CellRemoveButton
+                            className="organization-cell-remove"
+                            aria-label={`Remove ${organization.name || "organization"}`}
+                            onClick={(event) => { event.stopPropagation(); requestRemoveOrganization(organization.id); }} />
+
                     </PressRow>
 
-                    <RemoveButton
-                        aria-label={`Remove ${organization.name || "organization"}`}
-                        onClick={() => requestRemoveOrganization(organization.id)} />
+                    {/* (AN ARROW TO ITS SYSTEMS (owner, 2026-11-23 16:19 UTC+2: "Remove the System Slection button, instead place an arrow next to each organization
+                        cell"): it selects the Organisation and opens its Capabilities.) */}
+                    <NavArrow
+                        direction="next"
+                        className="page-arrow organization-open"
+                        label={`Open ${organization.name || "the organisation"}`}
+                        onClick={() => openOrganization(organization.id)} />
 
                 </div>
 
@@ -461,24 +470,12 @@ export default function Landing() {
 
         {organizations.length > 1 && !selectedId && (
             <p className="organization-hint">
-                Select an Organisation to continue.
+                Open an Organisation with its arrow.
             </p>
         )}
 
       </section>
 
-      <div className="landing-cards">
-
-     <button
-    className="landing-card"
-    disabled={!canProceed}
-    onClick={() => handleProceed("/assistant")}
->
-    System Selection
-</button>
-
-
-      </div>
 
       {pendingRemoveId && (
 
