@@ -526,14 +526,20 @@
    width of a chapter (half the page) and the help's type; its words as the description had them -- the tagline, the paragraphs, the core principle. */
 .capability-help-block > .capability-help {
 
-    /* (Under the chapter's title, the frame's width: owner, 2026-11-23 18:26 UTC+2.) */
+    /* (A POP-UP OF THE PAGE TITLE (owner, 2026-11-23 19:12 UTC+2: "This is a pop up window, not part of the chapter/systems!"): 12px under the title's rule, from the
+       page's left, half the page wide, over the page's chapters and rails.) */
     top: 0;
+
+    right: auto;
+
+    width: min(100%, calc(50% - var(--space-card) / 2));
 
     /* (IN THE CAPABILITY'S COLOURS, WITH ITS EDGE (owner, 2026-11-23 17:53 UTC+2: "Fix the colours of the capabilities description, add a wireframe"): a light wash
        of the Capability's colour, a 1px edge in it, as a chapter's help is in its chapter's.) */
     border: 1px solid color-mix(in srgb, var(--capability-color, var(--line-card)) 55%, var(--bg-surface));
 
-    background: color-mix(in srgb, var(--capability-color, var(--bg-surface)) 6%, var(--bg-surface));
+    /* (A lighter tint than the chapter frame it opens over (owner, 2026-11-23 19:20 UTC+2: "use a lighter tind"): half its wash, on the page's white.) */
+    background: color-mix(in srgb, var(--capability-color, var(--bg-page)) 2.5%, var(--bg-page));
 
     color: var(--text-default);
 
@@ -694,8 +700,6 @@
 
     /* (On the capitals' middle, not the lower case's: a little higher than vertical-align middle puts it.) */
     translate: 0 -0.08em;
-
-    color: var(--capability-color, currentColor);
 
 }
 
@@ -878,9 +882,12 @@
 
 }
 
-.capability-systems-frame > .capability-help-block {
+.conversation-card > .capability-help-block {
 
     height: 0;
+
+    /* (It takes no room: the chapter below stands where it does without it.) */
+    margin-bottom: calc(-1 * var(--space-card));
 
 }
 

@@ -851,14 +851,14 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
 @media (min-width: 1100px) and (orientation: landscape) {
 
-    body:has(.bullet-rail-left .bullet-rail-dot) .conversation-card > :not(.interview-header, .workspace-continue, .field-page),
+    body:has(.bullet-rail-left .bullet-rail-dot) .conversation-card > :not(.interview-header, .workspace-continue, .field-page, .capability-help-block),
     body:has(.bullet-rail-left .bullet-rail-dot) .conversation-card > .field-page > * {
 
         margin-left: var(--rail-inset);
 
     }
 
-    body:has(.bullet-rail-right .bullet-rail-dot) .conversation-card > :not(.interview-header, .workspace-continue, .field-page),
+    body:has(.bullet-rail-right .bullet-rail-dot) .conversation-card > :not(.interview-header, .workspace-continue, .field-page, .capability-help-block),
     body:has(.bullet-rail-right .bullet-rail-dot) .conversation-card > .field-page > * {
 
         margin-right: var(--rail-inset);

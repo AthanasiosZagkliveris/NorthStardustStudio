@@ -27,6 +27,7 @@ import { systemContents } from "../components/systems/systemContents";
 import BulletRail from "../components/interview/rails/BulletRail";
 import useRailTab from "../hooks/useRailTab.ts";
 import PageArrow from "../components/interview/fields/PageArrow";
+import { arrowLevel } from "../components/interview/tiles/SectionTileGeometry.tsx";
 import { getSystemIcon } from "../data/systemIcons";
 import "../styles/status-shape.css";
 import "../styles/system-list.css";
@@ -273,14 +274,35 @@ export default function SystemSelection() {
                 const page = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect().width ?? box.clientWidth;
                 const pad = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--card-padding")) || 12;
                 const room = (across === 2 ? page / 2 - 6 : page) - 2 * pad - 2 - (across - 1) * 12;
-                setTileSide(Math.max(120, Math.min(tall, Math.floor(room / across))));
+                const side = Math.max(120, Math.min(tall, Math.floor(room / across)));
+                // (THE ARROWS IN THE MIDDLE BETWEEN THE ROWS (owner, 2026-11-23 19:16 UTC+2: "enlarge the tiles and system frames, so the navigation arrow to be in
+                // the mid between the Tiles"): where the Systems stand in two rows, the tiles take the side that puts the gap between the rows at the one arrow level
+                // (arrowLevel: the arrows never move), the frame round them growing past half the page where it must, never past the page. The tiles only grow: in the
+                // vertical layout the page scrolls under arrows fixed at the window's middle, and the tiles keep their side.)
+                const level = arrowLevel();
+                const rows = Math.ceil(count / across);
+                if (rows === 2 && level !== null) {
+                    const tilesTop = box.querySelector<HTMLElement>(".section-tile")?.getBoundingClientRect().top ?? top - window.scrollY + above;
+                    const whole = Math.floor((page - 2 * pad - 2 - (across - 1) * 12) / across);
+                    const even = Math.round(level - 6 - tilesTop);
+                    if (even >= side && even <= whole) {
+                        setTileSide(even);
+                        return;
+                    }
+                }
+                setTileSide(side);
                 return;
             }
             setTileSide(tall);
         };
         fit();
+        // (The arrow level settles with the page title: measured again until it has, as the page arrows do.)
+        const later = [100, 250, 500, 900].map(delay => window.setTimeout(fit, delay));
         window.addEventListener("resize", fit);
-        return () => window.removeEventListener("resize", fit);
+        return () => {
+            later.forEach(timer => window.clearTimeout(timer));
+            window.removeEventListener("resize", fit);
+        };
     }, [shownCapability]);
 
     // (THE MASTER TILES' TYPE (owner, 2026-11-23 16:19 UTC+2: "Check the text size (Titles and listed items)"): from 250px a side the lists take the body step, 18px,
@@ -468,7 +490,8 @@ export default function SystemSelection() {
 
             <main className="conversation-content">
 
-                <div className="conversation-card">
+                {/* (The title arrow's ink, as a chapter's, from the Capability's hue: the shared LabelArrow reads --strategy-theme-hue.) */}
+                <div className="conversation-card" style={shown ? { "--strategy-theme-hue": hueOf(getCapabilityColor(shown.id)) } as React.CSSProperties : undefined}>
 
                     {/* CAPABILITIES AS MASTER TILES (owner, 2026-11-22 20:35 UTC+2: "Rename the title to capabilities. Make Master Tiles (Capabilities to their related
                         colour), and each Master Tile will have its own Tiles (systems)"): the page's title over its rule as on a System's page, one frame of a tile for each
@@ -492,6 +515,31 @@ export default function SystemSelection() {
                     ) : (
                         <InterviewHeader systemName="Capabilities" />
                     )}
+
+                    {/* (THE CAPABILITY'S DESCRIPTION, A POP-UP OF THE PAGE TITLE (owner, 2026-11-23 19:12 UTC+2: "This is a pop up window, not part of the chapter/systems!"):
+                        dropped by the title's arrow, floating over the page under the title's rule at the page's left; it moves nothing.) */}
+                    {shown && (() => {
+                        const description = getCapabilityDescription(shown.title);
+                        return (
+                            <div className="card-title-block capability-help-block" ref={helpBlock}>
+                                {helpOpen && (
+                                    <div className="answer-column-questions card-title-help capability-help" id="capability-help" role="region" aria-label={"Help for " + shown.title} style={{ "--capability-color": shown.color } as React.CSSProperties}>
+                                        {description?.tagline && <p className="capability-description-tagline">{description.tagline}</p>}
+                                        <div className="capability-description-body">
+                                            {(description?.paragraphs ?? []).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+                                            {!description && <p>A description of this Capability is on its way.</p>}
+                                        </div>
+                                        {description?.corePrinciple && (
+                                            <div className="capability-description-principle">
+                                                <span className="capability-description-principle-label">Core principle</span>
+                                                <p>{description.corePrinciple}</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })()}
 
                     {/* Back to the last place worked, when there is one. */}
                     {lastPlace && (
@@ -517,30 +565,6 @@ export default function SystemSelection() {
                                     {/* (ITS HEADING, AS EVERY CHAPTER'S (owner, 2026-11-23 18:02 UTC+2: "Add to all of the capability chapters, SYSTEMS as title"): the chapters' own
                                         heading -- business-engagement-section-head, tiles-frame-head --.) */}
                                     <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">Systems</span></div>
-                                    {/* (THE CAPABILITY'S HELP UNDER THE CHAPTER'S TITLE (owner, 2026-11-23 18:26 UTC+2: "Fix the drop down capability description text position"), as
-                                        the Infrastructure chapter's help drops under its own: inside the frame, its width, over the tiles.) */}
-                                {shown && (() => {
-                                    const description = getCapabilityDescription(shown.title);
-                                    return (
-                                        <div className="card-title-block capability-help-block" ref={helpBlock}>
-                                            {helpOpen && (
-                                                <div className="answer-column-questions card-title-help capability-help" id="capability-help" role="region" aria-label={"Help for " + shown.title} style={{ "--capability-color": shown.color } as React.CSSProperties}>
-                                                    {description?.tagline && <p className="capability-description-tagline">{description.tagline}</p>}
-                                                    <div className="capability-description-body">
-                                                        {(description?.paragraphs ?? []).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-                                                        {!description && <p>A description of this Capability is on its way.</p>}
-                                                    </div>
-                                                    {description?.corePrinciple && (
-                                                        <div className="capability-description-principle">
-                                                            <span className="capability-description-principle-label">Core principle</span>
-                                                            <p>{description.corePrinciple}</p>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )}
-                                        </div>
-                                    );
-                                })()}
                                     <div className="section-tiles" role="group" aria-label={shown.title + " Systems"} style={{ "--tile-colour": getCapabilityColor(shown.id) } as React.CSSProperties}>
                                         {shownSystems.length === 0
                                             ? <p className="legal-entity-empty-note">No Systems in this Capability yet.</p>
