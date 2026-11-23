@@ -164,6 +164,10 @@ export default function SectionTiles({
                     hug.style.width = "";
                     hug.style.maxWidth = "";
                     hug.style.marginInline = "";
+                    box.closest(".conversation-card")?.querySelectorAll<HTMLElement>("[data-hug-pair]").forEach(row => {
+                        row.style.gridTemplateColumns = "";
+                        row.removeAttribute("data-hug-pair");
+                    });
                 }
                 const column = hug ? hug.getBoundingClientRect().width : 0;
                 const extra = hug && box.getBoundingClientRect().width > 0 ? column - box.getBoundingClientRect().width : 26;
@@ -186,6 +190,42 @@ export default function SectionTiles({
                     hug.style.setProperty("width", Math.ceil(2 * side + 12 + extra) + "px", "important");
                     hug.style.maxWidth = "100%";
                     hug.style.marginInline = "0 auto";
+                }
+                // (TWO CHAPTERS HUG THEIR TILES TOO (owner, 2026-11-23 20:12 UTC+2: "The chapter's side gaps seems larger that its top down. If you hug the Master Tiles
+                // properly, maybe the right arrow, could fit in the page"): two chapters side by side, or a Segment's two groups, stand at the page's left, each its
+                // padding round its tiles on all four sides, 12px apart; what the page leaves over is at their right, where the right arrow stands.)
+                if (hug && box.getBoundingClientRect().width > 0 && side >= 150 && (beside.length > 0 || pair)) {
+                    const part = pair ? box.closest<HTMLElement>(".segment-chapter-part") ?? box.parentElement : hug;
+                    const round = part ? part.getBoundingClientRect().width - box.getBoundingClientRect().width : 26;
+                    const both = 2 * Math.ceil(2 * side + 12 + round) + 12;
+                    if (pair) {
+                        hug.style.setProperty("width", both + "px", "important");
+                        hug.style.maxWidth = "100%";
+                        hug.style.marginInline = "0 auto";
+                    } else {
+                        // (The grid that holds both chapters: its two columns take the chapters' width, and a third takes what is left, so what spans the row -- the
+                        // Inventory and Completed row -- stays where it stood.)
+                        // (The grid's item that holds the chapter, measured by its margin box -- a column that reaches past its track by a negative margin takes no
+                        // more of it; a box drawn as its contents, a display: contents page, is no item.)
+                        const marginBox = (node: HTMLElement): number => {
+                            const style = getComputedStyle(node);
+                            return node.getBoundingClientRect().width + (parseFloat(style.marginLeft) || 0) + (parseFloat(style.marginRight) || 0);
+                        };
+                        let outer: HTMLElement = hug;
+                        let row = hug.parentElement;
+                        while (row && !row.contains(beside[0])) {
+                            if (row.getBoundingClientRect().width > 0) {
+                                outer = row;
+                            }
+                            row = row.parentElement;
+                        }
+                        const around = marginBox(outer) - hug.getBoundingClientRect().width;
+                        if (row && getComputedStyle(row).display === "grid") {
+                            const one = Math.ceil(2 * side + 12 + round + around);
+                            row.setAttribute("data-hug-pair", "");
+                            row.style.gridTemplateColumns = one + "px " + one + "px minmax(0, 1fr)";
+                        }
+                    }
                 }
             }
             if (hug) {

@@ -282,8 +282,11 @@ Owner, 2026-11-23 19:48 UTC+2: "Can we be consistent and use the same sizes? Is 
 | First tile row's top | the rule's bottom + 12 + 61 (edge and padding 13, head 36, 12) | `masterSide`, `arrowLevel` |
 | Master tile side | min((column - 26 - 12) / 2, what lets two rows stand above the footer with its 12px gaps), 150px at least: 301px at 1870 x 1000, 258px at 1536 x 864, 210px at 1366 x 768 | `masterSide` |
 | Frame of a lone chapter | hugs its tiles: 2 x side + 12 + 26, at the page's left against the left rail | `SectionTiles` (hug) |
-| Two chapters, or one with two groups | fill the page between the rails, their tiles centred in each half | `SectionTiles` |
+| Two chapters, or one with two groups | each hugs its tiles too (13px round them on all four sides), the two 12px apart at the page's left; what the page leaves over is at their right (owner, 2026-11-23 20:12 UTC+2: "The chapter's side gaps seems larger that its top down") | `SectionTiles` (`data-hug-pair`: the grid's two tracks the chapters' width, a third the rest, so a row across the page, Inventory and Completed, keeps its place) |
 | Arrow level | the first row's top + side + 6 (the middle of the gap between the rows) | `arrowLevel` |
+| The page arrows | each centred in its rail's room at its end of the title rule, inside the page, the right one mirroring the left | bullet-rail.css |
+| "+ Add Segment" | in the footer's band, its left edge on the chapter frame's left edge (the rule's left end + 54px) | bullet-rail.css |
+| A text tile's last line | a whole line, ending in "…" where the text runs on | `TileList` (line-clamp) |
 | The vertical layout (under 1100px or portrait) | its own steps: section 23 | `SectionTiles` (vertical) |
 
 The layout check measures them: every page's master tiles one side in a window, and the arrows between the rows (`checkCapabilityArrows`, the probe's tile rules).

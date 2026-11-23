@@ -694,6 +694,17 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
 
 }
 
+/* (A paragraph that runs past its tile ends at its last whole line with "…": the number of lines is set by the list's measure, TileList in TileParts.tsx.) */
+.column-tiles-page .section-tile-list-line[data-clamped] {
+
+    display: -webkit-box;
+
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+
+}
+
 
 /* A BOX THAT IS A PICTURE (PictureBoxes.tsx: a colour, a typeface, an image): the page's tile, covered by what the card holds, its texts on it. */
 .section-tile.picture-box {

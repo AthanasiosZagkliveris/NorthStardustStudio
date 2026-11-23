@@ -909,10 +909,20 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
     }
 
-    body:has(.bullet-rail-right .bullet-rail-dot) .bullet-rail-right .bullet-rail-head > .page-arrow {
+    /* (THE RIGHT ARROW INSIDE THE PAGE, as the left one (owner, 2026-11-23 20:12 UTC+2: "If you hug the Master Tiles properly, maybe the right arrow, could fit in
+       the page"): centred in the rail's room at the title rule's right end, with a rail of bullets there or none; the chapters hug their tiles at the left.) */
+    .bullet-rails .bullet-rail-right .bullet-rail-head > .page-arrow {
 
         right: calc(50% - var(--card-width) / 2 + var(--rail-inset) / 2 - 12px);
         left: auto;
+
+    }
+
+    /* ("+ ADD SEGMENT" ON THE CHAPTER'S LEFT EDGE (owner, 2026-11-23 20:13 and 20:15 UTC+2: "align the add chapter button, with the chapter"; "I meant add segment"):
+       from the title rule's left end, past the rail's room, where the chapter frame starts.) */
+    body:has(.bullet-rail-left .bullet-rail-dot) .business-foundation-segment-frames + .business-foundation-input-actions {
+
+        left: calc(max(var(--rail-gutter, 56px), (var(--view-width) - 1400px) / 2) + var(--rail-inset));
 
     }
 
