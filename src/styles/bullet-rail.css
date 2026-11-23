@@ -838,6 +838,29 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
     }
 
+    /* (THE BAND'S BULLETS SPREAD EVENLY, THE SECTIONS' HIDDEN (owner, 2026-11-23 22:44 UTC+2: "In mobiles ... spread the bullets (footing) equally. Hide the bullets
+       of the segments; the user has to scroll down to visit the other segment"): the Pages bullets share the row between the two arrows, evenly; the right rail
+       keeps its arrow alone.) */
+    :root:root .bullet-rail.bullet-rail-left {
+
+        flex: 1 1 auto;
+
+    }
+
+    .bullet-rail-left .bullet-rail-list {
+
+        flex: 1 1 auto;
+
+        justify-content: space-evenly;
+
+    }
+
+    .bullet-rail-right .bullet-rail-list {
+
+        display: none;
+
+    }
+
 }
 
 /* THE RAILS INSIDE THE PAGE'S EDGES (owner, 2026-11-23 18:07 UTC+2: "I said align to the left!"; "This also should take all the page size" -- the rails stood out

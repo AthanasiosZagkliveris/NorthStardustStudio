@@ -22,7 +22,7 @@ interface AppFooterProps {
 }
 
 /** What the footer's Back may never stand over, word and all: the page's card (its left edge runs down to the footer), the Inventory and Completed row and the footer's own buttons. */
-const BACK_OBSTACLES = ".conversation-card, .section-tiles-completed, .workspace-footer-actions > *";
+const BACK_OBSTACLES = ".conversation-card, .section-tiles-completed .section-tile, .business-foundation-input-actions > *, .bullet-rail[data-across], .workspace-footer-actions > *";
 
 /** The room kept between the Back, word and all, and the nearest thing beside it. */
 const BACK_CLEARANCE = 12;
@@ -36,8 +36,10 @@ export function backWordCovers(back: DOMRect, obstacles: readonly { rect: DOMRec
         if (rect.width === 0 || rect.height === 0) {
             return false;
         }
+        // (THE CARD COUNTS WHERE IT IS DRAWN (owner, 2026-11-23 22:44 UTC+2: "As long as there is space for the BACK button, do not remove it"): a page of tiles ends
+        // above the footer's band, so its card no longer stands beside the Back; a long page that runs down under the band still does.)
         if (card) {
-            return back.right + BACK_CLEARANCE > rect.left && back.left < rect.right;
+            return back.right + BACK_CLEARANCE > rect.left && back.left < rect.right && back.bottom > rect.top && back.top < rect.bottom + BACK_CLEARANCE;
         }
         return back.right + BACK_CLEARANCE > rect.left && back.left < rect.right + BACK_CLEARANCE && back.bottom > rect.top && back.top < rect.bottom;
     });
