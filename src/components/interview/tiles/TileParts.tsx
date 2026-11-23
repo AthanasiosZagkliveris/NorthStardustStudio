@@ -355,16 +355,39 @@ export function TileList({
             }
             node.style.height = "auto";
             node.style.maxHeight = "none";
+            // (A paragraph clamped on an earlier measure is measured whole again.)
+            node.querySelectorAll<HTMLElement>("[data-clamped]").forEach(line => {
+                line.removeAttribute("data-clamped");
+                line.style.removeProperty("-webkit-line-clamp");
+            });
+            const lineHeight = parseFloat(getComputedStyle(node).lineHeight) || 0;
+            const column = !!node.closest(".column-tiles-page") && lineHeight > 0;
             let fit = 0;
             let last: HTMLElement | null = null;
+            let clamped = false;
             for (const child of Array.from(node.children) as HTMLElement[]) {
                 // (Its bottom within the LIST: the list is not the child's offset parent, so the list's own place in the layer is taken away -- else every line looked that much lower and the list was cut a line short.)
-                const bottom = child.offsetTop - (child.offsetParent === node ? 0 : node.offsetTop) + child.offsetHeight;
+                // (An item drawn as its contents -- a pair's row, its name and its figure in the list's two columns -- is measured by its parts.)
+                const parts = child.getClientRects().length > 0 && child.offsetHeight > 0 ? [child] : Array.from(child.children) as HTMLElement[];
+                const bottom = parts.length > 0 ? Math.max(...parts.map(part => part.getBoundingClientRect().bottom)) - node.getBoundingClientRect().top + node.scrollTop : 0;
                 // (With the 4px kept under the last line for its underline, inside the room: a list of 24px rows never reaches the tile's + box.)
                 if (bottom + 4 <= room + 0.5) {
                     fit = bottom;
                     last = child;
                 } else {
+                    // (A PARAGRAPH ENDS AT A WHOLE LINE, WITH AN ELLIPSIS (owner, 2026-11-23 20:06 UTC+2, "do you see anything off?": Mission & Vision, Philosophy &
+                    // Manifesto, the Brand's text tiles showed half a line): a column tile's item of one text line takes the whole lines the room holds, its last
+                    // one ending in "…" (line-clamp); an item of a name and what is said of it stays whole or goes.)
+                    const lines = child.querySelectorAll<HTMLElement>(":scope .section-tile-list-line");
+                    const top = child.offsetTop - (child.offsetParent === node ? 0 : node.offsetTop);
+                    const whole = column && lines.length === 1 ? Math.floor((room - 4 - top) / lineHeight) : 0;
+                    if (whole >= 1) {
+                        lines[0].setAttribute("data-clamped", "");
+                        lines[0].style.setProperty("-webkit-line-clamp", String(whole));
+                        fit = top + whole * lineHeight;
+                        last = child;
+                        clamped = true;
+                    }
                     break;
                 }
             }
@@ -376,8 +399,7 @@ export function TileList({
             // (A column page's tile of text -- ONE item, a paragraph -- ends at a whole LINE; a list of items there ends at a whole item, so a name never stands
             // without what is said of it and no line is cut through: owner, 2026-11-23 19:41 UTC+2, "Fix the errors", the Strategic Period's and Customer's
             // Relationship's lists.)
-            const lineHeight = parseFloat(getComputedStyle(node).lineHeight) || 0;
-            const byLines = !!node.closest(".column-tiles-page") && lineHeight > 0 && node.children.length <= 1;
+            const byLines = column && node.children.length <= 1 && !clamped;
             const whole = byLines
                 ? Math.floor(room / lineHeight) * lineHeight
                 : Array.from(node.children).length > 0 && fit > 0 ? fit : room;
