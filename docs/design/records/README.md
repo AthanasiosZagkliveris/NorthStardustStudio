@@ -1,6 +1,6 @@
 # The records (Records 1 to 4)
 
-Status: **index**, updated 2026-11-22. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-11-23. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
 The log of every change (1), what has not been done (2), and the generated catalogue record and structure tables (3, 4).
 

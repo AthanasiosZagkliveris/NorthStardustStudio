@@ -64,9 +64,12 @@
 
 .notepad-head {
 
-    /* "Notes" with its closing arrow beside it, the dividing line under them; "+ Add note" is the list's first line, at the label's left edge. */
+    /* The title at the left and its fold arrow at the far end, the dividing line under them; "+ Add note" is the list's first line, at the label's left edge.
+       (ONE HEAD FOR BOTH SIDE PANELS (owner, 2026-11-23 15:32 UTC+2: "I liked the Calendar heading (title and folded arrow), position similarly the Notes"): the
+       Calendar's and the Notes' alike.) */
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--gap-8);
 
     padding: 16px 16px 12px;

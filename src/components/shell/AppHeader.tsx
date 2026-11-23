@@ -11,6 +11,7 @@ import SearchButton from "../menu/SearchButton";
 import ToolsMenu from "../menu/ToolsMenu";
 import { useLocation, useNavigate } from "react-router-dom";
 import { systems } from "../../data/systems";
+import { USER_CALENDAR_ID } from "../../services/UserCalendar";
 import { OrganizationService } from "../../services/OrganizationService";
 import UndoToast from "./UndoToast";
 
@@ -79,7 +80,7 @@ export default function AppHeader({ organizationName, focusable = false, reloada
 
             {/* THE TOOLS (owner, 2026-11-21 00:56 and 23:44 UTC+2): one menu for Search, Notes, Calendar, Focus, Settings and the reading mode (ToolsMenu.tsx);
                 the reading mode alone where no Organisation is open. */}
-            <ToolsMenu organizationOpen={!!organizationName} focusable={!!organizationName && focusable} />
+            <ToolsMenu organizationOpen={!!organizationName} focusable={!!organizationName && focusable} userCalendar={!organizationName && totalReview} />
 
             {reloadable && (
                 <AddButton className="header-tool app-reload"
@@ -119,6 +120,23 @@ export default function AppHeader({ organizationName, focusable = false, reloada
                                 navigate("/introduction", { state: { system, targetSectionNumber: sectionNumber } });
                             }
                         }}
+                    />
+                </Suspense>
+            )}
+
+            {/* THE USER'S OWN CALENDAR ON THE LANDING PAGE (owner, 2026-11-23 15:32 UTC+2: "Place a Calendar option in the Menu, in the landing page. This will be the
+                App Users Calendar"): every Organisation has its own; the user's holds their general dated notes and their own words (UserCalendar.ts). */}
+            {!organizationId && totalReview && (
+                <Suspense fallback={null}>
+                    <OrganizationCalendarPanel
+                        alone
+                        organizationId={USER_CALENDAR_ID}
+                        capabilities={[]}
+                        systems={[]}
+                        onCapabilityOpen={() => undefined}
+                        onCapabilitySelect={() => undefined}
+                        onSystemOpen={() => undefined}
+                        onOpenTask={() => undefined}
                     />
                 </Suspense>
             )}

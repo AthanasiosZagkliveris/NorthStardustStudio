@@ -1,6 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, Fragment } from "react";
 
-import AddButton from "../../controls/AddButton.tsx";
 import TickField from "../../controls/TickField.tsx";
 import { usePopupDismiss } from "../../controls/PopupPanel.tsx";
 import { useFloatingPanel } from "../../../hooks/useFloatingPanel.ts";
@@ -716,6 +715,7 @@ export function MultiPicker<T extends string>({
     const [open, setOpen] = useState(false);
     const box = useRef<HTMLDivElement | null>(null);
     const listBox = useRef<HTMLDivElement | null>(null);
+    const all = options.every(option => selected.has(option.id));
 
     usePopupDismiss(open, [box], () => setOpen(false), { escape: false });
 
@@ -755,25 +755,29 @@ export function MultiPicker<T extends string>({
                 aria-label={label}
                 onClick={() => setOpen(current => !current)}
             >
-                <span className="option-picker-value">{label}: {selected.size === options.length ? "All" : selected.size + " of " + options.length}</span>
+                <span className="option-picker-value">{label}: {all ? "All" : selected.size === 1 ? options.find(option => selected.has(option.id))?.label : selected.size + " of " + options.length}</span>
             </button>
             {open && (
                 <div ref={listBox} className="option-picker-list multi-picker-list" role="group" aria-label={label}>
-                    <div className="multi-picker-actions">
-                        <AddButton
-                            onClick={() => onChange(new Set(options.map(option => option.id)))}>All</AddButton>
-                        <AddButton
-                            onClick={() => onChange(new Set())}>None</AddButton>
-                    </div>
+                    {/* ALL FIRST, AND THE DEFAULT (owner, 2026-11-23 15:32 UTC+2: "In the filter/funnel button add an ALL option, as default, and when the user click on
+                        another option then it would appear only that one"): while All is ticked, a tick on one option shows that one alone; after that, ticks add
+                        and take away; the last one taken away is All again. */}
+                    <TickField className="option-picker-option multi-picker-all" checked={all} onChange={() => onChange(new Set(options.map(option => option.id)))}>
+                        <span>All</span>
+                    </TickField>
                     {options.map(option => (
-                        <TickField key={option.id} className="option-picker-option" checked={selected.has(option.id)} onChange={(event) => {
+                        <TickField key={option.id} className="option-picker-option" checked={!all && selected.has(option.id)} onChange={(event) => {
+                                    if (all) {
+                                        onChange(new Set([option.id]));
+                                        return;
+                                    }
                                     const next = new Set(selected);
                                     if (event.target.checked) {
                                         next.add(option.id);
                                     } else {
                                         next.delete(option.id);
                                     }
-                                    onChange(next);
+                                    onChange(next.size === 0 ? new Set(options.map(entry => entry.id)) : next);
                                 }}>
                             <span>{option.label}</span>
                         </TickField>

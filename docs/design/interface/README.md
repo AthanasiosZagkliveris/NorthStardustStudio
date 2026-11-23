@@ -1,6 +1,6 @@
 # The interface (Interface 1 to 10)
 
-Status: **index**, updated 2026-11-22. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-11-23. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
 What every screen shares, from the shared components (1) to the smallest text: the text holders (2), the free texts (3), the Frequency options (4), the reactions (5), the text links (6), the pop-ups (7), the tooltips (8), the help texts (9) and the guide to what an "i" says (10).
 

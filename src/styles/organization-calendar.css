@@ -1347,12 +1347,6 @@ body:has(.org-calendar-panel-open) .workspace-footer .back-link{
 }
 
 /* (The title first, its closing arrow at the panel's right end, pointing the way it closes.) */
-.org-calendar-side-head{
-
-    justify-content:space-between;
-
-}
-
 /* The calendar itself: the panel's whole width under the head, on the panel's ground, scrolling on its own. */
 .org-calendar-side > .org-calendar-content,
 .org-calendar-side > .org-calendar-content:hover{

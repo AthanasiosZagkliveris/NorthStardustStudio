@@ -24,6 +24,7 @@ import "../../styles/notepad.css";
 import "../../styles/organization-calendar.css";
 import "../../styles/system-confirmation.css";
 import { OPEN_CALENDAR } from "./calendarOpen";
+import { USER_CALENDAR_ID, loadUserAnnotations, saveUserAnnotation } from "../../services/UserCalendar";
 
 interface OrganizationCalendarPanelProps {
 
@@ -342,7 +343,8 @@ export default function OrganizationCalendarPanel({
     // THE FUNNEL: the period listed (none: the month grid alone), the periods the user made, and the kinds of card date shown (the recommended ones to begin with).
     const [periodId, setPeriodId] = useState<string | null>(null);
     const [customPeriods, setCustomPeriods] = useState<CalendarPeriod[]>([]);
-    const [kinds, setKinds] = useState<ReadonlySet<CardDateKind>>(() => new Set(CARD_DATE_KINDS.filter(kind => kind.recommended).map(kind => kind.id)));
+    // (All of them to begin with: owner, 2026-11-23 15:32 UTC+2, "add an ALL option, as default".)
+    const [kinds, setKinds] = useState<ReadonlySet<CardDateKind>>(() => new Set(CARD_DATE_KINDS.map(kind => kind.id)));
     // Which cards the dates are included from (all to begin with).
     const [includes, setIncludes] = useState<ReadonlySet<string>>(() => new Set(CALENDAR_INCLUDES.map(entry => entry.id)));
     // A note (a time and words) is made only when the user asks for one, on a new date or one already recorded.
@@ -370,7 +372,8 @@ export default function OrganizationCalendarPanel({
         }
 
         setTasks(getCalendarTasks(organizationId));
-        setAnnotations(OrganizationService.getTaskAnnotations(organizationId));
+        // (The user's own Calendar keeps its words apart from every Organisation's: UserCalendar.ts.)
+        setAnnotations(organizationId === USER_CALENDAR_ID ? loadUserAnnotations() : OrganizationService.getTaskAnnotations(organizationId));
 
     }
 
@@ -396,7 +399,11 @@ export default function OrganizationCalendarPanel({
 
         const next = { ...(annotations[taskId] ?? {}), ...patch };
 
-        OrganizationService.setTaskAnnotation(organizationId, taskId, next);
+        if (organizationId === USER_CALENDAR_ID) {
+            saveUserAnnotation(taskId, next);
+        } else {
+            OrganizationService.setTaskAnnotation(organizationId, taskId, next);
+        }
 
         setAnnotations(previous => ({ ...previous, [taskId]: next }));
 
@@ -914,8 +921,8 @@ export default function OrganizationCalendarPanel({
             aria-label="Calendar"
         >
 
-            <div className="notepad-head org-calendar-side-head">
-                <h2 className="notepad-title">Calendar</h2>
+            <div className="notepad-head">
+                <h2 className="notepad-title">{organizationId === USER_CALENDAR_ID ? "Your Calendar" : "Calendar"}</h2>
                 <NavArrow direction="previous" label="Close calendar" className="page-arrow notepad-close" onClick={() => setActiveTab(null)} />
             </div>
 

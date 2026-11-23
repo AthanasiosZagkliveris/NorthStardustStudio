@@ -19,7 +19,10 @@ import CapabilityDescriptionDialog from "../components/capabilities/CapabilityDe
 import InterviewHeader from "../components/interview/editors/InterviewHeader";
 import SectionTiles, { type SectionTile } from "../components/interview/tiles/SectionTiles";
 import Tile from "../components/interview/tiles/Tile";
-import { TileTitle } from "../components/interview/tiles/TileParts";
+import { TileList, TileTitle } from "../components/interview/tiles/TileParts";
+import { systemContents } from "../components/systems/systemContents";
+import BulletRail from "../components/interview/rails/BulletRail";
+import PageArrow from "../components/interview/fields/PageArrow";
 import { getSystemIcon } from "../data/systemIcons";
 import "../styles/status-shape.css";
 import "../styles/system-list.css";
@@ -227,8 +230,9 @@ export default function SystemSelection() {
             empty: own.length === 0,
             // (Its Systems by name alone: the tile says they are Systems -- owner, 2026-11-22 21:11 UTC+2, "remove the System word".)
             items: own.map(system => system.title.replace(/ System$/, "")),
-            // (Each System's own symbol before its name, smaller than the title's: owner, 2026-11-22 21:10 UTC+2, "Add symbols to the systems too, in smaller size".)
-            itemMarks: own.map(system => ({ icon: getSystemIcon(system.number) || undefined })),
+            // (EACH SYSTEM'S STATUS AS ITS BULLET (owner, 2026-11-23 15:32 UTC+2: "On the Capabilities Tiles, next to the systems place bullets"; "Use the previous
+            // bullet system, to define when a system, is defined, not started, etc."): ○ not started, ◐ in progress, ● defined, as the Pages rail and the System list drew them.)
+            itemMarks: own.map(system => ({ status: systemStatuses[system.number] ?? "not-started" })),
             // (EACH SYSTEM ON THE TILE IS A LINK TO IT (owner, 2026-11-22 21:00 UTC+2: "Fix links"), as a line of every tile is to what it names.)
             links: own.map(system => ({ go: () => handleSystemSelection(system) })),
             // (Pressed, it opens its Capability's page: press, not a dialog.)
@@ -240,6 +244,7 @@ export default function SystemSelection() {
     /** A System's tile on its Capability's page. */
     function systemTile(system: FrameworkSystem) {
         const status = systemStatuses[system.number];
+        const contents = systemContents(system);
         // (A System's tile as the list had it (owner, 2026-11-22 21:00 UTC+2: "Fix links, text and tile sizes"): its number and name, its
         // status by its shape and word (status-shape.css), its icon at the foot; the dialog's tile size.)
         return (
@@ -251,9 +256,10 @@ export default function SystemSelection() {
                 face={(
                     <>
                         {/* (Its number and name, whole, on as many lines as it takes; "System" is the dialog's word for all of them, so a tile says the name
-                            alone -- "07. Product Development" -- and its accessible name says it whole.) */}
+                            alone -- "07. Product Development" -- and its accessible name says it whole. ITS ICON UNDER THE NAME AS A CAPABILITY'S IS (owner,
+                            2026-11-23 15:32 UTC+2: "Place each system's icon, to look like the capabilities (size, colour and position)"): the logo's size, in its
+                            Capability's colour (the icon's own).) */}
                         <TileTitle className="section-tile-title-broken">
-                            {getSystemIcon(system.number) && <img className="section-tile-title-icon" src={getSystemIcon(system.number)} alt="" />}
                             {(() => {
                                 // (A name of two words or more on two lines, broken before its last word: "07. Product / Development".)
                                 const name = system.title.replace(/ System$/, "");
@@ -261,13 +267,18 @@ export default function SystemSelection() {
                                 const number = String(system.number).padStart(2, "0") + ". ";
                                 return cut > 0 ? <>{number + name.slice(0, cut)}<br />{name.slice(cut + 1)}</> : number + name;
                             })()}
+                            {getSystemIcon(system.number) && <img className="section-tile-title-mark" src={getSystemIcon(system.number)} alt="" />}
                         </TileTitle>
-                        {status && (
-                            <span className="system-status capability-system-status">
-                                <span className="status-shape" data-status={status} aria-hidden="true" />
-                                <span className="system-status-word">{PAGE_STATUS_WORDS[status]}</span>
-                            </span>
-                        )}
+                        <div className="capability-system-body">
+                            {status && (
+                                <span className="system-status capability-system-status">
+                                    <span className="status-shape" data-status={status} aria-hidden="true" />
+                                    <span className="system-status-word">{PAGE_STATUS_WORDS[status]}</span>
+                                </span>
+                            )}
+                            {/* (WHAT IT HOLDS (owner, 2026-11-23 15:32 UTC+2): its page's tiles, or its pages where it has several -- systemContents.) */}
+                            {contents.length > 0 && <TileList items={contents} />}
+                        </div>
                     </>
                 )}
                 onClick={() => handleSystemSelection(system)}
@@ -341,10 +352,10 @@ export default function SystemSelection() {
                         colour), and each Master Tile will have its own Tiles (systems)"): the page's title over its rule as on a System's page, one frame of a tile for each
                         Capability in its own colour, listing its Systems; pressed, its dialog holds a tile for each System, with its status, that opens it. */}
                     {shown ? (
+                        // (THE CAPABILITY'S NAME ALONE (owner, 2026-11-23 15:32 UTC+2: "Remove the Capabilities word on the title"), in capitals, with its icon.)
                         <InterviewHeader
-                            systemName="Capabilities"
-                            pageTitle={shown.title}
-                            pageTitleCapitals
+                            systemName={shown.title}
+                            nameCapitals
                             icon={getCapabilityIcon(capabilities.indexOf(shown) + 1)}
                             note={(
                                 <button
@@ -393,6 +404,35 @@ export default function SystemSelection() {
                 </div>
 
             </main>
+
+            {/* THE CAPABILITIES' ARROWS AND RAIL (owner, 2026-11-23 15:32 UTC+2: "Add Navigation Arrows and rail system (to visit and read the other capabilities"):
+                on a Capability's page, the page rail at the left lists the six, this one lit, each with its own page; the arrows go to the one before and the one after,
+                as a System's pages do (layout rules section 10, the page's rails). */}
+            {shown && (() => {
+                const at = capabilities.indexOf(shown);
+                return (
+                    <div className="bullet-rails">
+                        <div className="bullet-rails-row">
+                            <BulletRail
+                                side="left"
+                                label="Capabilities"
+                                items={capabilities.map(capability => ({ id: capability.id, label: capability.title }))}
+                                activeId={shown.id}
+                                onSelect={id => setActiveCapability(id)}
+                                arrow={<PageArrow direction="previous" label={at > 0 ? "Previous Capability: " + capabilities[at - 1].title : "The Capabilities"} onClick={() => setActiveCapability(at > 0 ? capabilities[at - 1].id : null)} />}
+                            />
+                            <BulletRail
+                                side="right"
+                                label="Capabilities"
+                                items={[]}
+                                activeId={null}
+                                onSelect={() => undefined}
+                                arrow={at < capabilities.length - 1 ? <PageArrow direction="next" label={"Next Capability: " + capabilities[at + 1].title} onClick={() => setActiveCapability(capabilities[at + 1].id)} /> : undefined}
+                            />
+                        </div>
+                    </div>
+                );
+            })()}
 
             <AppFooter
                 onBack={() => shown ? setActiveCapability(null) : navigate("/")}

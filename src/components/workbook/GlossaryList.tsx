@@ -152,7 +152,9 @@ export default function GlossaryList({ organizationIds, target, onCitation }: {
         return [...app, ...yours].sort((one, other) => one.term.localeCompare(other.term, "en-GB", { sensitivity: "base" }));
     }, [organizationIds, navigate]);
 
-    const kinds = GLOSSARY_KINDS.map(kind => kind.label);
+    // (THE LANDING PAGE HOLDS THE APP'S TERMS ALONE (owner, 2026-11-23 15:32 UTC+2: "In the landing page, the glossary should not have as option app or organization"):
+    // with no Organisation open, the funnel has no kinds of term to choose from, its letters only.)
+    const kinds = organizationIds.length === 0 ? [] : GLOSSARY_KINDS.map(kind => kind.label);
     const organisations = organizationIds.length > 1
         ? [...new Set(organizationIds.map(id => OrganizationService.getSummary(id)?.name ?? "").filter(name => name !== ""))]
         : [];

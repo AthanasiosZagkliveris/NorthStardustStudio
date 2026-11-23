@@ -109,7 +109,7 @@ function themeState(): string {
  * (the search's dialog and Ctrl+K, the Notes' panel, Focus's Exit button, the Global Settings' page, the Calendar's rail on the page it is pressed on). With no Organisation
  * open the menu holds Appearance alone.
  */
-export default function ToolsMenu({ organizationOpen, focusable }: { organizationOpen: boolean; focusable: boolean }) {
+export default function ToolsMenu({ organizationOpen, focusable, userCalendar = false }: { organizationOpen: boolean; focusable: boolean; /** The Landing page: the user's own Calendar. */ userCalendar?: boolean }) {
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -174,6 +174,8 @@ export default function ToolsMenu({ organizationOpen, focusable }: { organizatio
             </AddButton>
             {open && (
                 <div className="strategy-sort-menu theme-switch-list tools-menu-list" role="menu" aria-label="Menu">
+                    {/* (On the Landing page, the user's own Calendar: owner, 2026-11-23 15:32 UTC+2.) */}
+                    {!organizationOpen && userCalendar && <MenuOption aria-label="Calendar" onClick={run(openCalendar)}>{row(ICONS.calendar, "Calendar")}</MenuOption>}
                     {organizationOpen && (
                         <>
                             <MenuOption aria-label="Search" aria-keyshortcuts="Control+K Meta+K" onClick={run(openSearch)}>{row(ICONS.search, "Search")}<span className="tools-menu-hint">Ctrl+K</span></MenuOption>

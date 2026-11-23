@@ -27,6 +27,9 @@ interface InterviewHeaderProps {
      */
     pageTitleCapitals?: boolean;
 
+    /** The title in capitals, by CSS alone (a Capability's page: "FOUNDATION"). */
+    nameCapitals?: boolean;
+
     /** What stands after the title, inside the heading. */
     note?: ReactNode;
 
@@ -43,6 +46,7 @@ export default function InterviewHeader({
     capabilityId,
     pageTitle,
     pageTitleCapitals = false,
+    nameCapitals = false,
     note,
     icon: ownIcon,
     actions
@@ -69,7 +73,9 @@ export default function InterviewHeader({
                 )}
 
                 <h1>
-                    {systemNumber ? `${systemNumber}. ${systemName}` : systemName}
+                    {nameCapitals
+                        ? <span className="interview-header-page-title-capitals">{systemName}</span>
+                        : systemNumber ? `${systemNumber}. ${systemName}` : systemName}
                     {pageTitle && (
                         <span className={"interview-header-page-title" + (pageTitleCapitals ? " interview-header-page-title-capitals" : "")}>
                             {/* (In the vertical layout the page's title stands on a line of its own under the System's name, without the dash: 01-interview.css.) */}

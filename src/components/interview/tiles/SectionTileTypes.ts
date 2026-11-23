@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { InfoPoint } from "../fields/InfoNote.tsx";
+import type { PageStatus } from "../../../framework/engine/status/PageStatus";
 
 /**
  * One tile of a SectionTiles grid (docs/ai/09-layout-rules.md, "Section tiles
@@ -246,6 +247,8 @@ export interface ItemMark {
     rule?: boolean;
     /** A small symbol before this line, in place of its bullet (a System's icon on its Capability's tile). */
     icon?: string;
+    /** Its bullet drawn as a status (○ not started, ◐ in progress, ● defined: status-shape.css), the Pages rail's and the System list's (a System on its Capability's tile). */
+    status?: PageStatus;
 }
 
 

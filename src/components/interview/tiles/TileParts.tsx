@@ -1,6 +1,8 @@
 import { ComponentProps, Fragment, MouseEvent as ReactMouseEvent, ReactNode, RefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
 import AddButton from "../../controls/AddButton.tsx";
 import { type TileLink, type ItemMark } from "./SectionTileTypes.ts";
+import { PAGE_STATUS_WORDS } from "../../../framework/engine/status/PageStatus";
+import "../../../styles/status-shape.css";
 import { incompleteTitle, TILE_DIVIDER, drawnTitle, plainTitle, brokenLines, boldWords, scaleOrigin } from "./SectionTileGeometry.tsx";
 
 /**
@@ -409,7 +411,8 @@ export function TileList({
                     );
                 }
                 const symbol = marks?.[position]?.icon;
-                const drawn = <>{symbol && <img className="section-tile-list-symbol" src={symbol} alt="" />}{brokenLines(item).map((part, at, parts) => <Fragment key={at}><span className="section-tile-list-line">{boldWords(part)}</span>{at < parts.length - 1 && " "}</Fragment>)}</>;
+                const status = marks?.[position]?.status;
+                const drawn = <>{status && <span className="status-shape section-tile-list-shape" data-status={status} aria-hidden="true" />}{symbol && <img className="section-tile-list-symbol" src={symbol} alt="" />}{brokenLines(item).map((part, at, parts) => <Fragment key={at}><span className="section-tile-list-line">{boldWords(part)}</span>{at < parts.length - 1 && " "}</Fragment>)}</>;
                 return (
                     <li
                         key={position}
@@ -422,9 +425,10 @@ export function TileList({
                             marks?.[position]?.centre ? "section-tile-list-centre" : "",
                             marks?.[position]?.plain ? "section-tile-list-plain" : "",
                             marks?.[position]?.rule ? "section-tile-list-rule" : "",
-                            marks?.[position]?.icon ? "section-tile-list-icon" : ""
+                            marks?.[position]?.icon ? "section-tile-list-icon" : "",
+                            marks?.[position]?.status ? "section-tile-list-status" : ""
                         ].filter(Boolean).join(" ") || undefined}
-                        title={alerts?.[position] ? plainTitle(item).replace(/\*\*/g, "") + ": " + incompleteTitle(alerts[position]!) : plainTitle(item).replace(/\*\*/g, "")}
+                        title={alerts?.[position] ? plainTitle(item).replace(/\*\*/g, "") + ": " + incompleteTitle(alerts[position]!) : plainTitle(item).replace(/\*\*/g, "") + (marks?.[position]?.status ? ", " + PAGE_STATUS_WORDS[marks[position]!.status!] : "")}
                     >
                         {link && onLink
                             ? (
