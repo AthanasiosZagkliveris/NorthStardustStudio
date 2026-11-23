@@ -179,6 +179,46 @@ When a Resources tile cannot list all its categories, it shows **one symbol a ca
 - The same symbols lead each category's row in the Resources dialog, so the grid on the tile matches what opens.
 - If a tile cannot fit even the symbols, it shows its title alone (the rule of section 2, item 4).
 
+### 4.6 Turning the phone or the tablet (portrait and landscape)
+
+The owner added on 2026-11-23 (23:14 UTC+2): "the user could rotate his mobile or tablet and the app both ways (portrait and landscape) should work and displayed properly".
+
+**Measured today, Identity System:**
+
+| Device, turned | Window | Layout today | Tile | Header + title | Scrolls |
+|---|---|---|---|---|---|
+| Phone, landscape | 844 x 390 | stacked, 2 a row | 330 | 80 + 81px: the title and the header take 41% of the height | 1385px |
+| Large phone, landscape | 932 x 430 | stacked | 189 | 80 + 81px | 389px |
+| Tablet, landscape | 1180 x 820 | side by side | 218 | 80 + 81px | no |
+| Tablet, portrait | 820 x 1180 | stacked, 2 a row | 330 | 80 + 81px | 792px |
+
+What breaks:
+- **A turned phone is wide enough to look like a tablet** (844 or 932px wide) but has only 390 to 430px of height.
+- The 80px header and the page title leave it about 200px. Its tiles grow to 330px, wider than the window is tall, and the page scrolls through 1385px.
+- The rails stand in the side margin.
+
+**The rule: the tier also reads the height** (Apple's compact height; Material's compact height class, under 480dp):
+
+| Window | Tier | What changes |
+|---|---|---|
+| Height under 480 (a phone turned to landscape) | **Phone, landscape** | Header 56px; the page title one line (the System's name and the page's, smaller); tiles four a row, each about a quarter of the width less the gaps, so one chapter's four tiles fit in one screen height; the rails in a 48px footer band; the page scrolls by chapter |
+| Landscape, 900px wide or more, and 640px tall or more | **Laptop / Monitor** | As section 4.3: side by side, no scroll |
+| Landscape, under 900px wide, or under 640px tall (and 480 or more) | **Tablet** | As section 4.3: stacked, rails in the footer band |
+| Portrait | **Tablet or Phone** by width | As section 4.3 |
+
+- 640 is the height two rows of 150px tiles need under the header and title and above the footer band. Under it the no-scroll layout would make tiles too small, so the stacked layout takes over.
+- A tablet turned from portrait (820 x 1180, Tablet) to landscape (1180 x 820, Laptop) changes tier. That is intended: the same rule as a desktop window being resized.
+
+**Turning keeps the user's place.**
+- The page, the open chapter, an open dialog or floating card, the scroll position of the chapter in view, and the text being typed stay as they were. Every layout measure already runs on `resize` (tiles, rails, arrows, the page width).
+- Turning is a resize, plus `orientationchange` where the browser sends it, measured once the turn has settled.
+- An open floating card re-centres on its tile.
+- The keyboard on a phone in landscape takes about half the height. A field being typed in is scrolled into view above it (`visualViewport`), and the footer band hides while the keyboard is up.
+
+**Safe areas.** In landscape, an iPhone's notch and an Android punch-hole stand at a side. The header, the footer band and the page's gutters add `env(safe-area-inset-left / right / bottom)`, with `viewport-fit=cover` on the page's viewport meta, so no control sits under them.
+
+**Text never resizes on its own when turned.** `-webkit-text-size-adjust: 100%` keeps iOS from enlarging text in landscape; the fluid scale (section 4.2) changes it by the window instead.
+
 ### 4.5 Rules that stay
 
 - Square tiles, frames hugging their tiles with 13px all round, 12px gaps and 12px above the footer band.
@@ -215,11 +255,16 @@ My proposal of 22:44 had three parts. On review:
 4. **The Resources symbols** (section 4.4).
    - Nine SVGs in `src/assets/resource-icons/`, drawn to the System icons' style.
    - Check: a unit test for the fallback order (list, then symbols, then title alone).
-5. **Docs.**
+5. **Turning the device** (section 4.6).
+   - The height lines in the same query set.
+   - The compact header and footer band.
+   - The safe areas, the keyboard and the place kept through a turn.
+   - Check: the probe at 844 x 390, 932 x 430, 820 x 1180 and 1180 x 820. A test turns the window with a card open and a field being typed in, and checks they stay.
+6. **Docs.**
    - AI 9 sections 4 and 23 rewritten from this proposal.
    - The user guide's note on screen sizes.
    - The log.
-6. **Browser check** at the six sizes of section 2, light and dark, every System page and the Capability pages; screenshots to the owner.
+7. **Browser check** at the six sizes of section 2 and the four of section 4.6, light and dark, every System page and the Capability pages; screenshots to the owner.
 
 Each step is one commit; the whole is one PR.
 
@@ -229,6 +274,7 @@ Each step is one commit; the whole is one PR.
 2. **The type table** (section 4.2), with the body held at 16 on Phone, Tablet and Laptop and 18 on Monitor.
 3. **Tablet and Phone rails in the footer band** (section 4.3).
 4. **The nine Resource symbols** (section 4.4): these references, or other shapes for any of them.
+5. **Turning the device** (section 4.6): a height line at 480 (Phone, landscape) and at 640 (side by side needs that much); the user's place kept through a turn; the safe areas.
 
 ## 8. Sources
 
