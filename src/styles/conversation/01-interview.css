@@ -113,6 +113,38 @@
 
 }
 
+/* THE TITLE IN THE VERTICAL LAYOUT (layout rules section 23; owner, 2026-11-22 18:58 UTC+2: "When the screen became narrower, the page name should go Under the
+   System Name. The em dash between them do not need to exist anymore. The Icon should stay at the System's level"): the page's title on a line of its own, no dash,
+   and the icon level with the System's name, the first line. (The one query of the vertical layout, 07-floating-cards-and-page-layout.css.) */
+@media (max-width: 1099px), (orientation: portrait){
+
+    .interview-header-title-row{
+
+        align-items:flex-start;
+
+    }
+
+    .interview-header-icon{
+
+        /* (centred on the first line: the h1's line is 1.2 of its size, global.css) */
+        margin-top:calc((var(--font-h1) * 1.2 - 36px) / 2);
+
+    }
+
+    .interview-header-page-title{
+
+        display:block;
+
+    }
+
+    .interview-header-dash{
+
+        display:none;
+
+    }
+
+}
+
 /* ==========================================================
    Interview Section
 ========================================================== */

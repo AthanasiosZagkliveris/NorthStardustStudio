@@ -1,29 +1,30 @@
-import PressRow from "../controls/PressRow.tsx";
 import DayButton from "../controls/DayButton.tsx";
 import { useEffect, useRef, useState } from "react";
 
 import AddButton from "../controls/AddButton.tsx";
-import RadioChoice from "../controls/RadioChoice.tsx";
 import { useEscapeCloses } from "../interview/fields/useEscapeCloses";
 import TextLink from "../interview/fields/TextLink.tsx";
 import NavArrow from "../controls/NavArrow.tsx";
 import { CalendarTaskAnnotation, OrganizationService } from "../../services/OrganizationService";
 import { NotepadService } from "../../services/NotepadService";
-import { CalendarTask, getCalendarTasks } from "../../services/CalendarTaskService";
+import { CalendarTask, getCalendarTasks, getUserCalendarTasks } from "../../services/CalendarTaskService";
 import { DateFormat, PreferencesService } from "../../services/PreferencesService.ts";
 import { isoToDisplay } from "../interview/fields/DateCellInput.tsx";
 import NotesField from "../interview/fields/NotesField.tsx";
 import CalendarFunnel, { CALENDAR_INCLUDES } from "./CalendarFunnel.tsx";
 import { CARD_DATE_KINDS, type CardDateKind } from "../../framework/engine/cards/CalendarCardDates.ts";
-import { type CalendarPeriod, loadCustomPeriods, presetPeriods, saveCustomPeriods } from "../../services/CalendarPeriods.ts";
+import { type CalendarPeriod, loadCustomPeriods, presetPeriods, saveCustomPeriods, userPeriods } from "../../services/CalendarPeriods.ts";
 
 import { Capability } from "../../types/capability";
 import { FrameworkSystem } from "../../types/system";
 import { getCapabilityColor } from "../../data/capabilities";
 
+import "../../styles/notepad.css";
 import "../../styles/organization-calendar.css";
 import "../../styles/system-confirmation.css";
 import { OPEN_CALENDAR } from "./calendarOpen";
+import { useRuleLevel } from "../../hooks/useRuleLevel";
+import { USER_CALENDAR_ID, loadUserAnnotations, saveUserAnnotation } from "../../services/UserCalendar";
 
 interface OrganizationCalendarPanelProps {
 
@@ -95,7 +96,7 @@ interface OrganizationCalendarPanelProps {
      * actually produced it. Optional: the link only renders when
      * this is provided.
      */
-    onOpenTask?: (systemNumber: number, sectionNumber: number) => void;
+    onOpenTask?: (systemNumber: number, sectionNumber: number, organizationId?: string) => void;
 
     /**
      * Reports whenever this rail's own flyout opens or closes
@@ -261,8 +262,7 @@ export default function OrganizationCalendarPanel({
     onOpenTask,
     onOpenChange,
     closeSignal,
-    suppressClose,
-    alone = false
+    suppressClose
 
 }: OrganizationCalendarPanelProps) {
 
@@ -277,9 +277,12 @@ export default function OrganizationCalendarPanel({
 
     // (Alone, Escape closes it -- and only it, as the Notes panel's: the key goes no further, so the interview page does not take it as Back. System
     // Selection's own Escape closes the whole rail there, through closeSignal.)
-    useEscapeCloses(alone && activeTab !== null, () => setActiveTab(null), () => !!suppressClose);
+    useEscapeCloses(activeTab !== null, () => setActiveTab(null), () => suppressCloseForFlyout);
 
-    const panelRef = useRef<HTMLDivElement | null>(null);
+    const panelRef = useRef<HTMLElement | null>(null);
+    // (Its head's rule level with the page title's: useRuleLevel.)
+    const sideHead = useRef<HTMLDivElement | null>(null);
+    useRuleLevel(sideHead, activeTab === "calendar");
 
     /**
      * Holds the "apply to every other occurrence?" question while
@@ -308,84 +311,7 @@ export default function OrganizationCalendarPanel({
     // opened.
     const suppressCloseForFlyout = suppressClose || timeConfirmPrompt !== null;
 
-    /**
-     * True for the duration of a mousedown -- cleared on the very
-     * next tick. Lets the panel's own `onBlur` below (see its doc
-     * comment) tell "focus just shifted because of a click that's
-     * ALSO being handled by the mousedown listener below" apart from
-     * "focus shifted because of Tab/Shift+Tab, with no click
-     * involved at all" -- the only case `onBlur` itself actually
-     * needs to react to.
-     */
-    const mouseDownInProgressRef = useRef(false);
-
-    useEffect(() => {
-
-        function markMouseDown() {
-
-            mouseDownInProgressRef.current = true;
-
-            // Any blur/focusout this mousedown itself triggers (by
-            // shifting focus away from whatever was previously
-            // focused, e.g. clicking a plain <div> that can't take
-            // focus) fires synchronously, within this same tick --
-            // clearing the flag on the next tick keeps it from ever
-            // masking a LATER, genuinely separate blur (e.g. a Tab
-            // press with no click involved).
-            setTimeout(() => {
-                mouseDownInProgressRef.current = false;
-            }, 0);
-
-        }
-
-        document.addEventListener("mousedown", markMouseDown, true);
-
-        return () => document.removeEventListener("mousedown", markMouseDown, true);
-
-    }, []);
-
-    // Clicking anywhere outside the rail closes its flyout, same as
-    // clicking outside any other popup/sliding window in the app --
-    // except while `suppressCloseForFlyout` is true (a child dialog
-    // this rail itself opened -- either the caller's own `suppressClose`
-    // prop, or this component's own Time-confirm dialog above -- is
-    // still showing). Pressing INSIDE any of the 3 sliding cards --
-    // Calendar, Capabilities, or Systems -- never closes it, no
-    // matter what's clicked (a day, blank space, plain text, it
-    // doesn't matter); only a genuinely outside click, Escape (see
-    // `closeSignal` above), or the cursor actually leaving the rail
-    // (see the panel's own `onMouseLeave` below) closes it.
-    useEffect(() => {
-
-        if (activeTab === null) {
-            return;
-        }
-
-        function handlePointerDown(event: MouseEvent) {
-
-            if (suppressCloseForFlyout) {
-                return;
-            }
-
-            const target = event.target as HTMLElement | null;
-
-            if (!target) {
-                return;
-            }
-
-            const outsidePanel = !(panelRef.current && panelRef.current.contains(target));
-
-            if (outsidePanel) {
-                setActiveTab(null);
-            }
-
-        }
-
-        document.addEventListener("mousedown", handlePointerDown);
-
-        return () => document.removeEventListener("mousedown", handlePointerDown);
-
-    }, [activeTab, suppressCloseForFlyout]);
+    // (A press outside no longer closes it: it stays open while you work beside it, as the Notes panel does; its arrow and Escape close it. Owner, 2026-11-22.)
 
     useEffect(() => {
 
@@ -420,9 +346,18 @@ export default function OrganizationCalendarPanel({
     // THE FUNNEL: the period listed (none: the month grid alone), the periods the user made, and the kinds of card date shown (the recommended ones to begin with).
     const [periodId, setPeriodId] = useState<string | null>(null);
     const [customPeriods, setCustomPeriods] = useState<CalendarPeriod[]>([]);
-    const [kinds, setKinds] = useState<ReadonlySet<CardDateKind>>(() => new Set(CARD_DATE_KINDS.filter(kind => kind.recommended).map(kind => kind.id)));
+    // (All of them to begin with: owner, 2026-11-23 15:32 UTC+2, "add an ALL option, as default".)
+    const [kinds, setKinds] = useState<ReadonlySet<CardDateKind>>(() => new Set(CARD_DATE_KINDS.map(kind => kind.id)));
     // Which cards the dates are included from (all to begin with).
     const [includes, setIncludes] = useState<ReadonlySet<string>>(() => new Set(CALENDAR_INCLUDES.map(entry => entry.id)));
+    // (THE USER'S CALENDARS (owner, 2026-11-23 16:19 UTC+2): on the user's own Calendar, which calendars show -- their own notes and each Organisation's dates, all to
+    // begin with -- as a personal calendar shows or hides each of its calendars; the card kinds an Organisation's Calendar offers ("Include") are that Organisation's.)
+    const userCalendar = organizationId === USER_CALENDAR_ID;
+    const calendarOptions = userCalendar ? [{ id: "", label: "User" }, ...OrganizationService.list().map(entry => ({ id: entry.id, label: entry.name }))] : [];
+    const [calendarsShown, setCalendarsShown] = useState<ReadonlySet<string> | null>(null);
+    // (The user's own calendar to begin with (owner, 2026-11-23 17:28 UTC+2: "Rename Your Notes to User. User Calendar should be the default option"); each
+    // Organisation's is a tick away, or All.)
+    const calendars = calendarsShown ?? new Set([""]);
     // A note (a time and words) is made only when the user asks for one, on a new date or one already recorded.
     const [notesOpen, setNotesOpen] = useState<ReadonlySet<string>>(new Set());
     useEffect(() => {
@@ -447,8 +382,9 @@ export default function OrganizationCalendarPanel({
             return;
         }
 
-        setTasks(getCalendarTasks(organizationId));
-        setAnnotations(OrganizationService.getTaskAnnotations(organizationId));
+        setTasks(organizationId === USER_CALENDAR_ID ? getUserCalendarTasks() : getCalendarTasks(organizationId));
+        // (The user's own Calendar keeps its words apart from every Organisation's: UserCalendar.ts.)
+        setAnnotations(organizationId === USER_CALENDAR_ID ? loadUserAnnotations() : OrganizationService.getTaskAnnotations(organizationId));
 
     }
 
@@ -474,7 +410,11 @@ export default function OrganizationCalendarPanel({
 
         const next = { ...(annotations[taskId] ?? {}), ...patch };
 
-        OrganizationService.setTaskAnnotation(organizationId, taskId, next);
+        if (organizationId === USER_CALENDAR_ID) {
+            saveUserAnnotation(taskId, next);
+        } else {
+            OrganizationService.setTaskAnnotation(organizationId, taskId, next);
+        }
 
         setAnnotations(previous => ({ ...previous, [taskId]: next }));
 
@@ -588,8 +528,8 @@ export default function OrganizationCalendarPanel({
     }
 
     // (Card dates of a kind the funnel leaves out are not shown; every other task always is.)
-    const shown = tasks.filter(task => !task.kind || (kinds.has(task.kind) && CALENDAR_INCLUDES.some(entry => includes.has(entry.id) && (!task.noun || entry.nouns.includes(task.noun)) && (task.noun !== undefined))));
-    const periods = [...presetPeriods(today), ...customPeriods];
+    const shown = tasks.filter(task => (!userCalendar || calendars.has(task.organizationId ?? "")) && (!task.kind || (kinds.has(task.kind) && (userCalendar || CALENDAR_INCLUDES.some(entry => includes.has(entry.id) && (!task.noun || entry.nouns.includes(task.noun)) && (task.noun !== undefined))))));
+    const periods = [...(organizationId === USER_CALENDAR_ID ? userPeriods(today) : presetPeriods(today)), ...customPeriods];
     const period = periods.find(candidate => candidate.id === periodId) ?? null;
     const periodTasks = period
         ? shown.filter(task => task.date >= period.from && task.date <= period.to).sort((one, other) => one.date.localeCompare(other.date) || one.description.localeCompare(other.description))
@@ -627,33 +567,6 @@ export default function OrganizationCalendarPanel({
 
                 <>
 
-                    {/*
-                        The single, app-wide date-presentation
-                        control -- moved out of the cramped
-                        header pill into its own full-width,
-                        clearly-labeled row so it's the first
-                        thing anyone opening this flyout
-                        notices, not something they have to
-                        spot in a corner. This is now the ONLY
-                        place that setting can be changed from
-                        (the Operational Log's own in-table
-                        toggle was removed -- see
-                        OperationalLogEditor.tsx).
-                    */}
-                    <div className="org-calendar-date-format-row">
-
-                        <span className="org-calendar-date-format-label">Date presentation</span>
-
-                        <RadioChoice
-                            label="Date presentation"
-                            group="org-calendar-date-format"
-                            options={[{ id: "US", label: "MM/DD (US)" }, { id: "EU", label: "DD/MM (EU)" }]}
-                            value={dateFormat}
-                            onChange={(next) => PreferencesService.setDateFormat(next)}
-                        />
-
-                    </div>
-
                     <CalendarFunnel
                         periods={periods}
                         periodId={periodId}
@@ -679,6 +592,9 @@ export default function OrganizationCalendarPanel({
                         onKinds={setKinds}
                         includes={includes}
                         onIncludes={setIncludes}
+                        calendars={userCalendar ? { options: calendarOptions, shown: calendars, onChange: setCalendarsShown } : undefined}
+                        dateFormat={dateFormat}
+                        onDateFormat={(next) => PreferencesService.setDateFormat(next)}
                     />
 
                     <div className="org-calendar-month-nav">
@@ -773,7 +689,7 @@ export default function OrganizationCalendarPanel({
                                     {task.noteId
                                         ? <TextLink className="org-calendar-task-link" onClick={() => NotepadService.open([task.noteId as string])}>{task.name}</TextLink>
                                         : onOpenTask
-                                            ? <TextLink className="org-calendar-task-link" title={task.originLabel + " " + task.sectionTitle} onClick={() => onOpenTask(task.systemNumber, task.sectionNumber)}>{task.name ?? task.description}</TextLink>
+                                            ? <TextLink className="org-calendar-task-link" title={task.originLabel + " " + task.sectionTitle} onClick={() => onOpenTask(task.systemNumber, task.sectionNumber, task.organizationId)}>{task.name ?? task.description}</TextLink>
                                             : <span className="org-calendar-agenda-text">{task.name ?? task.description}</span>}
                                 </div>
                             ))}
@@ -831,7 +747,7 @@ export default function OrganizationCalendarPanel({
                                                     <TextLink
                                                         className="org-calendar-task-link"
                                                         title={task.originLabel + " " + task.sectionTitle}
-                                                        onClick={() => onOpenTask(task.systemNumber, task.sectionNumber)}
+                                                        onClick={() => onOpenTask(task.systemNumber, task.sectionNumber, task.organizationId)}
                                                     >
                                                         {task.name ?? task.description}
                                                     </TextLink>
@@ -976,126 +892,28 @@ export default function OrganizationCalendarPanel({
 
     );
 
-    // (Alone and closed: nothing on the page.)
-    if (alone && activeTab !== "calendar") {
+    // THE CALENDAR IS A SIDE PANEL AS NOTES IS (owner, 2026-11-22 19:31 UTC+2: "the calendar should have it title on top. Redesign it so to look like the Notes right
+    // panel style and behaviour"): opened from the Menu on every page, System Selection too; on the left, between the header and the window's foot; its title
+    // "Calendar" on top with the closing arrow beside it and the dividing line under them (the Notes panel's own head, notepad.css); it stays open while you work
+    // in it and closes with its arrow or Escape. Closed, nothing of it is on the page (no handle).
+    if (activeTab !== "calendar") {
         return null;
     }
 
     return (
 
-        <div
+        <aside
             ref={panelRef}
-            className={`org-calendar-panel${activeTab ? " org-calendar-panel-open" : ""}`}
-            onMouseLeave={() => {
-
-                if (!suppressCloseForFlyout) {
-                    setActiveTab(null);
-                }
-
-            }}
-            onBlur={(event) => {
-
-                // Keyboard-focus parity with the mouse's own
-                // onMouseLeave above -- Tabbing all the way out of
-                // the rail (to something outside it, not just to
-                // the next handle/link INSIDE it) closes the
-                // flyout the same way moving the mouse away does.
-                // `relatedTarget` is the element gaining focus;
-                // null (e.g. clicking outside the document) also
-                // counts as "left".
-                if (suppressCloseForFlyout) {
-                    return;
-                }
-
-                // A blur caused by a mousedown (e.g. clicking a plain
-                // <div> -- blank space inside a flyout card -- shifts
-                // focus away from whatever control was previously
-                // focused, since a <div> can't itself take focus) is
-                // NOT "the person tabbed/clicked away" -- the
-                // mousedown-based outside-click handler above is the
-                // one that decides whether THAT click should close
-                // the rail, and pressing anywhere INSIDE any of the 3
-                // sliding cards should never close it. Only react to
-                // a blur that happened with no mousedown involved at
-                // all (a Tab/Shift+Tab key press).
-                if (mouseDownInProgressRef.current) {
-                    return;
-                }
-
-                const nextFocus = event.relatedTarget as Node | null;
-
-                if (!nextFocus || !event.currentTarget.contains(nextFocus)) {
-                    setActiveTab(null);
-                }
-
-            }}
-            title="Framework Navigator"
+            className="org-calendar-panel org-calendar-panel-open org-calendar-side"
+            aria-label="Calendar"
         >
 
-            <div className="org-calendar-inner">
-
-                <div className="org-rail-handles" aria-label="Framework Navigator">
-
-                    {/*
-                        The rail's own proper name -- not a handle
-                        itself (no hover/click behavior), just a
-                        small always-visible label identifying the
-                        whole 3-handle rail, the same way each
-                        individual handle below identifies its own
-                        flyout.
-                    */}
-                    <div className="org-rail-name">Framework Navigator</div>
-
-                    <div className="org-rail-handle-group">
-
-                        <PressRow
-                            className={`org-rail-handle org-calendar-handle${activeTab === "calendar" ? " org-rail-handle-active" : ""}`}
-                            pressed={activeTab === "calendar"}
-                            onReach={() => setActiveTab("calendar")}
-                            onPress={() => setActiveTab("calendar")}
-                        >
-                            <span className="org-rail-handle-label">Calendar</span>
-                        </PressRow>
-
-                        {activeTab === "calendar" && flyoutContent}
-
-                    </div>
-
-                    {!alone && (<>
-                    <div className="org-rail-handle-group">
-
-                        <PressRow
-                            className={`org-rail-handle org-rail-handle-capabilities${activeTab === "capabilities" ? " org-rail-handle-active" : ""}`}
-                            pressed={activeTab === "capabilities"}
-                            onReach={() => setActiveTab("capabilities")}
-                            onPress={() => setActiveTab("capabilities")}
-                        >
-                            <span className="org-rail-handle-label">Capabilities</span>
-                        </PressRow>
-
-                        {activeTab === "capabilities" && flyoutContent}
-
-                    </div>
-
-                    <div className="org-rail-handle-group">
-
-                        <PressRow
-                            className={`org-rail-handle org-rail-handle-systems${activeTab === "systems" ? " org-rail-handle-active" : ""}`}
-                            pressed={activeTab === "systems"}
-                            onReach={() => setActiveTab("systems")}
-                            onPress={() => setActiveTab("systems")}
-                        >
-                            <span className="org-rail-handle-label">Systems</span>
-                        </PressRow>
-
-                        {activeTab === "systems" && flyoutContent}
-
-                    </div>
-                    </>)}
-
-                </div>
-
+            <div className="notepad-head" ref={sideHead}>
+                <h2 className="notepad-title">{organizationId === USER_CALENDAR_ID ? "Your Calendar" : "Calendar"}</h2>
+                <NavArrow direction="previous" label="Close calendar" className="page-arrow notepad-close" onClick={() => setActiveTab(null)} />
             </div>
+
+            {flyoutContent}
 
             {/*
                 The "apply to every occurrence?" dialog (see
@@ -1142,7 +960,7 @@ export default function OrganizationCalendarPanel({
 
             )}
 
-        </div>
+        </aside>
 
     );
 

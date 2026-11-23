@@ -14,7 +14,6 @@ import { OrganizationService } from "../services/OrganizationService";
 import { asGlobalSettings, stageDurationsOf } from "../framework/engine/GlobalSettings";
 import { stageOf } from "../framework/engine/BusinessStage";
 import { valuesWithIds } from "../framework/engine/ValueIds.ts";
-import { PreferencesService } from "../services/PreferencesService";
 import { jumpTo, type OpenPage } from "../components/interview/tiles/jumpTo.ts";
 import { systems } from "../data/systems";
 import { IDENTITY_SYSTEM_NUMBER, IDENTITY_DEFINITION_SECTION } from "./conversationHelpers";
@@ -41,7 +40,9 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
     const legalEntityPrefill = {
         organisationName:
             (organizationId && OrganizationService.getSummary(organizationId)?.name) || "",
-        founderName: PreferencesService.getUserName()
+        // (The app's user is not an Organisation's founder (owner, 2026-11-22 18:58 UTC+2: "Do not link it with the organization ownership or founders"): no name is
+        // put in for the first founder.)
+        founderName: ""
     };
 
     /*

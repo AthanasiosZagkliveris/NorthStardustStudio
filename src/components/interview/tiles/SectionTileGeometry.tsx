@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { type SectionTile } from "./SectionTileTypes.ts";
 import { shownFrame } from "../../../hooks/shownFrame.ts";
+import { verticalAcross } from "../../../hooks/useVerticalLayout.ts";
 
 /**
  * ONE WAY TO PRESENT A CARD: the cards of these tiles (Resource, Activity, Partner, Provider; their channel and finished ones) are only ever FLOATING cards,
@@ -239,6 +240,14 @@ export function tileName(title: string, items: readonly string[] = []): string {
 export function arrowLevel(): number | null {
     const underline = document.querySelector<HTMLElement>(".interview-divider")?.getBoundingClientRect();
     const card = document.querySelector<HTMLElement>(".conversation-card")?.getBoundingClientRect();
+    if (underline && card && card.width > 300 && verticalAcross() > 0) {
+        // (THE ARROWS STAY IN PLACE IN THE VERTICAL LAYOUT (owner, 2026-11-22 18:58 UTC+2: "The navigation arrow when exist, should stay in place"; layout rules section 23):
+        // the tiles there fill their chapter and the page scrolls, so the arrows stand at the middle of the window between the header and the footer, the same on every
+        // page whatever its title's lines.)
+        const header = Math.max(0, document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 0);
+        const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
+        return Math.round((header + window.innerHeight - footer) / 2);
+    }
     if (underline && card && card.width > 300) {
         const title = document.querySelector<HTMLElement>(".interview-header h1");
         const line = title ? parseFloat(getComputedStyle(title).lineHeight) : NaN;

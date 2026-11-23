@@ -298,8 +298,9 @@ export default function GlobalSettings() {
             <main className="review-page settings-page business-foundation business-capability">
 
                 <h1 className="workspace-title review-title">
-                    Global Settings
-                    <InfoNote label="Global Settings" points={["The rates and limits the calculated lines use. Change one here and every line that uses it follows."]} />
+                    {/* (Its name "Settings", as the Menu says it: owner, 2026-11-23 17:28 UTC+2, "Change the Global Settings title to Settings".) */}
+                    Settings
+                    <InfoNote label="Settings" points={["The rates and limits the calculated lines use. Change one here and every line that uses it follows."]} />
                 </h1>
 
                 {plan && (

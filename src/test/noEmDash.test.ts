@@ -24,7 +24,7 @@ import { describe, expect, it } from "vitest";
 const TITLE_SEPARATORS: { file: string; construction: string; reason: string }[] = [
     {
         file: "components/interview/editors/InterviewHeader.tsx",
-        construction: "{` — ${pageTitle}`}",
+        construction: "{\" — \"}",
         reason: "the page header: System — page"
     },
     {

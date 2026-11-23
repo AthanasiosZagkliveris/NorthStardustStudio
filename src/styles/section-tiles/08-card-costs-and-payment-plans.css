@@ -70,7 +70,7 @@
 /* THE INVENTORY AND COMPLETED TILES are rectangles (wider than high), centred under the two cards, so the cards above keep their size. */
 .section-tiles-completed .section-tiles {
 
-    grid-template-columns: repeat(2, 215px);
+    grid-template-columns: repeat(2, var(--band-button-width));
 
     max-width: none;
 
@@ -80,7 +80,7 @@
 .section-tiles-completed .section-tile-slot > .section-tile {
 
     /* (Squares of the page tile's side where there is room under the cards: BusinessCapabilityEditor sets --completed-width.) */
-    width: var(--completed-width, 215px);
+    width: var(--completed-width, var(--band-button-width));
     height: var(--section-tile-size);
 
     aspect-ratio: auto;

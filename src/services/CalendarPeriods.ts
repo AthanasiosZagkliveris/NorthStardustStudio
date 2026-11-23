@@ -36,6 +36,22 @@ export function presetPeriods(today: string): CalendarPeriod[] {
     ];
 }
 
+/**
+ * THE APP USER'S OWN PERIODS (owner, 2026-11-23 18:24 UTC+2: "do an online research regarding an app user's calendar, not an organization's calendar ... think about
+ * the best option, or to optimise, or rearrenge them"): a personal calendar shows the day, the week and the month, and a running list of what is coming (Apple
+ * Calendar's Day, Week, Month and Year views; Outlook's Day, Week, Month and List; Google Calendar's Schedule), and its "calendars" are shown or hidden one by one
+ * (Fantastical's calendar sets, work and personal). A founder running several Organisations reads theirs for what falls due across them all: Today, This week,
+ * This month, and the Next 30 days, a list; any other span is "Other". (An Organisation's Calendar keeps its own presets: presetPeriods.)
+ */
+export function userPeriods(today: string): CalendarPeriod[] {
+    const all = presetPeriods(today);
+    const now = parse(today);
+    return [
+        ...all.filter(period => period.id === "today" || period.id === "this-week" || period.id === "this-month"),
+        { id: "next-30", label: "Next 30 days", from: today, to: iso(shifted(now, 29)) }
+    ];
+}
+
 const key = (organizationId: string) => "ns-calendar-periods-" + organizationId;
 
 export function loadCustomPeriods(organizationId: string): CalendarPeriod[] {

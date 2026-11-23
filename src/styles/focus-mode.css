@@ -23,13 +23,13 @@ html.focus-mode .app-header {
 
 }
 
-html.focus-mode .app-header > :is(.app-logo, .save-status, .theme-switch, .header-tool, .app-header-organization-name) {
+html.focus-mode .app-header > :is(.app-brand, .save-status, .theme-switch, .header-tool, .app-header-organization-name) {
 
     display: none;
 
 }
 
-html.focus-mode .app-header > :not(.app-logo, .save-status, .theme-switch, .header-tool, .app-header-organization-name) {
+html.focus-mode .app-header > :not(.app-brand, .save-status, .theme-switch, .header-tool, .app-header-organization-name) {
 
     pointer-events: auto;
 
@@ -66,5 +66,13 @@ html.focus-mode .conversation-content {
 .focus-mode-exit:focus-visible {
 
     background: var(--bg-list-hover);
+
+}
+
+/* (The page title stays where the page starts in focus, not under the header's place: owner, 2026-11-23 17:57 UTC+2, "Fix the focus option" -- the chapters'
+   titles were cut under the title band, which kept the header's 80px.) */
+html.focus-mode .interview-header {
+
+    top: 40px;
 
 }

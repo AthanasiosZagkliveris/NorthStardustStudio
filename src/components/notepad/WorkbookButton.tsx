@@ -6,7 +6,7 @@ import { useLocation, useNavigate, type NavigateFunction } from "react-router-do
 
 /** Where the Workbook page is opened with: its tab, the total review (the Landing page's), a term, and where to go back to. */
 export interface WorkbookState {
-    tab?: "card-notes" | "review" | "glossary" | "references" | "documents" | "financial-documents";
+    tab?: "card-notes" | "review" | "glossary" | "references" | "documents" | "financial-documents" | "guide" | "specs" | "future";
     /** A Financial Document's tab to open on (a link made to a record moved there: Questions 20, section 14). */
     document?: "forecast" | "funding" | "financial-plan";
     total?: boolean;
@@ -37,7 +37,7 @@ export function WorkbookButton({ total = false }: { total?: boolean }) {
     return (
         <AddButton className="header-tool"
             aria-current={here ? "page" : undefined}
-            aria-label={total ? "Workbook: review, glossary and references" : "Workbook: card notes, review and glossary"}
+            aria-label={total ? "Handbook: app guide, specs, future features, glossary and references" : "Workbook: documents, review, glossary and card notes"}
             onClick={() => {
                 if (!here) {
                     openWorkbook(navigate, location, total ? { total: true } : {});
@@ -46,7 +46,8 @@ export function WorkbookButton({ total = false }: { total?: boolean }) {
             <svg className="header-tool-icon" viewBox="3.47 2.97 14.05 14.05" aria-hidden="true">
                 <path d="M5 3.5h10a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H5zM7.5 3.5v13M11 3.5v5l1.5-1.2 1.5 1.2v-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
             </svg>
-            <span className="header-tool-word">Workbook</span>
+            {/* (THE HANDBOOK ON THE ORGANISATIONS SCREEN (owner, 2026-11-22 18:58 and 19:31 UTC+2): the app's own book, apart from an Organisation's Workbook.) */}
+            <span className="header-tool-word">{total ? "Handbook" : "Workbook"}</span>
         </AddButton>
     );
 

@@ -9,6 +9,9 @@
     }
   },
   "colour": {
+    "capability-edges.css": {
+      "rgba(255, 255, 255, 0.9)": 1
+    },
     "capability-overview.css": {
       "#1d2029": 1,
       "#2a2f38": 1,
@@ -55,9 +58,6 @@
       "rgba(60, 40, 20, 0.14)": 1,
       "rgba(60, 40, 20, 0.2)": 1
     },
-    "capability-edges.css": {
-      "rgba(255, 255, 255, 0.9)": 1
-    },
     "section-tiles.css": {
       "#ffffff": 1,
       "hsl(172 50% 58%)": 1,
@@ -85,7 +85,6 @@
     },
     "landing.css": {
       "12px": 2,
-      "1px": 1,
       "24px": 1
     },
     "numbered-list.css": {
@@ -140,8 +139,7 @@
     },
     "landing.css": {
       "10px": 1,
-      "14px": 1,
-      "3vw": 1
+      "14px": 1
     },
     "organization-calendar.css": {
       "10px": 4,
@@ -154,9 +152,7 @@
       "32px": 2
     },
     "workspace.css": {
-      "14px": 1,
-      "40px": 1,
-      "56px": 1
+      "14px": 1
     }
   }
 }

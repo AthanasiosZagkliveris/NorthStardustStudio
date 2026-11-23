@@ -389,7 +389,7 @@ describe("Quillfield: the documents tie together", () => {
         // (Each Offering's Economics, before the costs in full: Questions 20, 15.4.)
         expect(at("## 15. Financial Appendix B: Financial Plan, Each Offering's Economics")).toMatch(/Offering | Price | Direct cost | Contribution | Full cost | Margin | Sales a month/);
         // Products with their prices.
-        expect(planMd).toContain("| $2,500 per project | Sale |");
+        expect(planMd).toContain("| $2,500 per project | Project / Contract |");
         expect(planMd).toContain("| $1,200 per client a month | Subscription / Retainer |");
     });
 

@@ -46,7 +46,7 @@ describe("opening Global Settings", () => {
         );
         act(() => { fireEvent.click(screen.getByRole("button", { name: "Menu" })); });
         act(() => { fireEvent.click(screen.getByRole("menuitem", { name: "Settings" })); });
-        expect(screen.getByRole("heading", { name: /^Global Settings/ })).toBeTruthy();
+        expect(screen.getByRole("heading", { name: /^Settings/ })).toBeTruthy();
         act(() => { fireEvent.keyDown(window, { key: "Escape" }); });
         expect(screen.getByText("The interview at /introduction")).toBeTruthy();
     });

@@ -46,7 +46,9 @@
     bottom: 96px;
     left: 0;
     right: 0;
-    z-index: 25;
+    /* (THE LAYERS' ORDER (owner, 2026-11-23 17:43 UTC+2: "check and fix the hierachy"; layout rules section 22): the page, its rails and arrows (21), a help panel
+       dropped from a title (22), the side panels -- Calendar (27), Notes (29) --, the header with its Menu (40), the overlays (1000).) */
+    z-index: 21;
 
     display: flex;
     flex-direction: column;
@@ -490,7 +492,7 @@
 
     width: auto;
 
-    max-width: calc(50% - var(--card-width) / 2);
+    max-width: calc(50% - var(--rail-frame-span, var(--card-width)) / 2);
 
     box-sizing: border-box;
 
@@ -500,7 +502,8 @@
 
 .bullet-rail-left {
 
-    right: calc(50% + var(--card-width) / 2);
+    /* (Beside the page's outermost frame where its chapters hug their tiles: --rail-frame-span, SectionTiles' railsBesideFrames.) */
+    right: calc(50% + var(--rail-frame-span, var(--card-width)) / 2);
 
     padding: 12px var(--rail-offset) 12px var(--rail-offset);
 
@@ -510,7 +513,7 @@
 
 .bullet-rail-right {
 
-    left: calc(50% + var(--card-width) / 2);
+    left: calc(50% + var(--rail-frame-span, var(--card-width)) / 2);
 
     padding: 12px var(--rail-offset);
 
@@ -832,6 +835,70 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
     .bullet-rails {
 
         padding-left: calc(var(--gap-12) + 24px + var(--gap-12));
+
+    }
+
+}
+
+/* THE RAILS INSIDE THE PAGE'S EDGES (owner, 2026-11-23 18:07 UTC+2: "I said align to the left!"; "This also should take all the page size" -- the rails stood out
+   past the title rule's ends): on a wide screen the page's rails, bullets alone, stand inside the title rule's width, the left one on its left end, the right one
+   on its right end; the page's chapters take the room between them (--rail-inset: the bullets' tab, 12px either side of a 17px bullet and its bloom, its edge). */
+:root {
+
+    --rail-inset: 54px;
+
+}
+
+@media (min-width: 1100px) and (orientation: landscape) {
+
+    body:has(.bullet-rail-left .bullet-rail-dot) .conversation-card > :not(.interview-header, .workspace-continue, .field-page, .capability-help-block),
+    body:has(.bullet-rail-left .bullet-rail-dot) .conversation-card > .field-page > * {
+
+        margin-left: var(--rail-inset);
+
+    }
+
+    body:has(.bullet-rail-right .bullet-rail-dot) .conversation-card > :not(.interview-header, .workspace-continue, .field-page, .capability-help-block),
+    body:has(.bullet-rail-right .bullet-rail-dot) .conversation-card > .field-page > * {
+
+        margin-right: var(--rail-inset);
+
+    }
+
+    /* (The rails on the page's ends: the left one's outer edge on the title rule's left end, the right one's on its right end.) */
+    .bullet-rails .bullet-rail.bullet-rail-left {
+
+        left: calc(50% - var(--card-width) / 2);
+        right: auto;
+
+    }
+
+    .bullet-rails .bullet-rail.bullet-rail-right {
+
+        right: calc(50% - var(--card-width) / 2);
+        left: auto;
+
+    }
+
+    /* (THE PAGE'S SYMBOL, ITS RAIL'S BULLETS AND ITS ARROW ON ONE LINE (owner, 2026-11-23 18:16 UTC+2: "Page symbol, rail bullets, and navigation arrows, should
+       align in the centre"): the centre of the rail's tab, --rail-inset / 2 in from the title rule's end; the symbol (36px) and the arrow (24px) centred on it.) */
+    body:has(.bullet-rail-left .bullet-rail-dot) .interview-header-icon {
+
+        margin-left: calc(var(--rail-inset) / 2 - 18px);
+
+    }
+
+    body:has(.bullet-rail-left .bullet-rail-dot) .bullet-rail-left .bullet-rail-head > .page-arrow {
+
+        left: calc(50% - var(--card-width) / 2 + var(--rail-inset) / 2 - 12px);
+        right: auto;
+
+    }
+
+    body:has(.bullet-rail-right .bullet-rail-dot) .bullet-rail-right .bullet-rail-head > .page-arrow {
+
+        right: calc(50% - var(--card-width) / 2 + var(--rail-inset) / 2 - 12px);
+        left: auto;
 
     }
 

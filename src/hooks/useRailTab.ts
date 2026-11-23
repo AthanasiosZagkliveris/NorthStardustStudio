@@ -11,7 +11,8 @@ import { opaque, shownFrame } from "./shownFrame.ts";
  *
  * A page with no frame of its own (the Workbook) passes its tab's colours (`colours`, written as tokens, so they follow the reading mode).
  */
-const FRAME = ".conversation-card .business-foundation-card:not(.section-tile-dialog)";
+// (And a Capability's frame of its Systems: owner, 2026-11-23 17:28 UTC+2, "so the rail system to have a proper design".)
+const FRAME = ".conversation-card :is(.business-foundation-card, .capability-systems-frame):not(.section-tile-dialog)";
 const HEAD = ".answer-column-label, .tiles-frame-head .field-group-title, .business-foundation-subhead, .field-group-title";
 
 const NAMES = ["bg", "edge", "ink"] as const;

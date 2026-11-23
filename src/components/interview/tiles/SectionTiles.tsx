@@ -8,6 +8,7 @@ import { cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, 
 import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext, StackUnderContext } from "./DialogLevels.tsx";
 import { TileFace, TileLinks, TilePlus, useTileAim } from "./TileParts.tsx";
 import { OPEN_EVENT, FloatingCards, TileDialog } from "./FloatingCards.tsx";
+import { isPhone, masterAcross, useMasterAcross, verticalAcross } from "../../../hooks/useVerticalLayout.ts";
 
 export * from "./SectionTileTypes.ts";
 export * from "./SectionTileGeometry.tsx";
@@ -106,6 +107,9 @@ export default function SectionTiles({
     const big = !small && (tiles.length === 4 || threeLarge || (tiles.length > 0 && tiles.length <= 2 && tiles.every(tile => tile.large)));
     // (The side is the 2 x 2's in every case, so one or two large tiles are the size of four in the same window.)
     const bigRows = 2;
+    // (In the vertical layout from 880px wide, the master tiles stand in one row of four: masterAcross, layout rules section 23.)
+    const across = useMasterAcross();
+    const rowOfFour = big && across === 4;
     useLayoutEffect(() => {
         const box = quadBox.current;
         if (!box || !big) {
@@ -122,8 +126,66 @@ export default function SectionTiles({
             // (The Inventory and Completed row stands in the footer's band and takes no room above it, so the chapters and their tiles are the same size on every page of a window.)
             // (The grid keeps its 12px gap above the Inventory and Completed row, which has no height of its own: every page keeps it, so the tiles are one size on every page.)
             const reserved = 12;
-            const side = Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - reserved) / bigRows);
-            box.style.setProperty("--quad-max-side", Math.max(side, 150) + "px");
+            // THE VERTICAL LAYOUT, IN THREE STEPS (owner, 2026-11-22 18:58 and 19:37 UTC+2: "the Chapter frame, and the master Tiles, should shrink or grow
+            // proportionally. The chapter frame should always hug (having a specific gap) the master tiles"; "Build 1-3 for Vertical Lay out"; layout rules section 23):
+            // 1. a phone (600px and under): the 2 x 2 fills the width; 2. up to 879px: the 2 x 2 grows with the width up to its desktop size (--quad-cap);
+            // 3. from 880px: the four in one row (masterAcross), up to the same size. The page scrolls there, so the window's height holds them to nothing; the frame
+            // HUGS them, its own padding round them, centred under the page title (hugChapter).
+            const vertical = verticalAcross() > 0;
+            const hug = chapterOf(box);
+            let side: number;
+            if (vertical) {
+                const row = masterAcross();
+                const cap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--quad-cap")) || 330;
+                // (The room the frame may take: the page title's underline, where every frame starts and ends; what the frame adds round its tiles, measured unhugged.)
+                if (hug) {
+                    hug.style.width = "";
+                    hug.style.maxWidth = "";
+                    hug.style.marginInline = "";
+                }
+                const room = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect().width ?? 0;
+                const extra = hug && box.getBoundingClientRect().width > 0 ? hug.getBoundingClientRect().width - box.getBoundingClientRect().width : 26;
+                const fill = Math.floor(((room > 0 ? room - extra : box.clientWidth) - (row - 1) * 12) / row);
+                side = Math.max(isPhone() ? fill : Math.min(fill, cap), 72);
+                box.style.setProperty("--quad-across", String(row));
+                if (hug && box.getBoundingClientRect().width > 0) {
+                    // (A width of its own: centred by its auto margins, a frame would otherwise shrink round tiles that measure their frame, to nothing.)
+                    hug.style.setProperty("width", Math.ceil(row * side + (row - 1) * 12 + extra) + "px", "important");
+                    hug.style.maxWidth = "100%";
+                    hug.style.marginInline = "auto";
+                }
+            } else {
+                const tall = Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - reserved) / bigRows);
+                box.style.removeProperty("--quad-across");
+                // (THE CHAPTER HUGS ITS TILES ON A WIDE SCREEN TOO (owner, 2026-11-22 20:38 UTC+2, option A: "Pick A"): the tiles as large as the window's height
+                // lets both rows stand above the footer, and no larger than their chapter's column allows; the frame its own padding round them, centred in its
+                // column, so what is spare is margin outside the frames.)
+                if (hug) {
+                    hug.style.width = "";
+                    hug.style.maxWidth = "";
+                    hug.style.marginInline = "";
+                }
+                const column = hug ? hug.getBoundingClientRect().width : 0;
+                const extra = hug && box.getBoundingClientRect().width > 0 ? column - box.getBoundingClientRect().width : 26;
+                const fill = column > 0 ? Math.floor((column - extra - 12) / 2) : tall;
+                side = Math.min(tall, fill);
+                // (THE FRAMES ON THE PAGE'S BORDERS (owner, 2026-11-23 16:19 UTC+2: "Fix the layout of all the pages to follow the proper borders"): two chapters side
+                // by side fill their columns, the outer edges on the page title's rule and 12px between them, their tiles centred inside; a chapter standing alone
+                // -- one page of one chapter, or the one chapter of two shown at a time -- hugs its tiles at the LEFT, in the left half (owner, 2026-11-23 18:07
+                // UTC+2: "I said align to the left!").)
+                const own = hug?.getBoundingClientRect();
+                const beside = hug && own ? [...new Set(Array.from(box.closest(".conversation-card")?.querySelectorAll<HTMLElement>(".section-tiles-quad") ?? []).map(quad => chapterOf(quad)))]
+                    .filter((frame): frame is HTMLElement => !!frame && frame !== hug && frame.getClientRects().length > 0 && frame.offsetWidth > 0 && Math.abs(frame.getBoundingClientRect().top - own.top) < 2) : [];
+                if (hug && box.getBoundingClientRect().width > 0 && side >= 150 && beside.length === 0) {
+                    hug.style.setProperty("width", Math.ceil(2 * side + 12 + extra) + "px", "important");
+                    hug.style.maxWidth = "100%";
+                    hug.style.marginInline = "0 auto";
+                }
+            }
+            if (hug) {
+                railsBesideFrames(box);
+            }
+            box.style.setProperty("--quad-max-side", Math.max(side, vertical ? 72 : 150) + "px");
             // The type of the four tiles from the type scale by their size: 24px titles and 18px lists from 250px a side, else 18px and 14px.
             // (EVERY CHAPTER HAS THE SAME TYPE (owner, 2026-11-19 22:47 UTC+2, the Segment chapters): the width is the first chapter's, the one shown, so a chapter
             // measured while hidden -- 0px wide -- takes the same size as the first, and measures again when it is shown.)
@@ -131,7 +193,7 @@ export default function SectionTiles({
             if (width <= 0) {
                 return;
             }
-            const actual = Math.min((width - 12) / 2, Math.max(side, 150));
+            const actual = vertical ? side : Math.min((width - 12) / 2, Math.max(side, 150));
             // (THE TWO ROWS ARE 12px APART AT EVERY WINDOW HEIGHT (layout rules sections 9 and 23, the probe; owner, 2026-11-20 21:01, the conflict between the two rules resolved for 12px
             // at 21:07 UTC+2): no narrowing with the height -- the side above already keeps the 12px.)
             box.style.removeProperty("--space-card");
@@ -151,8 +213,10 @@ export default function SectionTiles({
         return () => {
             window.removeEventListener("resize", fit);
             watch?.disconnect();
+            // (The next page sets its own frames' span, or has none: its rail then stands beside the page's width.)
+            box.closest<HTMLElement>(".conversation-page")?.style.removeProperty("--rail-frame-span");
         };
-    }, [big, bigRows]);
+    }, [big, bigRows, across]);
 
     const open = tiles.find(tile => tile.id === openId) ?? null;
     const openRef = useRef(open);
@@ -179,7 +243,7 @@ export default function SectionTiles({
 
     // The shape counts every tile but the tail one (if any), which is placed beside the last of them.
     const others = tiles.filter(tile => !tile.tail);
-    const shape = big && threeLarge ? 2 : gridColumns(others.length);
+    const shape = rowOfFour ? 4 : big && threeLarge ? 2 : gridColumns(others.length);
     const placement = others.length < tiles.length ? tailPlacement(others.length, shape) : null;
     const columns = placement ? placement.columns : shape;
     const rows = placement ? Math.max(placement.row, Math.ceil(others.length / shape)) : Math.ceil(others.length / shape);
@@ -492,13 +556,16 @@ export default function SectionTiles({
                             columns={columns}
                             rows={rows}
                             style={{
-                                ...(tile.channel ? { "--strategy-theme-hue": CHANNEL_TILE_HUE } : {}),
+                                ...(tile.channel ? { "--strategy-theme-hue": CHANNEL_TILE_HUE } : tile.hue !== undefined ? { "--strategy-theme-hue": tile.hue } : {}),
+                                ...(tile.colour ? { "--tile-colour": tile.colour } : {}),
                                 // (With a tail tile every tile is placed by hand: the tail's cell may be the shape's extra column.)
                                 ...(placement ? { gridRow: at.row + 1, gridColumn: at.column + 1 } : {})
                             } as CSSProperties}
                             onOpen={(from, pointer) => openTile(tile, from, pointer)}
                             onLink={(link, from, pointer) => {
-                                if ("box" in link) {
+                                if ("go" in link) {
+                                    link.go();
+                                } else if ("box" in link) {
                                     openDialog(tile, from, link.box, pointer);
                                 } else {
                                     openFloating(tile, link.card, from, "column", false, pointer);
@@ -525,7 +592,7 @@ export default function SectionTiles({
                     tile={open}
                     opener={opener.current}
                     initialBox={openBox}
-                    hue={open.channel ? CHANNEL_TILE_HUE : hue}
+                    hue={open.channel ? CHANNEL_TILE_HUE : open.hue ?? hue}
                     step={steppable.length > 1 && steppable.some(tile => tile.id === open.id) ? { what: "section", previous: () => stepDialog(-1), next: () => stepDialog(1), items: steppable.map(tile => ({ id: tile.id, label: tile.title })), current: steppable.findIndex(tile => tile.id === open.id), go: (id: string) => { const target = steppable.find(tile => tile.id === id); if (target && target.id !== open.id) { goDialog(target); } } } : undefined}
                     onClose={() => setOpenId(null)}
                     onOpenCard={cardsFloatOnly(open) ? (id, caption, remover, pointer, fresh, siblings) => {
@@ -591,6 +658,35 @@ export default function SectionTiles({
  * box at the lower right. They stand in one slot, the grid item, which is what scales on hover and focus: 150%, the other
  * tiles staying where they are, from the corner (or edge) that keeps it inside its card.
  */
+/** The chapter frame a page's master tiles stand in, which hugs them in the vertical layout: a Segment's chapter (its title band and its two groups), else the card. */
+/**
+ * THE PAGE'S RAILS STAND BESIDE ITS FRAMES (owner, 2026-11-22 21:23 UTC+2: "What's happened to the rails?"): the chapters hug their tiles, so the page tab
+ * stands against the outermost frame, not against the page's width, and shows its names where the room beside that frame holds them (BulletRail). The span is
+ * the width, centred on the window, that the frames take: --rail-frame-span on the page (bullet-rail.css); a page with no hugging frame keeps --card-width.
+ */
+function railsBesideFrames(box: HTMLElement): void {
+    const page = box.closest<HTMLElement>(".conversation-page");
+    const frames = [...new Set(Array.from(box.closest(".conversation-card")?.querySelectorAll<HTMLElement>(".section-tiles-quad") ?? []).map(quad => chapterOf(quad)).filter((frame): frame is HTMLElement => !!frame && frame.getClientRects().length > 0))];
+    if (!page || frames.length === 0) {
+        return;
+    }
+    const middle = window.innerWidth / 2;
+    const reach = Math.max(...frames.map(frame => {
+        const r = frame.getBoundingClientRect();
+        return Math.max(middle - r.left, r.right - middle);
+    }));
+    const span = Math.ceil(2 * reach) + "px";
+    if (page.style.getPropertyValue("--rail-frame-span") !== span) {
+        page.style.setProperty("--rail-frame-span", span);
+        // (The rail measures its room again: its names show where they now fit.)
+        window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+    }
+}
+
+function chapterOf(box: HTMLElement): HTMLElement | null {
+    return box.closest<HTMLElement>(".segment-chapter") ?? box.closest<HTMLElement>(".business-foundation-card");
+}
+
 function TileSlot({
     tile, at, columns, rows, style, onOpen, onLink, onAdd, incomplete
 }: {
@@ -617,6 +713,9 @@ function TileSlot({
         if ("card" in link) {
             return incomplete.get(link.card);
         }
+        if (!("box" in link)) {
+            return undefined;
+        }
         const inside = (tile.boxHolds?.[link.box] ?? []).filter(id => incomplete.has(id));
         return inside.length > 0 ? inside.flatMap(id => incomplete.get(id) ?? []) : undefined;
     };
@@ -640,7 +739,7 @@ function TileSlot({
                 "data-row": at.row,
                 ...aimHandlers
             }}
-            face={<TileFace title={tile.title} empty={tile.empty} glyph={!(tile.add && tile.cardFor)} />}
+            face={<TileFace title={tile.title} empty={tile.empty} glyph={!(tile.add && tile.cardFor)} icon={tile.titleIcon} mark={tile.titleMark} />}
             picture={tile.picture ? <span className="section-tile-picture" aria-hidden="true">{tile.picture}</span> : undefined}
             className={"section-tile" + (tile.diagram ? " section-tile-diagram" : "") + (tile.inactive ? " section-tile-inactive" : "") + (tile.channel ? " section-tile-channel" : "") + (tile.completed ? " section-tile-completed" : "")}
                 data-tile={tile.id}

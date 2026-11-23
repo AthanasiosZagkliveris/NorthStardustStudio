@@ -712,9 +712,9 @@ export function useLegalState(props: LegalEntityEditorProps) {
      * Hidden from screen readers: the field beside it already
      * carries the same words in its own name.
      */
-    function founderLabel(text: string) {
+    function founderLabel(text: string, place?: "share" | "capital") {
         return (
-            <span className="legal-entity-founder-label" aria-hidden="true">
+            <span className={"legal-entity-founder-label" + (place ? " legal-entity-founder-" + place : "")} aria-hidden="true">
                 {text}
             </span>
         );

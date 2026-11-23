@@ -665,6 +665,23 @@ body :is(.floating-overlay, .section-tile-overlay) .page-arrow.carousel-arrow[da
 
 }
 
+/* THE SECTION BAND OF A COMPLETED CARD (its Offerings) is in its greys too (owner, 2026-11-22 19:14 UTC+2, his screenshot of a completed activity's brown
+   Offerings band: "The offering part of the completed cards"): the band's fill the Completed line, its title in the card's ground, as the band's light capitals
+   on its dark fill are on a live card. */
+.business-capability-activity-completed {
+
+    --card-band-ink: var(--line-completed);
+
+}
+
+.business-capability-activity-completed .legal-entity-org-section.business-section-band .business-foundation-subhead {
+
+    color: var(--bg-completed-card) !important;
+
+    -webkit-text-fill-color: var(--bg-completed-card) !important;
+
+}
+
 /* The divider line of a completed card is the Completed line, the third of its four greys. */
 .business-capability-activity-completed .business-capability-card-rule {
 

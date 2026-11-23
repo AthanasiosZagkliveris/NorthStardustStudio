@@ -274,11 +274,6 @@
     align-items:center;
     gap:var(--gap-8);
 }
-.multi-picker-actions{
-    display:flex;
-    gap:var(--gap-6);
-    padding:4px 10px 6px;
-}
 
 /* A list that opens ABOVE its cell has its search box at the foot, next to the cell (not at the far top). */
 .option-picker-list.option-picker-list-above {

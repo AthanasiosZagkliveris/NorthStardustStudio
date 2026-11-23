@@ -40,8 +40,10 @@ The SWOT is the founder's own, distinct from the Competitor SWOT (Thanos, 2026-1
 - **"i":**
   - 1 = Threat, 5 = Opportunity; 3 = little effect either way.
   - How each change could help or hurt your business. The changes your Segments named start ticked.
+  - A change rated 4 or 5 is written into your Opportunities, one rated 1 or 2 into your Threats.
   - Based on: Aguilar (1967), *Scanning the business environment* (the external scan behind PESTLE).
 - **Saved as:** `strategyFoundation.changeEffects: Record<changeId, 1..5>`.
+- **The rating is the answer (owner, 2026-11-22 21:23 UTC+2: "Fix the SWOT using the rating system"):** a change rated 4 or 5 stands as its line in the Opportunities, one rated 1 or 2 in the Threats, in a quadrant never edited and in one the founder wrote alike; the line moves or goes as the rating does (`withRatedLines`, the page and the Business Plan). SW2's ticks offer the other suggestions only.
 - **Read by:**
   - The Opportunity suggestion "Changes in [change, lower case] could help you" (4 or 5).
   - The Threat suggestion "Changes in [change, lower case] could hurt you" (1 or 2).

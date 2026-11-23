@@ -22,12 +22,15 @@ function renderAlone() {
 
 describe("the Calendar opened from the Menu, on the page it is pressed on", () => {
 
-    it("draws nothing until it is asked for, then the rail's Calendar alone: no Capabilities or Systems handle", () => {
+    it("draws nothing until it is asked for, then a side panel as the Notes panel: its title on top with the closing arrow, no handles (owner, 2026-11-22)", () => {
         renderAlone();
         expect(document.querySelector(".org-calendar-panel")).toBeNull();
         act(() => openCalendar());
         expect(document.querySelector(".org-calendar-content-main")).toBeTruthy();
-        expect([...document.querySelectorAll(".org-rail-handle")].map(handle => handle.textContent)).toEqual(["Calendar"]);
+        expect(document.querySelector("aside.org-calendar-side .notepad-head .notepad-title")?.textContent).toBe("Calendar");
+        expect(document.querySelectorAll(".org-rail-handle").length).toBe(0);
+        fireEvent.click(document.querySelector<HTMLElement>("[aria-label='Close calendar']")!);
+        expect(document.querySelector(".org-calendar-panel")).toBeNull();
     });
 
     it("closes on Escape, and the key goes no further: the page never takes it as Back (the Notes panel's own Escape, useEscapeCloses)", () => {
@@ -41,11 +44,11 @@ describe("the Calendar opened from the Menu, on the page it is pressed on", () =
         expect(document.querySelector(".org-calendar-panel")).toBeNull();
     });
 
-    it("closes on a press outside it", () => {
+    it("stays open on a press outside it, as the Notes panel does", () => {
         const { getByText } = renderAlone();
         act(() => openCalendar());
         fireEvent.mouseDown(getByText("Page"));
-        expect(document.querySelector(".org-calendar-panel")).toBeNull();
+        expect(document.querySelector(".org-calendar-panel")).toBeTruthy();
     });
 
 });

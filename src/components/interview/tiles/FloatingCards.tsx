@@ -112,6 +112,16 @@ export function FloatingCards({
             } else if (dialog.dataset.tile === "overview" || dialog.dataset.tile === "completed") {
                 under = dialog;
                 area = dialog.querySelector<HTMLElement>(".card-tile-grid, .card-boxes, .section-tiles");
+            } else if (node) {
+                // (A CARD STANDING OVER ITS OWN DIALOG -- a phone's or a narrow window's, where it cannot stand beside it -- shades that dialog, as a card over a chapter
+                // shades the chapter: nothing else shades what lies under it (owner, 2026-11-22 20:47 UTC+2, a phone: "On floated cards, do not forget the background
+                // shadow").)
+                const card = node.getBoundingClientRect();
+                const box = dialog.getBoundingClientRect();
+                if (card.left < box.right && card.right > box.left && card.top < box.bottom && card.bottom > box.top) {
+                    under = dialog;
+                    area = dialog;
+                }
             }
             // (A CARD OPENED FROM A DIALOG of a category stands over a chapter the dialog's own dim already shades: it adds none -- shaded once, only where nothing
             // shades it already (owner, 2026-11-18 22:05 UTC+2: "When the background has already shadow, and open a floated card, does not need an extra shade").)
@@ -119,7 +129,7 @@ export function FloatingCards({
             let box = area?.getBoundingClientRect();
             let radius = under ? getComputedStyle(under).borderRadius : "0px";
             // (Where the card stands over TILES -- the Inventory, the Completed -- the shade is the tiles it covers, whole, as one block; with no tile behind it, the card and 12px round it.)
-            if (dialog && under === dialog && node) {
+            if (dialog && under === dialog && node && (dialog.dataset.tile === "overview" || dialog.dataset.tile === "completed")) {
                 const card = node.getBoundingClientRect();
                 const covered = [...dialog.querySelectorAll<HTMLElement>(".card-tile, .section-tile, .card-box")].map(tile => tile.getBoundingClientRect())
                     .filter(tile => tile.width > 0 && tile.left < card.right && tile.right > card.left && tile.top < card.bottom && tile.bottom > card.top);

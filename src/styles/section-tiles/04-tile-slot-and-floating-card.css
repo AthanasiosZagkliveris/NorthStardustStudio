@@ -24,9 +24,10 @@
 /* THE REACTION OF A PAGE TILE: under the pointer ONLY (not with the focus: a tile that holds the focus has its ring, it does not grow),
    the whole tile grows to 150% about the corner (edge, centre) set from its place in its group -- no layout changes, the
    other tiles stay, it overlaps its neighbours (above them) -- and its shadow grows with it. Not for the boxes in a dialog. */
-.section-tile-slot:hover {
-
-    transform: scale(1.1);
+/* (Only once the pointer has moved on the page: a page opened under a resting pointer grows nothing -- PointerStill.tsx.) */
+/* (NO TILE GROWS OVER ITS NEIGHBOURS (owner, 2026-11-23 16:21, 17:52 and 18:32 UTC+2: the Brand tile, "Fix the direction the Tiles scale up", the Strategy page's
+   SWOT tile, "There is a bug here"): under the pointer a tile stays in its cell; its shadow lifts (below) and its pointer says it can be pressed.) */
+:root:not([data-pointer-still]) .section-tile-slot:hover {
 
     z-index: 6;
 

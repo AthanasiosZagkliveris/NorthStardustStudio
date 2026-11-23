@@ -22,6 +22,7 @@ import { COUNTRIES, jurisdictionProfile } from "../legal/LegalEntityJurisdiction
 import { brandGuidePictures, brandPictures, costName, coverLines, listItems, monthName, payWord, priceText, readFoundation, section, shortMonth, swotStartsOf, text, type Foundation, type FoundationSessions } from "./reading.ts";
 import { neededSkillLine, neededSkills, skillsOf } from "../capability/skills.ts";
 import { strategySwotShown } from "../answers/AnswerStrategy.ts";
+import { withRatedLines } from "../choices/StrategyChoices.ts";
 import { competitorTable } from "../choices/CompetitorQuestions.ts";
 
 /* ==========================================================
@@ -475,7 +476,7 @@ function strategyBlocks(f: Foundation): ExportBlock[] {
         [monthName(value.start), monthName(value.end)].filter(Boolean).join(" – ");
     const bullets = bulletCell;
     // (Opportunities and Threats as the Strategy page shows them: the market's starts while a quadrant was never edited; swotStartsOf.)
-    const shown = strategySwotShown(foundation, swotStartsOf(f));
+    const shown = withRatedLines(strategySwotShown(foundation, swotStartsOf(f)), foundation.changeEffects);
     const swot = (id: "strengths" | "weaknesses" | "opportunities" | "threats") => shown[id];
 
     /* Every Objective, numbered as the Strategy System numbers them. */

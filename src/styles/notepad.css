@@ -64,10 +64,17 @@
 
 .notepad-head {
 
-    /* "Notes" with its closing arrow beside it, the dividing line under them; "+ Add note" is the list's first line, at the label's left edge. */
-    display: flex;
+    /* The title at the left and its fold arrow at the far end, the dividing line under them; "+ Add note" is the list's first line, at the label's left edge.
+       (ONE HEAD FOR BOTH SIDE PANELS (owner, 2026-11-23 15:32 UTC+2: "I liked the Calendar heading (title and folded arrow), position similarly the Notes"): the
+       Calendar's and the Notes' alike.) */
+    /* (THE TITLE IN THE PANEL'S MIDDLE (owner, 2026-11-23 17:28 UTC+2: "Align the Notes and Calendar titles in the middle of their panels"): three columns,
+       the title in the middle one, the arrow in the first (Notes, at the panel's inner edge) or the last (the Calendar's, at its inner edge).) */
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
     gap: var(--gap-8);
+
+    box-sizing: border-box;
 
     padding: 16px 16px 12px;
 
@@ -572,5 +579,35 @@ html.notepad-picking [data-pick-hover] {
 
     max-width: 100%;
     flex-wrap: wrap;
+
+}
+
+.notepad-head > .notepad-title {
+
+    grid-column: 2;
+    grid-row: 1;
+
+    text-align: center;
+
+}
+
+.notepad-head > .notepad-close {
+
+    grid-row: 1;
+
+}
+
+/* (The Notes' arrow at its inner edge, the left; the Calendar's at its inner edge, the right.) */
+.notepad-head > .notepad-close[data-direction="next"] {
+
+    grid-column: 1;
+    justify-self: start;
+
+}
+
+.notepad-head > .notepad-close[data-direction="previous"] {
+
+    grid-column: 3;
+    justify-self: end;
 
 }

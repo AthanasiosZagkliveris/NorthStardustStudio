@@ -43,7 +43,7 @@ const railTab = (name: string) => within(screen.getByRole("navigation", { name: 
 function open() {
     render(
         <MemoryRouter initialEntries={["/assistant"]}>
-            <WorkbookButton total />
+            <WorkbookButton />
             <Routes>
                 <Route path="/assistant" element={<Where name="System Selection" />} />
                 <Route path="/workbook" element={<Workbook />} />
@@ -52,6 +52,23 @@ function open() {
     );
     act(() => { fireEvent.click(screen.getAllByRole("button", { name: /^Workbook/ })[0]); });
     act(() => { fireEvent.click(railTab("Glossary")); });
+}
+
+/** The Handbook (the Landing page's header button): the App Guide, Specs & Limitations, Future Features, the app's Glossary and the References (owner, 2026-11-22). */
+function openHandbook(tab?: string) {
+    render(
+        <MemoryRouter initialEntries={["/assistant"]}>
+            <WorkbookButton total />
+            <Routes>
+                <Route path="/assistant" element={<Where name="System Selection" />} />
+                <Route path="/workbook" element={<Workbook />} />
+            </Routes>
+        </MemoryRouter>
+    );
+    act(() => { fireEvent.click(screen.getAllByRole("button", { name: /^Handbook/ })[0]); });
+    if (tab) {
+        act(() => { fireEvent.click(railTab(tab)); });
+    }
 }
 
 describe("the Glossary", () => {
@@ -112,8 +129,7 @@ describe("the Glossary", () => {
     });
 
     it("shows the References under the letter ranges ticked in their funnel", () => {
-        open();
-        fireEvent.click(railTab("References"));
+        openHandbook("References");
         fireEvent.click(screen.getByRole("button", { name: "Choose which letter ranges show" }));
         // (The ranges follow how many references there are: 39 since 2026-11-10, when the "Based on:" works joined them.)
         const ranges = screen.getAllByRole("checkbox");
@@ -174,7 +190,8 @@ describe("the Glossary's titles", () => {
         open();
         fireEvent.click(screen.getByRole("button", { name: "Glossary: what this means" }));
         expect(screen.getByText(/^App terms, in blue: the app's own words/)).toBeTruthy();
-        fireEvent.click(railTab("References"));
+        cleanup();
+        openHandbook("References");
         fireEvent.click(screen.getByRole("button", { name: "References: what this means" }));
         expect(screen.getByText(/^Written in the Harvard style/)).toBeTruthy();
         for (const points of Object.values(GLOSSARY_INFO)) {
@@ -200,14 +217,15 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
                 </Routes>
             </MemoryRouter>
         );
-        act(() => { fireEvent.click(screen.getAllByRole("button", { name: /^Workbook/ })[0]); });
+        act(() => { fireEvent.click(screen.getAllByRole("button", { name: button === "landing" ? /^Handbook/ : /^Workbook/ })[0]); });
     }
 
     it("opens from the header's Workbook on the Business Documents, the tabs in a report's order, the Card Notes last (owner, 2026-11-10)", () => {
         NotepadService.addNote(OrganizationService.getSelected()!);
         openFrom("/assistant");
         const tabs = within(screen.getByRole("navigation", { name: "Go to a section" })).getAllByRole("button").map(tab => tab.getAttribute("aria-label") ?? tab.textContent).filter(name => name !== "Back");
-        expect(tabs).toEqual(["Business Documents", "Financial Documents", "Review", "References", "Glossary", "Card Notes"]);
+        // (The References are the Handbook's alone: owner, 2026-11-22.)
+        expect(tabs).toEqual(["Business Documents", "Financial Documents", "Review", "Glossary", "Card Notes"]);
         expect(screen.getByRole("heading", { name: /^Business Documents/ })).toBeTruthy();
         act(() => { fireEvent.click(railTab("Card Notes")); });
         expect(screen.getByText(/^No card notes yet/)).toBeTruthy();
@@ -221,12 +239,16 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         expect(screen.getByRole("navigation", { name: "Go to a section" })).toBeTruthy();
     });
 
-    it("opens from the Landing page's Workbook (the same button) with the Landing's tabs: the total review, the Glossary and the References", () => {
+    it("opens the Handbook from the Landing page: the App Guide, Specs & Limitations, Future Features, the app's Glossary and the References (owner, 2026-11-22)", () => {
         openFrom("/assistant", "landing");
+        expect(screen.getByRole("heading", { level: 1, name: "Handbook" })).toBeTruthy();
         const tabs = within(screen.getByRole("navigation", { name: "Go to a section" })).getAllByRole("button").map(tab => tab.getAttribute("aria-label") ?? tab.textContent).filter(name => name !== "Back");
-        expect(tabs).toEqual(["Review", "References", "Glossary"]);
-        act(() => { fireEvent.click(railTab("Review")); });
-        expect(screen.getByRole("heading", { name: /^Total review$/ })).toBeTruthy();
+        // (And the Total review, owner, 2026-11-22 20:35 UTC+2: "Create a total review".)
+        expect(tabs).toEqual(["App Guide", "Specs & Limitations", "Future Features", "Review", "Glossary", "References"]);
+        expect(screen.getByRole("heading", { name: /^App Guide/ })).toBeTruthy();
+        expect(screen.getByRole("heading", { name: "Getting started" })).toBeTruthy();
+        act(() => { fireEvent.click(railTab("Future Features")); });
+        expect(screen.getByText(/^Capability Generator: /)).toBeTruthy();
     });
 
     it("leaves the Notes tool as it was: opening the Workbook does not close its side panel", () => {
@@ -236,21 +258,6 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         act(() => { NotepadService.close(); });
     });
 
-    it("filters the total review by Organisation: all ticked at first, one ticked off leaves its review out (owner, 2026-11-09)", () => {
-        OrganizationService.create("Quillfield");
-        openFrom("/assistant", "landing");
-        act(() => { fireEvent.click(railTab("Review")); });
-        const names = () => [...document.querySelectorAll("section.review-organization")].map(section => section.getAttribute("aria-label") ?? "");
-        expect(names()).toContain("Lumen");
-        expect(names()).toContain("Quillfield");
-        act(() => { fireEvent.click(screen.getByRole("button", { name: "Choose which Organisations show" })); });
-        expect(screen.getByRole("checkbox", { name: "Lumen" })).toHaveProperty("checked", true);
-        expect(screen.getByRole("checkbox", { name: "Quillfield" })).toHaveProperty("checked", true);
-        act(() => { fireEvent.click(screen.getByRole("checkbox", { name: "Lumen" })); });
-        expect(names()).toEqual(["Quillfield"]);
-        act(() => { fireEvent.click(screen.getByRole("checkbox", { name: "Quillfield" })); });
-        expect(screen.getByText("No Organisations to show: the funnel leaves them all out.")).toBeTruthy();
-    });
 
     it("has no Organisation funnel on one Organisation's review (the header's Workbook)", () => {
         openFrom("/assistant");
@@ -275,19 +282,12 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         expect(screen.getByRole("heading", { name: /^Glossary/ })).toBeTruthy();
     });
 
-    it("lists every Organisation's terms in the Landing page's Glossary, each named, under the one funnel", () => {
+    it("lists the app's terms alone in the Handbook's Glossary (owner, 2026-11-22: \"Glossary App only\")", () => {
         OrganizationService.create("Quillfield");
         openFrom("/assistant", "landing");
         act(() => { fireEvent.click(railTab("Glossary")); });
-        const tags = () => [...document.querySelectorAll(".glossary-entry-yours .glossary-term-tag")].map(node => node.textContent);
-        expect(tags()).toEqual(expect.arrayContaining(["Segment of Lumen", "Segment of Quillfield"]));
-        act(() => { fireEvent.click(screen.getByRole("button", { name: "Choose which terms show" })); });
-        // (Its options under folded categories, closed at first; owner, 2026-11-10.)
-        expect(screen.queryByRole("checkbox", { name: "Organisations: Lumen" })).toBeNull();
-        act(() => { fireEvent.click(screen.getByRole("button", { name: "Unfold Organisations" })); });
-        act(() => { fireEvent.click(screen.getByRole("checkbox", { name: "Organisations: Lumen" })); });
-        expect(tags().length).toBeGreaterThan(0);
-        expect(tags().every(tag => tag === "Segment of Quillfield")).toBe(true);
+        expect(document.querySelector(".glossary-entry-app")).toBeTruthy();
+        expect(document.querySelector(".glossary-entry-yours")).toBeNull();
     });
 
     it("lists the open Organisation's terms alone, with no Organisation in the funnel, inside an Organisation", () => {

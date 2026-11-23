@@ -1,5 +1,6 @@
 import { KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import FoldHead from "../controls/FoldHead";
+import { useRuleLevel } from "../../hooks/useRuleLevel";
 import ChipOpen from "../controls/ChipOpen.tsx";
 import SuggestionOption from "../controls/SuggestionOption.tsx";
 import NavArrow from "../controls/NavArrow.tsx";
@@ -372,6 +373,10 @@ export function NotepadPanel() {
     // Escape closes it -- and only it: the key goes no further (the side panels' one Escape, useEscapeCloses); not while a field is being linked.
     useEscapeCloses(view.open, () => NotepadService.close(), () => !!NotepadService.view().pickingFor);
 
+    // (Its head's rule level with the page title's: useRuleLevel.)
+    const head = useRef<HTMLDivElement | null>(null);
+    useRuleLevel(head, view.open);
+
     if (!view.open) {
         return null;
     }
@@ -379,10 +384,11 @@ export function NotepadPanel() {
     return (
         <aside className="notepad-panel" aria-label="Notes" ref={panel}>
 
-            {/* The head (owner, 2026-11-09): "Notes" with the closing arrow beside it, and the dividing line under them; "+ Add note" first under the line. */}
-            <div className="notepad-head">
-                <h2 className="notepad-title">Notes</h2>
+            {/* The head: the fold arrow at the panel's inner edge and "Notes" at its outer one, the Calendar's head mirrored (owner, 2026-11-23 16:19 UTC+2: "On
+                the Notes right side panel, swap the arrow with the title, to match the calendar"), the dividing line under them; "+ Add note" first under the line. */}
+            <div className="notepad-head" ref={head}>
                 <NavArrow direction="next" label="Close notes" className="page-arrow notepad-close" onClick={() => NotepadService.close()} />
+                <h2 className="notepad-title">Notes</h2>
             </div>
 
             <div className="notepad-list">

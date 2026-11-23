@@ -1,6 +1,7 @@
 import PressRow from "../components/controls/PressRow.tsx";
 import { useEffect, useRef, useState } from "react";
-import RemoveButton from "../components/controls/RemoveButton.tsx";
+import CellRemoveButton from "../components/controls/CellRemoveButton.tsx";
+import NavArrow from "../components/controls/NavArrow.tsx";
 import AddButton from "../components/controls/AddButton.tsx";
 import TextBox from "../components/controls/TextBox.tsx";
 import { useNavigate } from "react-router-dom";
@@ -20,8 +21,9 @@ import "../styles/global.css";
 import "../styles/landing.css";
 import "../styles/system-confirmation.css";
 
-/** The user's name box's words, its placeholder and its accessible name: what is asked and why (it starts the first founder's name, which the documents print). */
-const USER_NAME_WORDS = "Your name, as it should appear on your documents";
+/** The user's name box's words, its placeholder and its accessible name: a plain message (owner, 2026-11-22 18:58 UTC+2: "The App User's name - should be a simple
+ * message. Do not link it with the organization ownership or founders"): the app's user, whoever owns or founds the Organisations. */
+const USER_NAME_WORDS = "Your name";
 
 export default function Landing() {
 
@@ -280,13 +282,10 @@ export default function Landing() {
 
     }
 
-    const canProceed = organizations.length > 0 && selectedId !== null;
+    /** An Organisation's arrow: it is selected, and its Capabilities open. */
+    function openOrganization(id: string) {
 
-    function handleProceed(path: string) {
-
-        if (!canProceed) {
-            return;
-        }
+        selectOrganization(id);
 
         // Renaming an Organization debounces its actual localStorage
         // write (see LocalOrganizationStore) --
@@ -294,17 +293,18 @@ export default function Landing() {
         // away is guaranteed to be on disk, not just still queued.
         OrganizationService.flushPendingWrites();
 
-        navigate(path);
+        navigate("/assistant");
 
     }
 
   return (
     <main className="landing">
 
-      <AppHeader reloadable totalReview onReload={refreshExampleOrganizations} />
+      <AppHeader totalReview />
 
       {/* The user's name: the words inside the box alone, no label above it (owner, 2026-11-09: the label and the placeholder said the
-          same). It says why it is asked: it starts the first founder's name on Identity › Legal Entity, which the documents print. */}
+          same). The app's user, not an Organisation's founder (owner, 2026-11-22). (THE CAPABILITY GENERATOR IS A FUTURE FEATURE (owner, 2026-11-22 18:58 UTC+2:
+          "Move the Capability generator to future features"): the Landing page opens System Selection alone; its page stays, unlinked, until it is built.) */}
       <section className="user-name-section">
 
           <TextBox
@@ -380,11 +380,22 @@ export default function Landing() {
 
                         </h1>
 
+                        {/* (THE X INSIDE THE CELL (owner, 2026-11-23 16:19 UTC+2: "Instead of having the x (delete) buttons out next to the organisation's cells, place
+                            them in, and use the proper x button"): the in-cell x, frameless, at the cell's right end, as a Journey subchannel's line has it.) */}
+                        <CellRemoveButton
+                            className="organization-cell-remove"
+                            aria-label={`Remove ${organization.name || "organization"}`}
+                            onClick={(event) => { event.stopPropagation(); requestRemoveOrganization(organization.id); }} />
+
                     </PressRow>
 
-                    <RemoveButton
-                        aria-label={`Remove ${organization.name || "organization"}`}
-                        onClick={() => requestRemoveOrganization(organization.id)} />
+                    {/* (AN ARROW TO ITS SYSTEMS (owner, 2026-11-23 16:19 UTC+2: "Remove the System Slection button, instead place an arrow next to each organization
+                        cell"): it selects the Organisation and opens its Capabilities.) */}
+                    <NavArrow
+                        direction="next"
+                        className="page-arrow organization-open"
+                        label={`Open ${organization.name || "the organisation"}`}
+                        onClick={() => openOrganization(organization.id)} />
 
                 </div>
 
@@ -394,21 +405,40 @@ export default function Landing() {
 
         <div className="organization-actions">
 
+            {/* (Their words short, one line each in a row of three: what they act on is the list above them; their names say it in full. Each with its symbol
+                (owner, 2026-11-22 19:31 UTC+2: "for the Add/import/ export use the proper symbols"): the plus, an arrow into a tray (a file comes in), an arrow out of
+                it (a file goes out).) */}
             <AddButton
+                aria-label="Add Organisation"
                 onClick={addOrganization}>
-                + Add Organisation
+                <svg className="organization-action-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                Add
             </AddButton>
 
+            {/* (Export before Import: keep a copy first, then bring one in; owner, 2026-11-22 20:41 UTC+2: "Swap export with import, as it seems more logical order".) */}
             <AddButton
-                onClick={() => importInputRef.current?.click()}>
-                Import Organisation
-            </AddButton>
-
-            <AddButton
+                aria-label="Export Organisation"
                 disabled={!selectedId}
                 title={selectedId ? undefined : "Select an Organisation to export"}
                 onClick={exportOrganization}>
-                Export Organisation
+                <svg className="organization-action-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 12V3M6.5 6.5 10 3l3.5 3.5M4 13v3h12v-3" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                Export
+            </AddButton>
+
+            <AddButton
+                aria-label="Import Organisation"
+                onClick={() => importInputRef.current?.click()}>
+                <svg className="organization-action-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9M6.5 8.5 10 12l3.5-3.5M4 13v3h12v-3" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                Import
+            </AddButton>
+
+            {/* (RELOAD WITH THE OTHER BUTTONS OF THE LIST (owner, 2026-11-22 20:35 UTC+2: "Place the reload with the other similar buttons"): it refreshes the two
+                example Organisations of this list, then reloads the app.) */}
+            <AddButton
+                aria-label="Reload the app and refresh the examples"
+                onClick={async () => { await refreshExampleOrganizations(); window.location.reload(); }}>
+                <svg className="organization-action-icon" viewBox="2.97 2.47 14.05 14.05" aria-hidden="true"><path d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                Reload
             </AddButton>
 
         </div>
@@ -440,31 +470,12 @@ export default function Landing() {
 
         {organizations.length > 1 && !selectedId && (
             <p className="organization-hint">
-                Select an Organisation to continue.
+                Open an Organisation with its arrow.
             </p>
         )}
 
       </section>
 
-      <div className="landing-cards">
-
-     <button
-    className="landing-card"
-    disabled={!canProceed}
-    onClick={() => handleProceed("/assistant")}
->
-    System Selection
-</button>
-
-<button
-    className="landing-card"
-    disabled={!canProceed}
-    onClick={() => handleProceed("/generator")}
->
-    Capability Generator
-</button>
-
-      </div>
 
       {pendingRemoveId && (
 

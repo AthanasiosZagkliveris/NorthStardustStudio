@@ -30,7 +30,8 @@
 /* THE FOUR TILES OF A PAGE CARD (2 x 2): scaled up to fill the card's width, squares 12px apart, the block centred in the card. */
 .section-tiles-quad {
 
-    --section-tile-size: min(calc((100cqw - var(--space-card)) / 2 - 0.01px), var(--quad-max-side, 9999px));
+    /* (Two across, or in the vertical layout's row of four four across: --quad-across, SectionTiles.tsx.) */
+    --section-tile-size: min(calc((100cqw - (var(--quad-across, 2) - 1) * var(--space-card)) / var(--quad-across, 2) - 0.01px), var(--quad-max-side, 9999px));
 
 }
 

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
-import { cleanup, render as renderBase, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render as renderBase, screen } from "@testing-library/react";
 import { openFolds } from "../../../test/openFolds.ts";
 import { openTile } from "../../../test/interviewTestUtils.ts";
 
@@ -164,7 +164,7 @@ describe("fundingNeeds and financialPosition with a launch", () => {
 
 describe("Cost of each Offering, with an Offering sold (Questions 20, 15.2)", () => {
 
-    it("draws a card for each Offering: its price, direct cost, contribution, full cost with its running share, and margin", async () => {
+    it("draws a tile for each Offering, its full cost, price and margin, and floats its card: price, direct cost, contribution, full cost with its running share, and margin", async () => {
         const { default: lumen } = await import("../../../data/examples/lumen-and-loom-studio.json");
         const business = (lumen as unknown as { systems: Record<string, { responses: { sectionNumber: number; value: unknown }[] }> }).systems["3"].responses;
         const valueOf = (section: number) => business.find(response => response.sectionNumber === section)?.value;
@@ -181,11 +181,17 @@ describe("Cost of each Offering, with an Offering sold (Questions 20, 15.2)", ()
             />
         );
         openTile("Cost of each Offering");
-        const cards = [...document.querySelectorAll<HTMLElement>(".financial-offering-cost")];
-        expect(cards.map(card => card.querySelector(".financial-total")?.textContent)).toEqual(["Homeware Collection", "Weaving Workshops", "Bespoke Commissions", "Trade Collection"]);
-        const labels = [...cards[0].querySelectorAll(".financial-tile-label")].map(label => (label.textContent ?? "").replace(/i$/, ""));
+        // (A tile for each Offering (owner, 2026-11-22): its number and name, its full cost, price and margin.)
+        const tiles = [...document.querySelectorAll<HTMLElement>(".financial-offering-costs button[aria-label^='Offering ']")];
+        expect(tiles.map(tile => tile.getAttribute("aria-label")?.split(",")[0])).toEqual(["Offering 1: Homeware Collection", "Offering 2: Weaving Workshops", "Offering 3: Bespoke Commissions", "Offering 4: Trade Collection"]);
+        expect(tiles[0].textContent).toMatch(/Full cost £.*Price £.*Margin \d+%/);
+        // (Pressed, its card floats with the figures of one sale.)
+        fireEvent.click(tiles[0]);
+        const card = await screen.findByText("Homeware Collection", { selector: ".floating-card-body *" });
+        const body = card.closest<HTMLElement>(".floating-card-body")!;
+        const labels = [...body.querySelectorAll(".financial-tile-label")].map(label => (label.textContent ?? "").replace(/i$/, ""));
         expect(labels).toEqual(["Price", "Direct cost", "Contribution", "Full cost", "Margin"]);
-        expect(cards[0].textContent).toMatch(/Running costs £/);
+        expect(body.textContent).toMatch(/Running costs £/);
         expect(document.querySelector("[data-anchor=financial-offering-rate]")?.textContent).toMatch(/a delivery hour/);
     });
 

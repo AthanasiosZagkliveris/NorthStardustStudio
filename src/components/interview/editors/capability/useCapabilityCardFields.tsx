@@ -840,13 +840,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
         ];
     }
     /* ---------- 1. Resources ---------- */
-
     /** One recorded resource, wherever it is filed. */
-    /** A card of the Workspace (the Workspace category, in Infrastructure or an Offering, or a Premises card): kept exactly as it is (owner: "never change its interface again"). */
-    function workspaceCard(scope: Scope, slot: BusinessResourceSlotValue, groupId: string): boolean {
-        return groupId === PREMISES_GROUP_ID || slot.category === "workspace" || (scope === "infrastructure" && (capability.resources.workspace ?? []).some(subsection => subsection.slots.some(entry => entry.id === slot.id)));
-    }
-
     function resourceCard(
         scope: Scope,
         slot: BusinessResourceSlotValue,
@@ -890,7 +884,10 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 )}
             >
 
-                <CardBody banded={!workspaceCard(scope, slot, groupId)}>
+                {/* (EVERY RESOURCE CARD IN BANDS, the Workspace's too (owner, 2026-11-22 18:58 UTC+2, his screenshots of three Workspace cards: "The floating cards for
+                    Workspace"): one layout for every Workspace card -- its dates, its type, its Status, its Offerings under their title, its Notes --, as every other
+                    resource card has; until then a Workspace card was kept unbanded, "never change its interface again".) */}
+                <CardBody banded>
 
                 <BandSection name="dates">
                 {cardDates("Resource " + number, slot.startDate, slot.endDate, onSlot, false, latestPaymentOf(slot.cost.frequency, slot.paymentPlan), slot.cost.frequency === "per-project" && slot.paymentPlan.on)}

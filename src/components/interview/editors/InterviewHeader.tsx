@@ -27,6 +27,9 @@ interface InterviewHeaderProps {
      */
     pageTitleCapitals?: boolean;
 
+    /** The title in capitals, by CSS alone (a Capability's page: "FOUNDATION"). */
+    nameCapitals?: boolean;
+
     /** What stands after the title, inside the heading. */
     note?: ReactNode;
 
@@ -43,6 +46,7 @@ export default function InterviewHeader({
     capabilityId,
     pageTitle,
     pageTitleCapitals = false,
+    nameCapitals = false,
     note,
     icon: ownIcon,
     actions
@@ -68,11 +72,17 @@ export default function InterviewHeader({
                     />
                 )}
 
-                <h1>
-                    {systemNumber ? `${systemNumber}. ${systemName}` : systemName}
+                {/* (THE SYSTEM'S NAME WITHOUT ITS ORDER NUMBER (owner, 2026-11-23 17:28 UTC+2: "Hide the Systems order numbers on their tiles, and titles, but keep them
+                    as information, documents and coding"): the number stays in the documents, the code and the heading's data, not drawn.) */}
+                <h1 data-system-number={systemNumber}>
+                    {nameCapitals
+                        ? <span className="interview-header-page-title-capitals">{systemName}</span>
+                        : systemName}
                     {pageTitle && (
                         <span className={"interview-header-page-title" + (pageTitleCapitals ? " interview-header-page-title-capitals" : "")}>
-                            {` — ${pageTitle}`}
+                            {/* (In the vertical layout the page's title stands on a line of its own under the System's name, without the dash: 01-interview.css.) */}
+                            <span className="interview-header-dash">{" — "}</span>
+                            {pageTitle}
                         </span>
                     )}
                     {note}

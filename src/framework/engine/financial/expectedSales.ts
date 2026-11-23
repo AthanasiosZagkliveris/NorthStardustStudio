@@ -16,6 +16,23 @@ import { monthOrdinal } from "./period.ts";
 ========================================================== */
 
 /**
+ * The charges an Offering's terms (O3) allow its revenue stream: a one-off term its one charge (per sale, per project), an ongoing one (a subscription, a retainer,
+ * pay as you go, a licence) Monthly, Quarterly or Annually; none where the terms are not chosen (every charge).
+ */
+export function chargesAllowed(fromTerms: string | undefined): readonly string[] | null {
+    if (!fromTerms) {
+        return null;
+    }
+    return isRecurringRevenue(fromTerms) ? ["monthly", "quarterly", "annually"] : [fromTerms];
+}
+
+/** The charge a stream counts: its own where the Offering's terms allow it, else what the terms start. */
+export function chargeOf(saved: string, fromTerms: string | undefined): string {
+    const allowed = chargesAllowed(fromTerms);
+    return !allowed || allowed.includes(saved) ? saved : fromTerms!;
+}
+
+/**
  * The revenue page with each stream's expected sales taken from
  * Customer Engagement's Sales Forecast, where that Offering has
  * one that gives a figure. A stream without one keeps the volume
@@ -34,7 +51,17 @@ export function withDemand(
     const segments = foundation === undefined ? [] : businessFoundationSegments(foundation);
     const timed = (stream: FinancialSustainabilityValue["streams"][number]) => {
         const starts = segments.length > 0 ? offeringStartsById(segments, stream.offeringId) : {};
-        const paid = starts.paymentTimingAnswered ? { ...stream, paymentTiming: starts.paymentTiming ?? ("" as const) } : stream;
+        const timedStream = starts.paymentTimingAnswered ? { ...stream, paymentTiming: starts.paymentTiming ?? ("" as const) } : stream;
+        // (WHAT THE OFFERING CARD ALREADY SAYS IS READ, NOT ASKED AGAIN (owner, 2026-11-22 20:35 UTC+2: "check the revenue streams and its inputs, if they can auto filled by
+        // previous parts ... the offering card has many answers"; Questions 20, 15.5): the charge follows the Offering's terms (O3) -- a one-off term its one charge, an
+        // ongoing one monthly, quarterly or annually as the stream chooses --; the Per and the delay of an invoice fill what the stream leaves empty.)
+        const charged = chargeOf(stream.frequency, starts.charged);
+        const paid = {
+            ...timedStream,
+            ...(charged !== stream.frequency ? { frequency: charged as typeof stream.frequency } : {}),
+            ...(stream.unit === "" && starts.unit ? { unit: starts.unit } : {}),
+            ...(stream.paymentDelay === "" && starts.paymentDelay ? { paymentDelay: starts.paymentDelay } : {})
+        };
         // (READY FROM (owner, 2026-11-17): an Offering still an idea or being built sells from the month it is ready, where Begins is earlier.)
         const ready = starts.notReady ? demand?.[stream.offeringId]?.readyFrom : undefined;
         const readyAt = ready ? monthOrdinal(ready) : null;

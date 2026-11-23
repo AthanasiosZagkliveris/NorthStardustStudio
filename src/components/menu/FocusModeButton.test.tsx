@@ -71,7 +71,7 @@ describe("focus mode", () => {
     it("hides the rails, the Help, the progress line and the header's own tools, keeps the page at its regular width, with no transition", () => {
         const css = stylesheet("focus-mode.css");
         expect(css).toContain("html.focus-mode :is(.bullet-rails, .interview-progress, .interview-help, .interview-instructions-toggle)");
-        expect(css).toContain("html.focus-mode .app-header > :is(.app-logo, .save-status, .theme-switch, .header-tool, .app-header-organization-name)");
+        expect(css).toContain("html.focus-mode .app-header > :is(.app-brand, .save-status, .theme-switch, .header-tool, .app-header-organization-name)");
         // (Focus never narrows the page: its tiles are the regular view's size, owner 2026-11-09.)
         expect(css).not.toContain("max-width");
         expect(css).not.toContain("--focus-width");

@@ -147,6 +147,8 @@ export interface OfferingStarts {
     unit?: "Product" | "Project" | "Session" | "Participant" | "Hour" | "Subscription" | "Licence" | "Client";
     /** Page 5, the revenue stream's Payment Timing (PAYMENT_TIMINGS' ids; When earned, "", is the default and starts nothing). */
     paymentTiming?: "upfront" | "completion" | "split" | "milestone";
+    /** Page 5, the revenue stream's Paid After / Rest After (months): one month where the Offering is paid on invoice terms (O3t; owner, 2026-11-22 20:35 UTC+2, the Revenue Streams analysis). */
+    paymentDelay?: string;
     /** Whether O3t is answered: Page 5's Payment Timing is then its record (paymentTiming, or When earned where it gives none). */
     paymentTimingAnswered?: boolean;
     /** Delivered in sessions (a live online session, an in-person service, or charged per session: O1, O3): the Delivery card asks DV6, customers in one session. */
@@ -197,6 +199,10 @@ export function offeringStarts(offering: BusinessOfferingValue, segment: Busines
     }
     if (when !== "") {
         starts.paymentTimingAnswered = true;
+    }
+    // (On invoice terms, "for example 30 days": the money comes a month after the sale.)
+    if (when === "invoice") {
+        starts.paymentDelay = "1";
     }
     // (Questions 19, DV6 and DV9/DV10; owner, 2026-11-17.)
     if ((answers.o1 ?? []).some(form => form === "live" || form === "inperson") || terms === "session") {

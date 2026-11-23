@@ -35,11 +35,51 @@
 
 }
 
+/* The logo and the word TILES beside it, 12px apart (owner, 2026-11-22 19:55 UTC+2). */
+.app-brand {
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    gap: var(--gap-12);
+
+    min-width: 0;
+
+    user-select: none;
+
+    pointer-events: none;
+
+}
+
+/* The name: Inter, semi-bold, in capitals (by CSS: it is read "Tiles"), with the tracking every bold word carries (--bold-tracking, global.css). */
+.app-brand-name {
+
+    font-family: "Inter", sans-serif;
+    font-size: var(--font-h3);
+    font-weight: 600;
+    letter-spacing: var(--bold-tracking);
+    text-transform: uppercase;
+    line-height: 1;
+    /* (The box trimmed to the capitals, so the letters themselves, not their line, stand at the buttons' middle.) */
+    text-box: trim-both cap alphabetic;
+
+    /* Midnight blue, the logo's own board (owner, 2026-11-22 20:08 UTC+2: "For the Tiles Word, use the Midnight blue (#0F172A)"): --text-navy, #0f172a in the light
+       page; the dark and sepia pages take their own reading of it, so the word keeps its contrast. */
+    color: var(--text-navy);
+
+    white-space: nowrap;
+
+}
+
 .app-logo {
 
     flex-shrink: 0;
 
-    height: 60px;
+    /* (The Tiles logo is a square as tall as the header's buttons (--add-button-height, 44px): its top, middle and foot level with theirs, and the word's middle
+       with all three (owner, 2026-11-22 20:08 UTC+2: "Make sure that the Icon, the Tiles Text, and the Heading buttons align properly"). The North Stardust
+       lettering was 60px.) */
+    height: var(--add-button-height);
 
     width: auto;
 
@@ -49,20 +89,6 @@
 
 }
 
-/* In the dark theme the gold star stays; the lettering, navy on
-   white, is drawn light instead. */
-:root[data-theme="dark"] .app-logo {
-
-    content: url("../assets/organization-framework-dark.svg");
-
-}
-
-/* In the sepia theme the lettering takes the sepia ink. */
-:root[data-theme="sepia"] .app-logo {
-
-    content: url("../assets/organization-framework-sepia.svg");
-
-}
 
 /* The active Organization's name, on the opposite side of
    the header from the logo (item: "on the Header, on the
@@ -76,7 +102,9 @@
 
     min-width: 0;
 
-    margin: 0 0 0 24px;
+    /* (Pushed to the right, the saved signal and the tools after it: the buttons stand at the header's right end, owner, 2026-11-22 18:58 UTC+2.) */
+    margin: 0 0 0 auto;
+    padding-left: 24px;
 
     overflow: hidden;
 
@@ -123,6 +151,14 @@
 .save-status + .theme-switch {
 
     margin-left: 16px;
+
+}
+
+/* (After the Organisation's name, which takes the push to the right: 24px from it.) */
+.app-header-organization-name + .save-status {
+
+    margin-left: 24px;
+    padding-left: 0;
 
 }
 
@@ -288,6 +324,18 @@ body:has(.section-tile-overlay) .app-header {
     .app-header .header-tool {
 
         margin-left: 4px;
+
+    }
+
+}
+
+/* THE BUTTONS AT THE RIGHT END ON A PHONE TOO (owner, 2026-11-22 20:46 UTC+2: "The header button at the right side!"): the Organisation's name, which takes the push
+   to the right elsewhere, is hidden there, so the saved signal after it takes the push. */
+@media (max-width: 600px) {
+
+    .app-header-organization-name + .save-status {
+
+        margin-left: auto;
 
     }
 

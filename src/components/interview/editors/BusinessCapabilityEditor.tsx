@@ -106,7 +106,10 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 const top = row.getBoundingClientRect().top;
                 tiles.style.transform = "translate(" + Math.round((columnsLeft[0] + columnsLeft[1] + pageSide) / 2 - (2 * side + gap) / 2 - (first?.left ?? columnsLeft[0])) + "px, " + Math.round(cardsBottom + 12 - top) + "px)";
             } else if (!stacked && footerBox && tiles) {
-                side = Math.min(SQUEEZED_ROW_MIN, Math.round(footer - 8));
+                // (In the footer's band they are rectangles of the band's buttons, "+ Add Segment"'s size: --add-button-height high, --band-button-width wide (owner,
+                // 2026-11-22 18:58 UTC+2; global.css).)
+                const buttonHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--add-button-height")) || 44;
+                side = Math.min(SQUEEZED_ROW_MIN, buttonHeight, Math.round(footer - 8));
                 row.style.height = "0";
                 row.style.overflow = "visible";
                 tiles.style.transform = "";

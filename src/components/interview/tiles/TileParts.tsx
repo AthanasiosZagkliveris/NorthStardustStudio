@@ -1,19 +1,21 @@
 import { ComponentProps, Fragment, MouseEvent as ReactMouseEvent, ReactNode, RefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
 import AddButton from "../../controls/AddButton.tsx";
 import { type TileLink, type ItemMark } from "./SectionTileTypes.ts";
+import { PAGE_STATUS_WORDS } from "../../../framework/engine/status/PageStatus";
+import "../../../styles/status-shape.css";
 import { incompleteTitle, TILE_DIVIDER, drawnTitle, plainTitle, brokenLines, boldWords, scaleOrigin } from "./SectionTileGeometry.tsx";
 
 /**
  * What a tile or a box shows: its title, centred, and -- while the section holds nothing yet --
  * a small "+" under the title (decorative; the button is described as "No items yet").
  */
-export function TileFace({ title, empty, items, glyph = true, alerts, marks }: { title: string; empty?: boolean; items?: readonly string[]; glyph?: boolean; alerts?: readonly (readonly string[] | undefined)[]; marks?: readonly (ItemMark | undefined)[] }) {
+export function TileFace({ title, empty, items, glyph = true, alerts, marks, icon, mark }: { title: string; empty?: boolean; items?: readonly string[]; glyph?: boolean; alerts?: readonly (readonly string[] | undefined)[]; marks?: readonly (ItemMark | undefined)[]; /** A symbol before the title, on its line. */ icon?: string; /** A symbol under the title's words, above its rule. */ mark?: string }) {
     return (
         <>
             {/* (A title with a forced break is drawn on its lines: the one title that is allowed two.) */}
             {title.includes("\n")
                 ? <TileTitle className="section-tile-title-broken">{brokenLines(title).map((part, at) => <Fragment key={at}>{at > 0 && <br />}{drawnTitle(part)}</Fragment>)}</TileTitle>
-                : <TileTitle>{drawnTitle(plainTitle(title))}</TileTitle>}
+                : <TileTitle>{icon && <img className="section-tile-title-icon" src={icon} alt="" />}{mark ? <span className="section-tile-title-words">{drawnTitle(plainTitle(title))}</span> : drawnTitle(plainTitle(title))}{mark && <img className="section-tile-title-mark" src={mark} alt="" />}</TileTitle>}
             {empty && (
                 <>
                     {/* (A tile that has the "+" box does not draw this glyph as well.) */}
@@ -125,19 +127,26 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             const fitWidth = () => {
             node.style.width = "";
             const range = document.createRange();
-            range.selectNodeContents(node);
-            const lines = new Map<number, { left: number; right: number }>();
+            // (A title with a symbol under it measures its words alone: TileFace's `mark`.)
+            range.selectNodeContents(node.querySelector(".section-tile-title-words") ?? node);
+            // (A line is every box that shares its height: the symbol before a title sits a little lower than its words, on the same line.)
+            const lines: { top: number; bottom: number; left: number; right: number }[] = [];
+            // (The symbol under the words is not a line of them: the rule runs under the words' width.)
+            const mark = node.querySelector(".section-tile-title-mark")?.getBoundingClientRect();
             for (const rect of Array.from(range.getClientRects?.() ?? [])) {
-                if (rect.width < 0.5) {
+                if (rect.width < 0.5 || (mark && rect.top >= mark.top - 0.5 && rect.bottom <= mark.bottom + 0.5)) {
                     continue;
                 }
-                const key = Math.round(rect.top);
-                const line = lines.get(key);
-                lines.set(key, line ? { left: Math.min(line.left, rect.left), right: Math.max(line.right, rect.right) } : { left: rect.left, right: rect.right });
+                const line = lines.find(other => rect.top < other.bottom && rect.bottom > other.top);
+                if (line) {
+                    Object.assign(line, { top: Math.min(line.top, rect.top), bottom: Math.max(line.bottom, rect.bottom), left: Math.min(line.left, rect.left), right: Math.max(line.right, rect.right) });
+                } else {
+                    lines.push({ top: rect.top, bottom: rect.bottom, left: rect.left, right: rect.right });
+                }
             }
-            if (lines.size > 1) {
+            if (lines.length > 1) {
                 const style = getComputedStyle(node);
-                const widest = Math.max(...[...lines.values()].map(line => line.right - line.left));
+                const widest = Math.max(...lines.map(line => line.right - line.left));
                 node.style.width = Math.ceil(widest + (parseFloat(style.paddingLeft) || 0) + (parseFloat(style.paddingRight) || 0)) + "px";
             }
             };
@@ -170,12 +179,27 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             node.title = [...node.childNodes].map(part => part.nodeName === "BR" ? " " : part.textContent ?? "").join("");
         };
         apply();
+        // (A symbol in the title takes its height when its picture has loaded: measured again then, so the list stands under it.)
+        const pictures = Array.from(node.querySelectorAll("img")).filter(picture => !picture.complete);
+        pictures.forEach(picture => picture.addEventListener("load", apply));
+        // (And when the type's own font has loaded: its words are wider than the fallback's and may take a line more.)
+        let live = true;
+        void document.fonts?.ready.then(() => { if (live) apply(); });
+        document.fonts?.addEventListener?.("loadingdone", apply);
+        const forget = () => {
+            live = false;
+            pictures.forEach(picture => picture.removeEventListener("load", apply));
+            document.fonts?.removeEventListener?.("loadingdone", apply);
+        };
         if (typeof ResizeObserver === "undefined") {
-            return;
+            return forget;
         }
         const observer = new ResizeObserver(apply);
         observer.observe(tile);
-        return () => observer.disconnect();
+        return () => {
+            forget();
+            observer.disconnect();
+        };
     });
     const numbered = typeof children === "string" ? /^(\d+\.)\s([\s\S]*)$/.exec(children) : null;
     return (
@@ -381,13 +405,15 @@ export function TileList({
                         <li key={position} title={plainTitle(item)}>
                             {/* (A line of two columns that names a card or a box is a link by its name, as every other line of a tile's list: owner, 2026-11-14 11:15.) */}
                             <span className="section-tile-pair-left">{link && onLink
-                                ? <button type="button" className="section-tile-link" data-link={"card" in link ? link.card : link.box} onClick={(event) => onLink(link, event.currentTarget, event.detail > 0)}>{boldWords(left)}</button>
+                                ? <button type="button" className="section-tile-link" data-link={"card" in link ? link.card : "box" in link ? link.box : undefined} onClick={(event) => onLink(link, event.currentTarget, event.detail > 0)}>{boldWords(left)}</button>
                                 : boldWords(left)}</span>
                             <span className="section-tile-pair-right">{boldWords(right)}</span>
                         </li>
                     );
                 }
-                const drawn = brokenLines(item).map((part, at, parts) => <Fragment key={at}><span className="section-tile-list-line">{boldWords(part)}</span>{at < parts.length - 1 && " "}</Fragment>);
+                const symbol = marks?.[position]?.icon;
+                const status = marks?.[position]?.status;
+                const drawn = <>{status && <span className="status-shape section-tile-list-shape" data-status={status} aria-hidden="true" />}{symbol && <img className="section-tile-list-symbol" src={symbol} alt="" />}{brokenLines(item).map((part, at, parts) => <Fragment key={at}><span className="section-tile-list-line">{boldWords(part)}</span>{at < parts.length - 1 && " "}</Fragment>)}</>;
                 return (
                     <li
                         key={position}
@@ -399,16 +425,18 @@ export function TileList({
                             marks?.[position]?.bullet ? "section-tile-list-bullet" : "",
                             marks?.[position]?.centre ? "section-tile-list-centre" : "",
                             marks?.[position]?.plain ? "section-tile-list-plain" : "",
-                            marks?.[position]?.rule ? "section-tile-list-rule" : ""
+                            marks?.[position]?.rule ? "section-tile-list-rule" : "",
+                            marks?.[position]?.icon ? "section-tile-list-icon" : "",
+                            marks?.[position]?.status ? "section-tile-list-status" : ""
                         ].filter(Boolean).join(" ") || undefined}
-                        title={alerts?.[position] ? plainTitle(item).replace(/\*\*/g, "") + ": " + incompleteTitle(alerts[position]!) : plainTitle(item).replace(/\*\*/g, "")}
+                        title={alerts?.[position] ? plainTitle(item).replace(/\*\*/g, "") + ": " + incompleteTitle(alerts[position]!) : (marks?.[position]?.tip ?? plainTitle(item).replace(/\*\*/g, "")) + (marks?.[position]?.status ?", " + PAGE_STATUS_WORDS[marks[position]!.status!] : "")}
                     >
                         {link && onLink
                             ? (
                                 <button
                                     type="button"
                                     className="section-tile-link"
-                                    data-link={"card" in link ? link.card : link.box}
+                                    data-link={"card" in link ? link.card : "box" in link ? link.box : undefined}
                                     onClick={(event) => onLink(link, event.currentTarget, event.detail > 0)}
                                 >
                                     {drawn}

@@ -1495,7 +1495,9 @@
                 const gap = parseFloat(style.getPropertyValue("--space-card")) || spec.fieldGap;
                 const most = parseFloat(style.getPropertyValue("--quad-max-side")) || Infinity;
                 const inner = quad.clientWidth - (parseFloat(style.paddingLeft) || 0) - (parseFloat(style.paddingRight) || 0);
-                const wanted = Math.min((inner - gap) / 2, most);
+                // (In the vertical layout from 880px the master tiles stand in one row of four: --quad-across, owner, 2026-11-22 19:37 UTC+2, layout rules section 23.)
+                const across = parseFloat(style.getPropertyValue("--quad-across")) || 2;
+                const wanted = Math.min((inner - (across - 1) * gap) / across, most);
                 for (const tile of [...quad.querySelectorAll(".section-tile[data-tile]")].filter(visible)) {
                     // (offsetWidth: the tile under the pointer is grown on hover, and a rect would read that.)
                     const side = tile.offsetWidth;
@@ -1533,6 +1535,15 @@
             }
         }
 
+        // 16a2. A TILE'S SYMBOL HAS ONE GAP ABOVE AND BELOW (owner, 2026-11-23 18:29 and 18:30 UTC+2: "The gap above and bellow the capability's and system's symbol
+        //       should be the same"; "Across all tiles"): 12px from the title's rule to the symbol; the list under the title stands 12px under it, the symbol's foot.
+        for (const mark of [...document.querySelectorAll(".section-tile-title-mark")].filter(visible)) {
+            const words = mark.parentElement?.querySelector(".section-tile-title-words");
+            if (words && !rules.near(rect(mark).top - rect(words).bottom, 12, 2)) {
+                fail("a tile's symbol stands 12px under its title's rule, as the list stands 12px under the symbol", mark, { gap: rect(mark).top - rect(words).bottom });
+            }
+        }
+
         // 16b. THE 2 x 2 OF MASTER TILES (layout rules section 23; owner, 2026-11-20 21:01 UTC+2, the Financials): the tiles of one chapter are equal squares on
         //      the shared grid -- one side, two columns and two rows of that side, one gap apart, the first place top left -- so three tiles leave the fourth
         //      place empty and nothing overlaps at rest. (Measured at rest: the probe's own style holds the hover growth back.)
@@ -1542,16 +1553,36 @@
         //  (section 13).)
         if (!window.matchMedia("(max-width: 1099px), (orientation: portrait)").matches) {
             const card = document.querySelector(".conversation-card");
-            for (const frame of [...document.querySelectorAll(".business-foundation-card")].filter(visible).filter(frame => frame.querySelector(".section-tiles-quad") && !frame.closest(".segment-chapter, .section-tile-dialog"))) {
-                const expected = card ? (rect(card).width - 12) / 2 : rect(frame).width;
-                if (!rules.near(rect(frame).width, expected, 2)) {
-                    fail("a chapter of master tiles is one size on every page (half the page less 12px)", frame, { width: rect(frame).width, expected });
+            // (THE CHAPTER HUGS ITS TILES (owner, 2026-11-22 20:38 UTC+2, option A): its width is its tiles' -- two sides and the gap -- and its own padding and edge,
+            // never more than half the page less 12px. TWO CHAPTERS SIDE BY SIDE ON THE PAGE'S BORDERS (owner, 2026-11-23 16:19 UTC+2: "Fix the layout of all the
+            // pages to follow the proper borders"): each is half the page less 6px, the pair's outer edges on the page title's rule.)
+            const chapters = [...document.querySelectorAll(".business-foundation-card")].filter(visible).filter(frame => frame.querySelector(".section-tiles-quad") && !frame.closest(".segment-chapter, .section-tile-dialog"));
+            for (const frame of chapters) {
+                const partner = chapters.find(other => other !== frame && Math.abs(rect(other).top - rect(frame).top) < 2);
+                if (partner && card) {
+                    // (The pair's room: from the outer edge of one to the outer edge of the other -- the page's width less its rails, 2026-11-23 18:07 UTC+2.)
+                    const half = (Math.max(rect(frame).right, rect(partner).right) - Math.min(rect(frame).left, rect(partner).left) - 12) / 2;
+                    if (!rules.near(rect(frame).width, half, 3)) {
+                        fail("two chapters side by side stand on the page's borders (half the page each, 12px apart)", frame, { width: rect(frame).width, expected: half });
+                    }
+                    continue;
+                }
+                const style = getComputedStyle(frame);
+                const tiles = [...frame.querySelectorAll(".section-tiles-quad .section-tile[data-tile]")].filter(visible);
+                const side = tiles.length > 0 ? tiles[0].offsetWidth : 0;
+                const chrome = (parseFloat(style.paddingLeft) || 0) + (parseFloat(style.paddingRight) || 0) + (parseFloat(style.borderLeftWidth) || 0) + (parseFloat(style.borderRightWidth) || 0);
+                const expected = side > 0 ? 2 * side + 12 + chrome : rect(frame).width;
+                const most = card ? (rect(card).width - 12) / 2 : Infinity;
+                if (!rules.near(rect(frame).width, expected, 3) || rect(frame).width > most + 2) {
+                    fail("a chapter of master tiles hugs them (two sides, the gap, its padding)", frame, { width: rect(frame).width, expected, most });
                 }
             }
         }
         for (const quad of [...document.querySelectorAll(".section-tiles-quad > .section-tiles")].filter(visible)) {
             const slots = [...quad.children].filter(slot => slot.matches(".section-tile-slot") && visible(slot)).map(slot => ({ slot, box: rect(slot) }));
             if (slots.length < 2) continue;
+            // (Two columns, or the vertical layout's row of four from 880px: --quad-across.)
+            const columns = parseFloat(getComputedStyle(quad.parentElement).getPropertyValue("--quad-across")) || 2;
             const side = slots[0].box.width;
             // (12px apart, rows and columns, at EVERY window height: no narrowing with the height; owner, 2026-11-20 21:07 UTC+2.)
             const gap = 12;
@@ -1560,10 +1591,10 @@
                 fail("the master tiles of a chapter are 12px apart at every window height", quad, { columnGap: drawn.columnGap, rowGap: drawn.rowGap });
             }
             slots.forEach(({ slot, box }, at) => {
-                const column = at % 2, row = Math.floor(at / 2);
+                const column = at % columns, row = Math.floor(at / columns);
                 const x = slots[0].box.left + column * (side + gap), y = slots[0].box.top + row * (side + gap);
                 if (!rules.near(box.width, side, 1) || !rules.near(box.height, side, 1) || !rules.near(box.left, x, 1) || !rules.near(box.top, y, 1)) {
-                    fail("the master tiles of a chapter are equal squares on the shared 2 x 2 grid", slot, { at, width: box.width, height: box.height, left: box.left, top: box.top, x, y });
+                    fail("the master tiles of a chapter are equal squares on the shared 2 x 2 grid (one row of four from 880px in the vertical layout)", slot, { at, width: box.width, height: box.height, left: box.left, top: box.top, x, y });
                 }
             });
         }
@@ -1952,7 +1983,9 @@
                 const tiles = [...group.querySelectorAll(":scope > .section-tile:not([data-tail]), :scope > .section-tile-slot > .section-tile:not([data-tail])")].filter(visible).map(rect);
                 if (tiles.length === 0) continue;
                 const across = rules.distinct(tiles.map(tile => Math.round(tile.left))).length;
-                const wanted = rules.gridColumns(tiles.length);
+                // (A chapter's master tiles in the vertical layout's row of four: four across, three leaving the fourth place empty.)
+                const four = parseFloat(getComputedStyle(group.parentElement).getPropertyValue("--quad-across")) === 4;
+                const wanted = four ? Math.min(tiles.length, 4) : rules.gridColumns(tiles.length);
                 const fitsAll = wanted * tiles[0].width + (wanted - 1) * spec.fieldGap <= rect(group).width + 1;
                 if (fitsAll && across !== wanted) {
                     fail("a group of tiles takes the one shape (a row of up to 3, a 2 x 2 square, else two rows)", group, { across, wanted, n: tiles.length });
@@ -3336,7 +3369,9 @@
         {
             const dialog = [...document.querySelectorAll(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog")].filter(visible).pop();
             const shade = [...document.querySelectorAll(".floating-chapter-shade")].find(visible);
-            if (dialog && shade && dialog.dataset.tile !== "overview" && dialog.dataset.tile !== "completed") {
+            // (A card standing over its dialog shades the dialog it covers, inside it -- no second dim over the page: allowed.)
+            const inside = dialog && shade && rect(shade).left >= rect(dialog).left - 1 && rect(shade).right <= rect(dialog).right + 1 && rect(shade).top >= rect(dialog).top - 1 && rect(shade).bottom <= rect(dialog).bottom + 1;
+            if (dialog && shade && !inside && dialog.dataset.tile !== "overview" && dialog.dataset.tile !== "completed") {
                 fail("a floating card adds no shade over a dialog's dim", shade, { dialog: dialog.dataset.tile ?? null });
             }
         }

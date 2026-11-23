@@ -281,6 +281,9 @@ export interface CalendarTask {
     /** For a note placed on this day: its id (the Notepad opens on it). */
     noteId?: string;
 
+    /** On the user's own Calendar: the Organisation the date is from (none for the user's general notes). */
+    organizationId?: string;
+
     /** For the date of a card: what the date is ("Starts", "Ends", "Warranty until") and the card's name. */
     label?: string;
     name?: string;
@@ -574,6 +577,45 @@ export function getCalendarTasks(organizationId: string): CalendarTask[] {
                 name: first,
                 noteId: note.id
             });
+        }
+    }
+
+    return tasks;
+
+}
+
+/**
+ * THE APP USER'S OWN CALENDAR (owner, 2026-11-23 16:19 UTC+2: "Check the Calendar's buttons and their options, they do not need to follow the organization's
+ * options ... think about the user's role, and responsibilities"): the user runs every Organisation in the app, so their Calendar lays every Organisation's dates
+ * over one another with their own general notes, as a personal calendar shows each of its calendars together (Google Calendar's "My calendars", each shown or
+ * hidden). Each Organisation's date carries its id and its name; a general note comes once.
+ */
+export function getUserCalendarTasks(): CalendarTask[] {
+
+    const tasks: CalendarTask[] = [];
+    const notes = new Set<string>();
+
+    for (const organization of OrganizationService.list()) {
+        for (const task of getCalendarTasks(organization.id)) {
+            if (task.noteId) {
+                const own = NotepadService.notes().find(note => note.id === task.noteId)?.organizationId ?? "";
+                if (own === "") {
+                    if (!notes.has(task.noteId)) {
+                        notes.add(task.noteId);
+                        tasks.push(task);
+                    }
+                    continue;
+                }
+            }
+            tasks.push({ ...task, taskId: organization.id + ":" + task.taskId, organizationId: organization.id, originLabel: organization.name + " · " + task.originLabel, name: organization.name + " · " + (task.name ?? task.description) });
+        }
+    }
+
+    // (With no Organisation yet, the general notes alone.)
+    for (const note of NotepadService.notes()) {
+        if (note.date && note.organizationId === "" && !notes.has(note.id)) {
+            const first = note.text.split("\n").map(line => line.trim()).find(line => line.length > 0) ?? "Note";
+            tasks.push({ taskId: "note-" + note.id, date: note.date, systemNumber: 0, systemTitle: "Notes", sectionNumber: 0, sectionTitle: "Notes", originLabel: "Note", description: first, color: "var(--bg-primary)", label: "Note", name: first, noteId: note.id });
         }
     }
 

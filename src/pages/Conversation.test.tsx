@@ -82,7 +82,7 @@ describe("Conversation Escape", () => {
 
     });
 
-    it("offers Focus on an interview page only, and in focus mode leaves it before leaving the page, after a dialog has closed", () => {
+    it("offers Focus on the Business System's pages only, and Escape still goes Back", () => {
 
         const organization = OrganizationService.create("Quillfield");
         vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
@@ -93,21 +93,11 @@ describe("Conversation Escape", () => {
         expect(screen.queryByRole("menuitem", { name: "Focus" })).toBeNull();
         fireEvent.click(screen.getByRole("button", { name: "Menu" }));
         fireEvent.click(screen.getByRole("button", { name: "Start Interview" }));
+        // (Focus is offered on the Business System's pages only (owner, 2026-11-23 17:57 UTC+2): not on the Strategy System's.)
         fireEvent.click(screen.getByRole("button", { name: "Menu" }));
-        fireEvent.click(screen.getByRole("menuitem", { name: "Focus" }));
-        expect(document.documentElement.classList.contains("focus-mode")).toBe(true);
-
-        // A dialog closes first ...
-        fireEvent.click(screen.getByRole("button", { name: "Ask to refresh" }));
-        fireEvent.keyDown(window, { key: "Escape" });
-        expect(screen.queryByText("Replace your Current Situation?")).toBeNull();
-        expect(document.documentElement.classList.contains("focus-mode")).toBe(true);
-
-        // ... then focus mode, and the page stays.
-        fireEvent.keyDown(window, { key: "Escape" });
-        expect(document.documentElement.classList.contains("focus-mode")).toBe(false);
+        expect(screen.queryByRole("menuitem", { name: "Focus" })).toBeNull();
+        fireEvent.click(screen.getByRole("button", { name: "Menu" }));
         expect(FocusModeService.isOn()).toBe(false);
-        expect(screen.queryByText(/^Assistant/)).toBeNull();
 
         // Then Back, as ever.
         fireEvent.keyDown(window, { key: "Escape" });
@@ -309,8 +299,10 @@ describe("Conversation records the last place worked", () => {
         expect(current()).toMatch(/^Identity System/);
         fireEvent.keyDown(document.body, { key: "Escape" });
 
-        // Its one page leads back to the Introduction.
-        fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
+        // Its one page has no page arrow (owner, 2026-11-22: "If a system consists of only a single page there is no need for navigation arrow"); the rail's
+        // Introduction leads back.
+        expect(screen.queryByRole("button", { name: "Previous page" })).toBeNull();
+        fireEvent.click(screen.getByRole("button", { name: "Introduction" }));
         expect(screen.getByRole("button", { name: "Start Interview" })).toBeTruthy();
 
     });
@@ -480,7 +472,8 @@ describe("A System's opening screen", () => {
     it("is titled as a page is: the System, then the separator and Introduction in the page-title weight", () => {
         renderOpening("identity");
         const title = screen.getByRole("heading", { level: 1 });
-        expect(title.textContent).toBe("1. Identity System — Introduction");
+        // (The System's order number is not drawn: owner, 2026-11-23 17:28 UTC+2, "Hide the Systems order numbers on their tiles, and titles".)
+        expect(title.textContent).toBe("Identity System — Introduction");
         expect(title.querySelector(".interview-header-page-title")?.textContent).toBe(" — Introduction");
         // In capitals on screen, by CSS; the words stay "Introduction".
         expect(title.querySelector(".interview-header-page-title")?.classList.contains("interview-header-page-title-capitals")).toBe(true);

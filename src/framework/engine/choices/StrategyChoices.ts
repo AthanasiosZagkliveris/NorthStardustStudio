@@ -19,6 +19,7 @@ export const SW2_INFO = ["Read from your answers on the Business System and the 
 export const SW1_INFO = [
     "1 = Threat, 5 = Opportunity; 3 = little effect either way.",
     "How each change could help or hurt your business. The changes your Segments named start ticked.",
+    "A change rated 4 or 5 is written into your Opportunities, one rated 1 or 2 into your Threats.",
     "Based on: Aguilar (1967), Scanning the business environment (the external scan behind PESTLE)."
 ];
 
@@ -92,6 +93,27 @@ export function changeEffectLines(saved: Readonly<Record<string, number>> | unde
         else if (point >= 1 && point <= 2) threats.push("Changes in " + change.label.toLowerCase() + " could hurt you.");
     }
     return { opportunities, threats };
+}
+
+/** Every line a rating can write (SW1): "Changes in [change] could help you." and "... could hurt you." for each change. */
+export const RATED_LINES: ReadonlySet<string> = new Set(SW1_CHANGES.flatMap(change => ["help", "hurt"].map(effect => "Changes in " + change.label.toLowerCase() + " could " + effect + " you.")));
+
+/**
+ * THE SWOT BY THE RATINGS (owner, 2026-11-22 21:23 UTC+2: "Fix the SWOT using the rating system"): a change's rating is the answer, so its line stands in the
+ * Opportunities (4 or 5) or the Threats (1 or 2), and moves or goes as the rating does -- in a quadrant never edited and in one the founder wrote alike. The
+ * page and the Business Plan show the SWOT through this.
+ */
+export function withRatedLines(shown: Readonly<Record<string, readonly string[]>>, saved: Readonly<Record<string, number>> | undefined): Record<string, string[]> {
+    const lines = changeEffectLines(saved);
+    return Object.fromEntries(Object.entries(shown).map(([quadrant, list]) => {
+        if (quadrant !== "opportunities" && quadrant !== "threats") {
+            return [quadrant, [...list]];
+        }
+        const own = list.filter(line => !RATED_LINES.has(line));
+        const rated = lines[quadrant];
+        // (A list of one empty line -- a quadrant never written -- takes the rated lines in its place.)
+        return [quadrant, rated.length > 0 && own.every(line => !line.trim()) ? [...rated] : [...own, ...rated]];
+    }));
 }
 
 /**

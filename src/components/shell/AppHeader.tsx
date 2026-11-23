@@ -1,6 +1,9 @@
-import logo from "../../assets/organization-framework.svg";
+// THE TILES LOGO (owner, 2026-11-22 18:58 UTC+2: "Replace the North Stardust logo with the Tiles logo"): the approved flat logo, the nine-tile T on its midnight
+// board (project Library, designs/tiles-logo/final), the same in every reading mode.
+import logo from "../../assets/tiles-logo.svg";
 
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import AddButton from "../controls/AddButton.tsx";
 import SaveStatus from "./SaveStatus";
 import { WorkbookButton } from "../notepad/WorkbookButton";
@@ -9,6 +12,7 @@ import SearchButton from "../menu/SearchButton";
 import ToolsMenu from "../menu/ToolsMenu";
 import { useLocation, useNavigate } from "react-router-dom";
 import { systems } from "../../data/systems";
+import { USER_CALENDAR_ID } from "../../services/UserCalendar";
 import { OrganizationService } from "../../services/OrganizationService";
 import UndoToast from "./UndoToast";
 
@@ -46,16 +50,36 @@ export default function AppHeader({ organizationName, focusable = false, reloada
     const location = useLocation();
     const navigate = useNavigate();
     const organizationId = organizationName ? OrganizationService.getSelected() : null;
+    // (THE SIDE PANELS IN THE HEADER'S OWN LAYER (owner, 2026-11-23 17:43 UTC+2: "check and fix the hierachy"): drawn beside the header, in the page's stack that
+    // holds it -- not inside the header, where they painted over its shadow, nor at the document's root, where a page that is a layer of its own (the Workbook)
+    // left the header and its Menu under them.)
+    const header = useRef<HTMLElement | null>(null);
+    const [layer, setLayer] = useState<Element | null>(null);
+    useLayoutEffect(() => setLayer(header.current?.parentElement ?? null), []);
 
     return (
 
-        <header className="app-header">
+        <header className="app-header" ref={header}>
 
-            <img
-                src={logo}
-                alt="North Stardust Organisation Framework"
-                className="app-logo"
-            />
+            {/* THE TILES LOGO AND ITS NAME (owner, 2026-11-22 19:55 UTC+2: "Next to the Icon of the Tiles, add also the name TILES, in capital, semi bold with the
+                proper letter spacing that I have assigned for the bold text. use the Inter fond. the gap between the Icon and the Word should be 12 px"): the word
+                names the app, so the picture beside it says nothing more to a screen reader. */}
+            <div className="app-brand">
+                <img
+                    src={logo}
+                    alt=""
+                    className="app-logo"
+                />
+                <span className="app-brand-name">Tiles</span>
+            </div>
+
+            {/* THE BUTTONS AT THE HEADER'S RIGHT END (owner, 2026-11-22 18:58 UTC+2: "Place the headers button at the right side"): the Organisation's name stands
+                before the saved signal and the tools, against them (app-header.css). */}
+            {organizationName && (
+                <h1 className="app-header-organization-name" title={organizationName}>
+                    {organizationName}
+                </h1>
+            )}
 
             {/* Whether the open Organization's edits are saved --
                 only where one is open. */}
@@ -63,7 +87,7 @@ export default function AppHeader({ organizationName, focusable = false, reloada
 
             {/* THE TOOLS (owner, 2026-11-21 00:56 and 23:44 UTC+2): one menu for Search, Notes, Calendar, Focus, Settings and the reading mode (ToolsMenu.tsx);
                 the reading mode alone where no Organisation is open. */}
-            <ToolsMenu organizationOpen={!!organizationName} focusable={!!organizationName && focusable} />
+            <ToolsMenu organizationOpen={!!organizationName} focusable={!!organizationName && focusable} userCalendar={!organizationName && totalReview} />
 
             {reloadable && (
                 <AddButton className="header-tool app-reload"
@@ -83,12 +107,14 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {organizationName && <SearchButton />}
             {/* The Workbook: the same button on the Landing page (owner, 2026-11-09), there with the review of every Organisation, the Glossary and the References. */}
             {(organizationName || totalReview) && <WorkbookButton total={!organizationName} />}
-            {organizationName && <Suspense fallback={null}><NotepadPanel /><NotepadPicker /></Suspense>}
+            {/* (THE SIDE PANELS UNDER THE HEADER'S SHADOW (owner, 2026-11-23 17:28 UTC+2: "The headers shadow should shade both ... any page and panel, in any part of the
+                app"): drawn outside the header, in the page's layer, so the header's shadow falls over them as over the page; inside the header they painted over it.) */}
+            {organizationName && layer && createPortal(<Suspense fallback={null}><NotepadPanel /><NotepadPicker /></Suspense>, layer)}
 
             {/* THE CALENDAR ON THIS PAGE (owner, 2026-11-21 04:05 UTC+2): Calendar in the Menu opens the Calendar's rail here, as Notes opens its panel; System
                 Selection holds the whole rail itself. An item pressed opens its page, as there. */}
-            {organizationId && location.pathname !== "/assistant" && (
-                <Suspense fallback={null}>
+            {organizationId && layer && location.pathname !== "/assistant" && (
+                createPortal(<Suspense fallback={null}>
                     <OrganizationCalendarPanel
                         alone
                         organizationId={organizationId}
@@ -104,17 +130,35 @@ export default function AppHeader({ organizationName, focusable = false, reloada
                             }
                         }}
                     />
-                </Suspense>
+                </Suspense>, layer)
+            )}
+
+            {/* THE USER'S OWN CALENDAR ON THE LANDING PAGE (owner, 2026-11-23 15:32 UTC+2: "Place a Calendar option in the Menu, in the landing page. This will be the
+                App Users Calendar"): every Organisation has its own; the user's holds their general dated notes and their own words (UserCalendar.ts). */}
+            {!organizationId && totalReview && layer && (
+                createPortal(<Suspense fallback={null}>
+                    <OrganizationCalendarPanel
+                        alone
+                        organizationId={USER_CALENDAR_ID}
+                        capabilities={[]}
+                        systems={[]}
+                        onCapabilityOpen={() => undefined}
+                        onCapabilitySelect={() => undefined}
+                        onSystemOpen={() => undefined}
+                        onOpenTask={(systemNumber, sectionNumber, owner) => {
+                            // (A date of an Organisation opens that Organisation, on the page it comes from.)
+                            const system = systems.find(candidate => candidate.number === systemNumber);
+                            if (owner && system) {
+                                OrganizationService.setSelected(owner);
+                                navigate("/introduction", { state: { system, targetSectionNumber: sectionNumber } });
+                            }
+                        }}
+                    />
+                </Suspense>, layer)
             )}
 
             {/* Undo after a removal: one toast for the whole app. */}
             {organizationName && <UndoToast />}
-
-            {organizationName && (
-                <h1 className="app-header-organization-name" title={organizationName}>
-                    {organizationName}
-                </h1>
-            )}
 
         </header>
 

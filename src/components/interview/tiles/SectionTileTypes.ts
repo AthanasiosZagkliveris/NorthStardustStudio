@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { InfoPoint } from "../fields/InfoNote.tsx";
+import type { PageStatus } from "../../../framework/engine/status/PageStatus";
 
 /**
  * One tile of a SectionTiles grid (docs/ai/09-layout-rules.md, "Section tiles
@@ -55,6 +56,17 @@ export interface SectionTile {
      * and its dialog), apart from the user's own cards.
      */
     channel?: boolean;
+
+    /** The tile's own hue, and its dialog's, where the tiles of one frame are each of their own colour (System Selection's Capabilities, owner, 2026-11-22). */
+    hue?: number;
+
+    /** A symbol before the tile's title, on its line (a Capability's icon: owner, 2026-11-22 21:10 UTC+2, "The symbols next to their titles"). */
+    titleIcon?: string;
+    /** A symbol under the title's words, the size of the app's logo (a Capability's: owner, 2026-11-22 21:39 UTC+2). */
+    titleMark?: string;
+
+    /** The tile's own colour where a hue alone cannot tell two tiles apart (the Capabilities: Foundation's midnight and Manage the Organization's blue share a hue). */
+    colour?: string;
 
     /** What a link calls this tile (see jumpTo.ts): `data-anchor`, space separated. */
     anchor?: string;
@@ -175,7 +187,8 @@ export interface SectionTile {
 
 
 /** Where an item of a tile's list leads. */
-export type TileLink = { card: string } | { box: string };
+/** Where a line of a tile leads: a card floating, a box of its dialog, or another page (`go`: a Capability's System opens its Introduction). */
+export type TileLink = { card: string } | { box: string } | { go: () => void };
 
 
 /** What a tile can add: a card of its own kind, appended to its list. */
@@ -232,6 +245,12 @@ export interface ItemMark {
     plain?: boolean;
     /** A hairline stands under this line: it ends one topic of the list and the next begins (the Strategic Period's dates, then its Themes). */
     rule?: boolean;
+    /** A small symbol before this line, in place of its bullet (a System's icon on its Capability's tile). */
+    icon?: string;
+    /** Its bullet drawn as a status (○ not started, ◐ in progress, ● defined: status-shape.css), the Pages rail's and the System list's (a System on its Capability's tile). */
+    status?: PageStatus;
+    /** The line's tooltip, where it says more than the line (the full words of an abbreviation: "Key Performance Indicators" for KPI). */
+    tip?: string;
 }
 
 

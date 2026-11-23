@@ -20,8 +20,13 @@ export default function ResponsibilityFilter({
     label,
     options = RESPONSIBILITY_FILTER_OPTIONS,
     sets,
-    groups
+    groups,
+    allOption = false
 }: {
+    /** ALL FIRST, AND THE DEFAULT (owner, 2026-11-23 16:19 UTC+2: "Fix the Total review filter, add an ALL option, as default, and when the user click on another
+     *  option then it would appear only that one"): an "All" tick heads the list; while All is ticked, a tick on one option shows that one alone; after that, ticks
+     *  add and take away; the last one taken away is All again (as the Calendar's lists, MultiPicker). */
+    allOption?: boolean;
     /** The options under folded categories (owner, 2026-11-10: "place the options under folded categories"): each a FoldHead, closed at first,
      *  its count the options ticked; given, they take the place of `options`. */
     groups?: readonly { name: string; options: readonly string[] }[];
@@ -110,7 +115,29 @@ export default function ResponsibilityFilter({
                                 </div>
                             );
                         })}</div>
-                        : (sets ?? [options]).filter(set => set.length > 0).map((set, at) => [
+                        : allOption
+                            ? (() => {
+                                const all = options.every(option => !off.has(option));
+                                return [
+                                    <TickField key=" all" className="responsibility-filter-option" checked={all} onChange={() => options.filter(option => off.has(option)).forEach(onToggle)}>
+                                        <span>All</span>
+                                    </TickField>,
+                                    ...options.map(option => (
+                                        <TickField key={option} className="responsibility-filter-option" checked={!all && !off.has(option)} onChange={() => {
+                                            if (all) {
+                                                options.filter(other => other !== option).forEach(onToggle);
+                                            } else if (!off.has(option) && options.filter(other => !off.has(other)).length === 1) {
+                                                options.filter(other => other !== option).forEach(onToggle);
+                                            } else {
+                                                onToggle(option);
+                                            }
+                                        }}>
+                                            <span>{option}</span>
+                                        </TickField>
+                                    ))
+                                ];
+                            })()
+                            : (sets ?? [options]).filter(set => set.length > 0).map((set, at) => [
                             ...(at > 0 ? [<hr key={"rule-" + at} className="responsibility-filter-rule" />] : []),
                             ...set.map(option => (
                                 <TickField key={option} className="responsibility-filter-option" checked={!off.has(option)} onChange={() => onToggle(option)}>

@@ -48,7 +48,7 @@ describe("Landing import of an Organisation file", () => {
 
 describe("Landing reload", () => {
 
-    it("offers a Reload tool in the header that reloads the app view and keeps the data", async () => {
+    it("offers Reload beside Add, Import and Export, which reloads the app view and keeps the data", async () => {
 
         const reload = vi.fn();
         const original = window.location;
@@ -57,7 +57,8 @@ describe("Landing reload", () => {
         try {
             render(<MemoryRouter><Landing /></MemoryRouter>);
             const button = screen.getByRole("button", { name: /^Reload the app/ });
-            expect(button.closest("header.app-header")).toBeTruthy();
+            // (With Add, Import and Export, owner, 2026-11-22 20:35 UTC+2: "Place the reload with the other similar buttons".)
+            expect(button.closest(".organization-actions")).toBeTruthy();
             fireEvent.click(button);
             await waitFor(() => expect(reload).toHaveBeenCalledTimes(1));
         } finally {
@@ -97,7 +98,7 @@ describe("Landing reload", () => {
 
 describe("Landing header Workbook", () => {
 
-    it("shows the Workbook, the one button of every header, and it opens the Review of every Organisation", () => {
+    it("shows the Handbook in the header's place of the Workbook, and it opens the Handbook (owner, 2026-11-22)", () => {
 
         function Where() {
             const location = useLocation();
@@ -115,7 +116,7 @@ describe("Landing header Workbook", () => {
         // The Review and Glossary buttons are gone: the Workbook holds them (owner, 2026-11-09).
         expect(screen.queryByRole("button", { name: /^Review/ })).toBeNull();
         expect(screen.queryByRole("button", { name: /^Glossary/ })).toBeNull();
-        fireEvent.click(screen.getByRole("button", { name: /^Workbook/ }));
+        fireEvent.click(screen.getByRole("button", { name: /^Handbook/ }));
         expect(screen.getByText("/workbook true")).toBeTruthy();
 
     });
@@ -128,8 +129,8 @@ describe("Landing user name", () => {
 
         render(<MemoryRouter><Landing /></MemoryRouter>);
 
-        const box = screen.getByRole("textbox", { name: "Your name, as it should appear on your documents" });
-        expect(box.getAttribute("placeholder")).toBe("Your name, as it should appear on your documents");
+        const box = screen.getByRole("textbox", { name: "Your name" });
+        expect(box.getAttribute("placeholder")).toBe("Your name");
         expect(document.querySelector(".user-name-label")).toBeNull();
         expect(screen.queryByText(/^User Name$/i)).toBeNull();
 

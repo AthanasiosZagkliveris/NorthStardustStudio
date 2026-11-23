@@ -163,6 +163,8 @@ A proposal from online research (official, university and standards sources; par
 | 15 | **What It Would Take on the Financials** (the smallest single change that keeps the cash at zero or above: more sales, a higher price, lower costs, a later start) | Founders without sales need to know what has to change before they borrow; a lever per answer turns a shortfall into a decision. | [2][14] | Built in the engine, tested, no screen shows it (`engine/financial/whatItWouldTake.ts`; Records 2, 5.4, E1) |
 | 16 | **Loan repayment notes** (why each loan's repayments are, or are not yet, counted in the forecast, from its status) | Start Up Loans and lenders read the repayments in the 12-month cash flow; a requested loan that is counted overstates the cash. | [14] | Built in the engine, tested, no screen shows it (`loanRepaymentNotes` in `engine/financial/position.ts`) |
 
+| 17 | **Capability Generator** (a page that drafts an Organisation's capabilities from its answers) | Moved off the Landing page to the future features by the owner (2026-11-22 18:58 UTC+2: "Move the Capability generator to future features"): its page (`/generator`) stays in the code, unlinked, until it is built. | owner | Not built: unlinked |
+
 ### 5.6 The roadmap (local-first)
 
 | Phase | AI Assistant | Team | Voice | Languages and countries | Other |

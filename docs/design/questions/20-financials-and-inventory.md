@@ -345,6 +345,8 @@ Sources: SBA (2017; n.d.), driver-based forecasts built from reach and conversio
 
 The **Costs** tile becomes **Cost of each Offering** (rule | was | now: one owner for a list | the Costs dialog listed every cost card, the Inventory's lines again (C5), with its filters | the three totals (Launch budget, Running costs a month, Cost of each sale) and the Total Pre-operational Budget stay on top, then **Running costs shared** (the rate, with its working in the "i"), a card for each Offering sold, and the costs not counted yet; every cost in full is the Inventory's and the Workbook's Financial Plan's, "Costs in Full"). Nothing on the tile takes an answer: its Opening Date is a note pointing to the Organisation tile; the ledger's filters were a view only, saved nowhere. Its face: each Offering sold, its full cost of one (none sold yet: the running costs a month). Each card: the Offering's name, then its figures as the totals are drawn (`FigureTiles`): Price, Direct cost, Contribution, Full cost (its running share under it, the working in its "i"), Margin; a contribution or margin below nothing in the risk tone (`offeringEconomics`, `FinancialFoundationEditor.tsx`). (A table of seven columns ran past the dialog's edge at 1920: the cards wrap at any width.)
 
+**Each Offering is a tile** of the dialog (owner, 2026-11-22 18:58 UTC+2: "For the Offerings Costs make a tile for each offering with its cost"): its number and name, its full cost of one sale, its price and its margin, as Revenue Streams' tiles are; pressed, its card floats over the dialog with the figures below (`offeringCostCard`, the master tile's `cardFor`).
+
 Each Offering's card (time-driven activity-based costing with the founders' delivery hours as the one driver: Kaplan and Anderson, 2004; HBS Working Knowledge, 2004; Garrett, n.d.):
 
 ```
@@ -415,6 +417,28 @@ Start Up Loans (n.d.-b) *Loan repayments*. Available at: https://www.startuploan
 Strategyzer (n.d.) *Value Proposition Canvas*. Available at: https://www.strategyzer.com/canvas/value-proposition-canvas (Accessed: 21 November 2026).
 
 University of Wisconsin SBDC (n.d.) *Financial projections templates*. Available at: https://projections.sbdc.wisc.edu/ (Accessed: 21 November 2026).
+
+### 15.7 Every input of a Revenue stream, against the earlier answers (2026-11-22)
+
+Asked by the owner (2026-11-22 20:35 UTC+2: "check the revenue streams and its inputs, if they can auto filled by previous parts. Make a proper analysis, I am sure that at least, the offering card, has many answers"). Each input of a stream's card, what earlier answer can say it, and what the app does with it now. **Record**: shown, not asked (one owner). **Start**: written in until the founder changes it. **Narrowed**: the choices cut to what the earlier answer allows.
+
+| Input | Earlier answer that can say it | Now (built 2026-11-22 unless said) |
+|---|---|---|
+| Charged | The Offering's terms, O3 (one purchase, per session, rent, commission: per sale; a project: per project; a subscription, a retainer, pay as you go, a licence: ongoing) | **Narrowed**, as Questions 2, 10.2 proposed: a one-off term leaves its one charge (a record); an ongoing term Monthly, Quarterly or Annually, the stream choosing the period (the terms do not say it). A charge saved outside the terms counts as the terms' own (`chargeOf`, read by `withDemand`, so the documents agree). |
+| Price | Nothing says the founder's own price. The Segment's competitors' prices (K15) by the needs met (K16) | The competitors' range under the price (built 2026-11-20). O19, what customers expect to pay, is still a proposal (Questions 16): it would be a second line beside it. |
+| Per (the unit) | The terms (O3) and the form (O1): a project, a session, a subscription, a licence, a client; a physical item or a file a Product, a live or in-person session a Participant | **Start**, now also on a saved stream that leaves it empty (it was on a new stream only). |
+| Unit Name | Only where Per is Other | Asked. |
+| Expected Sales | Sales Forecast | **Record** (built 2026-11-21). |
+| Build-up, First Month, Months to Normal | Sales Forecast's clients joining and leaving (an ongoing Offering) | **Record** for an ongoing Offering (built 2026-11-21). For a one-off sale Sales Forecast works out no ramp: asked. *Proposed:* start Months to Normal from the channels' time to buy (`monthsToClose`, Questions 18), kept out of the forecast on 2026-11-14; the owner's decision. |
+| Begins | The Opening Date and the Offering's readiness (O2, Ready From) | **Record** of the later of the two (built 2026-11-17). |
+| Customer Pays | When they pay, O3t | **Record** (built 2026-11-16). |
+| Upfront (%) | O3t says a deposit is taken, not how much | Asked. |
+| Paid After / Rest After | O3t "On invoice terms (for example 30 days)" | **Start**: one month, where the stream leaves it empty (`OfferingStarts.paymentDelay`). |
+| Items per Order | Nothing asks how many go in one order | Asked (only where the Offering has a cost per order). |
+| Delivery Charge | How they receive it (O6), how it is sent (O20) say a delivery is made, not what the customer pays for it | Asked (only where the Offering has a cost per order). |
+| Assumptions | Free text | Asked. |
+
+Not yet read and worth a decision: the Offering's Packages / tiers and Add-ons / extras (O14) could open a price per tier or an extra on the stream (Questions 20, section 11, waiting); a minimum order (O18) could start Items per Order where its amount is written.
 
 ## 16. The Revenue stream card: the first design
 

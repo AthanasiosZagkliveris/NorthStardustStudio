@@ -16,20 +16,21 @@ The app helps you write down the decisions your business runs on: who you are, w
 
 The first screen lists your Organisations: each business you plan is one Organisation.
 
-1. **Write your name** in the box at the top. It starts the first founder's name on Founders & Ownership and appears on your documents.
-2. **Press "+ Add Organisation"** and type its name in the new row. Press a row to select it; the selected Organisation is the one you work on.
-3. **Press "System Selection"** to start work on the selected Organisation.
-4. **Keep a copy**: "Export Organisation" saves the selected one as a file; "Import Organisation" opens such a file, here or on another device. The x at the end of a row removes that Organisation, after you confirm.
+1. **Write your name** in the box at the top: the app's user, whoever founds or owns the Organisations (it fills in no founder).
+2. **Press "+ Add"** and type the Organisation's name in the new row. Press a row to select it; the selected Organisation is the one you work on.
+3. **Press the arrow beside a row** to open that Organisation's Capabilities.
+4. **Keep a copy**: "Export" saves the selected Organisation as a file; "Import" opens such a file, here or on another device. The x inside a row removes that Organisation, after you confirm.
+5. **Your Calendar**: Menu > Calendar opens your own calendar, your general notes to begin with; tick an Organisation, or All, under Calendars to lay its dates over yours. A date of an Organisation opens it on the page the date comes from.
 
 Two examples come with the app, Lumen & Loom Studio and Quillfield Automation: open them to see a finished Foundation. The **Reload** button beside the reading mode reloads the app and refreshes the examples.
 
-The header of this screen holds the reading mode and the **Workbook** (section 4.1), which here covers every Organisation.
+The header of this screen holds the Menu and the **Handbook**: the App Guide, Specs & Limitations, Future Features, the app's Glossary and the References.
 
 ## 3. The Foundation
 
 ### 3.1 Find your way in
 
-1. On **System Selection**, press **Foundation** in the list of Capabilities. Its description opens; close it with Back or a press outside it. The Foundation's Systems show beside it.
+1. On **Capabilities** (System Selection), each Capability is a tile in its own colour and with its icon, listing its Systems, each with its state as its bullet (section 3.2), two rows of three. Press **Foundation**: its page holds a tile for each System, in one frame, two by two where it has three or four; each tile lists what the System holds -- its PAGES, the CHAPTERS of its one page, or the SECTIONS of its one chapter -- each line's bullet its state. The arrow beside the Capability's name drops what the Capability is. The rail at the left and the arrows, or the left and right keys, go round the six. Back returns to the Capabilities.
 2. Press **Identity System** (or another System). Its **Introduction** says what the System answers and lists its pages.
 3. Press **Start Interview**, or a page in the Introduction's list, to begin.
 
@@ -37,7 +38,7 @@ The line "back to the last place worked" on System Selection takes you straight 
 
 ### 3.2 How a System's pages work
 
-- **The Pages rail** at the left lists the System's pages. Each bullet shows the page's state: an empty circle (not started), a half-filled one (in progress), a filled one (defined). Press a bullet to go to that page.
+- **The Pages rail** at the left lists the System's pages, as bullets; point at one for its name. Each bullet shows the page's state: an empty circle ○ (not started), a half-filled one ◐ (in progress), a filled one ● (defined). Press a bullet to go to that page.
 - **The page arrows** above the rails go to the previous and the next page; the left and right arrow keys do the same.
 - **The Sections rail** at the right lists the parts of the page; press one to scroll to it. A page drawn as tiles shows its tiles instead.
 - **Tiles, dialogs and cards.** A page holds large tiles. Press a tile to open its dialog; a dialog lists the cards it holds and a "+" to add one; press a card to open it as a floating card beside the dialog. The arrows beside an open card step through the other cards of its list, and the bullets under them go straight to one.
@@ -79,11 +80,10 @@ Everything you have written and everything the app explains, on one page.
 2. **Card Notes**: the Notes field of every card, page by page. The funnel chooses the pages; press a note to open its card.
 3. **Review**: Still open, Worth a second look, Missing from the documents and Key dates. "Go there" opens the page or card an item is about.
 4. **Glossary**: every term from A to Z, the app's words in blue (with their meaning and sources) and the names you gave in terracotta (with "Open the …"). The funnel chooses the kinds and the letter ranges.
-5. **References**: every source the app cites, as a Harvard reference list. A citation in the Glossary opens its reference here.
-6. **Business Documents**: the Business Plan and the Business Model Canvas, a tab each (section 3.5). **Export**, at the right of the title, downloads the one shown.
-7. **Financial Documents**, under it: the Financial Forecast, the Funding Request and the Financial Plan, a tab each, with the same Export.
+5. **Business Documents**: the Business Plan and the Business Model Canvas, a tab each (section 3.5). **Export**, at the right of the title, downloads the one shown.
+6. **Financial Documents**, under it: the Financial Forecast, the Funding Request and the Financial Plan, a tab each, with the same Export.
 
-On the **Organisations screen** the same button covers every Organisation: their Reviews, their terms in the Glossary (each named with its Organisation) and the References. Card Notes, Business Documents and Financial Documents belong to one Organisation and show inside it.
+A citation in the Glossary, or a source in an "i", opens the **Handbook's References** (the Organisations screen's book: section 2).
 
 Back or Escape returns you to where you opened the Workbook.
 
@@ -114,7 +114,7 @@ Each setting has its "i" with what it means.
 
 ### 4.5 Focus
 
-On a System's pages, open **Tools** and press **Focus** to read and write without distraction: the rails, the help and the header step aside and the page stays at its usual width. Press **Exit focus** at the top right, or Escape, to return. The app remembers your choice on this device.
+On the Business System's pages (Foundation & Engagement, Infrastructure & Capability, Financials), open **Menu** and press **Focus** to read and write without distraction: the rails, the help and the header step aside and the page stays at its usual width. Focus is offered there only: those pages are the densest, chapters of tiles with cards floating over them, where the header and the rails take room the work needs; on the other pages, short ones, the rails are how you find your way. Press **Exit focus** at the top right, or Escape, to return. The app remembers your choice on this device.
 
 ### 4.6 Appearance
 
@@ -126,10 +126,10 @@ Point at **Appearance** in the **Menu** (or press it, or press the right arrow o
 
 ### 4.7 Calendar
 
-Open **Menu** and press **Calendar**: the calendar of the open Organisation opens at the left of the page you are on (on **System Selection**, the **Calendar** tab in the left rail does the same). Press outside it or Escape to close it. It shows every date your cards hold (the plan's start, the registration and opening dates, the end of each stage, legal fees, payments, warranties, deadlines) and your dated notes.
+Open **Menu** and press **Calendar**: the calendar of the open Organisation opens as a panel at the left of the page you are on, its title on top, as the Notes panel opens at the right. It stays open while you work; its arrow or Escape closes it. It shows every date your cards hold (the plan's start, the registration and opening dates, the end of each stage, legal fees, payments, warranties, deadlines) and your dated notes.
 
 1. Press a day to see what falls on it; press an item to open the page it comes from, or your note.
-2. The funnel chooses the period, the kinds of date and the cards they come from.
+2. The funnel chooses the period, the kinds of date and the cards they come from; each list starts with All, and a tick on one choice shows that one alone. Your own Calendar, on the Organisations screen, chooses Calendars in place of the cards.
 3. To add a time or a few words to a date, point at it and press its note button; the app makes a note only when you ask for one. "Expand all" shows every note of the day.
 
 ## 5. A good order of work
