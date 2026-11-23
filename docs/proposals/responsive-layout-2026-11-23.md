@@ -179,7 +179,7 @@ When a Resources tile cannot list all its categories, it shows **one symbol a ca
 - The same symbols lead each category's row in the Resources dialog, so the grid on the tile matches what opens.
 - If a tile cannot fit even the symbols, it shows its title alone (the rule of section 2, item 4).
 
-### 4.6 Turning the phone or the tablet (portrait and landscape)
+### 4.5 Turning the phone or the tablet (portrait and landscape)
 
 The owner added on 2026-11-23 (23:14 UTC+2): "the user could rotate his mobile or tablet and the app both ways (portrait and landscape) should work and displayed properly".
 
@@ -219,7 +219,7 @@ What breaks:
 
 **Text never resizes on its own when turned.** `-webkit-text-size-adjust: 100%` keeps iOS from enlarging text in landscape; the fluid scale (section 4.2) changes it by the window instead.
 
-### 4.5 Rules that stay
+### 4.6 Rules that stay
 
 - Square tiles, frames hugging their tiles with 13px all round, 12px gaps and 12px above the footer band.
 - Rails and arrows together, in the page or out of it, never split.
@@ -255,7 +255,7 @@ My proposal of 22:44 had three parts. On review:
 4. **The Resources symbols** (section 4.4).
    - Nine SVGs in `src/assets/resource-icons/`, drawn to the System icons' style.
    - Check: a unit test for the fallback order (list, then symbols, then title alone).
-5. **Turning the device** (section 4.6).
+5. **Turning the device** (section 4.5).
    - The height lines in the same query set.
    - The compact header and footer band.
    - The safe areas, the keyboard and the place kept through a turn.
@@ -264,7 +264,7 @@ My proposal of 22:44 had three parts. On review:
    - AI 9 sections 4 and 23 rewritten from this proposal.
    - The user guide's note on screen sizes.
    - The log.
-7. **Browser check** at the six sizes of section 2 and the four of section 4.6, light and dark, every System page and the Capability pages; screenshots to the owner.
+7. **Browser check** at the six sizes of section 2 and the four of section 4.5, light and dark, every System page and the Capability pages; screenshots to the owner.
 
 Each step is one commit; the whole is one PR.
 
@@ -274,7 +274,7 @@ Each step is one commit; the whole is one PR.
 2. **The type table** (section 4.2), with the body held at 16 on Phone, Tablet and Laptop and 18 on Monitor.
 3. **Tablet and Phone rails in the footer band** (section 4.3).
 4. **The nine Resource symbols** (section 4.4): these references, or other shapes for any of them.
-5. **Turning the device** (section 4.6): a height line at 480 (Phone, landscape) and at 640 (side by side needs that much); the user's place kept through a turn; the safe areas.
+5. **Turning the device** (section 4.5): a height line at 480 (Phone, landscape) and at 640 (side by side needs that much); the user's place kept through a turn; the safe areas.
 
 ## 8. Sources
 
