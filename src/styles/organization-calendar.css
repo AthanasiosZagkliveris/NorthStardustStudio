@@ -21,7 +21,7 @@
        and AppFooter's own fixed height (see workspace.css'
        `.workspace-footer`) exactly, so the panel's own visible
        band sits precisely between them, never overlapping. */
-    top:80px;
+    top:var(--app-header-height, 64px);
     /* (The footer has no ground of its own: the panel runs to the window's foot and the Back link stands over it.) */
     bottom:0;
 

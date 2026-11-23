@@ -289,6 +289,7 @@ The code that sets these sizes:
 | A frame's padding and edge | 12px + 1px on all four sides: the frame hugs its tiles | `--card-padding`, global.css; `SectionTiles` (hug, `data-hug-pair`) |
 | Between two chapters, between two tiles, under a frame's head | 12px | `--space-card`, global.css |
 | A frame's head (its title) | 36px | `--section-head-height`, global.css |
+| The page's head | The header 64px (`--app-header-height`; 56px on a phone in landscape); 24px from the header to the title's capitals, 12px from the letters' foot to the underline, 12px from the underline to the chapter; the page's symbol level with the capitals (owner, 2026-11-24 00:56 UTC+2) | global.css, 01-interview.css |
 | First tile row's top | The rule's bottom + 12 + 61 (edge and padding 13, head 36, 12) | `masterSide`, `arrowLevel` |
 | A lone chapter | Keeps the two-chapter page width. It hugs its tiles at the page's left, against the left rail. | `SectionTiles` |
 | The page title | One line. On a wide screen it steps down 2px at a time to 24px at the least, and its line keeps its height. | `InterviewHeader` |

@@ -4,7 +4,7 @@ import { freshCards } from "../cards/freshCards.ts";
 import { cardNameOf } from "../cards/cardNames.ts";
 import "../../../styles/section-tiles.css";
 import { type SectionTile, type TileLink, type TileAdd, type OpenRequest, type FloatingCentre, type FloatingOpen } from "./SectionTileTypes.ts";
-import { masterSide, setTilesPage, fitHeading, cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
+import { masterSide, setTilesPage, setTilesPageWidth, fitHeading, cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
 import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext, StackUnderContext } from "./DialogLevels.tsx";
 import { TileFace, TileLinks, TilePlus, useTileAim } from "./TileParts.tsx";
 import { OPEN_EVENT, FloatingCards, TileDialog } from "./FloatingCards.tsx";
@@ -145,11 +145,15 @@ export default function SectionTiles({
                     hug.style.maxWidth = "";
                     hug.style.marginInline = "";
                 }
-                const room = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect().width ?? 0;
+                // (The room is the window's -- 1400px at most, its gutters taken off --, never the page's own width, which follows the chapter here too.)
+                const gutterValue = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-gutter"));
+                const room = Math.min(1400, document.documentElement.clientWidth - 2 * (Number.isFinite(gutterValue) ? gutterValue : 16));
                 const extra = hug && box.getBoundingClientRect().width > 0 ? hug.getBoundingClientRect().width - box.getBoundingClientRect().width : 26;
                 const fill = Math.floor(((room > 0 ? room - extra : box.clientWidth) - (row - 1) * 12) / row);
                 side = Math.max(isPhone() ? fill : Math.min(fill, cap), 72);
-                setTilesPage(box.closest<HTMLElement>(".conversation-page"), null);
+                // (THE PAGE AS WIDE AS ITS CHAPTER ON A TABLET OR A PHONE TOO (owner, 2026-11-24 00:56 UTC+2, his lines at the chapter's edges: "The arrows should start
+                // exactly after the page limits"): the title's rule and the footer's arrows take the chapter's edges.)
+                setTilesPageWidth(box.closest<HTMLElement>(".conversation-page"), row * side + (row - 1) * 12 + extra);
                 box.style.setProperty("--quad-across", String(row));
                 if (hug && box.getBoundingClientRect().width > 0) {
                     // (A width of its own: centred by its auto margins, a frame would otherwise shrink round tiles that measure their frame, to nothing.)

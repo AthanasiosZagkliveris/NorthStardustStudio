@@ -72,7 +72,7 @@
 .workbook .glossary-page{
 
     max-width:var(--card-width);
-    padding:104px 0 96px;
+    padding:calc(var(--app-header-height, 64px) + 24px) 0 96px;
 
 }
 

@@ -118,6 +118,8 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
     const restSample = useRef<{ y: number; y0: number; top: number; withPage: boolean } | null>(null);
     // (The room the bullets make round the arrow, as last placed: useRailSlot, below.)
     const railSlot = useRef<RailSlot | null>(null);
+    // (The tab's last places: a place that alternates with another is settled -- below.)
+    const recentTops = useRef<number[]>([]);
 
     useLayoutEffect(() => {
         const node = target.current;
@@ -146,13 +148,19 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
         // a tab the arrow then makes taller than the window allows scrolls, its Back in view, as any capped tab.)
         const madeRound = railSlot.current ? railSlot.current.shift + railSlot.current.extra : 0;
         const railHeight = railRef.current ? Math.max(0, railRef.current.scrollHeight + (railList ? Math.max(0, railList.scrollHeight - railList.clientHeight) : 0) - madeRound) : 0;
-        const titleTop = Math.max(headerBottom + 12, Math.min(titleTopOf(node, restSample), window.innerHeight - Math.max(160, railHeight + 12)));
+        // (In a window too short for the tab -- a phone turned to landscape, 390px tall -- the tab's height and its place moved each other a few pixels at a time until
+        // React stopped (the Handbook at 844 x 390, 2026-11-24): its place is a whole pixel, and a move under 2px is no move.)
+        const placed = Math.round(Math.max(headerBottom + 12, Math.min(titleTopOf(node, restSample), window.innerHeight - Math.max(160, railHeight + 12))));
+        // (A place that comes back after one other -- the tab's height and its place each moving the other, back and forth -- settles on the higher of the two.)
+        const seen = recentTops.current;
+        const titleTop = seen.length >= 2 && seen[seen.length - 2] === placed && seen[seen.length - 1] !== placed ? Math.min(placed, seen[seen.length - 1]) : placed;
+        recentTops.current = [...seen.slice(-3), titleTop];
         // (The tab stands on the side of the layer that is nearer its end of the page: a layer in the left half has it at its left, one in the right half at its right.)
         // (A layer as wide as the page -- the Capabilities' dialog, the Workbook's panel -- has its tab at the left, as a System page's page tab: at the right it was
         // squeezed between the layer and the window's edge; owner, 2026-11-22 21:00 UTC+2, "their rails".)
         const pageWide = box.width > window.innerWidth * 0.7;
         const side: "left" | "right" = fixedSide ?? (pageWide || box.left + box.width / 2 < window.innerWidth / 2 ? "left" : "right");
-        setAt(previous => previous && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.right - right) < 0.5 && Math.abs(previous.top - top) < 0.5 && Math.abs(previous.titleTop - titleTop) < 0.5 && previous.side === side && Math.abs(previous.leftEdge - box.left) < 0.5 && previous.tab?.bg === tab?.bg && previous.tab?.edge === tab?.edge && previous.tab?.ink === tab?.ink ? previous : { left, right, top, edge: box.right, leftEdge: box.left, side, titleTop, tab });
+        setAt(previous => previous && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.right - right) < 0.5 && Math.abs(previous.top - top) < 0.5 && Math.abs(previous.titleTop - titleTop) < 2 && previous.side === side && Math.abs(previous.leftEdge - box.left) < 0.5 && previous.tab?.bg === tab?.bg && previous.tab?.edge === tab?.edge && previous.tab?.ink === tab?.ink ? previous : { left, right, top, edge: box.right, leftEdge: box.left, side, titleTop, tab });
     });
 
     // (Measured again whenever the box or the window changes size.)

@@ -282,6 +282,24 @@ export function tilesPageWidth(side: number): number {
 }
 
 /** Sets the page's width from its tiles on the page's root (.conversation-page: --tiles-page-width, data-tiles-page), or takes it away (side null). */
+/** Sets the page's width to a measured width (the stacked layout: its one chapter's), or takes it away (null). */
+export function setTilesPageWidth(page: HTMLElement | null, width: number | null): void {
+    if (!page) {
+        return;
+    }
+    if (width === null) {
+        page.removeAttribute("data-tiles-page");
+        page.style.removeProperty("--tiles-page-width");
+        return;
+    }
+    const value = Math.ceil(width) + "px";
+    if (page.style.getPropertyValue("--tiles-page-width") !== value) {
+        page.style.setProperty("--tiles-page-width", value);
+        page.setAttribute("data-tiles-page", "");
+        window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+    }
+}
+
 export function setTilesPage(page: HTMLElement | null, side: number | null): void {
     if (!page) {
         return;

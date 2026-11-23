@@ -1,6 +1,6 @@
 .app-header {
 
-    height: 80px;
+    height: var(--app-header-height, 64px);
 
     display: flex;
 
@@ -346,23 +346,9 @@ body:has(.section-tile-overlay) .app-header {
    its logo and buttons as they are; the footer's band and the rails' row 48px; the page title and the side panels under the shorter header. */
 @media (orientation: landscape) and (max-height: 479px) {
 
-    .app-header {
+    :root {
 
-        height: 56px;
-
-    }
-
-    .conversation-page > .conversation-content {
-
-        padding-top: 80px;
-
-    }
-
-    .interview-header,
-    .notepad-panel,
-    .org-calendar-panel {
-
-        top: 56px;
+        --app-header-height: 56px;
 
     }
 

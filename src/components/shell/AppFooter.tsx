@@ -121,6 +121,18 @@ export default function AppFooter({
         };
     }, []);
 
+    // (Its word where the room left of the page holds it, else its arrow alone, its name in the tooltip.)
+    useLayoutEffect(() => {
+        const back = titleRow?.querySelector<HTMLElement>(".interview-header-back");
+        if (!titleRow || !back) {
+            return;
+        }
+        back.classList.remove("interview-header-back-short");
+        if (back.getBoundingClientRect().left < 4) {
+            back.classList.add("interview-header-back-short");
+        }
+    });
+
     return (
 
         <footer className="workspace-footer" ref={footer}>

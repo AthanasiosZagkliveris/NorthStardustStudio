@@ -66,27 +66,53 @@
 
     gap:18px;
 
+    position:relative;
+
+    /* (THE THREE GAPS OF THE PAGE'S HEAD (owner, 2026-11-24 00:56 UTC+2: "check the gaps 1. above the page title, 2. between the title and the underline, 3. between
+       the underline and the chapter top edge"): measured from the letters, not their line's box -- 24px from the header to the capitals' top, 12px from the
+       letters' foot to the underline, 12px from the underline to the chapter. The line's box keeps about a fifth of the size above the capitals (Inter) and a
+       twelfth under the descenders: the row gives them back.) */
+    margin-top:calc(-0.19 * var(--font-h1));
+    margin-bottom:calc(-0.1 * var(--font-h1));
+
 }
 
 /* (BACK BESIDE THE PAGE'S TITLE ON A TABLET (AppFooter; owner, 2026-11-24 00:21 UTC+2): first in the title's row, before the page's symbol, its word and arrow as in the
    footer; it never shrinks, the title gives way.) */
 .interview-header-title-row > .interview-header-back.back-link{
 
-    order:-1;
+    /* (Outside the page's left edge, 12px from it, level with the title -- owner, 2026-11-24 00:56 UTC+2, his line at the page's limit: the title's row starts
+       on the page's edge.) */
+    position:absolute;
 
-    position:static;
+    top:50%;
+    right:calc(100% + var(--gap-12));
+    left:auto;
+    bottom:auto;
 
     flex-shrink:0;
 
     margin:0;
 
-    translate:none;
+    translate:0 -50%;
 
     pointer-events:auto;
+
+    white-space:nowrap;
+
+}
+
+.interview-header-title-row > .interview-header-back.interview-header-back-short .back-button-word{
+
+    display:none;
 
 }
 
 .interview-header-icon{
+
+    /* (Level with the capitals' middle: the symbols' drawing stands a little low in its square -- owner, 2026-11-24 00:56 UTC+2, "Align the icons properly next to
+       the titles".) */
+    translate:0 calc(-0.14 * var(--font-h1));
 
     width:36px;
     height:36px;
@@ -613,7 +639,7 @@
 
     position:sticky;
 
-    top:80px;
+    top:var(--app-header-height, 64px);
 
     z-index:5;
 

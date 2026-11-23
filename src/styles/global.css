@@ -128,6 +128,10 @@ body {
      and 7): each step moves smoothly with the window -- the headings from the phone's size at 360px to the monitor's at 1440px, the body from 16px on a laptop
      to 18px on a monitor, the small step from 13px on a phone or tablet to 14px from 900px --, written in rem so both the page's zoom and the user's own font
      size scale them (WCAG 1.4.4). h1 24 -> 36, h2 20 -> 28, h3 18 -> 24, body 16 -> 18, small 13 -> 14. */
+  /* THE APP HEADER'S HEIGHT, ONE TOKEN (owner, 2026-11-24 00:56 UTC+2: "Check the Heading (with its icons, buttons and texts) if they could get shorter"): 64px --
+     its 44px logo and buttons with 10px above and below --, 56px on a phone turned to landscape (app-header.css); every band and panel under it reads it. */
+  --app-header-height: 64px;
+
   --font-h1: clamp(1.5rem, 1.25rem + 1.1111vw, 2.25rem);
   --font-h2: clamp(1.25rem, 1.0833rem + 0.7407vw, 1.75rem);
   --font-h3: clamp(1.125rem, 1rem + 0.5556vw, 1.5rem);

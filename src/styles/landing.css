@@ -13,7 +13,7 @@
        this page renders one too (item 3), same pattern every
        other page follows (see app-header.css), plus the page's
        own original 32px breathing room. */
-    padding: 112px 4vh 4vh;
+    padding: calc(var(--app-header-height, 64px) + 32px) 4vh 4vh;
 }
 
 .landing-card {

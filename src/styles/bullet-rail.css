@@ -40,7 +40,7 @@
 .bullet-rails {
 
     position: fixed;
-    top: 104px;
+    top: calc(var(--app-header-height, 64px) + 24px);
     /* Clear of the footer (64px), with the same 32px to spare as
        the page. */
     bottom: 96px;
@@ -65,7 +65,7 @@
     /* (EVERY RAIL STARTS 12px UNDER ITS FRAME'S TOP, as a dialog's or a card's tab does: --rail-frame-top, read from the page's frame by useRailTab.ts; owner,
        2026-11-19 12:52 UTC+2, "Why the rails (chapter/page and dialogue card) have different Top gaps". They stood 24px under the arrow level. A page with no
        frame keeps that place.) */
-    flex: 0 1 max(0px, calc(var(--rail-frame-top, calc(var(--arrow-level, calc(50vh - 24px)) + 24px)) - 104px));
+    flex: 0 1 max(0px, calc(var(--rail-frame-top, calc(var(--arrow-level, calc(50vh - 24px)) + 24px)) - var(--app-header-height, 64px) - 24px));
 
 }
 
@@ -740,6 +740,34 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 @media (max-width: 900px), (orientation: portrait), (max-height: 639px), (pointer: coarse) {
 
     :root { --rail-gutter: 16px; }
+
+    /* (The page as wide as its chapter (SectionTiles: --tiles-page-width), centred; the footer's arrows just outside its edges, 12px from them, the bullets between --
+       owner, 2026-11-24 00:56 UTC+2: "The arrows should start exactly after the page limits".) */
+    .conversation-page[data-tiles-page] {
+
+        --card-width: var(--tiles-page-width);
+
+    }
+
+    .conversation-page[data-tiles-page] .conversation-card {
+
+        max-width: var(--tiles-page-width);
+
+    }
+
+    /* (A page of cards with no page group round it -- Infrastructure & Capability -- gives its columns' 13px back, as .page-group does: its chapter takes the page's
+       edges.) */
+    .conversation-page[data-tiles-page] .conversation-card > .field-page > .answer-columns:not(.column-tiles-page) {
+
+        margin-inline: -13px;
+
+    }
+
+    body:has(.conversation-page[data-tiles-page]) .bullet-rails {
+
+        padding-inline: max(var(--gap-12), calc((100vw - var(--tiles-page-width, 100vw)) / 2 - 24px - var(--gap-12)));
+
+    }
 
     .bullet-rails {
 
