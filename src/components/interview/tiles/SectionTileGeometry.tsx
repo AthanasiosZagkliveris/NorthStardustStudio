@@ -252,7 +252,8 @@ export function masterSide(): number | null {
     const column = (widestPage() - 2 * inset - 12) / 2;
     const natural = Math.floor((column - 26 - 12) / 2);
     const tall = Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - 12) / 2);
-    return Math.max(150, Math.min(natural, tall));
+    // (120px at the least: a 640px-tall window, the shortest that keeps chapters side by side, gives 147.)
+    return Math.max(120, Math.min(natural, tall));
 }
 
 /** The rails' room at each end of the page (--rail-inset, bullet-rail.css). */
@@ -450,4 +451,25 @@ export function scaleOrigin(
     const x = axis(at.column, columns, box.left, box.right, box.width, room ? room.left : NaN, room ? room.right : NaN);
     const y = axis(at.row, rows, box.top, box.bottom, box.height, room ? room.top : NaN, room ? room.bottom : NaN);
     return x + " " + y;
+}
+
+
+/**
+ * A CHAPTER'S HEADING ON ONE LINE (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved, section 4.2): the chapter frame hugs its tiles, so a long heading
+ * ("2. OFFERING'S CAPABILITY") over small tiles may not fit; it steps down from the scale's size, 2px at a time, to 18px at the least, keeping its line's height,
+ * until it stands on one line.
+ */
+export function fitHeading(heading: HTMLElement): void {
+    heading.style.removeProperty("font-size");
+    heading.style.removeProperty("line-height");
+    const line = parseFloat(getComputedStyle(heading).lineHeight) || 0;
+    let size = parseFloat(getComputedStyle(heading).fontSize) || 0;
+    if (line <= 0 || heading.getBoundingClientRect().height <= line * 1.5) {
+        return;
+    }
+    heading.style.lineHeight = line + "px";
+    while (size > 18 && heading.getBoundingClientRect().height > line * 1.5) {
+        size -= 2;
+        heading.style.fontSize = size + "px";
+    }
 }

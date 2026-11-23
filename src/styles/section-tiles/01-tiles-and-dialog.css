@@ -51,7 +51,9 @@
 
 }
 
-.section-tiles-quad[data-large] .section-tile-list {
+/* (A master tile's list is the body step at every size: the type follows the window's tier (the fluid tokens, global.css), not the tile -- owner,
+   2026-11-23 23:21 UTC+2, the responsive layout approved; it was 18px from 250px a side and 14px under.) */
+.section-tiles-quad .section-tile-list {
 
     font-size: var(--font-body);
 
@@ -61,6 +63,67 @@
 .section-tile-list[data-no-room] {
 
     visibility: hidden;
+
+}
+
+/* THE SYMBOLS WHERE THE NAMES DO NOT FIT (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved, section 4.4; TileList, data-symbols): a Resources tile too
+   small for its categories shows one 24px symbol each, in the list's ink, in rows from the left, 12px apart, each a 24px target (WCAG 2.5.8) named in its
+   tooltip and to assistive technology (its words stay in the line, read but not drawn). With room, the symbol is not drawn. */
+.section-tile-list-fallback {
+
+    display: none;
+
+}
+
+.section-tile-list[data-symbols] {
+
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: var(--space-card);
+
+    width: 100%;
+
+}
+
+.section-tile-list[data-symbols] > li {
+
+    padding: 0;
+
+}
+
+.section-tile-list[data-symbols] > li::before {
+
+    content: none;
+
+}
+
+.section-tile-list[data-symbols] .section-tile-list-fallback {
+
+    display: block;
+
+    width: var(--icon-size);
+    height: var(--icon-size);
+
+    background: currentColor;
+
+    -webkit-mask: var(--fallback-symbol) center / contain no-repeat;
+    mask: var(--fallback-symbol) center / contain no-repeat;
+
+}
+
+.section-tile-list[data-symbols] .section-tile-list-line {
+
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    overflow: hidden;
+
+    clip-path: inset(50%);
+
+    white-space: nowrap;
 
 }
 
@@ -607,40 +670,11 @@
 
 }
 
-/* THE SMALL TILES' TYPE (owner, 2026-11-23 21:05 UTC+2: "Looks good, let's refine it adjusting the text size"): under 230px a side (a short landscape window, where
-   the page follows its tiles), a master tile's title takes the small step (14px) with the bold tracking (0.05em) in place of the wide one, so its words stay whole;
-   the list keeps the small step. Set with data-compact by the tiles' fit (SectionTiles, SystemSelection). */
-.section-tiles-quad[data-compact] .section-tile-title,
-.capability-tiles[data-compact] .section-tile-title {
-
-    font-size: var(--font-small);
-
-    letter-spacing: var(--bold-tracking);
-
-}
-
-/* (Its chapter's heading one step down too (24px): "SITUATION & DIRECTION" stays on one line over a frame of small tiles, so the tiles start where every page's do.) */
-:is(.business-foundation-card, .segment-chapter):has(.section-tiles-quad[data-compact]) .tiles-frame-head .field-group-title,
-.answer-columns.business-capability > .business-foundation-card:not(.section-tile-dialog):has(.section-tiles-quad[data-compact]) .answer-column-label,
-.capability-tiles[data-compact] .tiles-frame-head .field-group-title {
-
-    font-size: var(--font-h3);
-
-}
-
-/* (Under 170px a side -- the shortest landscape windows, 1366 x 640 --, the body step: "2. OFFERING'S CAPABILITY" on one line over two such tiles.) */
-:is(.business-foundation-card, .segment-chapter):has(.section-tiles-quad[data-tiny]) .tiles-frame-head .field-group-title,
-.answer-columns.business-capability > .business-foundation-card:not(.section-tile-dialog):has(.section-tiles-quad[data-tiny]) .answer-column-label,
-.capability-tiles[data-tiny] .tiles-frame-head .field-group-title {
-
-    font-size: var(--font-body);
-
-}
 
 /* THE PHONE (600px and under; layout rules section 23, "The phone"; owner, 2026-11-22 09:52 UTC+2): a tile's title one step down the scale, the small step (14px,
    as its list), in capitals with no added tracking, its words whole -- never cut at a letter ("ORGANI / SATION" at 18px in a 136px tile). Measured on every
    page at 390 and 360 wide: every master tile's title fits. The chapter's heading keeps its words whole too. */
-@media (max-width: 600px) {
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px) {
 
     .section-tile-title {
 

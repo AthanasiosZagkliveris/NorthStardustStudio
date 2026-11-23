@@ -303,8 +303,6 @@ export default function SystemSelection() {
         const tile = box?.querySelector<HTMLElement>(".section-tile");
         if (box && tile) {
             box.toggleAttribute("data-large", tile.offsetWidth >= 250);
-            box.toggleAttribute("data-compact", tile.offsetWidth < 230);
-            box.toggleAttribute("data-tiny", tile.offsetWidth < 170);
         }
     });
 

@@ -340,3 +340,37 @@ body:has(.section-tile-overlay) .app-header {
     }
 
 }
+
+/* A PHONE TURNED TO LANDSCAPE (under 480px tall; owner, 2026-11-23 23:14 and 23:21 UTC+2: "the user could rotate his mobile or tablet and the app both ways
+   (portrait and landscape) should work and displayed properly"; the responsive layout, section 4.5): the bands give the page its height back -- the header 56px,
+   its logo and buttons as they are; the footer's band and the rails' row 48px; the page title and the side panels under the shorter header. */
+@media (orientation: landscape) and (max-height: 479px) {
+
+    .app-header {
+
+        height: 56px;
+
+    }
+
+    .conversation-page > .conversation-content {
+
+        padding-top: 80px;
+
+    }
+
+    .interview-header,
+    .notepad-panel,
+    .org-calendar-panel {
+
+        top: 56px;
+
+    }
+
+    .workspace-footer,
+    .bullet-rails {
+
+        height: 48px;
+
+    }
+
+}

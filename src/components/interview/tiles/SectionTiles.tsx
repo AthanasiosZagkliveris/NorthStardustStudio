@@ -4,7 +4,7 @@ import { freshCards } from "../cards/freshCards.ts";
 import { cardNameOf } from "../cards/cardNames.ts";
 import "../../../styles/section-tiles.css";
 import { type SectionTile, type TileLink, type TileAdd, type OpenRequest, type FloatingCentre, type FloatingOpen } from "./SectionTileTypes.ts";
-import { masterSide, setTilesPage, cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
+import { masterSide, setTilesPage, fitHeading, cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
 import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext, StackUnderContext } from "./DialogLevels.tsx";
 import { TileFace, TileLinks, TilePlus, useTileAim } from "./TileParts.tsx";
 import { OPEN_EVENT, FloatingCards, TileDialog } from "./FloatingCards.tsx";
@@ -136,7 +136,9 @@ export default function SectionTiles({
             let side: number;
             if (vertical) {
                 const row = masterAcross();
-                const cap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--quad-cap")) || 330;
+                // (A tablet's tiles never outgrow a laptop's: 260px at the most in the stacked layout -- owner, 2026-11-23 23:21 UTC+2, the responsive layout
+                // approved, section 4.3.)
+                const cap = Math.min(parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--quad-cap")) || 330, 260);
                 // (The room the frame may take: the page title's underline, where every frame starts and ends; what the frame adds round its tiles, measured unhugged.)
                 if (hug) {
                     hug.style.width = "";
@@ -190,7 +192,7 @@ export default function SectionTiles({
                 // between its rails as two chapters do, never hugs (owner, 2026-11-23 19:41 and 19:45 UTC+2: "Fix the errors"; "the chapter frames / tiles are not
                 // properly placed. Check with the other pages and fix it properly").)
                 const pair = hug ? hug.querySelectorAll(".section-tiles-quad").length > 1 : false;
-                if (hug && box.getBoundingClientRect().width > 0 && side >= 150 && beside.length === 0 && !pair) {
+                if (hug && box.getBoundingClientRect().width > 0 && side >= 120 && beside.length === 0 && !pair) {
                     hug.style.setProperty("width", Math.ceil(2 * side + 12 + extra) + "px", "important");
                     hug.style.maxWidth = "100%";
                     hug.style.marginInline = "0 auto";
@@ -198,7 +200,7 @@ export default function SectionTiles({
                 // (TWO CHAPTERS HUG THEIR TILES TOO (owner, 2026-11-23 20:12 UTC+2: "The chapter's side gaps seems larger that its top down. If you hug the Master Tiles
                 // properly, maybe the right arrow, could fit in the page"): two chapters side by side, or a Segment's two groups, stand at the page's left, each its
                 // padding round its tiles on all four sides, 12px apart; what the page leaves over is at their right, where the right arrow stands.)
-                if (hug && box.getBoundingClientRect().width > 0 && side >= 150 && (beside.length > 0 || pair)) {
+                if (hug && box.getBoundingClientRect().width > 0 && side >= 120 && (beside.length > 0 || pair)) {
                     const part = pair ? box.closest<HTMLElement>(".segment-chapter-part") ?? box.parentElement : hug;
                     const round = part ? part.getBoundingClientRect().width - box.getBoundingClientRect().width : 26;
                     const both = 2 * Math.ceil(2 * side + 12 + round) + 12;
@@ -234,8 +236,14 @@ export default function SectionTiles({
             }
             if (hug) {
                 railsBesideFrames(box);
+                // (Its heading on one line over the tiles it hugs: fitHeading.)
+                hug.querySelectorAll<HTMLElement>(":scope .answer-column-label, :scope .tiles-frame-head .field-group-title").forEach(heading => {
+                    if (heading.closest(".section-tile-dialog") === null) {
+                        fitHeading(heading);
+                    }
+                });
             }
-            box.style.setProperty("--quad-max-side", Math.max(side, vertical ? 72 : 150) + "px");
+            box.style.setProperty("--quad-max-side", Math.max(side, vertical ? 72 : 120) + "px");
             // The type of the four tiles from the type scale by their size: 24px titles and 18px lists from 250px a side, else 18px and 14px.
             // (EVERY CHAPTER HAS THE SAME TYPE (owner, 2026-11-19 22:47 UTC+2, the Segment chapters): the width is the first chapter's, the one shown, so a chapter
             // measured while hidden -- 0px wide -- takes the same size as the first, and measures again when it is shown.)
@@ -254,10 +262,6 @@ export default function SectionTiles({
             } else {
                 box.removeAttribute("data-large");
             }
-            // (Under 230px a side the titles take the small step: data-compact, 01-tiles-and-dialog.css.)
-            box.toggleAttribute("data-compact", !vertical && actual < 230);
-            // (Under 170px a side the chapter's heading takes the body step: data-tiny.)
-            box.toggleAttribute("data-tiny", !vertical && actual < 170);
         };
         fit();
         window.addEventListener("resize", fit);

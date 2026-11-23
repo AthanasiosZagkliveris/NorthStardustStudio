@@ -153,7 +153,20 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             fitWidth();
             // (A MASTER TILE'S TITLE TOO LONG FOR THE ROOM ABOVE ITS LINE DROPS TO THE SMALL SIZE, THAT TITLE ONLY (layout rules section 8, "Tile anatomy": its first line at
             // least 12px from the square's top; 2026-11-20, "BREAK-EVEN & SUSTAINABILITY" at 1366 and 768): the tile and its slot take data-title-small, and it is measured again.)
-            if (node.closest(".section-tiles-quad") && (node.getBoundingClientRect().top - tile.getBoundingClientRect().top < 12 + tile.clientTop || node.scrollHeight > node.clientHeight + 1)) {
+            // (A WORD WIDER THAN THE TILE takes the small size too: a word is never cut at a letter ("RESOURCE / S"), now that the title keeps the window's size on
+            // every tile -- the responsive layout approved, 2026-11-23 23:21 UTC+2, section 4.2. Laid out with its words whole, it runs past its own width.)
+            const wordTooWide = (): boolean => {
+                const width = node.style.width;
+                node.style.width = "";
+                node.style.overflowWrap = "normal";
+                node.style.wordBreak = "normal";
+                const over = node.scrollWidth > node.clientWidth + 1;
+                node.style.overflowWrap = "";
+                node.style.wordBreak = "";
+                node.style.width = width;
+                return over;
+            };
+            if (node.closest(".section-tiles-quad") && (node.getBoundingClientRect().top - tile.getBoundingClientRect().top < 12 + tile.clientTop || node.scrollHeight > node.clientHeight + 1 || wordTooWide())) {
                 tile.setAttribute("data-title-small", "");
                 tile.closest<HTMLElement>(".section-tile-slot")?.setAttribute("data-title-small", "");
                 fitWidth();
@@ -351,11 +364,14 @@ export function TileList({
             // descender (g, y, p) is never cut.)
             const room = rows.length > 1 && Number.isFinite(rows[1]) ? rows[1] - (parseFloat(getComputedStyle(node).marginTop) || 0) + 5 : 0;
             if (room <= 0) {
+                // (No room at all under the title: the list is not shown -- the title alone, as below.)
+                node.setAttribute("data-no-room", "");
                 return;
             }
             node.style.height = "auto";
             node.style.maxHeight = "none";
             node.removeAttribute("data-no-room");
+            node.removeAttribute("data-symbols");
             // (A paragraph clamped on an earlier measure is measured whole again.)
             node.querySelectorAll<HTMLElement>("[data-clamped]").forEach(line => {
                 line.removeAttribute("data-clamped");
@@ -408,6 +424,21 @@ export function TileList({
             // (TOO LITTLE ROOM SHOWS THE TITLE ALONE (owner, 2026-11-23 21:49 UTC+2: "If there is not enough space for listed items or text on the Tiles, then hide it,
             // and keep only the Tile's title, and symbol"): a list or a text cut to less than two lines is not shown; the tile keeps its title and its symbol, and
             // its whole text is in its dialog and its tooltip.)
+            // (SYMBOLS WHERE THE NAMES DO NOT FIT (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved, section 4.4): a list cut short whose every line has its
+            // symbol -- a Resources tile's categories -- shows the symbols in a grid in the room, each named in its tooltip; a grid that does not fit either goes, as
+            // below.)
+            const lines = Array.from(node.children) as HTMLElement[];
+            if (node.scrollHeight > node.clientHeight + 1 && lines.length > 0 && lines.every(line => line.querySelector(".section-tile-list-fallback"))) {
+                // (As many whole rows of symbols as the room holds -- the tile opens on all of them; under one row, the title alone, as below.)
+                const symbol = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--icon-size")) || 24;
+                const gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--space-card")) || 12;
+                const rowsFit = Math.floor((room + gap) / (symbol + gap));
+                if (rowsFit >= 1) {
+                    node.setAttribute("data-symbols", "");
+                    node.style.height = (rowsFit * (symbol + gap) - gap) + "px";
+                    return;
+                }
+            }
             const shownHeight = node.clientHeight;
             const cut = node.scrollHeight > shownHeight + 1 || clamped;
             const line = lineHeight > 0 ? lineHeight : parseFloat(getComputedStyle(node).lineHeight) || 24;
@@ -454,7 +485,8 @@ export function TileList({
                 }
                 const symbol = marks?.[position]?.icon;
                 const status = marks?.[position]?.status;
-                const drawn = <>{status && <span className="status-shape section-tile-list-shape" data-status={status} aria-hidden="true" />}{symbol && <img className="section-tile-list-symbol" src={symbol} alt="" />}{brokenLines(item).map((part, at, parts) => <Fragment key={at}><span className="section-tile-list-line">{boldWords(part)}</span>{at < parts.length - 1 && " "}</Fragment>)}</>;
+                const fallback = marks?.[position]?.symbol;
+                const drawn = <>{fallback && <span className="section-tile-list-fallback" style={{ "--fallback-symbol": "url(\"" + fallback + "\")" } as React.CSSProperties} aria-hidden="true" />}{status && <span className="status-shape section-tile-list-shape" data-status={status} aria-hidden="true" />}{symbol && <img className="section-tile-list-symbol" src={symbol} alt="" />}{brokenLines(item).map((part, at, parts) => <Fragment key={at}><span className="section-tile-list-line">{boldWords(part)}</span>{at < parts.length - 1 && " "}</Fragment>)}</>;
                 return (
                     <li
                         key={position}

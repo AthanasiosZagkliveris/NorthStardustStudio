@@ -371,7 +371,7 @@
    only", replacing the 1200px line of 2026-11-20: two chapters and their 28px titles fit from 1100px, so a landscape iPad, 1180 or 1194 wide, keeps them side by side). CSS reads no variable inside @media, so this query is written
    once, here: a page's frames one to a row, Infrastructure & Capability's two cards one under the other, a chapter's two groups one under the other (below), a page of
    one chapter the page's whole width (--one-chapter-width, global.css). (The rules that hold only while chapters stand side by side say `and (orientation: landscape)`.) */
-@media (max-width: 1099px), (orientation: portrait) {
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
 
     :root {
 
@@ -1049,7 +1049,7 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
    this page scroll? There is nothing lower to reveal"; "make sure all chapters and their master tiles are the same size across pages"): it takes no room above the
    footer, so the page fits the window as every tile page does and its chapters are their size. At the left edge of the page card; where the page card stacks or
    the window is short (under 640px, where the chapters reach the footer's band), it stays under the chapters. */
-@media (min-width: 1212px) and (min-height: 640px) and (orientation: landscape) {
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) {
 
     .business-foundation-segment-frames + .business-foundation-input-actions {
 
@@ -1078,7 +1078,7 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
 
     .business-foundation-segment-frames {
 

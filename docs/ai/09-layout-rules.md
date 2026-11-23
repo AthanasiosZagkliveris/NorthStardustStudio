@@ -292,7 +292,7 @@ The code that sets these sizes:
 | First tile row's top | The rule's bottom + 12 + 61 (edge and padding 13, head 36, 12) | `masterSide`, `arrowLevel` |
 | A lone chapter | Keeps the two-chapter page width. It hugs its tiles at the page's left, against the left rail. | `SectionTiles` |
 | The page title | One line. On a wide screen it steps down 2px at a time to 24px at the least, and its line keeps its height. | `InterviewHeader` |
-| Type in small tiles | Under 230px a side: titles 14px with the bold tracking, so words stay whole, and chapter headings 24px (`data-compact`). Under 170px: chapter headings 18px (`data-tiny`). | 01-tiles-and-dialog.css |
+| The type | One fluid scale in `rem` (global.css): h1 24 to 36, h2 20 to 28, h3 18 to 24, body 16 to 18, small 13 to 14, moving with the window (the responsive layout, docs/proposals/responsive-layout-2026-11-23.md, section 4.2). A master tile's title and list are the body step; a word too wide for its tile takes the small step (`data-title-small`); a chapter's heading steps down to stand on one line (`fitHeading`) | global.css, `TileTitle`, `fitHeading` |
 | The footer's band | One button high (64px), with Back, "+ Add Segment", Inventory and Completed in it. At least 12px between the chapter's foot and the band. "+ Add Segment" starts on the chapter's left edge. | `--tiles-page-width` page foot, bullet-rail.css |
 | Rails and arrows | Together, inside the page, under the title rule, at its ends. Each arrow is centred on its rail. The page's symbol is on the left rail's line. The right rail stands against its chapter. | bullet-rail.css |
 | Arrow level | The first row's top + side + 6 (the middle of the gap between the rows) | `arrowLevel` |
@@ -300,7 +300,8 @@ The code that sets these sizes:
 | A tile with too little room | A list or a text cut to less than two lines is not shown: the tile keeps its title and its symbol (owner, 2026-11-23 21:49 UTC+2) | `TileList` (`data-no-room`) |
 | The page tags' place | Always 12px under the top of the chapter they stand against (a Segment's chapter included), measured again when the page title settles | `useRailTab` |
 | A rail too long for the window | Its bullets lie in a row in the footer's band, by its middle (the Pages rail before it, the Sections rail after it), without a tab; its arrow keeps its place (owner, 2026-11-23 21:49 UTC+2: "place them horizontally at the footing") | `BulletRail` (`data-across`), bullet-rail.css |
-| The vertical layout (under 1100px or portrait) | Its own steps (section 23). That layout may scroll. | `SectionTiles` (vertical) |
+| The tiers | Side by side, no scroll: a landscape window 900px wide and 640px tall or more. Stacked (one chapter a row, the page scrolls, tiles at most 260px, the rails in the footer's band): under 900px, a portrait window or under 640px tall. A phone turned to landscape (under 480px tall): header 56px, band 48px, four tiles a row. The safe areas pad the bands (`env(safe-area-inset-*)`, `viewport-fit=cover`) | `VERTICAL_QUERY`, `ROW_OF_FOUR_QUERY` (useVerticalLayout.ts), bullet-rail.css, app-header.css |
+| A Resources tile short of room | Its categories as 24px symbols, as many whole rows as fit, each named in its tooltip; under one row, the title alone | `TileList` (`data-symbols`), data/resourceIcons.ts |
 
 The layout check measures these sizes:
 - `checkLandscapePages`: no page of tiles scrolls at 1920 x 950, 1536 x 730, 1440 x 770 or 1366 x 640, and every master tile is square and one size.

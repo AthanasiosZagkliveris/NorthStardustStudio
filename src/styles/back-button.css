@@ -98,7 +98,7 @@
 
 /* THE PHONE (600px and under; layout rules section 23, "The phone"): the rails stand in the footer's band, so Back stands at its left, its arrow's middle 24px from
    the window's left (12px in), the rails' row after it (bullet-rail.css). */
-@media (max-width: 600px) {
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
     :root body:has(.bullet-rail-left .bullet-rail-dot) .workspace-footer .back-button.back-button.back-button,
     :root body .workspace-footer .back-button.back-button.back-button {
         translate: calc(24px - 54px) 0;

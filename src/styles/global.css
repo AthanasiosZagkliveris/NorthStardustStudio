@@ -16,6 +16,9 @@
    visibly jumps left/right as you move between interview steps. */
 html {
   scrollbar-gutter: stable;
+  /* (A phone turned to landscape never enlarges the text on its own: the fluid scale sizes it by the window -- the responsive layout, section 4.5.) */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 /* ==========================================================
@@ -121,11 +124,15 @@ body {
      One hard-coded copy: AXIS_TICK_FONT in FinancialParts.tsx measures
      chart tick labels on a canvas at --font-small's 14px, so a change
      to --font-small has to be made there as well. */
-  --font-h1: 36px;
-  --font-h2: 28px;
-  --font-h3: 24px;
-  --font-body: 18px;
-  --font-small: 14px;
+  /* ONE FLUID SCALE, IN rem (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved: docs/proposals/responsive-layout-2026-11-23.md, sections 4.2
+     and 7): each step moves smoothly with the window -- the headings from the phone's size at 360px to the monitor's at 1440px, the body from 16px on a laptop
+     to 18px on a monitor, the small step from 13px on a phone or tablet to 14px from 900px --, written in rem so both the page's zoom and the user's own font
+     size scale them (WCAG 1.4.4). h1 24 -> 36, h2 20 -> 28, h3 18 -> 24, body 16 -> 18, small 13 -> 14. */
+  --font-h1: clamp(1.5rem, 1.25rem + 1.1111vw, 2.25rem);
+  --font-h2: clamp(1.25rem, 1.0833rem + 0.7407vw, 1.75rem);
+  --font-h3: clamp(1.125rem, 1rem + 0.5556vw, 1.5rem);
+  --font-body: clamp(1rem, 1.25vw, 1.125rem);
+  --font-small: clamp(0.8125rem, 0.6875rem + 0.3333vw, 0.875rem);
 
   /* The line height of running text read as prose (a System's opening
      screen: its introduction and its facts alike). */
@@ -1514,20 +1521,7 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input),
   --band-divider: var(--card-band-ink);
 }
 
-/* THE PHONE (Android's compact window class, 600px and under; owner, 2026-11-22 09:52 UTC+2: "for smaller screens (mobiles), the texts, tiles and cards
-   sizes should be adjusted to fit"; layout rules section 23, "The phone"): the three title steps one step down the same five-step scale (36 -> 28, 28 -> 24,
-   24 -> 18), the body and small steps unchanged (18px and 14px: Apple's body text is 17pt, Material's 16sp), and the page's side gutter 16px (bullet-rail.css). */
-@media (max-width: 600px) {
-
-  :root {
-
-    --font-h1: 28px;
-    --font-h2: 24px;
-    --font-h3: 18px;
-
-  }
-
-}
+/* (The phone's three title steps of 2026-11-22 (28, 24, 18) are now the fluid scale's own sizes at a phone's width: the tokens above.) */
 
 /* THE FOCUS RING OF EVERY CONTROL THAT HAD NONE OR A FAINT ONE (WCAG 2.4.7, 2.4.13 as a guide: 2px at 3:1 against its ground; the standards report, group A 5;
    measured by Tab on every page and its first dialog, 2026-11-22): the app's one ring, 2px of --focus-ring-ink, as the tiles, the back button and the links

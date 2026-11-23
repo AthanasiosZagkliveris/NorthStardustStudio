@@ -732,23 +732,25 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 }
 
 
-/* THE PHONE (600px and under; owner, 2026-11-22 09:52 UTC+2, "for smaller screens (mobiles), the texts, tiles and cards sizes should be adjusted to fit"; layout
-   rules section 23, "The phone"): the side gutters (56px each) would leave a 390px phone a 278px card, so the page's side gutter is 16px and the Pages and
+/* THE STACKED LAYOUT: A TABLET, A PHONE, A SHORT WINDOW (since 2026-11-23 23:21 UTC+2, the responsive layout approved, section 4.3: the rails of a stacked page
+   never stand in the side margins; before, the phone alone -- owner, 2026-11-22 09:52 UTC+2, "for smaller screens (mobiles), the texts, tiles and cards sizes
+   should be adjusted to fit"; layout rules section 23, "The phone"): the side gutters (56px each) would leave a 390px phone a 278px card, so the page's side gutter is 16px and the Pages and
    Sections rails stand in the footer's band, one row: the "‹" page arrow and the Pages dots at the left, the Sections dots and the "›" arrow at the right, the
    bullets in a row 12px apart, their names in the tooltips as on every dots-only rail. No tab is drawn round them: the band is their ground. */
-@media (max-width: 600px) {
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
 
     :root { --rail-gutter: 16px; }
 
     .bullet-rails {
 
         top: auto;
-        bottom: 0;
+        /* (Above the home indicator, clear of a landscape notch: the band's safe areas, as the footer's (workspace.css).) */
+        bottom: env(safe-area-inset-bottom, 0px);
         height: 64px;
 
         z-index: 31;
 
-        padding-inline: var(--gap-12);
+        padding-inline: calc(var(--gap-12) + env(safe-area-inset-left, 0px)) calc(var(--gap-12) + env(safe-area-inset-right, 0px));
 
         flex-direction: row;
         align-items: center;
@@ -872,7 +874,7 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
 }
 
-@media (min-width: 1100px) and (orientation: landscape) {
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) {
 
     body:has(.bullet-rail-left .bullet-rail-dot) .conversation-card > :not(.interview-header, .workspace-continue, .field-page, .capability-help-block),
     body:has(.bullet-rail-left .bullet-rail-dot) .conversation-card > .field-page > * {
@@ -977,7 +979,7 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 /* A RAIL TOO LONG FOR THE WINDOW LIES ACROSS THE FOOTER (owner, 2026-11-23 21:49 UTC+2: "place them horizontally at the footing"; BulletRail, data-across): its
    bullets in a row in the footer's band, by the band's middle -- the Pages rail ending 6px before it, the Sections rail starting 6px after it --, without a tab, as
    the phone's rails; its name in the tooltips; its arrow keeps its place. */
-@media (min-width: 1100px) and (orientation: landscape) {
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) {
 
     :root:root .bullet-rails .bullet-rail[data-across] {
 

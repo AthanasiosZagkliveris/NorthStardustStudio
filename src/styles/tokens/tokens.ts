@@ -1044,18 +1044,21 @@ export interface Boundary {
 }
 
 export const viewportBreakpoints: readonly Boundary[] = [
-    { axis: "height", wideFrom: 560, queries: { "min-height: 560px": 1 } },
+    // (THE TIERS (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved: docs/proposals/responsive-layout-2026-11-23.md, sections 4.1 and 4.5): chapters
+    // stand side by side, with no scroll, in a landscape window 900px wide or more and 640px tall or more; any other window stacks them.)
+    // (A phone turned to landscape: under 480px tall, the bands shrink; the responsive layout, section 4.5.)
+    { axis: "height", wideFrom: 480, queries: { "max-height: 479px": 2 } },
+    { axis: "height", wideFrom: 640, queries: { "max-height: 639px": 6, "min-height: 640px": 4 } },
     { axis: "width", wideFrom: 561, queries: { "max-width: 560px": 2 } },
     { axis: "width", wideFrom: 601, queries: { "max-width: 600px": 2 } },
     { axis: "width", wideFrom: 641, queries: { "max-width: 640px": 2 } },
     { axis: "width", wideFrom: 701, queries: { "max-width: 700px": 2 } },
     { axis: "width", wideFrom: 761, queries: { "max-width: 760px": 2 } },
-    { axis: "width", wideFrom: 901, queries: { "max-width: 900px": 12, "min-width: 900.02px": 1 } },
+    { axis: "width", wideFrom: 901, queries: { "max-width: 900px": 18, "min-width: 900.02px": 5 } },
     { axis: "width", wideFrom: 1001, queries: { "max-width: 1000px": 2, "min-width: 1001px": 1 } },
     // (Where chapters stack: the one query, below 1100px or in a portrait window; owner 2026-11-22 09:58 UTC+2, replacing the 1200px line of 2026-11-20; layout rules sections 13 and 23.)
     { axis: "width", wideFrom: 1100, queries: { "max-width: 1099px": 2, "min-width: 1100px": 1 } },
-    { axis: "width", wideFrom: 1101, queries: { "max-width: 1100px": 2 } },
-    { axis: "width", wideFrom: 1212, queries: { "min-width: 1212px": 1 } },
+    { axis: "width", wideFrom: 1101, queries: { "max-width: 1100px": 1 } },
     { axis: "width", wideFrom: 1501, queries: { "max-width: 1500px": 4, "min-width: 1501px": 1 } },
     { axis: "width", wideFrom: 1700, queries: { "min-width: 1700px": 4 } },
 ];

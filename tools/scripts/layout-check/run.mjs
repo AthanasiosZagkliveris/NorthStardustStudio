@@ -775,7 +775,7 @@ export async function checkCapabilityArrows(page, base) {
 export async function checkLandscapePages(page, base) {
     const failures = [];
     const pages = [["Identity System", "Identity System"], ["Brand System", "Brand System"], ["Strategy System", "Strategy System"], ["Business System", "Foundation & Engagement"], ["Business System", "Infrastructure & Capability"], ["Business System", "Financials"]];
-    for (const [width, height] of [[1920, 950], [1536, 730], [1440, 770], [1366, 640]]) {
+    for (const [width, height] of [[1920, 950], [1536, 730], [1440, 770], [1366, 640], [1024, 768]]) {
         await page.setViewportSize({ width, height });
         for (const [system, name] of pages) {
             if (!(await openPage(page, base, system, name))) {

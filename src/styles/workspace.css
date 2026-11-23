@@ -90,6 +90,11 @@
 
     height: 64px;
 
+    /* (THE SAFE AREAS (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved, section 7, adjustment 3): the band stands above a phone's home indicator and
+       clear of a landscape phone's notch -- env(safe-area-inset-*), which the page's viewport-fit=cover gives (index.html); 0 everywhere else.) */
+    box-sizing: content-box;
+    padding: 0 env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+
     /* No band of its own: "← Back" stands on the page's ground, in
        every theme. */
     background: transparent;
@@ -103,9 +108,9 @@
 
 }
 
-/* THE PHONE (600px and under; layout rules section 23, "The phone"): the band holds Back and the page's rails (bullet-rail.css), so it is a surface: the
-   header's ground and its soft shadow, as the app's top band has, so the page scrolls under it. */
-@media (max-width: 600px) {
+/* THE STACKED LAYOUT -- a tablet, a phone, a short window (since 2026-11-23 23:21 UTC+2; before, the phone alone; layout rules section 23): the band holds Back and
+   the page's rails (bullet-rail.css), so it is a surface: the header's ground and its soft shadow, as the app's top band has, so the page scrolls under it. */
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
 
     .workspace-footer {
 
@@ -751,7 +756,7 @@
 
 }
 
-.capability-tiles[data-large] .section-tile-list {
+.capability-tiles .section-tile-list {
 
     font-size: var(--font-body);
 
