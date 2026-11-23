@@ -560,9 +560,7 @@
 
 /* THE CAPABILITIES' AND THE SYSTEMS' TILES STAY IN THEIR GRID UNDER THE POINTER (owner, 2026-11-23 16:21 UTC+2: "check the Brand system, when clicking on it, it seem
    that there is a bug, and rearrenge the tiles"): a tile there opens a page, so it does not grow over its neighbours while the page loads; its shadow and its
-   pointer say it can be pressed. */
-/* (Since 2026-11-23 17:52 UTC+2 the tiles grow again, each from its outer corner -- "Fix the direction the Tiles scale up" --, once the pointer has moved
-   (PointerStill.tsx): no rule here.) */
+   pointer say it can be pressed; no tile grows anywhere since 18:32 (04-tile-slot-and-floating-card.css), so no rule here. */
 
 /* THE SYSTEMS' FRAME ON A CAPABILITY'S PAGE (owner, 2026-11-23 17:28 UTC+2: "Place all the system tiles in a frame without title, so the rail system to have a proper
    design"; "Align all the tiles to the left side"): a chapter's frame -- its padding, edge, corners and ground, in the Capability's colour -- round the tiles, no
@@ -901,8 +899,9 @@
 
 .capability-tiles > .capability-systems-frame > .tiles-frame-head {
 
-    margin-bottom: var(--space-card);
+    /* (A chapter's head: its one height (--section-head-height), the tiles 12px under it, so they start where every page's master tiles do.) */
+    min-height: var(--section-head-height);
 
-    padding-top: 4px;
+    margin-bottom: var(--space-card);
 
 }

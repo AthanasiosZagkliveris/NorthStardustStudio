@@ -732,6 +732,41 @@ export async function checkScrolledDialog(page, where) {
     return failures;
 }
 
+/**
+ * THE CAPABILITY PAGES' ARROWS (owner, 2026-11-23 19:16 UTC+2: "enlarge the tiles and system frames, so the navigation arrow to be in the mid between the Tiles";
+ * layout rules section 10): on each Capability's page whose Systems stand in two rows, the page arrow's centre stands in the gap between the rows (2px at most
+ * from its middle), in a wide and a laptop window.
+ */
+export async function checkCapabilityArrows(page, base) {
+    const failures = [];
+    for (const [width, height] of [[1870, 1000], [1366, 768]]) {
+        await page.setViewportSize({ width, height });
+        await page.goto(base + "/assistant");
+        await page.waitForTimeout(1000);
+        const names = await page.evaluate(() => [...document.querySelectorAll(".capability-tiles .section-tile")].map(tile => (tile.getAttribute("aria-label") ?? "").split(",")[0]));
+        for (const name of names) {
+            await page.goto(base + "/assistant");
+            await page.waitForTimeout(800);
+            await page.evaluate(wanted => [...document.querySelectorAll(".capability-tiles .section-tile")].find(tile => (tile.getAttribute("aria-label") ?? "").split(",")[0] === wanted)?.click(), name);
+            await page.waitForTimeout(1500);
+            const read = await page.evaluate(() => {
+                const tiles = [...document.querySelectorAll(".capability-systems-frame .section-tile")].map(tile => tile.getBoundingClientRect()).filter(rect => rect.width > 0);
+                const arrow = document.querySelector(".bullet-rail-head > .page-arrow")?.getBoundingClientRect();
+                const tops = [...new Set(tiles.map(rect => Math.round(rect.top)))].sort((a, b) => a - b);
+                if (!arrow || tops.length !== 2) {
+                    return null;
+                }
+                const upper = Math.max(...tiles.filter(rect => Math.round(rect.top) === tops[0]).map(rect => rect.bottom));
+                return { arrow: arrow.top + arrow.height / 2, middle: (upper + tops[1]) / 2 };
+            });
+            if (read && Math.abs(read.arrow - read.middle) > 2) {
+                failures.push({ page: "Capabilities › " + name, width, height, rule: "a Capability page's arrows stand between its rows of Systems", detail: "the arrow's centre " + Math.round(read.arrow) + ", the gap's middle " + Math.round(read.middle) });
+            }
+        }
+    }
+    return failures;
+}
+
 export async function runLayoutCheck(page, { base = "http://localhost:1420", probe, pages = PAGES, widths, sizes = (widths ?? WIDTHS).map(width => [width, 1000]), themes = THEMES, reference } = {}) {
     const failures = [];
     // The reference x: the first Legal Entity card's (measured here, or handed in by a run that measured it once).
@@ -1007,6 +1042,16 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const workers = Math.max(1, Number(process.env.CHECK_WORKERS ?? 4));
     await Promise.all(Array.from({ length: Math.min(workers, jobs.length) }, worker));
     results.forEach(found => failures.push(...(found ?? [])));
+    // (The Capability pages, once, with the first example, where no page was picked: checkCapabilityArrows.)
+    if (!pageFilter && jobs.length > 0) {
+        const page = await newCheckPage();
+        try {
+            await seedExample(page, base, readFileSync(jobs[0].file, "utf8"));
+            failures.push(...(await checkCapabilityArrows(page, base)).map(failure => ({ example: jobs[0].example, ...failure })));
+        } finally {
+            await page.context().close();
+        }
+    }
     console.error("Checked " + jobs.length + " pages (" + [...new Set(jobs.map(job => job.example))].join(", ") + "), " + Math.min(workers, jobs.length) + " side by side.");
     await browser.close();
     // THE BASELINE: the findings known today (BASELINE_FILE). The check fails only on a finding that is NOT in it, so it can run after every change; a finding that is gone is said, and the baseline is rewritten with --write-baseline.

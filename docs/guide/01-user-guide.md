@@ -1,6 +1,6 @@
 # User guide: the app's tools and the Foundation
 
-Status: **playbook**, written 2026-11-09, updated 2026-11-21. How a founder uses the app, step by step: the Organisations screen, the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar) and the Foundation with its Identity System and Business System.
+Status: **playbook**, written 2026-11-09, updated 2026-11-23. How a founder uses the app, step by step: the Organisations screen, the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar) and the Foundation with its Identity System and Business System.
 
 Related: `app/01-contents.md` (the map of the app, for the team), `app/02-index.md` (every place in the app), `app/03-glossary.md` (the terms). The app's own help is the "i" beside a title or a question: it says what the question is for and how to answer it.
 
@@ -30,7 +30,7 @@ The header of this screen holds the Menu and the **Handbook**: the App Guide, Sp
 
 ### 3.1 Find your way in
 
-1. On **Capabilities** (System Selection), each Capability is a tile in its own colour and with its icon, listing its Systems, each with its state as its bullet (section 3.2), two rows of three. Press **Foundation**: its page holds a tile for each System, in one frame, two by two where it has three or four; each tile lists what the System holds -- its PAGES, the CHAPTERS of its one page, or the SECTIONS of its one chapter -- each line's bullet its state. The arrow beside the Capability's name drops what the Capability is. The rail at the left and the arrows, or the left and right keys, go round the six. Back returns to the Capabilities.
+1. On **Capabilities** (System Selection), each Capability is a tile in its own colour and with its icon, listing its Systems, each with its state as its bullet (section 3.2), two rows of three. Press **Foundation**: its page holds a tile for each System, in one frame, two by two where it has three or four; each tile lists what the System holds -- its PAGES, the CHAPTERS of its one page, or the SECTIONS of its one chapter -- each line's bullet its state. The arrow beside the Capability's name opens a pop-up with what the Capability is; press it again, or Escape, to close it. Press a line of a System's list to go straight to that page or place. The rail at the left and the arrows, or the left and right keys, go round the six. Back returns to the Capabilities.
 2. Press **Identity System** (or another System). Its **Introduction** says what the System answers and lists its pages.
 3. Press **Start Interview**, or a page in the Introduction's list, to begin.
 
@@ -129,7 +129,7 @@ Point at **Appearance** in the **Menu** (or press it, or press the right arrow o
 Open **Menu** and press **Calendar**: the calendar of the open Organisation opens as a panel at the left of the page you are on, its title on top, as the Notes panel opens at the right. It stays open while you work; its arrow or Escape closes it. It shows every date your cards hold (the plan's start, the registration and opening dates, the end of each stage, legal fees, payments, warranties, deadlines) and your dated notes.
 
 1. Press a day to see what falls on it; press an item to open the page it comes from, or your note.
-2. The funnel chooses the period, the kinds of date and the cards they come from; each list starts with All, and a tick on one choice shows that one alone. Your own Calendar, on the Organisations screen, chooses Calendars in place of the cards.
+2. The funnel chooses the period, the kinds of date, the cards they come from and how dates are written; each list starts with All, and a tick on one choice shows that one alone. **Other** sets a period of your own, from a start date to an end date. The funnel is filled only while something differs from its defaults. Your own Calendar, on the Organisations screen, offers Month, Today, This week, This month and Next 30 days, opens on **User** (your own notes), and chooses Calendars in place of the cards.
 3. To add a time or a few words to a date, point at it and press its note button; the app makes a note only when you ask for one. "Expand all" shows every note of the day.
 
 ## 5. A good order of work
