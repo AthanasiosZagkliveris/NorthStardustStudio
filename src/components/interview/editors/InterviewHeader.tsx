@@ -6,6 +6,8 @@ import { getCapabilityColor } from "../../../data/capabilities";
 import { getSystemIcon } from "../../../data/systemIcons";
 
 interface InterviewHeaderProps {
+    /** The symbol's drawing fills its square (a Capability's): drawn smaller, so every page's symbol is one height (owner, 2026-11-24 01:59 UTC+2). */
+    iconFull?: boolean;
     /** Left out on a page that belongs to no System (the Workbook): its title is the name alone. */
     systemNumber?: string;
     systemName: string;
@@ -51,6 +53,7 @@ export default function InterviewHeader({
     nameCapitals = false,
     note,
     icon: ownIcon,
+    iconFull = false,
     actions
 }: InterviewHeaderProps) {
 
@@ -111,7 +114,7 @@ export default function InterviewHeader({
                     <img
                         src={icon}
                         alt=""
-                        className="interview-header-icon"
+                        className={"interview-header-icon" + (iconFull ? " interview-header-icon-full" : "")}
                     />
                 )}
 

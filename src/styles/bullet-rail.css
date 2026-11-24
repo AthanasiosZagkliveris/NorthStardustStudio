@@ -739,7 +739,8 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
    bullets in a row 12px apart, their names in the tooltips as on every dots-only rail. No tab is drawn round them: the band is their ground. */
 @media (max-width: 900px), (orientation: portrait), (max-height: 639px), (pointer: coarse) {
 
-    :root { --rail-gutter: 16px; }
+    /* (The side gutter: room for Back's arrow outside the page, 12px from it, on a tablet; a phone's is 16px, below.) */
+    :root { --rail-gutter: 48px; }
 
     /* (The page as wide as its chapter (SectionTiles: --tiles-page-width), centred; the footer's arrows just outside its edges, 12px from them, the bullets between --
        owner, 2026-11-24 00:56 UTC+2: "The arrows should start exactly after the page limits".) */
@@ -755,13 +756,6 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
     }
 
-    /* (A page of cards with no page group round it -- Infrastructure & Capability -- gives its columns' 13px back, as .page-group does: its chapter takes the page's
-       edges.) */
-    .conversation-page[data-tiles-page] .conversation-card > .field-page > .answer-columns:not(.column-tiles-page) {
-
-        margin-inline: -13px;
-
-    }
 
     body:has(.conversation-page[data-tiles-page]) .bullet-rails {
 
@@ -1075,6 +1069,29 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
     .conversation-page[data-tiles-page] > .conversation-content {
 
         padding-bottom: calc(64px + var(--space-card));
+
+    }
+
+}
+
+/* (A PHONE'S GUTTER: 16px -- a 390px phone keeps 358px for its card; its Back stays in the footer's band.) */
+@media (max-width: 600px) {
+
+    :root {
+
+        --rail-gutter: 16px;
+
+    }
+
+}
+
+/* (THE STACKED PAGE'S CARDS ON ITS EDGES: a page of cards with no page group round it -- Infrastructure & Capability -- gives its columns' 13px back, as .page-group
+   does, so its chapter takes the page's edges; side by side its two columns already stand on them.) */
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
+
+    .conversation-page[data-tiles-page] .conversation-card > .field-page > .answer-columns:not(.column-tiles-page) {
+
+        margin-inline: -13px;
 
     }
 

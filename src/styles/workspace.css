@@ -702,7 +702,7 @@
     vertical-align: middle;
 
     /* (On the capitals' middle, not the lower case's: a little higher than vertical-align middle puts it.) */
-    translate: 0 -0.08em;
+    translate: 0 -0.12em;
 
 }
 

@@ -102,6 +102,21 @@
 
 }
 
+/* (ONE HEIGHT FOR EVERY PAGE'S SYMBOL (owner, 2026-11-24 01:59 UTC+2: "All the icons should have the same height"): a System's symbol is drawn 26px tall in its
+   36px square; a Capability's fills its square, so it is drawn in a 26px one, centred on the capitals as it stands.) */
+.interview-header-icon.interview-header-icon-full{
+
+    width:26px;
+    height:26px;
+
+    margin-inline:5px;
+
+    translate:0 calc(-0.02 * var(--font-h1));
+
+}
+
+/* (Back beside the title is its arrow alone, its name in the tooltip -- owner, 2026-11-24 01:59 UTC+2, "instead of Back, place the arrow".) */
+.interview-header-title-row > .interview-header-back .back-button-word,
 .interview-header-title-row > .interview-header-back.interview-header-back-short .back-button-word{
 
     display:none;

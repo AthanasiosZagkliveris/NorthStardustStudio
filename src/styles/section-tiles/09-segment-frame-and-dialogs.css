@@ -1122,3 +1122,22 @@
 }
 
 
+
+/* (ON A PHONE THE SEGMENT'S NAME TAKES THE HEAD'S WIDTH, LESS THE x's ROOM ONLY (owner, 2026-11-24 01:59 UTC+2: "Why did you cut the segment title? There is space"):
+   the room kept at the left for symmetry gives way, so "1. London Homemakers" stands whole.) */
+@media (max-width: 600px) {
+
+    .business-foundation-frame-head {
+
+        padding-inline: var(--gap-4) calc(4px + var(--size-box-button) + var(--gap-12));
+
+    }
+
+    /* (Its name one step down the scale, the section heading's size, as a phone's other headings stand.) */
+    :root .business-foundation-frame-head .field-group-title.business-foundation-frame-title {
+
+        font-size: var(--font-h3);
+
+    }
+
+}

@@ -78,13 +78,32 @@
 /* (Three a row, so the nine categories stand in a 3 x 3, centred under the title: owner, 2026-11-24 00:21 UTC+2, "I want the symbols in a grid 3x3".) */
 .section-tile-list[data-symbols] {
 
+    --symbol-size: var(--icon-size);
+
     display: grid;
-    grid-template-columns: repeat(3, var(--icon-size));
+    grid-template-columns: repeat(3, var(--symbol-size));
     justify-content: center;
     align-content: start;
     gap: var(--space-card);
 
     width: 100%;
+
+    overflow: visible;
+
+}
+
+.section-tile-list[data-symbols] > li[data-symbol-off] {
+
+    display: none;
+
+}
+
+/* (32px symbols 16px apart where the room holds three rows of them: TileList, data-symbols="large".) */
+.section-tile-list[data-symbols="large"] {
+
+    --symbol-size: 32px;
+
+    gap: var(--gap-16);
 
 }
 
@@ -93,8 +112,8 @@
 
     display: block;
 
-    width: var(--icon-size);
-    height: var(--icon-size);
+    width: var(--symbol-size);
+    height: var(--symbol-size);
 
     margin: 0;
     padding: 0;
@@ -113,13 +132,43 @@
 
     display: block;
 
-    width: var(--icon-size);
-    height: var(--icon-size);
+    width: var(--symbol-size);
+    height: var(--symbol-size);
+
+    transition: transform .15s ease;
 
     background: currentColor;
 
     -webkit-mask: var(--fallback-symbol) center / contain no-repeat;
     mask: var(--fallback-symbol) center / contain no-repeat;
+
+}
+
+/* (A SYMBOL GROWS 25% UNDER THE POINTER, TOWARDS THE TILE'S INSIDE (owner, 2026-11-24 01:59 UTC+2): the left column from its left edge, the right from its right, the
+   middle from its centre; the top row from its top, the bottom from its bottom.) */
+.section-tile-list[data-symbols] > li:hover .section-tile-list-fallback,
+.section-tile-list[data-symbols] .section-tile-link:focus-visible .section-tile-list-fallback {
+
+    transform: scale(1.25);
+
+}
+
+.section-tile-list[data-symbols] > li:nth-child(3n + 1) .section-tile-list-fallback { transform-origin: left center; }
+.section-tile-list[data-symbols] > li:nth-child(3n) .section-tile-list-fallback { transform-origin: right center; }
+.section-tile-list[data-symbols] > li:nth-child(-n + 3) .section-tile-list-fallback { transform-origin: center top; }
+.section-tile-list[data-symbols] > li:nth-child(1) .section-tile-list-fallback { transform-origin: left top; }
+.section-tile-list[data-symbols] > li:nth-child(3) .section-tile-list-fallback { transform-origin: right top; }
+.section-tile-list[data-symbols] > li:nth-child(n + 7) .section-tile-list-fallback { transform-origin: center bottom; }
+.section-tile-list[data-symbols] > li:nth-child(7) .section-tile-list-fallback { transform-origin: left bottom; }
+.section-tile-list[data-symbols] > li:nth-child(9) .section-tile-list-fallback { transform-origin: right bottom; }
+
+@media (prefers-reduced-motion: reduce) {
+
+    .section-tile-list[data-symbols] .section-tile-list-fallback {
+
+        transition: none;
+
+    }
 
 }
 

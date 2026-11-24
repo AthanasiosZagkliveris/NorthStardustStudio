@@ -372,6 +372,12 @@ export function TileList({
             node.style.maxHeight = "none";
             node.removeAttribute("data-no-room");
             node.removeAttribute("data-symbols");
+            node.style.removeProperty("translate");
+            node.querySelectorAll<HTMLElement>("[data-symbol-off]").forEach(line => line.removeAttribute("data-symbol-off"));
+            node.querySelectorAll<HTMLElement>("[data-symbol-tip]").forEach(link => {
+                link.removeAttribute("data-symbol-tip");
+                link.removeAttribute("data-tip");
+            });
             // (A paragraph clamped on an earlier measure is measured whole again.)
             node.querySelectorAll<HTMLElement>("[data-clamped]").forEach(line => {
                 line.removeAttribute("data-clamped");
@@ -430,12 +436,40 @@ export function TileList({
             const lines = Array.from(node.children) as HTMLElement[];
             if (node.scrollHeight > node.clientHeight + 1 && lines.length > 0 && lines.every(line => line.querySelector(".section-tile-list-fallback"))) {
                 // (As many whole rows of symbols as the room holds -- the tile opens on all of them; under one row, the title alone, as below.)
-                const symbol = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--icon-size")) || 24;
-                const gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--space-card")) || 12;
-                const rowsFit = Math.floor((room + gap) / (symbol + gap));
+                // (32px symbols 16px apart where three rows of them fit, else 24px ones 12px apart: owner, 2026-11-24 01:59 UTC+2, "when there is space, make the icons
+                // 32 px and spread them out more".)
+                const width = node.clientWidth;
+                // (Their room runs down to the tile's padding, beside the "+": a row that would meet it moves left, below.)
+                const tileBottom = (node.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? layer).getBoundingClientRect().bottom;
+                const symbolRoom = Math.max(room, Math.floor(tileBottom - 12 - node.getBoundingClientRect().top));
+                const large = symbolRoom >= 3 * 32 + 2 * 16 && width >= 3 * 32 + 2 * 16;
+                const symbol = large ? 32 : 24;
+                const gap = large ? 16 : 12;
+                const rowsFit = Math.min(3, Math.floor((symbolRoom + gap) / (symbol + gap)));
                 if (rowsFit >= 1) {
-                    node.setAttribute("data-symbols", "");
+                    node.setAttribute("data-symbols", large ? "large" : "");
                     node.style.height = (rowsFit * (symbol + gap) - gap) + "px";
+                    // (The rows the room does not hold are not drawn: the grid stands open for a symbol's growth, so nothing may hang under it.)
+                    lines.forEach((line, at) => line.toggleAttribute("data-symbol-off", at >= rowsFit * 3));
+                    // (Each symbol says its name in the app's tooltip: its words are read, not drawn, so the tip says them.)
+                    lines.forEach(line => {
+                        const link = line.querySelector<HTMLElement>(".section-tile-link") ?? line;
+                        const name = line.getAttribute("data-tip") ?? line.getAttribute("title") ?? line.textContent?.trim() ?? "";
+                        link.setAttribute("data-tip", name);
+                        link.setAttribute("data-symbol-tip", "");
+                    });
+                    // (Clear of the tile's "+" by 12px: where the grid's last row would reach it, every symbol moves left alike -- owner, 2026-11-24 01:59 UTC+2.)
+                    const plus = node.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile-plus, .plus-box");
+                    const shown = lines.filter(line => !line.hasAttribute("data-symbol-off")).map(line => line.getBoundingClientRect()).filter(box => box.width > 0);
+                    if (plus && shown.length > 0) {
+                        const box = plus.getBoundingClientRect();
+                        const right = Math.max(...shown.map(item => item.right));
+                        const bottom = Math.max(...shown.map(item => item.bottom));
+                        const over = right - (box.left - 12);
+                        if (bottom > box.top && over > 0) {
+                            node.style.translate = -Math.ceil(over) + "px 0";
+                        }
+                    }
                     return;
                 }
             }
@@ -443,7 +477,8 @@ export function TileList({
             const cut = node.scrollHeight > shownHeight + 1 || clamped;
             const line = lineHeight > 0 ? lineHeight : parseFloat(getComputedStyle(node).lineHeight) || 24;
             // (Nor is a list whose first item does not fit whole and cannot end at a line: a name with what is said of it, cut under the name.)
-            if ((cut && shownHeight < 2 * line - 1) || (!byLines && !clamped && fit === 0 && node.children.length > 0)) {
+            // (Three lines at the least since 2026-11-24 01:59 UTC+2 -- "when there is not much space ... let the tiles show only their titles".)
+            if ((cut && shownHeight < 3 * line - 1) || (!byLines && !clamped && fit === 0 && node.children.length > 0)) {
                 node.setAttribute("data-no-room", "");
             }
         };

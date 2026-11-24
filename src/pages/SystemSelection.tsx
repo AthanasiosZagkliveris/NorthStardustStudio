@@ -494,6 +494,7 @@ export default function SystemSelection() {
                             capabilityId={shown.id}
                             nameCapitals
                             icon={getCapabilityIcon(capabilities.indexOf(shown) + 1)}
+                            iconFull
                             note={(
                                 <FoldArrow variant="label"
                                     open={helpOpen}

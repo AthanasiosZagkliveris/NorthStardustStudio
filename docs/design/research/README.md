@@ -1,6 +1,6 @@
 # The research and the sources (Research 1 to 8)
 
-Status: **index**, updated 2026-11-23. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-11-24. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
 The source register (1), the research behind the design (2), the lists and classifications (3), age limits (4), the owner's positioning data and its sources (5, 6), delivery and capacity (7) and the Beta questionnaire that asks the founders (8).
 
