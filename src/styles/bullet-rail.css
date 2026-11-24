@@ -958,7 +958,7 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
        align in the centre"): the centre of the rail's tab, --rail-inset / 2 in from the title rule's end; the symbol (36px) and the arrow (24px) centred on it.) */
     body:has(.bullet-rail-left .bullet-rail-dot) .interview-header-icon {
 
-        margin-left: calc(var(--rail-inset) / 2 - 18px);
+        margin-left: calc(var(--rail-inset) / 2 - var(--icon-box, 36px) / 2);
 
     }
 

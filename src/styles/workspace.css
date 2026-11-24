@@ -527,6 +527,29 @@
 
 }
 
+/* (WHAT A SYSTEM'S TILE HOLDS, IN THE TILE'S MIDDLE (owner, 2026-11-24 03:14 UTC+2: "Generally place the tile's content ... in the centre of the Tile, and give
+   some space"): its kind and its list centred in the room under its title, 12px clear of the tile's foot; short of room, the title alone, centred
+   (SystemSelection, data-no-room, --title-centre).) */
+.capability-system-slot > .capability-system-links > .capability-system-body {
+
+    justify-content: center;
+
+    margin-bottom: var(--gap-12);
+
+}
+
+.capability-system-slot > .capability-system-links > .capability-system-body[data-no-room] {
+
+    visibility: hidden;
+
+}
+
+.capability-system-slot:has(> .capability-system-links > .capability-system-body[data-no-room]) > .section-tile > .section-tile-title {
+
+    translate: 0 var(--title-centre, 0px);
+
+}
+
 /* A CAPABILITY'S HELP (owner, 2026-11-23 16:19 UTC+2): dropped by the title's arrow, floating under the title as a chapter's help does (title-arrow.css), the
    width of a chapter (half the page) and the help's type; its words as the description had them -- the tagline, the paragraphs, the core principle. */
 .capability-help-block > .capability-help {

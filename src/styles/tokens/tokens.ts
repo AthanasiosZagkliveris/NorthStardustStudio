@@ -1050,7 +1050,7 @@ export const viewportBreakpoints: readonly Boundary[] = [
     { axis: "height", wideFrom: 480, queries: { "max-height: 479px": 2 } },
     { axis: "height", wideFrom: 640, queries: { "max-height: 639px": 6, "min-height: 640px": 5 } },
     { axis: "width", wideFrom: 561, queries: { "max-width: 560px": 2 } },
-    { axis: "width", wideFrom: 601, queries: { "max-width: 600px": 2 } },
+    { axis: "width", wideFrom: 601, queries: { "max-width: 600px": 3 } },
     { axis: "width", wideFrom: 641, queries: { "max-width: 640px": 2 } },
     { axis: "width", wideFrom: 701, queries: { "max-width: 700px": 2 } },
     { axis: "width", wideFrom: 761, queries: { "max-width: 760px": 2 } },

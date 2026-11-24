@@ -253,6 +253,33 @@ export default function SystemSelection() {
     // (THE MASTER TILES' SIDE (SectionTiles' fit): what the window's height leaves for two rows under the tiles' top, above the footer and its 12px; 150px at least.)
     const tilesBox = useRef<HTMLDivElement | null>(null);
     const [tileSide, setTileSide] = useState<number | null>(null);
+    // (A SYSTEM'S TILE SHORT OF ROOM SHOWS ITS TITLE ALONE, CENTRED (owner, 2026-11-24 03:14 UTC+2: "When there is not enough space in the tiles, let only the
+    // titles, and place them in the centre"), as a page's master tiles do (TileList, data-no-room): where what it holds would run past the tile's foot, less 12px,
+    // it is not shown, and the title (its name and symbol) stands in the tile's middle.)
+    useLayoutEffect(() => {
+        const box = tilesBox.current;
+        if (!box) {
+            return;
+        }
+        box.querySelectorAll<HTMLElement>(".capability-system-slot").forEach(slot => {
+            const body = slot.querySelector<HTMLElement>(".capability-system-body");
+            const tile = slot.querySelector<HTMLElement>(":scope > .section-tile");
+            const title = tile?.querySelector<HTMLElement>(".section-tile-title");
+            if (!body || !tile || !title) {
+                return;
+            }
+            body.removeAttribute("data-no-room");
+            slot.style.removeProperty("--title-centre");
+            // (A SYSTEM'S TILE IS ITS TITLE AND SYMBOL ALONE (owner, 2026-11-24 05:32 UTC+2: "from the System Tiles, hide their content. Keep only their Titles and
+            // icons"): what it holds is never shown on the tile -- the System's Introduction lists it --, and the title and symbol stand in the tile's middle.)
+            {
+                body.setAttribute("data-no-room", "");
+                const words = title.getBoundingClientRect();
+                const box = tile.getBoundingClientRect();
+                slot.style.setProperty("--title-centre", Math.round((box.top + box.bottom) / 2 - (words.top + words.bottom) / 2) + "px");
+            }
+        });
+    });
     useLayoutEffect(() => {
         const fit = () => {
             const box = tilesBox.current;

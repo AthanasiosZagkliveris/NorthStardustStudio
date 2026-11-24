@@ -185,6 +185,10 @@
 
     width: 100%;
 
+    /* (It gives way to the x in its cell: its box shrinks below its name box's own width (owner, 2026-11-24 03:14 UTC+2: "The input of the organization Cell is
+       off").) */
+    min-width: 0;
+
     display: flex;
     align-items: baseline;
 
@@ -281,11 +285,50 @@
 
 }
 
+/* (A PHONE'S FOUR BUTTONS, THEIR SYMBOLS ALONE (owner, 2026-11-24 03:14 UTC+2: "For Add, Export, Import, and Reload, use only their symbols, in square boxes, same size
+   as the menu and workbook"): in one row from the cells' left edge, each the header's Menu and Workbook box (.header-tool, app-header.css: its padding, its height
+   and its 24px symbol); the word stays in the button's name.) */
 @media (max-width: 600px) {
 
     .organization-actions {
 
-        grid-template-columns: minmax(0, 1fr);
+        display: flex;
+        flex-wrap: wrap;
+
+    }
+
+    .organization-actions > .strategy-add-button {
+
+        width: auto;
+
+        min-height: var(--add-button-height);
+        padding: 4px 10px;
+
+    }
+
+    .organization-actions .organization-action-icon {
+
+        width: var(--icon-size);
+        height: var(--icon-size);
+
+    }
+
+    .organization-action-word {
+
+        display: none;
+
+    }
+
+    /* (The cell 12px in from its edges, as every phone cell, so its name keeps its room beside the x.) */
+    .organization-row-main {
+
+        padding-inline: var(--gap-12);
+
+    }
+
+    .organization-name-input {
+
+        padding-inline: var(--gap-4);
 
     }
 
@@ -311,6 +354,11 @@
 .user-name-section {
 
     width: min(640px, 90vw);
+
+    /* (THE NAME'S CELL ENDS WHERE THE ORGANISATIONS' CELLS END (owner, 2026-11-24 03:14 UTC+2: "Make the name's cell smaller, to align its right side to the others
+       cells right sides"): before their arrow (24px, global.css' .page-arrow) and its 12px.) */
+    box-sizing: border-box;
+    padding-right: calc(24px + var(--gap-12));
 
     display: flex;
     flex-direction: column;

@@ -1732,9 +1732,11 @@
                         if (Math.abs((listBox.left + listBox.right) / 2 - (box.left + box.right) / 2) > 2.5) {
                             fail("a tile's list block is centred under its title", tile, { list: (listBox.left + listBox.right) / 2, tile: (box.left + box.right) / 2 });
                         }
-                        // THE LIST STARTS A FIXED 12px UNDER THE UNDERLINE of the title (it comes up with the lifted title).
+                        // THE LIST STARTS 12px UNDER THE UNDERLINE of the title AT THE LEAST (it comes up with the lifted title); on a master tile it is centred in the room
+                        // under it, so it may stand lower (owner, 2026-11-24 03:14 UTC+2: "place the tile's content ... in the centre of the Tile"; TileList, --list-centre).
                         // (The tile under the pointer grows, and its title's lift is measured on that frame: a pixel more or less, 1.25 here.)
-                        if (!rules.near(listBox.top - titleBox.bottom, spec.fieldGap, 1.25)) {
+                        const centred = true;
+                        if (centred ? listBox.top - titleBox.bottom < spec.fieldGap - 1.25 : !rules.near(listBox.top - titleBox.bottom, spec.fieldGap, 1.25)) {
                             fail("a tile's list starts 12px under the title's underline", tile, { gap: listBox.top - titleBox.bottom });
                         }
                         // (A line of two columns -- a name and its figure -- is drawn by its two parts: the line itself has no box, display: contents.)

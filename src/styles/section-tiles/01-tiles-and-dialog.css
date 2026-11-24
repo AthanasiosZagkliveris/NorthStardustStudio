@@ -66,6 +66,22 @@
 
 }
 
+/* (A tile's lines spread where its room allows: TileList's --list-air, 8px at the most; every tile's, owner, 2026-11-24 04:28 UTC+2: "Check where it is possible and give them space".) */
+.section-tile-list > li + li {
+
+    margin-top: var(--list-air, 0px);
+
+}
+
+/* (A MASTER TILE WITH ITS TITLE ALONE HAS IT IN ITS MIDDLE (owner, 2026-11-24 03:14 UTC+2: "When there is not enough space in the tiles, let only the titles, and
+   place them in the centre").) */
+.section-tile-slot:has(> .section-tile-links-layer > .section-tile-list[data-no-room]) > .section-tile > :is(.section-tile-title) {
+
+    /* (By the offset TileList measures: the tile's middle less the title's, --title-centre on the slot.) */
+    translate: 0 var(--title-centre, 0px);
+
+}
+
 /* THE SYMBOLS WHERE THE NAMES DO NOT FIT (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved, section 4.4; TileList, data-symbols): a Resources tile too
    small for its categories shows one 24px symbol each, in the list's ink, in rows from the left, 12px apart, each a 24px target (WCAG 2.5.8) named in its
    tooltip and to assistive technology (its words stay in the line, read but not drawn). With room, the symbol is not drawn. */
@@ -327,7 +343,7 @@
 
     /* THE LIST STARTS 12px UNDER THE TITLE'S UNDERLINE: the title (with its line) stands --tile-lift higher than the row's foot (TileTitle
        measures it, per tile), so the list comes up by the same. */
-    margin: calc(var(--space-card) - var(--tile-lift, 0px)) 0 0;
+    margin: calc(var(--space-card) - var(--tile-lift, 0px) + var(--list-centre, 0px)) 0 0;
     padding: 0;
 
     /* EVERY item is in the list; it scrolls inside its bounds (under the title, above the "+" box) with a thin themed scrollbar, and the wheel scrolls it

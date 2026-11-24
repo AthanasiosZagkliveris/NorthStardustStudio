@@ -359,4 +359,146 @@ body:has(.section-tile-overlay) .app-header {
 
     }
 
+    /* (THE PHONE IN LANDSCAPE GIVES THE PAGE ITS HEIGHT (owner, 2026-11-24 03:14 UTC+2: "Place the page title on the header, and hide the bullets (rail), keep
+       only the arrows (navigation (bottom) and back (top). There in no reason for footing. Also, keep only the tiles Icon, and hide the word"): the Tiles logo
+       without its word; the page's title, its symbol and its Back in the header's band, from 12px after the logo to the room the header's buttons keep at the right
+       (the saved signal, the Menu, the Workbook and the Organisation's mark: 240px); its rule goes; the Organisation's name gives the title its room.) */
+    .app-brand-name,
+    .app-header-organization-name {
+
+        display: none;
+
+    }
+
+    /* (CLEAR OF THE NOTCH AND THE ROUNDED CORNERS (owner, 2026-11-24 03:14 UTC+2: "check online for the mobile working areas, and their negative spaces"; Apple's
+       layout guidance: in landscape the safe area is inset from both sides): the header's 28px, or the side's safe-area inset where that is wider.) */
+    .app-header {
+
+        padding-left: max(28px, env(safe-area-inset-left, 0px));
+        padding-right: max(28px, env(safe-area-inset-right, 0px));
+
+    }
+
+    .app-header-organization-name + .save-status {
+
+        margin-left: auto;
+
+    }
+
+    .interview-header {
+
+        position: fixed;
+        top: 0;
+        left: calc(max(28px, env(safe-area-inset-left, 0px)) + 44px + var(--gap-12) + 12px + var(--gap-12));
+        right: calc(212px + max(28px, env(safe-area-inset-right, 0px)));
+
+        z-index: 41;
+
+        height: var(--app-header-height);
+        margin: 0;
+        padding: 0;
+
+        display: flex;
+        align-items: center;
+
+        background: none;
+
+        pointer-events: none;
+
+    }
+
+    .interview-header > * {
+
+        pointer-events: auto;
+
+    }
+
+    .interview-header .interview-divider {
+
+        display: none;
+
+    }
+
+    /* (The title on one line, the header's own size (--font-h2); a title longer than its room ends in an ellipsis, whole in its tooltip.) */
+    .interview-header .interview-header-title-row {
+
+        min-width: 0;
+        max-width: 100%;
+
+    }
+
+    .interview-header h1 {
+
+        min-width: 0;
+
+        overflow: hidden;
+
+        font-size: var(--font-h2);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+    }
+
+    /* (The footer's band goes: its bullets hide, its two arrows stay at the window's bottom corners, on the page's ground.) */
+    :root .workspace-footer,
+    :root .bullet-rails {
+
+        background: none;
+        border: 0;
+        box-shadow: none;
+
+        pointer-events: none;
+
+    }
+
+    .workspace-footer > *,
+    .bullet-rails .page-arrow {
+
+        pointer-events: auto;
+
+    }
+
+    .bullet-rails .bullet-rail-list {
+
+        visibility: hidden;
+
+    }
+
+    /* (The Workbook's and the Handbook's tab of bullets goes too: their arrows at the panel's sides stay.) */
+    .workbook .carousel-rail-tab {
+
+        visibility: hidden;
+
+    }
+
+    .workbook .carousel-rail-tab .page-arrow {
+
+        visibility: visible;
+
+    }
+
+    /* (The Organisation's own square mark at the header's right end, after the Workbook, the logo's height: BrandMark.tsx.) */
+    .app-brand-mark[data-square] {
+
+        display: block;
+
+        flex: none;
+
+        width: 44px;
+        height: 44px;
+        margin-left: var(--gap-8);
+
+        border-radius: var(--radius-md);
+
+        object-fit: contain;
+
+    }
+
+}
+
+/* (Elsewhere the Organisation's mark is not shown: the phone in landscape alone has it.) */
+.app-brand-mark {
+
+    display: none;
+
 }

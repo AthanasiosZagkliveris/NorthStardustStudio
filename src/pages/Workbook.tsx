@@ -10,6 +10,7 @@ import RadioChoice from "../components/controls/RadioChoice";
 import { TABLE_SIZES } from "../components/interview/tiles/CapabilityOverview";
 import "../styles/capability-overview.css";
 import { DialogHeading } from "../components/interview/tiles/SectionTiles";
+import { masterSide, setTilesPage } from "../components/interview/tiles/SectionTileGeometry";
 import BusinessDocumentsView from "../components/workbook/BusinessDocumentsView";
 import { workHue } from "../framework/engine/WorkColours";
 import ResponsibilityFilter from "../components/interview/fields/ResponsibilityFilter";
@@ -225,6 +226,19 @@ export default function Workbook() {
     // (From under the title's rule down to the footer, where the Back stands (owner, 2026-11-10: "Move the back button out of the tag and back to its previous
     // position"), 12px clear of it: the page itself never scrolls, so its title stays; what is taller scrolls in the panel's body, under its head and tabs.)
     const [panelHeight, setPanelHeight] = useState<number | null>(null);
+    // (THE WORKBOOK AND THE HANDBOOK FOLLOW THE APP'S PAGES (owner, 2026-11-24 03:14 UTC+2: "It needs more space at the sides ... the workbook/handbook does not
+    // follow the app's pages"): side by side, the page is as wide as a page of tiles at this window (setTilesPage), its rule as long, its rail inside its left
+    // end, the symbol over the rail's bullets: glossary.css.)
+    useLayoutEffect(() => {
+        const sideBySide = typeof window.matchMedia === "function" ? window.matchMedia("(min-width: 900.02px) and (orientation: landscape) and (min-height: 640px)") : null;
+        const fit = () => setTilesPage(document.querySelector<HTMLElement>(".workbook .glossary-page"), sideBySide?.matches ? masterSide() : null);
+        fit();
+        window.addEventListener("resize", fit);
+        return () => {
+            window.removeEventListener("resize", fit);
+            setTilesPage(document.querySelector<HTMLElement>(".workbook .glossary-page"), null);
+        };
+    }, []);
     useLayoutEffect(() => {
         const measure = () => {
             const node = panel.current;
@@ -236,7 +250,9 @@ export default function Workbook() {
             // beside the panel, in the gutter; over the footer only where the Back would stand under the panel, in a narrow window.)
             const back = foot?.querySelector(".workspace-footer-back, button, a");
             const beside = !!back && back.getBoundingClientRect().right + 12 <= node.getBoundingClientRect().left;
-            const end = foot && !beside ? foot.getBoundingClientRect().top : window.innerHeight;
+            // (A phone in landscape has no footer's band, only its arrows at the corners (app-header.css): the panel runs to the window's foot.)
+            const bandless = typeof window.matchMedia === "function" && window.matchMedia("(orientation: landscape) and (max-height: 479px)").matches;
+            const end = foot && !beside && !bandless ? foot.getBoundingClientRect().top : window.innerHeight;
             const next = Math.max(240, Math.round(end - 12 - (node.getBoundingClientRect().top + window.scrollY)));
             setPanelHeight(current => current === next ? current : next);
         };

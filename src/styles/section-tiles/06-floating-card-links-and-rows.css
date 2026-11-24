@@ -653,7 +653,8 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
 
 .column-tiles-page .section-tile-list > li + li {
 
-    margin-top: 0;
+    /* (Its lines spread where the room allows, as every tile list: TileList's --list-air, 2026-11-24.) */
+    margin-top: var(--list-air, 0px);
 
 }
 

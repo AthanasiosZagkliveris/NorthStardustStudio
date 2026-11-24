@@ -106,10 +106,7 @@
    36px square; a Capability's fills its square, so it is drawn in a 26px one, centred on the capitals as it stands.) */
 .interview-header-icon.interview-header-icon-full{
 
-    width:26px;
-    height:26px;
-
-    margin-inline:5px;
+    --icon-box:26px;
 
     translate:0 calc(-0.02 * var(--font-h1));
 
@@ -129,8 +126,12 @@
        the titles".) */
     translate:0 calc(-0.14 * var(--font-h1));
 
-    width:36px;
-    height:36px;
+    /* (Its square sized from its own drawing so its ink is the capitals' height, InterviewHeader's --icon-box; its column stays 36px wide, so it stays centred on
+       the rail's line.) */
+    width:var(--icon-box, 36px);
+    height:var(--icon-box, 36px);
+
+    margin-inline:calc((36px - var(--icon-box, 36px)) / 2);
 
     flex-shrink:0;
 
@@ -667,5 +668,17 @@
     padding-bottom:12px;
 
     background:var(--bg-page);
+
+}
+
+/* THE PAGE TITLE ON A PHONE (owner, 2026-11-24 03:14 UTC+2: "Check the Title's text size"): the header's size there, --font-h2 (about 21px at 390px), as a phone in
+   landscape draws it in the header (app-header.css), so a page's name fits on one line beside its symbol. */
+@media (max-width: 600px){
+
+    .interview-header h1{
+
+        font-size:var(--font-h2);
+
+    }
 
 }

@@ -4,7 +4,7 @@ import { freshCards } from "../cards/freshCards.ts";
 import { cardNameOf } from "../cards/cardNames.ts";
 import "../../../styles/section-tiles.css";
 import { type SectionTile, type TileLink, type TileAdd, type OpenRequest, type FloatingCentre, type FloatingOpen } from "./SectionTileTypes.ts";
-import { masterSide, setTilesPage, setTilesPageWidth, fitHeading, cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
+import { masterSide, setTilesPage, setTilesPageWidth, fitHeading, unifyHeadings, cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
 import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext, StackUnderContext } from "./DialogLevels.tsx";
 import { TileFace, TileLinks, TilePlus, useTileAim } from "./TileParts.tsx";
 import { OPEN_EVENT, FloatingCards, TileDialog } from "./FloatingCards.tsx";
@@ -144,6 +144,12 @@ export default function SectionTiles({
                     hug.style.width = "";
                     hug.style.maxWidth = "";
                     hug.style.marginInline = "";
+                    // (A window turned from side by side to stacked -- a tablet to a phone's size, a rotation -- drops the two columns set for the chapters side by
+                    // side, below; else the chapters kept them and ran past the window.)
+                    box.closest(".conversation-card")?.querySelectorAll<HTMLElement>("[data-hug-pair]").forEach(pair => {
+                        pair.style.gridTemplateColumns = "";
+                        pair.removeAttribute("data-hug-pair");
+                    });
                 }
                 // (The room is the window's -- 1400px at most, its gutters taken off --, never the page's own width, which follows the chapter here too.)
                 const gutterValue = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-gutter"));
@@ -246,6 +252,7 @@ export default function SectionTiles({
                         fitHeading(heading);
                     }
                 });
+                unifyHeadings(box.closest<HTMLElement>(".conversation-card"));
             }
             box.style.setProperty("--quad-max-side", Math.max(side, vertical ? 72 : 120) + "px");
             // The type of the four tiles from the type scale by their size: 24px titles and 18px lists from 250px a side, else 18px and 14px.

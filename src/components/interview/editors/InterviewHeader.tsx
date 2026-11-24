@@ -75,7 +75,8 @@ export default function InterviewHeader({
             const line = parseFloat(getComputedStyle(node).lineHeight) || (parseFloat(getComputedStyle(node).fontSize) || 0) * 1.2;
             // (THE PAGE'S NAME ALONE WHERE BOTH DO NOT FIT (owner, 2026-11-24 00:21 UTC+2: "If the system and the page title do not fit in a single row, then use
             // only the symbol and the page title"): on every window; the System's name stays in the page's symbol, its tooltip and the document's title.)
-            if (pageTitle && line > 0 && node.getBoundingClientRect().height > line * 1.5) {
+            // (On one line it does not fit where it runs past its box: a phone in landscape, whose title stands in the header on one line, app-header.css.)
+            if (pageTitle && line > 0 && (node.getBoundingClientRect().height > line * 1.5 || node.scrollWidth > node.clientWidth + 1)) {
                 node.classList.add("interview-header-page-only");
             }
             if (verticalAcross() > 0) {
@@ -100,6 +101,81 @@ export default function InterviewHeader({
         return () => observer?.disconnect();
     }, [systemName, pageTitle]);
     const icon = ownIcon ?? (systemNumber ? getSystemIcon(Number(systemNumber)) : undefined);
+    // (EVERY PAGE'S SYMBOL THE HEIGHT OF THE TITLE'S CAPITALS, ON THEIR MIDDLE (owner, 2026-11-24 05:18 and 05:27 UTC+2: "make the systems' icon similar to size as
+    // the capabilities"; "Double check all the icons to have the same height between them, and with the page titles"): the drawing's own ink is measured once the
+    // picture has loaded -- its top and bottom in its square --, the square is sized so the ink stands as tall as the capitals (Inter's 0.727em of the title's
+    // size), and moved so the ink's middle is the capitals' middle. Every System's and Capability's symbol alike, a new one too; a page with no title text keeps
+    // the stylesheet's 36px.)
+    const symbol = useRef<HTMLImageElement | null>(null);
+    const ink = useRef<{ top: number; bottom: number } | null>(null);
+    const alignSymbol = () => {
+        const picture = symbol.current;
+        const title = heading.current;
+        const words = title?.querySelector<HTMLElement>("span") ?? title;
+        if (!picture || !title || !words || !ink.current) {
+            return;
+        }
+        const size = parseFloat(getComputedStyle(title).fontSize) || 0;
+        const share = ink.current.bottom - ink.current.top;
+        if (size <= 0 || share <= 0) {
+            return;
+        }
+        const box = Math.round((0.727 * size) / share);
+        picture.style.setProperty("--icon-box", box + "px");
+        picture.style.translate = "0 0";
+        const place = picture.getBoundingClientRect();
+        const text = words.getBoundingClientRect();
+        // (The capitals' middle in the text's box: Inter's ascender 0.96875em less half its cap height, 0.3635em.)
+        const capitals = text.top + 0.605 * size;
+        const middle = place.top + ((ink.current.top + ink.current.bottom) / 2) * place.height;
+        picture.style.translate = "0 " + Math.round((capitals - middle) * 10) / 10 + "px";
+    };
+    const measureInk = (picture: HTMLImageElement) => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 96;
+        canvas.height = 96;
+        let context: CanvasRenderingContext2D | null = null;
+        try {
+            context = canvas.getContext("2d");
+        } catch {
+            context = null;
+        }
+        if (!context) {
+            return;
+        }
+        context.drawImage(picture, 0, 0, 96, 96);
+        const data = context.getImageData(0, 0, 96, 96).data;
+        let top = 96;
+        let bottom = -1;
+        for (let y = 0; y < 96; y++) {
+            for (let x = 0; x < 96; x++) {
+                if (data[(y * 96 + x) * 4 + 3] > 40) {
+                    top = Math.min(top, y);
+                    bottom = Math.max(bottom, y);
+                }
+            }
+        }
+        if (bottom < top) {
+            return;
+        }
+        ink.current = { top: top / 96, bottom: (bottom + 1) / 96 };
+        alignSymbol();
+    };
+    useLayoutEffect(() => {
+        const again = () => window.requestAnimationFrame(alignSymbol);
+        window.addEventListener("resize", again);
+        window.addEventListener("tiles-fit", again);
+        void document.fonts?.ready.then(again);
+        const observer = typeof ResizeObserver === "undefined" || !heading.current ? null : new ResizeObserver(again);
+        if (heading.current) {
+            observer?.observe(heading.current);
+        }
+        return () => {
+            window.removeEventListener("resize", again);
+            window.removeEventListener("tiles-fit", again);
+            observer?.disconnect();
+        };
+    });
 
     return (
 
@@ -114,7 +190,9 @@ export default function InterviewHeader({
                     <img
                         src={icon}
                         alt=""
+                        ref={symbol}
                         className={"interview-header-icon" + (iconFull ? " interview-header-icon-full" : "")}
+                        onLoad={(event) => measureInk(event.currentTarget)}
                     />
                 )}
 

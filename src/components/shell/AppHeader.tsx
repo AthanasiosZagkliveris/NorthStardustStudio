@@ -23,6 +23,8 @@ import "../../styles/app-header.css";
 const NotepadPanel = lazy(() => import("../notepad/Notepad").then(module => ({ default: module.NotepadPanel })));
 const NotepadPicker = lazy(() => import("../notepad/Notepad").then(module => ({ default: module.NotepadPicker })));
 const OrganizationCalendarPanel = lazy(() => import("../calendar/OrganizationCalendarPanel"));
+// (The Organisation's own mark, from its Brand System: BrandMark.tsx.)
+const BrandMark = lazy(() => import("./BrandMark"));
 
 interface AppHeaderProps {
     /**
@@ -107,6 +109,8 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {organizationName && <SearchButton />}
             {/* The Workbook: the same button on the Landing page (owner, 2026-11-09), there with the review of every Organisation, the Glossary and the References. */}
             {(organizationName || totalReview) && <WorkbookButton total={!organizationName} />}
+            {/* (The Organisation's own square mark at the header's right end, after the Workbook, on a phone in landscape: BrandMark.tsx.) */}
+            {organizationId && organizationName && <Suspense fallback={null}><BrandMark organizationId={organizationId} organizationName={organizationName} /></Suspense>}
             {/* (THE SIDE PANELS UNDER THE HEADER'S SHADOW (owner, 2026-11-23 17:28 UTC+2: "The headers shadow should shade both ... any page and panel, in any part of the
                 app"): drawn outside the header, in the page's layer, so the header's shadow falls over them as over the page; inside the header they painted over it.) */}
             {organizationName && layer && createPortal(<Suspense fallback={null}><NotepadPanel /><NotepadPicker /></Suspense>, layer)}

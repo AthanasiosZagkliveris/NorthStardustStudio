@@ -237,7 +237,8 @@ export function tileName(title: string, items: readonly string[] = []): string {
  */
 export function masterSide(): number | null {
     const underline = document.querySelector<HTMLElement>(".interview-header .interview-divider") ?? document.querySelector<HTMLElement>(".interview-divider");
-    const card = document.querySelector<HTMLElement>(".conversation-card")?.getBoundingClientRect();
+    // (The Workbook's panel stands for the card on the Workbook and the Handbook: Workbook.tsx.)
+    const card = document.querySelector<HTMLElement>(".conversation-card, .workbook-panel")?.getBoundingClientRect();
     if (!underline || !card || card.width <= 300) {
         return null;
     }
@@ -495,4 +496,40 @@ export function fitHeading(heading: HTMLElement): void {
         size -= 2;
         heading.style.fontSize = size + "px";
     }
+}
+
+/**
+ * EVERY CHAPTER'S HEADING ON A PAGE ONE SIZE (owner, 2026-11-24 03:14 UTC+2: "Be consistent, use only the same size and style for the text per titles"): after
+ * each has stepped down to stand on one line (fitHeading), all take the smallest of them.
+ */
+export function unifyHeadings(card: HTMLElement | null): void {
+    if (!card) {
+        return;
+    }
+    const headings = Array.from(card.querySelectorAll<HTMLElement>(".answer-column-label, .tiles-frame-head .field-group-title")).filter(heading => heading.closest(".section-tile-dialog, .section-tile-overlay, [role=dialog], [class*=\"floating\"], .section-tiles-completed") === null && heading.getClientRects().length > 0);
+    if (headings.length < 2) {
+        return;
+    }
+    // (The page's chapters alone: a dialog's or a floating card's heading has its own size. What this set before is taken back first; the smallest is the one a
+    // heading stepped down to on its own (fitHeading), so a heading of another kind never sets the page's size.)
+    headings.filter(heading => heading.hasAttribute("data-heading-unified")).forEach(heading => {
+        heading.removeAttribute("data-heading-unified");
+        heading.style.removeProperty("font-size");
+        heading.style.removeProperty("line-height");
+    });
+    const stepped = headings.filter(heading => heading.style.fontSize !== "").map(heading => parseFloat(heading.style.fontSize)).filter(size => size > 0);
+    if (stepped.length === 0) {
+        return;
+    }
+    const least = Math.min(...stepped);
+    headings.forEach(heading => {
+        if (heading.style.fontSize === "" && (parseFloat(getComputedStyle(heading).fontSize) || 0) > least + 0.5) {
+            const line = parseFloat(getComputedStyle(heading).lineHeight);
+            if (Number.isFinite(line)) {
+                heading.style.lineHeight = line + "px";
+            }
+            heading.style.fontSize = least + "px";
+            heading.setAttribute("data-heading-unified", "");
+        }
+    });
 }
