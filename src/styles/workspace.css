@@ -632,6 +632,17 @@
 
 }
 
+/* (Where the chapters stack, the frame stands on the page's middle, as a stacked chapter does.) */
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
+
+    .capability-tiles:has(> .capability-systems-frame) {
+
+        margin-inline: auto;
+
+    }
+
+}
+
 .capability-tiles > .capability-systems-frame {
 
     box-sizing: border-box;
