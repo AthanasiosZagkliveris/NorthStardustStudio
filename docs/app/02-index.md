@@ -77,14 +77,14 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Glossary | Header › Workbook (`/workbook`) › Glossary; also the Landing page's Workbook, Search and `/glossary`: the app's terms and yours, in two colours, under ONE funnel of the two kinds and the letter ranges (about twenty terms a range; one funnel); from the Landing page, every organisation's terms, each named with its organisation, and the organisations in the funnel; the second tab is References, with a funnel by letter range (A–I, K–Z) | Foundation 1, C.2; Research 1, 2.1 |
+| Glossary | Header › Workbook (`/workbook`) › Glossary; also the Landing page's Handbook (the app's terms alone), Search and `/glossary`: the app's terms and yours, in two colours, under ONE funnel of the two kinds and the letter ranges (about twenty terms a range; one funnel); the Handbook's next tab is References, with a funnel by letter range (A–I, K–Z) | Foundation 1, C.2; Research 1, 2.1 |
 | Global Settings | Header › Settings (`/settings`) | Questions 2, 8.2a; Foundation 1, Part D 6; `01-contents.md` |
 
 ## H
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Header | Every page with an Organisation open: save status, reading mode, Focus, Search, Workbook (the Workbook page), Notes (the Notes panel), Settings; the Landing page: reading mode, Reload, the same Workbook (Review of every organisation, Glossary, References) | `01-contents.md` |
+| Header | Every page with an Organisation open: save status, reading mode, Focus, Search, Workbook (the Workbook page), Notes (the Notes panel), Settings; the Landing page: reading mode and the Handbook (App Guide, Specs & Limitations, Future Features, Total review, Glossary, References) | `01-contents.md` |
 | Help tile | Business › 2 Infrastructure & Capability › the footer band: Inventory and Completed | Section 3; Foundation 1, C.5 |
 
 ## I
@@ -141,7 +141,7 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 | Item | Where in the app | Described in |
 |---|---|---|
 | Reading mode | Header: light, sepia, dark, auto | Foundation 1, B.2 |
-| References | Header › Workbook › References: every source the app cites, as a Harvard reference list; the "i" notes cite the same references | Research 1, 2.1 and 2.2 |
+| References | Landing page › Handbook › References (an "i"'s or a Glossary citation inside an Organisation opens them): every source the app cites, as a Harvard reference list; the "i" notes cite the same references | Research 1, 2.1 and 2.2 |
 | Registrations | Identity System › Definition › Registrations & Expenses › Registrations (one dialog card: the registry's and the tax's numbers as sections, the Additional Legal Requirements as nested tiles) | Foundation 2; layout rules, 13 |
 | Resources | Business › 2 Infrastructure & Capability (both cards) | Section 3 |
 | Revenue | Business › 3 Financials › Financial Foundation › Revenue Streams; the Revenue Summary: Workbook › Financial Documents › Financial Plan; the Delivery Check: Workbook › Business Documents › Business Plan, Operations, Capacity | Section 4; Questions 20, section 14 |
@@ -176,4 +176,4 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 | Value Proposition | Business › 1 Foundation & Engagement › Foundation › Value Proposition | Questions 15; Questions 2, 6.7; Section 1 |
 | Values | Identity System › Purpose › Values & Principles | Questions 9, 3.3 |
 | Vision | Identity System › Purpose › Mission & Vision (saved in Definition) | Questions 9, 3.2 |
-| Workbook | Header, wherever an Organisation is open, and the Landing page (one button, no count): the Workbook page (`/workbook`), sections Business Documents, Financial Documents, Review, References, Glossary and Card Notes; on the Landing page Review (every Organisation), Glossary and References; Back or Escape returns | `01-contents.md`; layout rules section 7, "The Workbook" |
+| Workbook | Header, wherever an Organisation is open, and the Landing page (one button, no count): the Workbook page (`/workbook`), sections Business Documents, Financial Documents, Review, Glossary and Card Notes; on the Landing page the same button is the Handbook (App Guide, Specs & Limitations, Future Features, Total review, Glossary, References); Back or Escape returns | `01-contents.md`; layout rules section 7, "The Workbook" |

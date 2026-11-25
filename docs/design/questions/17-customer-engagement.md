@@ -231,3 +231,5 @@ Rows are no longer typed from a source list: **one row is proposed for each Disc
 | Expected Sales | read-only | keep | |
 
 `demand.channelIds` is finally read: spend on a channel divided by the customers its row brings gives the **cost per customer** shown in the Channel Costs tile. The app proposes **no default conversion percentage and no sales-cycle length** (11.6).
+
+**An Offering not ready to sell (Questions 5 #79, as built).** Where the Offering's O2 is an idea or being built, the Demand card says so in place of its sales: "This Offering is still an idea. Its sales start once it is ready." or "This Offering is still being built. Its sales start once it is ready." (`DemandCapacity.ts`: `NOT_READY_NOTES`).

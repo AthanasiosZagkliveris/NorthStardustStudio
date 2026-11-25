@@ -31,16 +31,16 @@ Section names come from the headings of each doc. A doc cell holding "unverified
 
 | # | Target field (System > page > tile) | Kind | Source field(s) | Code (file:function) | Doc that lists it |
 |---|---|---|---|---|---|
-| 1 | Identity > Definition > Organisation > Name | start | Organization name given when the app was set up (OrganizationService summary) | src/pages/crossSystemReaders.ts:`legalEntityPrefill`; src/components/interview/editors/legal/useLegalState.tsx (prefill effect) | none |
-| 2 | Identity > Definition > Founders & Ownership > first founder's Name | start | The user's name (PreferencesService.getUserName) | same as #1 | none |
-| 3 | Identity > Definition > Founders & Ownership > Ownership (%) of a sole founder | start ("100") | One founder on the card | useLegalState.tsx (prefill effect) | none |
+| 1 | Identity > Definition > Organisation > Name | start | Organization name given when the app was set up (OrganizationService summary) | src/pages/crossSystemReaders.ts:`legalEntityPrefill`; src/components/interview/editors/legal/useLegalState.tsx (prefill effect) | Questions 7, 1 |
+| 2 | Identity > Definition > Founders & Ownership > first founder's Name | start | The user's name (PreferencesService.getUserName) | same as #1 | Questions 7, the Legal Entity's starts |
+| 3 | Identity > Definition > Founders & Ownership > Ownership (%) of a sole founder | start ("100") | One founder on the card | useLegalState.tsx (prefill effect) | Questions 7, the Legal Entity's starts |
 | 4 | Identity > Definition > Registrations & Expenses > registration authority | computed | Country, subdivision | LegalEntityJurisdictions.ts:`registrationAuthorityFor` (called in useLegalState.tsx prefill effect) | Questions 7 §2 Country ("the registry"); spec Identity §4 |
-| 5 | Identity > Definition > Registrations & Expenses > Tax identification number | start (copied while empty or still equal to the previous registration number) | Registration number, in countries where the two numbers are the same | useLegalState.tsx:`changeRegistrationNumber`; LegalEntityJurisdictions.ts:`sharesTaxAndRegistrationNumber` | none |
+| 5 | Identity > Definition > Registrations & Expenses > Tax identification number | start (copied while empty or still equal to the previous registration number) | Registration number, in countries where the two numbers are the same | useLegalState.tsx:`changeRegistrationNumber`; LegalEntityJurisdictions.ts:`sharesTaxAndRegistrationNumber` | Questions 7, the Legal Entity's starts |
 | 6 | Currency beside every amount (Legal Entity amounts, every Price on Infrastructure & Capability, every financial total) | computed | Organisation > Country | LegalEntityJurisdictions.ts:`countryCurrency`; crossSystemReaders.ts:`organisationCurrency` | Questions 7 §2; Biz README item 5; spec P2 §10 |
 | 7 | Business stage (Planning / Launching / Managing / Growing): names the Early Positioning tile and sets choice limits | computed | Opening Date (Organisation tile), Global Settings stage durations | BusinessStage.ts:`stageOf`; crossSystemReaders.ts:`businessStage` | Questions 2 §8.2a; spec Identity §8; spec GS (Business stages row) |
 | 8 | Identity > Definition > Early Positioning > the end user's life stage | start (set, and the question is not drawn, where only one stage fits) | Seller and Buyer Relationship (Proxy / Dual-Intent), buyer's life stage | RelationshipFit.ts:`withOnlyUserStage` (useLegalState.tsx:`updateOrganisation`) | Questions 8 §6 |
 | 9 | Identity > Definition > Registrations & Expenses > requirement cards (each with its fee expense), expenses on the registration number, tax registration rows | auto card | Country, Legal form, payroll (a salaried founder or paid staff on Infrastructure & Capability); the expense date comes from the registration date, else the Opening Date | LegalStarts.ts:`legalStartsFor`, `pendingLegalStarts`, `withLegalStarts`, `paysAnyone`; useLegalState.tsx (effect) | Questions 10 §1, §2, §6 |
-| 10 | Identity > Definition > Registrations & Expenses > the expense made by a requirement ticked "Add to Legal Entity Expenses" | auto card | The requirement's tick and name | legal/shared.tsx:`withAutoExpenses` | layout-rules §11 (layout only) |
+| 10 | Identity > Definition > Registrations & Expenses > the expense made by a requirement ticked "Add to Legal Entity Expenses" | auto card | The requirement's tick and name | legal/shared.tsx:`withAutoExpenses` | Questions 7, the Legal Entity's starts; layout-rules §11 |
 | 11 | Identity > Definition > Founders & Ownership > founder card > Personal Survival Budget: the least the founder needs a month | computed | Household income, household costs | AnswerLegal.ts:`survivalMinimum`; FoundersProfileEditor.tsx | Questions 20 §13 |
 
 ### Chapter 2. Purpose
@@ -123,9 +123,9 @@ Note: the doc comment on `ambassadorShown` still says "BA3 from O6", but the cod
 | 66 | Engagement > Direct Payment channel > "Payment processing fees" card per payment service (also a card on Infrastructure & Capability) | auto card | Segment "Which payment services do you take payments with?", Organisation country | ChannelResources.ts:`withAnswerServiceCards`; SegmentQuestions.ts:`segmentPaymentServices` | Questions 12 §8a; spec Channels "Channel expenses (as built)"; Questions 17 §5 |
 | 67 | Engagement > channel > "Typical costs for this channel" templates (T1 to T10, T12, T13); pressing one makes its card, price blank | options (then auto card on press) | The channel's category | ChannelResources.ts:`CHANNEL_COST_TEMPLATES`, `templatesForCategory`, `withNewTemplateCost` | spec Channels "Channel expenses (as built)"; Questions 17 §5 |
 | 68 | Engagement > Customer Relationships > the relationship types of each Offering | auto card | O7; the served Profiles' D2 and C3; Segment authorise | JourneySuggestions.ts:`autoRelationshipTypes`, `relationshipTypesOf`; engagement/useEngagementRelationships.tsx | Biz README (Relationship type row); Questions 17 §3 |
-| 69 | Engagement > Customer Relationships > Personal Assistance where the answers point to no type | auto card | none of #68's sources answered | JourneySuggestions.ts:`DEFAULT_RELATIONSHIP_TYPE`, `relationshipTypesOf` | layout-rules ("Suggested: Personal Assistance"; unverified that it is the same rule) |
+| 69 | Engagement > Customer Relationships > Personal Assistance where the answers point to no type | auto card | none of #68's sources answered | JourneySuggestions.ts:`DEFAULT_RELATIONSHIP_TYPE`, `relationshipTypesOf` | Business 3, As built (starts and drafts); layout-rules ("Suggested: Personal Assistance") |
 | 70 | Engagement > relationship type card > Purpose | draft | The type, the Offering's name and answers | RelationshipDrafts.ts:`relationshipPurposeDraft`; useEngagementRelationships.tsx (`AutoDraft`) | Questions 17 §5; layout-rules |
-| 71 | Engagement > relationship type > each stage's Approach | draft | The type, that stage's channels | RelationshipDrafts.ts:`relationshipApproachDraft`; useEngagementRelationships.tsx (`AutoDraft`) | layout-rules only |
+| 71 | Engagement > relationship type > each stage's Approach | draft | The type, that stage's channels | RelationshipDrafts.ts:`relationshipApproachDraft`; useEngagementRelationships.tsx (`AutoDraft`) | Business 3, As built (starts and drafts); layout-rules |
 | 72 | Engagement > relationship type > each stage's Goals | start | The stage; O17; Segment buying pattern | JourneySuggestions.ts:`startGoals` | Questions 17 §3; spec Relationships (Goal selector); spec Channels "As built" |
 | 73 | Engagement > Sales Forecast > Customers Buy (one sale at a time / every month); read-only where O3 says one-off or recurring | start (also kept in the saved value) | Offering O3 | EffectiveAnswers.ts:`offeringStarts`, `offeringStartsById`; useEngagementState.tsx; useEngagementDemand.tsx | Biz README (Customers Buy row; "The starts" table); Questions 2 §7.5 |
 | 74 | Engagement > Sales Forecast > Customer Sources (one per Discover channel serving the Offering; Contracts or tenders) | auto card (`fromAnswers`, no x) | The Offering's Discover channels; Segment "Who decides to buy?" = formal tender | JourneySuggestions.ts:`demandSuggestions`, `withAnswerSources`; useEngagementState.tsx | Questions 17 §5; Biz README (tender row) |
@@ -133,7 +133,7 @@ Note: the doc comment on `ambassadorShown` still says "BA3 from O6", but the cod
 | 76 | Engagement > Sales Forecast > time to buy (Sales funnel and Contracts sources) | computed | "Who decides to buy?", "How do your customers usually decide to buy?" | JourneySuggestions.ts:`monthsToClose` | Questions 18 §2.5; Questions 12 §6; Biz README |
 | 77 | Engagement > Sales Forecast > Sales funnel's middle step labelled "Tried it (%)" | computed | Profiles' D1 = "A demo, trial or sample" | JourneySuggestions.ts:`funnelIsTrial` | Questions 18 §2.5; Questions 13 D1 |
 | 78 | Engagement > Sales Forecast > market-size check under Expected Sales | computed | Expected Sales; Segment "How many potential customers are there?" | DemandCapacity.ts:`marketShareLine` | Questions 18 §2.3; Biz README |
-| 79 | Engagement > Demand card > the note for an Offering that is not ready to sell | computed | Offering O2 | DemandCapacity.ts:`NOT_READY_NOTES`; useEngagementDemand.tsx | none |
+| 79 | Engagement > Demand card > the note for an Offering that is not ready to sell | computed | Offering O2 | DemandCapacity.ts:`NOT_READY_NOTES`; useEngagementDemand.tsx | Questions 17, 7.5 |
 
 ### 3.3 Page 2 Infrastructure & Capability
 
@@ -142,7 +142,7 @@ Note: the doc comment on `ambassadorShown` still says "BA3 from O6", but the cod
 | 80 | Infrastructure > Founders tile: one founder card per Legal Entity founder (name; Roles) | auto card | Identity > Founders & Ownership names; Founders Profile roles | AnswerBusinessCapability.ts:`withLegalEntityFounders`; capability/useCapabilityState.tsx | spec P2 §6 |
 | 81 | Infrastructure / Offering's Capability > an Activity made by "Other…" under a card's Activity status (category, Start date, Offerings, the sole founder as Team and Responsible); its name links to the card | auto card (`madeBy`) | The card's Status, Start date, Offerings; one named founder | BusinessCapabilityModel.ts:`newActivityFor`, `startOfCard`; useCapabilitySections.tsx | spec P2 §3; layout-rules §8 (parent and child) |
 | 82 | Infrastructure / Offering's Capability > a Partner or Supplier made by "Other…" (Start date from the card) | auto card (`madeBy`) | The card's Status and Start date | capability/useCapabilityState.tsx (Partners & Suppliers picker); BusinessCapabilityModel.ts:`startOfCard` | spec P2 §3 |
-| 83 | The cards #81 and #82 follow their maker's Offerings and are removed, after a question, when no card names them | computed (follow / removal) | The maker card's Status and Offerings | GeneratedCards.ts:`connectedOfferings`, the follow and removal helpers | none |
+| 83 | The cards #81 and #82 follow their maker's Offerings and are removed, after a question, when no card names them | computed (follow / removal) | The maker card's Status and Offerings | GeneratedCards.ts:`connectedOfferings`, the follow and removal helpers | Business 4, section 4 |
 | 84 | Offering's Capability > Resource cards made from a channel's expenses (name read-only, a link to the channel) | auto card | Customer Engagement > channel expenses (#66, #67, "+ Add expenses") | ChannelResources.ts:`withNewChannelResource`; useCapabilityCardFields.tsx (`channelMade`) | Biz README item 3; spec P2 §8; spec Channels "Channel expenses (as built)" |
 | 85 | Every Price's currency | start (default; changeable per price) | Identity > Organisation > Country | crossSystemReaders.ts:`organisationCurrency` | spec P2 §10 |
 | 86 | Capacity & Delivery > Delivery card > DV1 Delivered (per unit / every month) | start (read as a record where O3 says) | O3, else Sales Forecast's Customers Buy | EffectiveAnswers.ts:`offeringStarts`; useCapabilityActivityAndDelivery.tsx:`deliveryModeOf`, `startedDelivery` | Questions 19 DV1; Biz README |
@@ -159,7 +159,7 @@ Note: the doc comment on `ambassadorShown` still says "BA3 from O6", but the cod
 | 92 | Revenue Streams: one stream card per Offering | auto card (saved on first write) | The Offerings on Foundation | FinancialSustainabilityEditor.tsx (`shownStreams`) | Biz README (One stream per Offering row) |
 | 93 | Revenue Stream > Charged (frequency) | start | O3 | FinancialSustainabilityEditor.tsx:`streamStarts`; EffectiveAnswers.ts:`offeringStarts` | Biz README ("The starts" table); Questions 20 §12.3 |
 | 94 | Revenue Stream > Payment Timing (read-only where O3t is answered) | start | O3t (O3's second row) | `streamStarts`; FinancialSustainabilityEditor.tsx (timingAnswered) | Biz README (Payment Timing bullet) |
-| 95 | Revenue Stream > Per (the revenue unit) | start | The Offering's terms and form (OfferingStarts.unit) | `streamStarts` | none (unverified) |
+| 95 | Revenue Stream > Per (the revenue unit) | start | The Offering's terms and form (OfferingStarts.unit) | `streamStarts` | Questions 20, 15.7 (Per) |
 | 96 | Revenue Stream > Expected Volume | computed | Sales Forecast Expected Sales | FinancialModel / financial/expectedSales.ts | spec Revenue §4.1 "Expected Volume"; Questions 20 §3 |
 | 97 | Revenue Stream > Price > the competitors' range line under the price | computed | The Segment's Competitors' K15 ranges | CompetitorQuestions.ts:`competitorsPriceRange` | Questions 20 §12.3; Questions 14 K15 |
 | 98 | The plan's first month (Financial Plan settings, both Financial pages, the documents) | computed (never typed) | Opening Date; the earliest card cost Start date; Legal Entity expense dates | financial/period.ts:`derivedPlanStart`, `costStartDates`, `legalExpenseDates` | Biz README item 7; spec Revenue "As built"; Questions 2 §8.2a |
@@ -226,25 +226,9 @@ Two rows have two kinds: 67 is options, and an auto card once a template is pres
 
 ## Items no doc lists
 
-| # | Item |
-|---|---|
-| 1 | Organisation Name prefilled from the Organization's name at set-up |
-| 2 | First founder's Name prefilled from the user's name |
-| 3 | Sole founder's Ownership set to 100 |
-| 5 | Tax identification number copied from the registration number (shared-number countries) |
-| 79 | Demand card's not-ready note from O2 |
-| 83 | "Other…"-made Activities and Partners follow their maker's Offerings, and are removed with a question once no card names them (GeneratedCards.ts) |
-| 95 | Revenue Stream's Per (unit) started from the Offering's terms and form (no spec found; unverified) |
+None since 2026-11-25: the seven rows once listed here (1, 2, 3, 5, 79, 83, 95) and the three listed only in the layout rulebook (10, 69, 71) now each have their owning document, in their Docs cell.
 
-Listed only in the layout rulebook (no spec or design doc):
-
-| # | Item |
-|---|---|
-| 10 | The expense a ticked requirement makes (layout-rules §11) |
-| 69 | Personal Assistance as the default relationship type (layout-rules, "Suggested: Personal Assistance"; unverified match) |
-| 71 | A relationship stage's Approach draft (layout-rules, the auto-draft rule) |
-
-Code and doc disagree:
+## Code and doc disagree
 
 | # | Item |
 |---|---|

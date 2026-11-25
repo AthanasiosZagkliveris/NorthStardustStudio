@@ -123,7 +123,7 @@ A proposal from online research (official, university and standards sources; par
 ### 5.4 Extra languages and countries
 
 #### What founders need (evidence)
-- Legal forms differ by country, with different names, liability and capital rules. Your Europe advises checking national rules before registering [25]. The app's legal-entity and Financials sections are tied to UK forms today.
+- Legal forms differ by country, with different names, liability and capital rules. Your Europe advises checking national rules before registering [25]. The app's legal-entity and Financials sections cover six countries today (GB, IE, US with every state, CA, AU, NZ) and Other (Questions 10); a new country needs its own pack.
 - Tax and reporting duties also differ by country. For example, UK Making Tax Digital for Income Tax applies to sole traders and landlords with qualifying income over £50,000 from April 2026, falling to £30,000 in 2027 and £20,000 in 2028 [26]. Any country pack needs its own rules and dates.
 
 #### What comparable tools offer
@@ -147,7 +147,7 @@ A proposal from online research (official, university and standards sources; par
 | # | Feature | One-line evidence | Source | State (2026-11-21) |
 |---|---|---|---|---|
 | 1 | **Backup, export and import (JSON project file)** | Browsers can delete an origin's stored data when storage runs low; persistence must be requested and may be refused. | [31] | **Built**: Export and Import of an Organisation as a JSON file on the Landing page |
-| 2 | **Persistent-storage request and storage warning** | `navigator.storage.persist()` lowers the risk of the browser deleting data; the browser decides whether to grant it. | [31] | Not built |
+| 2 | **Persistent-storage request and storage warning** | `navigator.storage.persist()` lowers the risk of the browser deleting data; the browser decides whether to grant it. | [31] | **Built in part**: the Organisations are kept in IndexedDB and persistence is asked for at start (`IndexedDbStorage.keep`, `main.tsx`); no warning yet when the browser refuses |
 | 3 | **Lender-ready exports (Start Up Loans format: plan, 12-month cash flow, survival budget)** | Start Up Loans applicants must send a 12-month cash flow forecast and a personal survival budget. | [14] | Built in part: the personal survival budget (Questions 20, section 13) and the Financial Documents in the Workbook; no export in the Start Up Loans format |
 | 4 | **Scenario planning (base, low, high) on the Financial Forecast** | Planning works best combined with learning and revision; competitors offer "what-if" scenarios. | [2][32] | Not built (Workspace D3, Records 2, 5.4) |
 | 5 | **Progress dashboard and plan-versus-actual review** | Regular revision is where planning pays off; LivePlan ties dashboards to actuals. | [2][4] | Not built (K2, Records 2, 5.2) |
