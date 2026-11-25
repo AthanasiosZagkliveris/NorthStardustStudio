@@ -435,8 +435,7 @@ export function TileList({
         const layer = node.parentElement?.classList.contains("section-tile-links-layer") ? node.parentElement : null;
         // (A TITLE ALONE HAS ITS RULE ON THE TILE'S MIDDLE (owner, 2026-11-24 10:12 UTC+2: "When the master tiles have only their titles ..., make sure the title's
         // underline pass through the middle of the tile").)
-        const titleOnMiddle = () => {
-            const slot = node.closest<HTMLElement>(".section-tile-slot");
+        const titleOnMiddle = (slot: HTMLElement | null = node.closest<HTMLElement>(".section-tile-slot")) => {
             const tile = slot?.querySelector<HTMLElement>(".section-tile");
             const title = tile?.querySelector<HTMLElement>(".section-tile-title");
             if (!slot || !tile || !title) {
@@ -466,6 +465,21 @@ export function TileList({
             const scope = scopeOfList(node);
             const any = !!scope && Array.from(scope.querySelectorAll<HTMLElement>(".section-tile-list[data-room-short]"))
                 .some(other => scopeOfList(other) === scope && (other.closest(".section-tile-slot")?.getClientRects().length ?? 0) > 0);
+            // (AN EMPTY TILE OF THE SAME SCREEN TOO (owner, 2026-11-25 15:51 UTC+2, the phone's Resources dialog: Vehicles' title at the top, its neighbours' on the
+            // middle): a tile with no list follows its neighbours, its title on the middle where theirs are, at the top where theirs are.)
+            if (scope) {
+                for (const slot of Array.from(scope.querySelectorAll<HTMLElement>(".section-tile-slot"))) {
+                    if (slot.querySelector(".section-tile-list") || scopeOfList(slot) !== scope) {
+                        continue;
+                    }
+                    slot.toggleAttribute("data-title-alone", any);
+                    if (any) {
+                        titleOnMiddle(slot);
+                    } else {
+                        slot.style.removeProperty("--title-centre");
+                    }
+                }
+            }
             if (any) {
                 node.setAttribute("data-no-room", "");
                 node.removeAttribute("data-symbols");

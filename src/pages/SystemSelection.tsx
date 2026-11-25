@@ -27,8 +27,8 @@ import { systemContents } from "../components/systems/systemContents";
 import BulletRail from "../components/interview/rails/BulletRail";
 import useRailTab from "../hooks/useRailTab.ts";
 import PageArrow from "../components/interview/fields/PageArrow";
-import { masterSide, setTilesPage } from "../components/interview/tiles/SectionTileGeometry.tsx";
-import { verticalAcross } from "../hooks/useVerticalLayout.ts";
+import { masterSide, setTilesPage, setTilesPageWidth } from "../components/interview/tiles/SectionTileGeometry.tsx";
+import { isPhone, masterAcross, verticalAcross } from "../hooks/useVerticalLayout.ts";
 import { getSystemIcon } from "../data/systemIcons";
 import "../styles/status-shape.css";
 import "../styles/system-list.css";
@@ -254,6 +254,8 @@ export default function SystemSelection() {
     // (THE MASTER TILES' SIDE (SectionTiles' fit): what the window's height leaves for two rows under the tiles' top, above the footer and its 12px; 150px at least.)
     const tilesBox = useRef<HTMLDivElement | null>(null);
     const [tileSide, setTileSide] = useState<number | null>(null);
+    // (Where the chapters stack, the Systems stand in the page's row of master tiles: two, or four on a phone in landscape -- masterAcross.)
+    const [stackedRow, setStackedRow] = useState<number | null>(null);
     // (A SYSTEM'S TILE SHORT OF ROOM SHOWS ITS TITLE ALONE, CENTRED (owner, 2026-11-24 03:14 UTC+2: "When there is not enough space in the tiles, let only the
     // titles, and place them in the centre"), as a page's master tiles do (TileList, data-no-room): where what it holds would run past the tile's foot, less 12px,
     // it is not shown, and the title (its name and symbol) stands in the tile's middle.)
@@ -326,12 +328,24 @@ export default function SystemSelection() {
                 const master = masterSide();
                 // (THE SAME TILES AS EVERY PAGE OF THE WINDOW WHERE THE CHAPTERS STACK (owner, 2026-11-24 10:12 UTC+2: "Same screen, 2 columns both, different tile sizes.
                 // Why?"): there a chapter takes the page's whole width, its tiles two across up to 260px (SectionTiles), so the Systems' frame does too.)
+                // (THE SAME SIDE AS THE PAGES' MASTER TILES ON A PHONE TOO (owner, 2026-11-25 15:51 UTC+2: "Consistency accross all the pages per screen size"; a phone
+                // in portrait drew the Systems at 120px beside the pages' 160px, one in landscape at 260px beside their 171px): the stacked side of SectionTiles -- the
+                // window's room less its gutters and the frame round the tiles, the page's row (two, four on a phone in landscape), 260px at most but on a phone.)
                 const stacked = verticalAcross() > 0;
+                const row = stacked ? Math.min(count, masterAcross()) : across;
+                const gutterValue = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-gutter"));
+                const windowRoom = Math.min(1400, document.documentElement.clientWidth - 2 * (Number.isFinite(gutterValue) ? gutterValue : 16));
+                const fill = Math.floor((windowRoom - 2 * pad - 2 - (masterAcross() - 1) * 12) / masterAcross());
                 const side = stacked
-                    ? Math.max(72, Math.min(260, Math.floor((page - 2 * pad - 2 - (across - 1) * 12) / across)))
+                    ? Math.max(72, isPhone() ? fill : Math.min(fill, 260))
                     : Math.max(120, Math.min(tall, Math.floor(room / across), master ?? Infinity));
-                // (The page as wide as its tiles, as every page of tiles: tilesPageWidth.)
-                setTilesPage(document.querySelector<HTMLElement>(".conversation-page"), master);
+                setStackedRow(stacked ? row : null);
+                // (The page as wide as its tiles, as every page of tiles: tilesPageWidth; where the chapters stack, as wide as the frame, as a stacked chapter's page.)
+                if (stacked) {
+                    setTilesPageWidth(document.querySelector<HTMLElement>(".conversation-page"), row * side + (row - 1) * 12 + 2 * pad + 2);
+                } else {
+                    setTilesPage(document.querySelector<HTMLElement>(".conversation-page"), master);
+                }
                 setTileSide(side);
                 return;
             }
@@ -599,7 +613,7 @@ export default function SystemSelection() {
                     <div ref={tilesBox} className="capability-tiles" style={{ "--strategy-theme-hue": hueOf(getCapabilityColor(shown?.id ?? "foundation")), ...(tileSide ? { "--capability-side": tileSide + "px" } : {}),
                         // (FOUR TILES STAND TWO BY TWO (owner, 2026-11-22 21:37 UTC+2: "If there are 4 tiles make the layout 2 x 2"), as a chapter's four; else three a row.)
                         // (And three, two by two, the fourth place empty: owner, 2026-11-23 17:28 UTC+2, "If there are 3 tiles the lay out should still be 2 x 2".)
-                        ...(shown && shownSystems.length >= 3 && shownSystems.length <= 4 ? { "--capability-across": 2 } : {}) } as React.CSSProperties}>
+                        ...(stackedRow ? { "--capability-across": stackedRow } : shown && shownSystems.length >= 3 && shownSystems.length <= 4 ? { "--capability-across": 2 } : {}) } as React.CSSProperties}>
                         {shown
                             ? (
                                 // (The Capability's Systems, a tile each, as the Capabilities are, in its colour; IN ONE FRAME WITH NO TITLE, THE TILES FROM ITS LEFT

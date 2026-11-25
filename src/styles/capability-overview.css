@@ -1119,6 +1119,17 @@
 
 @media (max-width: 600px) and (orientation: portrait) {
 
+    /* (THE BAR ON A PHONE HELD UPRIGHT WRAPS (owner, 2026-11-25 15:51 UTC+2, the table cut to a strip): the count, the four kinds, Tiles / Table and the sizes
+       on as many rows as they need, 12px apart, so nothing runs past the dialog and the dialog never slides sideways.) */
+    .capability-overview-bar,
+    .capability-overview-legend {
+
+        flex-wrap: wrap;
+        row-gap: var(--gap-12);
+
+    }
+
+
     .capability-overview-rotate {
 
         display: flex;

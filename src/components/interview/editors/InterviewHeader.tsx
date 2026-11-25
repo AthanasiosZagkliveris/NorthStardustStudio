@@ -76,7 +76,14 @@ export default function InterviewHeader({
             // (THE PAGE'S NAME ALONE WHERE BOTH DO NOT FIT (owner, 2026-11-24 00:21 UTC+2: "If the system and the page title do not fit in a single row, then use
             // only the symbol and the page title"): on every window; the System's name stays in the page's symbol, its tooltip and the document's title.)
             // (On one line it does not fit where it runs past its box: a phone in landscape, whose title stands in the header on one line, app-header.css.)
-            if (pageTitle && line > 0 && (node.getBoundingClientRect().height > line * 1.5 || node.scrollWidth > node.clientWidth + 1)) {
+            // (Measured by its words against its content box: a title clipped in the header reports no overflow of its own -- "Capabil..." at 1024 x 768, owner,
+            // 2026-11-25 15:51 UTC+2.)
+            const style = getComputedStyle(node);
+            const words = document.createRange();
+            words.selectNodeContents(node);
+            const room = node.clientWidth - (parseFloat(style.paddingLeft) || 0) - (parseFloat(style.paddingRight) || 0);
+            const runsPast = node.scrollWidth > node.clientWidth + 1 || (style.whiteSpace === "nowrap" && typeof words.getBoundingClientRect === "function" && words.getBoundingClientRect().width > room + 0.5);
+            if (pageTitle && line > 0 && (node.getBoundingClientRect().height > line * 1.5 || runsPast)) {
                 node.classList.add("interview-header-page-only");
             }
             if (verticalAcross() > 0) {

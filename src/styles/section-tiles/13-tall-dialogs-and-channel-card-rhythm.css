@@ -51,6 +51,28 @@
 
 }
 
+/* (IN THE FOOTER'S BAND (a phone, a tablet in portrait: 12-page-tabs-and-channel-card.css) the tab is the band: no side edges or corners, its bullets on the
+   band's middle line, as the page's are; owner, 2026-11-25 15:51 UTC+2, the Handbook's and the Workbook's bullets stood low and their band had a corner.) */
+@media (max-width: 600px), (orientation: portrait) {
+
+    .carousel-rail.carousel-rail-tab.carousel-rail-tab-left {
+
+        border-left: 0;
+        border-right: 0;
+        border-radius: 0;
+
+        align-items: center;
+
+    }
+
+    .carousel-rail.carousel-rail-tab-left .bullet-rail-list {
+
+        align-items: center;
+
+    }
+
+}
+
 /* A channel card's head: the name cell (a picker while blank) keeps 12px from its x, */
 .business-subchannel-card > .strategy-box-head > :has(+ .strategy-box-remove) {
 

@@ -75,7 +75,8 @@
 
 /* (A MASTER TILE WITH ITS TITLE ALONE HAS IT IN ITS MIDDLE (owner, 2026-11-24 03:14 UTC+2: "When there is not enough space in the tiles, let only the titles, and
    place them in the centre").) */
-.section-tile-slot:has(> .section-tile-links-layer > .section-tile-list[data-no-room]) > .section-tile > :is(.section-tile-title) {
+.section-tile-slot:has(> .section-tile-links-layer > .section-tile-list[data-no-room]) > .section-tile > :is(.section-tile-title),
+.section-tile-slot[data-title-alone] > .section-tile > :is(.section-tile-title) {
 
     /* (By the offset TileList measures: the tile's middle less the title's, --title-centre on the slot.) */
     translate: 0 var(--title-centre, 0px);

@@ -25,7 +25,8 @@ interface AppFooterProps {
 
 /** What the footer's Back may never stand over, word and all: the page's card (its left edge runs down to the footer), the Inventory and Completed row and the footer's own buttons. */
 // (The rails' arrows in the footer's band too: on a phone's Capability page the word stood over the band's left arrow, 2026-11-24.)
-const BACK_OBSTACLES = ".conversation-card, .workbook-panel, .section-tiles-completed .section-tile, .business-foundation-input-actions > *, .bullet-rail[data-across], .workspace-footer-actions > *, .bullet-rails .page-arrow";
+// (And a dialog's arrows there, the Handbook's and the Workbook's on a phone: "B<CK", owner, 2026-11-25 15:51 UTC+2.)
+const BACK_OBSTACLES = ".page-arrow.carousel-arrow, .conversation-card, .workbook-panel, .section-tiles-completed .section-tile, .business-foundation-input-actions > *, .bullet-rail[data-across], .workspace-footer-actions > *, .bullet-rails .page-arrow";
 
 /** The room kept between the Back, word and all, and the nearest thing beside it. */
 const BACK_CLEARANCE = 12;

@@ -1052,7 +1052,7 @@ export const viewportBreakpoints: readonly Boundary[] = [
     // (A small laptop, 700px tall or less: the page title in the header, the rails in the footer's band -- owner, 2026-11-24 10:12 UTC+2.)
     { axis: "height", wideFrom: 701, queries: { "max-height: 700px": 6, "min-height: 700.02px": 2 } },
     { axis: "width", wideFrom: 561, queries: { "max-width: 560px": 2 } },
-    { axis: "width", wideFrom: 601, queries: { "max-width: 600px": 3, "min-width: 601px": 3 } },
+    { axis: "width", wideFrom: 601, queries: { "max-width: 600px": 4, "min-width: 601px": 3 } },
     { axis: "width", wideFrom: 641, queries: { "max-width: 640px": 2 } },
     { axis: "width", wideFrom: 701, queries: { "max-width: 700px": 2 } },
     { axis: "width", wideFrom: 761, queries: { "max-width: 760px": 2 } },
