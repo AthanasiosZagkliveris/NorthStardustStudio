@@ -111,6 +111,13 @@
     display: none;
 }
 
+/* (While a layer is open its own Back stands there (CarouselArrows): the page's steps aside, and the layer's foot keeps no second one.) */
+body:has(.section-tile-overlay .page-top-back) .conversation-card > .page-top-back,
+.section-tile-dialog:has(> .page-top-back) .section-tile-dialog-foot .section-tile-back {
+    display: none;
+}
+
+.section-tile-dialog:has(> .page-top-back),
 .conversation-card:has(> .page-top-back),
 .workbook-panel:has(> .page-top-back) {
     position: relative;

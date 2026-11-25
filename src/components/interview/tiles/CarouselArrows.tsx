@@ -4,7 +4,8 @@ import { CSSProperties, RefObject, useEffect, useLayoutEffect, useRef, useState 
 import { type CarouselStep } from "./SectionTileTypes.ts";
 import { arrowLevel } from "./SectionTileGeometry.tsx";
 import { type RailSlot, slotMargin, useRailSlot } from "../rails/useRailSlot.ts";
-import { isPhone } from "../../../hooks/useVerticalLayout.ts";
+import { isPhone, railsInBand } from "../../../hooks/useVerticalLayout.ts";
+import { createPortal } from "react-dom";
 
 /** The carousel arrow's box: the page arrow's (24 x 44), 10% larger. */
 export const CAROUSEL_ARROW_WIDTH = 24;
@@ -290,6 +291,9 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
     if (!at || !topmost || covered) {
         return null;
     }
+    // (Upright and wider than a phone: the Back at the layer's top, not in the band beside the arrow.)
+    const topBack = typeof window !== "undefined" && railsInBand() && window.innerWidth > 600 && window.matchMedia?.("(orientation: portrait)").matches === true;
+
     return (
         <>
             <NavArrow
@@ -341,11 +345,14 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
                         ))}
                     </ol>
                     {/* The way back stands in the tab, after the last option (the dialog's own foot no longer has it while the tab does). */}
-                    {back && (
+                    {back && !topBack && (
                         <BackButton className="carousel-rail-back" style={slot && slot.index === itemCount && slot.extra > 0 ? { marginTop: 12 + slot.extra } : undefined} onClick={back} aria-label="Back" />
                     )}
                 </nav>
             )}
+            {/* (A TABLET IN PORTRAIT: the layer's Back at its top, left of it, as the page's (owner, 2026-11-25: "The back arrow should not be next to the
+                navigation arrow. Place it on the top part of the page to align to the top card's edge"; back-button.css, .page-top-back).) */}
+            {back && topBack && target.current && createPortal(<BackButton className="back-link page-top-back" onClick={back} />, target.current)}
         </>
     );
 }

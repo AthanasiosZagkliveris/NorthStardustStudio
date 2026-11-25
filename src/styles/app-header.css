@@ -519,6 +519,7 @@ body:has(.section-tile-overlay) .app-header {
 
         z-index: 41;
 
+
         height: var(--app-header-height);
         margin: 0;
         padding: 0;
@@ -536,6 +537,13 @@ body:has(.section-tile-overlay) .app-header {
     .interview-header > * {
 
         pointer-events: auto;
+
+    }
+
+    /* (The title stays in the header while a dialog, a floating card or the Inventory is open: above the header, as the header stands above their scrims.) */
+    body:has(.section-tile-overlay) .interview-header {
+
+        z-index: 1002;
 
     }
 
