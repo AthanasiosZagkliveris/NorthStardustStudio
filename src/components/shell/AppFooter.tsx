@@ -107,12 +107,33 @@ export default function AppFooter({
     // Tablet is in portrait, again place the button at the top left side next to the page's title"): where the footer's band holds the rails (railsInBand) on a
     // window wider than a phone's, Back stands first in the page title's row, and the band keeps its room for the rails.
     const [titleRow, setTitleRow] = useState<HTMLElement | null>(null);
+    // (BACK AT THE TOP OF THE PAGE WHERE THE WINDOW IS UPRIGHT (owner, 2026-11-25, the tablet in portrait: "The back arrow should not be next to the navigation
+    // arrow. Place it on the top part of the page to align to the top card's edge"): a tablet in portrait sets it left of the page, level with the top of its first
+    // card (back-button.css, .page-top-back); a phone in portrait, with no room beside the card, first in the page title's row at the page's top.)
+    const [pageTop, setPageTop] = useState<HTMLElement | null>(null);
+    useLayoutEffect(() => {
+        const place = () => {
+            const upright = typeof window.matchMedia === "function" && window.matchMedia("(orientation: portrait)").matches && window.innerWidth > 600;
+            const card = upright ? Array.from(document.querySelectorAll<HTMLElement>(".conversation-card, .workbook-panel")).find(node => node.getClientRects().length > 0) ?? null : null;
+            setPageTop(current => current === card ? current : card);
+        };
+        place();
+        const later = [100, 400, 1000].map(delay => window.setTimeout(place, delay));
+        window.addEventListener("resize", place);
+        window.addEventListener("tiles-fit", place);
+        return () => {
+            later.forEach(timer => window.clearTimeout(timer));
+            window.removeEventListener("resize", place);
+            window.removeEventListener("tiles-fit", place);
+        };
+    }, []);
     useLayoutEffect(() => {
         const place = () => {
             // (BACK STAYS AT THE FOOT WHERE THE TITLE STANDS IN THE HEADER (owner, 2026-11-24 10:12 UTC+2: "The back button does not move to the header, it stays there"):
             // a phone in landscape alone takes it to the title, as before.)
             const phoneLandscape = typeof window.matchMedia === "function" && window.matchMedia("(orientation: landscape) and (max-height: 479px)").matches;
-            const row = railsInBand() && window.innerWidth > 600 && phoneLandscape ? document.querySelector<HTMLElement>(".interview-header-title-row") : null;
+            const phonePortrait = typeof window.matchMedia === "function" && window.matchMedia("(orientation: portrait) and (max-width: 600px)").matches;
+            const row = railsInBand() && ((window.innerWidth > 600 && phoneLandscape) || phonePortrait) ? document.querySelector<HTMLElement>(".interview-header-title-row") : null;
             setTitleRow(current => current === row ? current : row);
         };
         place();
@@ -125,6 +146,18 @@ export default function AppFooter({
             window.removeEventListener("tiles-fit", place);
         };
     }, []);
+
+    // (At the page's top too: its word where the room left of the page holds it, else its arrow alone.)
+    useLayoutEffect(() => {
+        const back = pageTop?.querySelector<HTMLElement>(":scope > .page-top-back");
+        if (!back) {
+            return;
+        }
+        back.classList.remove("page-top-back-short");
+        if (back.getBoundingClientRect().left < 12) {
+            back.classList.add("page-top-back-short");
+        }
+    });
 
     // (Its word where the room left of the page holds it, else its arrow alone, its name in the tooltip.)
     useLayoutEffect(() => {
@@ -144,7 +177,9 @@ export default function AppFooter({
 
             {titleRow
                 ? createPortal(<BackButton className="back-link interview-header-back" onClick={onBack} />, titleRow)
-                : <BackButton className="back-link" onClick={onBack} />}
+                : pageTop
+                    ? createPortal(<BackButton className="back-link page-top-back" onClick={onBack} />, pageTop)
+                    : <BackButton className="back-link" onClick={onBack} />}
 
             <div className="workspace-footer-actions">
 

@@ -241,9 +241,9 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
                 const box = tile.closest<HTMLElement>(".section-tiles");
                 const style = getComputedStyle(tile);
                 const three = box && box.clientWidth > 0 ? (box.clientWidth - 2 * 12) / 3 - (parseFloat(style.paddingLeft) || 0) - (parseFloat(style.paddingRight) || 0) : Infinity;
-                // (On the small laptop alone, the window the owner named -- 1366 x 640, 700px tall or less (owner, 2026-11-24 10:28 UTC+2: "check the screen sizes,
-                // that I gave them"); larger windows keep three across, a cut title sliding under the pointer.)
-                const small = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 601px) and (max-height: 700px)").matches;
+                // (WHERE A DIALOG'S TILES ARE TOO SMALL FOR TEXT (owner, 2026-11-25: "When in a dialogue card, the tiles are too small to use text, so we place symbols,
+                // keep 3 tiles per row"): a tile under 160px a side, beside a phone's; a larger tile keeps its cut title sliding under the pointer.)
+                const small = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 601px)").matches && tile.getBoundingClientRect().width < 160;
                 const cut = small && parseFloat(node.getAttribute("data-words-width") ?? "0") > three + 0.5;
                 if (tile.hasAttribute("data-title-cut") !== cut) {
                     tile.toggleAttribute("data-title-cut", cut);

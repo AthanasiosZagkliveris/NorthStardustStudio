@@ -10,7 +10,7 @@ import RadioChoice from "../components/controls/RadioChoice";
 import { TABLE_SIZES } from "../components/interview/tiles/CapabilityOverview";
 import "../styles/capability-overview.css";
 import { DialogHeading } from "../components/interview/tiles/SectionTiles";
-import { masterSide, setTilesPage } from "../components/interview/tiles/SectionTileGeometry";
+import { setTilesPage, setTilesPageWidth, widestPage } from "../components/interview/tiles/SectionTileGeometry";
 import BusinessDocumentsView from "../components/workbook/BusinessDocumentsView";
 import { workHue } from "../framework/engine/WorkColours";
 import ResponsibilityFilter from "../components/interview/fields/ResponsibilityFilter";
@@ -231,7 +231,16 @@ export default function Workbook() {
     // end, the symbol over the rail's bullets: glossary.css.)
     useLayoutEffect(() => {
         const sideBySide = typeof window.matchMedia === "function" ? window.matchMedia("(min-width: 900.02px) and (orientation: landscape) and (min-height: 640px)") : null;
-        const fit = () => setTilesPage(document.querySelector<HTMLElement>(".workbook .glossary-page"), sideBySide?.matches ? masterSide() : null);
+        // (DOCUMENTS TAKE THE ROOM (owner, 2026-11-25: "When there are tables and documents and the screen is wide enough, use the available space to present them
+        // properly"): side by side, the page as wide as the window allows -- 1400px at the most, its 56px gutters --, its rail inside its left end.)
+        const fit = () => {
+            const page = document.querySelector<HTMLElement>(".workbook .glossary-page");
+            if (sideBySide?.matches) {
+                setTilesPageWidth(page, widestPage());
+            } else {
+                setTilesPage(page, null);
+            }
+        };
         fit();
         window.addEventListener("resize", fit);
         return () => {
@@ -253,7 +262,7 @@ export default function Workbook() {
             // (A phone in landscape has no footer's band, only its arrows at the corners (app-header.css): the panel runs to the window's foot.)
             const bandless = typeof window.matchMedia === "function" && window.matchMedia("(orientation: landscape) and (max-height: 479px)").matches;
             // (In landscape with the band not drawn (a tablet, a small laptop: glossary.css), the panel runs down to the Back's top, 12px over it.)
-            const undrawn = typeof window.matchMedia === "function" && window.matchMedia("(orientation: landscape) and (pointer: coarse), (orientation: landscape) and (max-height: 700px)").matches;
+            const undrawn = typeof window.matchMedia === "function" && window.matchMedia("(orientation: landscape) and (max-height: 479px)").matches;
             const end = foot && !beside && !bandless ? (undrawn && back ? back.getBoundingClientRect().top : foot.getBoundingClientRect().top) : window.innerHeight;
             const next = Math.max(240, Math.round(end - 12 - (node.getBoundingClientRect().top + window.scrollY)));
             setPanelHeight(current => current === next ? current : next);
@@ -285,7 +294,7 @@ export default function Workbook() {
             <main className="glossary-page">
 
                 {/* The top of the page as on a System page: "Workbook" at the top left, over its rule; the section's name is the panel's heading. */}
-                <InterviewHeader systemName={landing ? "Handbook" : "Workbook"} icon={workbookIcon} />
+                <InterviewHeader systemName={landing ? "Handbook" : "Workbook"} tabName={tabs[at]?.label} icon={workbookIcon} />
 
                 <WorkbookToolsSlot.Provider value={toolsSlot}>
 

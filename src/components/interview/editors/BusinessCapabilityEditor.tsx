@@ -1,3 +1,4 @@
+import { BAND_QUERY } from "../../../hooks/useVerticalLayout.ts";
 import { toneHue } from "../tiles/CardTile.tsx";
 import { asBusinessEngagementValue } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { offeringChannelRevenue, offeringMonthlyRevenue, offeringPayingRevenue, referralOnly } from "../../../framework/engine/DemandCapacity.ts";
@@ -128,7 +129,7 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 const shift = slots.length > 0 && cards.length > 0 ? Math.round((cardsLeft + cardsRight) / 2 - (Math.min(...slots.map(box => box.left)) + Math.max(...slots.map(box => box.right))) / 2) : 0;
                 // (ABOVE THE BAND ON A TOUCH SCREEN (owner, 2026-11-24 00:21 UTC+2: "place the rail at the footing, and any other buttons (inventory, completed, etc.)
                 // above it"): the band holds the rails there, so the row stands on it, 6px above.)
-                const above = typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse), (max-height: 700px)").matches;
+                const above = typeof window.matchMedia === "function" && window.matchMedia(BAND_QUERY).matches;
                 const rowTop = above ? footerBox.top - 6 - side : footerBox.top + (footer - side) / 2;
                 tiles.style.transform = "translate(" + shift + "px, " + Math.round(rowTop - top) + "px)";
             } else {
@@ -142,6 +143,23 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 const room = window.innerHeight - row.getBoundingClientRect().top - footer - 12;
                 // (Square, 215px, while the window has the room; the height alone gives way when it has not, so the tiles become rectangles.)
                 side = Math.round(Math.max(SQUEEZED_ROW_MIN, Math.min(215, room)));
+            }
+            // (ONE MASTER TILE WIDE, UNDER THE FIRST TWO MASTER TILES (owner, 2026-11-25: "the Inventory and Completed tile's width should be related to the master tiles
+            // width, and be aligned underneath them"): each as wide as a master tile, 12px apart as the tiles are, the first under the first chapter's first tile;
+            // the row keeps its height and its place in the band or under the cards.)
+            const firstTile = pageTiles[0]?.getBoundingClientRect();
+            const secondTile = firstTile ? pageTiles.map(tile => tile.getBoundingClientRect()).find(box => Math.abs(box.top - firstTile.top) < 2 && box.left > firstTile.right) : undefined;
+            if (tiles && firstTile && secondTile) {
+                const width = Math.round(firstTile.width);
+                row.style.setProperty("--completed-width", width + "px");
+                tiles.style.gridTemplateColumns = "repeat(2, " + width + "px)";
+                tiles.style.columnGap = Math.round(secondTile.left - firstTile.right) + "px";
+                const lift = /translate\([^,]+,\s*(-?[\d.]+)px\)/.exec(tiles.style.transform)?.[1] ?? "0";
+                tiles.style.transform = "translate(0px, " + lift + "px)";
+                const firstSlot = tiles.querySelector<HTMLElement>(".section-tile-slot")?.getBoundingClientRect();
+                if (firstSlot) {
+                    tiles.style.transform = "translate(" + Math.round(firstTile.left - firstSlot.left) + "px, " + lift + "px)";
+                }
             }
             row.style.setProperty("--section-tile-size", side + "px");
             // (Squeezed under what a list needs, the tiles keep their titles.)

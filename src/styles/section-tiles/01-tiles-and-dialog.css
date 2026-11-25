@@ -548,7 +548,9 @@
     width: var(--section-dialog-width, min(92vw, 1400px));
     /* The area of its card, and no more: it ends 12px above the footer (or the window's foot), and what its tiles do not fit scrolls in its body (owner,
        2026-11-24 10:12 UTC+2: "Do not forget the margin is 12 px" -- the Resources dialog ran past the window). */
-    min-height: var(--section-dialog-height, 88vh);
+    /* (FULL LENGTH (owner, 2026-11-25: "All the dialogue cards should have full length"): down to 12px above the 64px footer whatever it holds; its card's area at
+       the least.) */
+    min-height: max(var(--section-dialog-height, 88vh), calc(100vh - var(--section-dialog-top, 0px) - 64px - 12px));
     flex-shrink: 0;
 
     padding: var(--card-padding);
@@ -790,37 +792,14 @@
 }
 
 /* A DIALOG'S TITLES AS THEIR SYMBOLS (owner, 2026-11-24 10:12 UTC+2, the Resources dialog at 1366 x 640: "place 2 columns, instead of 3, and also replace their
-   titles with their symbols and add tooltips"): where a title does not fit three across (TileTitle, data-title-symbols), the dialog's tiles stand two across and a
-   title that has a symbol shows it, 32px, over its rule; its name is in the tooltip. */
+   titles with their symbols and add tooltips"): where a title does not fit three across (TileTitle, data-title-symbols), a title that has a symbol shows it, 32px, over its rule; its name is in the tooltip. */
 .section-tile-title-symbol {
 
     display: none;
 
 }
 
-/* (The dialog's grid of tiles (TileGrid, its size and columns set on it as it measures) takes two across of half its box: the box is the size container.) */
-.section-tile-dialog[data-title-symbols] .card-boxes {
-
-    container-type: inline-size;
-
-}
-
-.section-tile-dialog[data-title-symbols] .card-boxes > .card-tile-grid {
-
-    --section-tile-size: calc((100cqw - var(--space-card)) / 2 - 0.01px) !important;
-
-    grid-template-columns: repeat(2, calc((100cqw - var(--space-card)) / 2 - 0.01px)) !important;
-
-}
-
-/* (Its tiles follow one another: the places set for three across do not hold.) */
-.section-tile-dialog[data-title-symbols] .card-boxes > .card-tile-grid > * {
-
-    grid-column: auto !important;
-    grid-row: auto !important;
-
-}
-
+/* (Three across as the dialog's grid sets them (owner, 2026-11-25: "keep 3 tiles per row"; it replaces "place 2 columns" of 2026-11-24).) */
 .section-tile-dialog[data-title-symbols] .section-tile-title:has(> .section-tile-title-symbol) > .section-tile-title-named {
 
     display: none;

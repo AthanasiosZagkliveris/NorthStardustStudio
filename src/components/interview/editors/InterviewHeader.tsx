@@ -34,6 +34,12 @@ interface InterviewHeaderProps {
     /** The title in capitals, by CSS alone (a Capability's page: "FOUNDATION"). */
     nameCapitals?: boolean;
 
+    /**
+     * The name of the open tab (the Handbook's, the Workbook's): where the title stands in the header it stands there in place of the name, which stays in the
+     * symbol's tooltip (owner, 2026-11-25: "Here should not be the Handbook title, but the name of the page /tag"; app-header.css).
+     */
+    tabName?: string;
+
     /** What stands after the title, inside the heading. */
     note?: ReactNode;
 
@@ -52,6 +58,7 @@ export default function InterviewHeader({
     pageTitleCapitals = false,
     nameCapitals = false,
     note,
+    tabName,
     icon: ownIcon,
     iconFull = false,
     actions
@@ -198,6 +205,7 @@ export default function InterviewHeader({
                     <img
                         src={icon}
                         alt=""
+                        title={systemName}
                         ref={symbol}
                         className={"interview-header-icon" + (iconFull ? " interview-header-icon-full" : "")}
                         onLoad={(event) => measureInk(event.currentTarget)}
@@ -215,6 +223,8 @@ export default function InterviewHeader({
                             {pageTitle}
                         </span>
                     )}
+                    {/* (Drawn for the eye; the heading's name stays the Handbook's or the Workbook's, its tab named by the tab itself.) */}
+                    {tabName && <span className="interview-header-tab-name" aria-hidden="true">{tabName}</span>}
                     {note}
                 </h1>
 

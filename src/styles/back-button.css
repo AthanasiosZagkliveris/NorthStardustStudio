@@ -96,6 +96,27 @@
     }
 }
 
+/* (BACK AT THE PAGE'S TOP ON A TABLET IN PORTRAIT (owner, 2026-11-25: "Place it on the top part of the page to align to the top card's edge"): left of the page,
+   12px from its edge, its top level with the first card's top (AppFooter, .page-top-back).) */
+:root body .back-button.back-button.page-top-back {
+    position: absolute;
+    inset: 0 calc(100% + var(--gap-12)) auto auto;
+    width: auto;
+    height: auto;
+    translate: none;
+    white-space: nowrap;
+}
+
+:root body .back-button.back-button.page-top-back-short .back-button-word {
+    display: none;
+}
+
+.conversation-card:has(> .page-top-back),
+.workbook-panel:has(> .page-top-back) {
+    position: relative;
+    overflow: visible;
+}
+
 /* THE PHONE (600px and under; layout rules section 23, "The phone"): the rails stand in the footer's band, so Back stands at its left, its arrow's middle 24px from
    the window's left (12px in), the rails' row after it (bullet-rail.css). */
 @media (max-width: 900px), (orientation: portrait), (max-height: 639px) {

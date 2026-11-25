@@ -301,8 +301,10 @@
         display: flex;
         flex-wrap: wrap;
 
-        /* (Spread evenly from the cells' left edge to their right: owner, 2026-11-24 10:12 UTC+2, "spread the buttons ... equally".) */
-        justify-content: space-between;
+        /* (One group from the cells' left edge, 12px apart (owner, 2026-11-25: "Bring closer the buttons. keep 12 px gap"; it replaces "spread the buttons ...
+           equally" of 2026-11-24).) */
+        justify-content: flex-start;
+        gap: var(--gap-12);
 
     }
 

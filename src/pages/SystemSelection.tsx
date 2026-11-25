@@ -295,8 +295,9 @@ export default function SystemSelection() {
                 const box = tile.getBoundingClientRect();
                 // (Its rule a third of the tile up from its foot (owner, 2026-11-24 10:46 UTC+2: "place the title to the 1/3 from the bottom, and then the icon above
                 // the title").)
+                // (The title's TOP a third of the tile up from its foot (owner, 2026-11-25: "The title's top part should reach the 1/3 of the card from its bottom").)
                 const line = box.top + box.height * 2 / 3;
-                slot.style.setProperty("--title-centre", Math.round(line - words.bottom) + "px");
+                slot.style.setProperty("--title-centre", Math.round(line - words.top) + "px");
             }
         });
     });

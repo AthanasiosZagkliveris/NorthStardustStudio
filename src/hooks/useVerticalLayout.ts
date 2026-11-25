@@ -77,7 +77,8 @@ export function isPhone(): boolean {
  * landscape, place the rail at the footing"); bullet-rail.css says the same with "(pointer: coarse)".
  */
 // (A window 700px tall or less -- a small laptop -- too (owner, 2026-11-24 10:12 UTC+2: "on small laptop ... the navigation arrow to the bottom part, and the rail in the middle").)
-export const BAND_QUERY = VERTICAL_QUERY + ", (pointer: coarse), (max-height: 700px)";
+// (Since 2026-11-25 the stacked layout alone (owner, 2026-11-25: "Laptop NEVER gets rail at its button!"; "the rail system should be the same across all the app's pages, per screen size"; 2026-11-24 10:12: "On the tablet (landscape), the rail should be at the side").)
+export const BAND_QUERY = VERTICAL_QUERY;
 
 /** Whether the page's rails stand in the footer's band (BAND_QUERY). */
 export function railsInBand(): boolean {

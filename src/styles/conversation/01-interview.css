@@ -184,6 +184,13 @@
 /* THE TITLE ON ONE ROW, OR THE PAGE'S NAME ALONE (owner, 2026-11-24 00:21 UTC+2: "Generally, If the system and the page title do not fit in a single row, then use
    only the symbol and the page title"; it replaces the vertical layout's second line of 2026-11-22): where "System — Page" does not stand on one row, the System's
    name and the dash step aside (InterviewHeader, .interview-header-page-only) and the symbol stands beside the page's name. */
+/* (The open tab's name shows only where the title stands in the header: app-header.css.) */
+.interview-header-tab-name{
+
+    display:none;
+
+}
+
 .interview-header h1.interview-header-page-only .interview-header-system,
 .interview-header h1.interview-header-page-only .interview-header-dash{
 
@@ -682,6 +689,19 @@
 /* THE PAGE TITLE ON A PHONE (owner, 2026-11-24 03:14 UTC+2: "Check the Title's text size"): the header's size there, --font-h2 (about 21px at 390px), as a phone in
    landscape draws it in the header (app-header.css), so a page's name fits on one line beside its symbol. */
 @media (max-width: 600px){
+
+    /* (A PHONE IN PORTRAIT: Back first in the page title's row, at the page's top, inside its left edge -- no room beside the card (owner, 2026-11-25: "Place it on
+       the top part of the page"; AppFooter).) */
+    .interview-header-title-row > .interview-header-back.back-link{
+
+        position:static;
+
+        order:-1;
+
+        translate:none;
+
+    }
+
 
     .interview-header h1{
 

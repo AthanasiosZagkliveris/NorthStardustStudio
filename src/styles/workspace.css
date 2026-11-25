@@ -110,7 +110,7 @@
 
 /* THE STACKED LAYOUT -- a tablet, a phone, a short window (since 2026-11-23 23:21 UTC+2; before, the phone alone; layout rules section 23): the band holds Back and
    the page's rails (bullet-rail.css), so it is a surface: the header's ground and its soft shadow, as the app's top band has, so the page scrolls under it. */
-@media (max-width: 900px), (orientation: portrait), (max-height: 639px), (pointer: coarse), (max-height: 700px) {
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
 
     .workspace-footer {
 

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { type SectionTile } from "./SectionTileTypes.ts";
 import { shownFrame } from "../../../hooks/shownFrame.ts";
-import { verticalAcross } from "../../../hooks/useVerticalLayout.ts";
+import { BAND_QUERY, verticalAcross } from "../../../hooks/useVerticalLayout.ts";
 
 /**
  * ONE WAY TO PRESENT A CARD: the cards of these tiles (Resource, Activity, Partner, Provider; their channel and finished ones) are only ever FLOATING cards,
@@ -264,7 +264,7 @@ export function masterSide(): number | null {
     const natural = Math.floor((column - 26 - 12) / 2);
     // (On a touch screen side by side, the band holds the rails and the page's buttons -- Inventory, Completed, "+ Add Segment" -- stand in a row above it: the
     // tiles leave that row's room, the band's button and 12px, on every page alike.)
-    const buttons = typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse), (max-height: 700px)").matches ? 44 + 12 : 0;
+    const buttons = typeof window.matchMedia === "function" && window.matchMedia(BAND_QUERY).matches ? 44 + 12 : 0;
     const tall = Math.floor((window.innerHeight - top - footer - buttons - 12 - 12 - 12 - 12) / 2);
     // (120px at the least: a 640px-tall window, the shortest that keeps chapters side by side, gives 147.)
     return Math.max(120, Math.min(natural, tall));
@@ -278,7 +278,7 @@ function railInset(): number {
 }
 
 /** The widest page the window allows: 1400px at most, the window less its 56px gutters (--rail-gutter). */
-function widestPage(): number {
+export function widestPage(): number {
     return Math.min(1400, document.documentElement.clientWidth - 2 * 56);
 }
 

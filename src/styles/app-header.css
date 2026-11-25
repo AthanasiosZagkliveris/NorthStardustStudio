@@ -461,7 +461,7 @@ body:has(.section-tile-overlay) .app-header {
        only the arrows (navigation (bottom) and back (top). There in no reason for footing. Also, keep only the tiles Icon, and hide the word"): the Tiles logo
        without its word; the page's title, its symbol and its Back in the header's band, from 12px after the logo to the room the header's buttons keep at the right
        (the saved signal, the Menu, the Workbook and the Organisation's mark: 240px); its rule goes; the Organisation's name gives the title its room.) */
-    .app-brand-name,
+    /* (The TILES word stays: the title stands centred, clear of it -- owner, 2026-11-25: "Here there is enough space for the Tiles word".) */
     .app-header-organization-name {
 
         display: none;
@@ -508,9 +508,14 @@ body:has(.section-tile-overlay) .app-header {
 
         position: fixed;
         top: 0;
-        /* (After the logo and 12px; on a phone in landscape after the Back too, --header-back-room.) */
-        left: calc(max(28px, env(safe-area-inset-left, 0px)) + 44px + var(--gap-12) + var(--header-back-room, 0px));
-        right: calc(212px + max(28px, env(safe-area-inset-right, 0px)));
+        /* (THE TITLE IN THE HEADER'S MIDDLE (owner, 2026-11-25 19:47 UTC+2: "I have said the titles in the middle"): its box as far from both edges -- the
+           wider of what stands at its left (the logo and 12px; on a phone in landscape the Back too, --header-back-room) and at its right (the buttons) --, the
+           symbol and the words centred in it.) */
+        /* (At the left the logo, the TILES word (about 70px) and 12px, and on a phone in landscape the Back; at the right the saved signal, the Menu and the
+           Workbook with their gaps, 146px, and 12px.) */
+        --header-title-inset: max(calc(max(28px, env(safe-area-inset-left, 0px)) + 44px + var(--gap-12) + 70px + var(--gap-12) + var(--header-back-room, 0px)), calc(146px + var(--gap-12) + max(28px, env(safe-area-inset-right, 0px))));
+        left: var(--header-title-inset);
+        right: var(--header-title-inset);
 
         z-index: 41;
 
@@ -520,6 +525,7 @@ body:has(.section-tile-overlay) .app-header {
 
         display: flex;
         align-items: center;
+        justify-content: center;
 
         background: none;
 
@@ -536,6 +542,51 @@ body:has(.section-tile-overlay) .app-header {
     .interview-header .interview-divider {
 
         display: none;
+
+    }
+
+    /* (THE SYSTEM'S SYMBOL, NOT ITS NAME (owner, 2026-11-25: "When the Page title is placed on the Header, do not place the System's Title. Its Icon is
+       enough"): the page's own name beside the symbol, the System's name in the symbol's tooltip (InterviewHeader).) */
+    .interview-header h1:has(.interview-header-page-title) .interview-header-system,
+    .interview-header .interview-header-dash {
+
+        display: none;
+
+    }
+
+    /* (Beside the open tab's name the Handbook's or the Workbook's name is not drawn, and is still read: the heading's name.) */
+    .interview-header h1:has(.interview-header-tab-name) .interview-header-system {
+
+        position: absolute;
+
+        width: 1px;
+        height: 1px;
+
+        overflow: hidden;
+
+        clip-path: inset(50%);
+
+        white-space: nowrap;
+
+    }
+
+    /* (12px between the symbol and the title (owner, 2026-11-25: "Why so large gap betwenn the icon and title?"): the symbol at its own width, no 36px column --
+       that column lines it up with the rail's bullets under the header only.) */
+    .interview-header .interview-header-title-row {
+
+        gap: var(--gap-12);
+
+    }
+
+    .interview-header .interview-header-tab-name {
+
+        display: inline;
+
+    }
+
+    .interview-header .interview-header-icon {
+
+        margin-inline: 0;
 
     }
 
@@ -562,22 +613,8 @@ body:has(.section-tile-overlay) .app-header {
 
     }
 
-    /* (The Organisation's own square mark before the header's buttons, the logo's height: BrandMark.tsx.) */
-    .app-brand-mark[data-square] {
-
-        display: block;
-
-        flex: none;
-
-        width: 44px;
-        height: 44px;
-        margin-left: var(--gap-12);
-
-        border-radius: var(--radius-md);
-
-        object-fit: contain;
-
-    }
+    /* (The Organisation's square mark is not in the header until the owner gives its place: 2026-11-25, "I never said to place the organization logo in
+       this positioon".) */
 
 }
 

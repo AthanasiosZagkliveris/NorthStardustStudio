@@ -1161,3 +1161,18 @@
     }
 
 }
+
+/* (A TABLE TAKES THE ROOM (owner, 2026-11-25: "When there are tables and documents and the screen is wide enough, use the available space to present them
+   properly"): side by side, the Inventory's or Completed's dialog in its table view is as wide as the window allows -- 1400px at the most, the page's 56px
+   gutters and the rail's room kept --, centred, so its columns show without scrolling sideways.) */
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) {
+
+    .section-tile-overlay > .section-tile-dialog:has(.capability-overview-table-mode) {
+
+        width: min(1400px, calc(100vw - 2 * 56px - 2 * var(--rail-inset, 54px))) !important;
+
+        margin-inline: auto !important;
+
+    }
+
+}
