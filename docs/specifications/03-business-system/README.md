@@ -92,6 +92,8 @@ Each is one place where two answers can disagree, or an answer goes unread; the 
 
 ### Known gaps in the checks (2026-11-17; older than the branch feat/owner-points-2026-11-16b, reported, the baseline unchanged)
 
+Replaced: the baselines were rewritten on 2026-11-22 (Records 1); today's counts are in Records 2, Open now. The counts below are the record of 2026-11-17.
+
 - **The full layout check** (`tools/scripts/layout-check/run.mjs` without `--quick`, light and dark, the floating cards opened) finds 150 on Infrastructure (the Activity's Responsible 4.6px off the 12px gap, 68; the floating cards at 768px, 29 on their tile row, 10 out of the window, 8 not opening; the founder card's Start date margin and cells, 29; an activity resource's x 8px from its cell, 3; the + box focus at 768px, 3), 36 on Legal Entity (a floating card over its dialog's tiles at 768px, 16; the + box stroke, 10; the Sales Tax row's tick and "i", 6; a list over its + box, 4) and 91 on Foundation (a floating card off its anchor's centre at 1920px, 48; K5's sub-picker cut, 18; the + box stroke, 15; the cards at 768px, 10). Customer Engagement and Sustainability: none.
 - **The library runner** (`tools/scripts/library/run.mjs`): the Dropdown's hug sample (482px against 113, 126), the Fold arrow (its triangle measured 0 x 0, 792) and the Back button (its rail sample under another's pointer area: the run stops). The page could not be measured from 2026-11-16 20:22 until 2026-11-17 (a variant with no sample).
 
