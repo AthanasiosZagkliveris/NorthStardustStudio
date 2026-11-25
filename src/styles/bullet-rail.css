@@ -766,6 +766,18 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
     }
 
+    /* (A PHONE IN LANDSCAPE: its Back stands in the header (AppFooter), so the arrows take their place 12px outside the page's edges, as on a tablet, never over
+       the chapters (owner, 2026-11-25 15:51 UTC+2, "Rails and their place"); clear of a notch.) */
+    @media (orientation: landscape) and (max-height: 479px) {
+
+        body:has(.conversation-page[data-tiles-page]) .bullet-rails {
+
+            padding-inline: max(env(safe-area-inset-left, 0px), calc((100vw - var(--tiles-page-width, 100vw)) / 2 - 24px - var(--gap-12)));
+
+        }
+
+    }
+
     .bullet-rails {
 
         top: auto;

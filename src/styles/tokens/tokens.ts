@@ -1047,7 +1047,7 @@ export const viewportBreakpoints: readonly Boundary[] = [
     // (THE TIERS (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved: docs/proposals/responsive-layout-2026-11-23.md, sections 4.1 and 4.5): chapters
     // stand side by side, with no scroll, in a landscape window 900px wide or more and 640px tall or more; any other window stacks them.)
     // (A phone turned to landscape: under 480px tall, the bands shrink; the responsive layout, section 4.5.)
-    { axis: "height", wideFrom: 480, queries: { "max-height: 479px": 2 } },
+    { axis: "height", wideFrom: 480, queries: { "max-height: 479px": 3 } },
     { axis: "height", wideFrom: 640, queries: { "max-height: 639px": 6, "min-height: 640px": 4 } },
     // (A small laptop, 700px tall or less: the page title in the header, the rails in the footer's band -- owner, 2026-11-24 10:12 UTC+2.)
     { axis: "height", wideFrom: 701, queries: { "max-height: 700px": 6, "min-height: 700.02px": 2 } },
