@@ -160,8 +160,8 @@
 
 }
 
-/* (A SYMBOL GROWS 25% UNDER THE POINTER, TOWARDS THE TILE'S INSIDE (owner, 2026-11-24 01:59 UTC+2): the left column from its left edge, the right from its right, the
-   middle from its centre; the top row from its top, the bottom from its bottom.) */
+/* (A SYMBOL GROWS 25% UNDER THE POINTER, OUTWARDS (owner, 2026-11-24 01:59 UTC+2; 10:37 UTC+2: "Make the icons to scale up to the opposite direction"): the left
+   column from its right edge, the right from its left, the middle from its centre; the top row from its bottom, the bottom from its top.) */
 .section-tile-list[data-symbols] > li:hover .section-tile-list-fallback,
 .section-tile-list[data-symbols] .section-tile-link:focus-visible .section-tile-list-fallback {
 
@@ -169,14 +169,14 @@
 
 }
 
-.section-tile-list[data-symbols] > li:nth-child(3n + 1) .section-tile-list-fallback { transform-origin: left center; }
-.section-tile-list[data-symbols] > li:nth-child(3n) .section-tile-list-fallback { transform-origin: right center; }
-.section-tile-list[data-symbols] > li:nth-child(-n + 3) .section-tile-list-fallback { transform-origin: center top; }
-.section-tile-list[data-symbols] > li:nth-child(1) .section-tile-list-fallback { transform-origin: left top; }
-.section-tile-list[data-symbols] > li:nth-child(3) .section-tile-list-fallback { transform-origin: right top; }
-.section-tile-list[data-symbols] > li:nth-child(n + 7) .section-tile-list-fallback { transform-origin: center bottom; }
-.section-tile-list[data-symbols] > li:nth-child(7) .section-tile-list-fallback { transform-origin: left bottom; }
-.section-tile-list[data-symbols] > li:nth-child(9) .section-tile-list-fallback { transform-origin: right bottom; }
+.section-tile-list[data-symbols] > li:nth-child(3n + 1) .section-tile-list-fallback { transform-origin: right center; }
+.section-tile-list[data-symbols] > li:nth-child(3n) .section-tile-list-fallback { transform-origin: left center; }
+.section-tile-list[data-symbols] > li:nth-child(-n + 3) .section-tile-list-fallback { transform-origin: center bottom; }
+.section-tile-list[data-symbols] > li:nth-child(1) .section-tile-list-fallback { transform-origin: right bottom; }
+.section-tile-list[data-symbols] > li:nth-child(3) .section-tile-list-fallback { transform-origin: left bottom; }
+.section-tile-list[data-symbols] > li:nth-child(n + 7) .section-tile-list-fallback { transform-origin: center top; }
+.section-tile-list[data-symbols] > li:nth-child(7) .section-tile-list-fallback { transform-origin: right top; }
+.section-tile-list[data-symbols] > li:nth-child(9) .section-tile-list-fallback { transform-origin: left top; }
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -545,7 +545,8 @@
     box-sizing: border-box;
 
     width: var(--section-dialog-width, min(92vw, 1400px));
-    /* The area of its card at least; it GROWS DOWN when its tiles do not fit. */
+    /* The area of its card, and no more: it ends 12px above the footer (or the window's foot), and what its tiles do not fit scrolls in its body (owner,
+       2026-11-24 10:12 UTC+2: "Do not forget the margin is 12 px" -- the Resources dialog ran past the window). */
     min-height: var(--section-dialog-height, 88vh);
     flex-shrink: 0;
 
@@ -752,6 +753,13 @@
    page at 390 and 360 wide: every master tile's title fits. The chapter's heading keeps its words whole too. */
 @media (max-width: 600px), (orientation: landscape) and (max-height: 479px) {
 
+    /* (Its list the same small step, never larger than its title: owner, 2026-11-24 10:12 UTC+2, "Check the text (titles) size on mobiles".) */
+    .section-tiles-quad .section-tile-list {
+
+        font-size: var(--font-small);
+
+    }
+
     .section-tile-title {
 
         font-size: var(--font-small);
@@ -775,6 +783,86 @@
 
         overflow-wrap: normal;
         word-break: normal;
+
+    }
+
+}
+
+/* A DIALOG'S TITLES AS THEIR SYMBOLS (owner, 2026-11-24 10:12 UTC+2, the Resources dialog at 1366 x 640: "place 2 columns, instead of 3, and also replace their
+   titles with their symbols and add tooltips"): where a title does not fit three across (TileTitle, data-title-symbols), the dialog's tiles stand two across and a
+   title that has a symbol shows it, 32px, over its rule; its name is in the tooltip. */
+.section-tile-title-symbol {
+
+    display: none;
+
+}
+
+/* (The dialog's grid of tiles (TileGrid, its size and columns set on it as it measures) takes two across of half its box: the box is the size container.) */
+.section-tile-dialog[data-title-symbols] .card-boxes {
+
+    container-type: inline-size;
+
+}
+
+.section-tile-dialog[data-title-symbols] .card-boxes > .card-tile-grid {
+
+    --section-tile-size: calc((100cqw - var(--space-card)) / 2 - 0.01px) !important;
+
+    grid-template-columns: repeat(2, calc((100cqw - var(--space-card)) / 2 - 0.01px)) !important;
+
+}
+
+/* (Its tiles follow one another: the places set for three across do not hold.) */
+.section-tile-dialog[data-title-symbols] .card-boxes > .card-tile-grid > * {
+
+    grid-column: auto !important;
+    grid-row: auto !important;
+
+}
+
+.section-tile-dialog[data-title-symbols] .section-tile-title:has(> .section-tile-title-symbol) > .section-tile-title-named {
+
+    display: none;
+
+}
+
+.section-tile-dialog[data-title-symbols] .section-tile-title > .section-tile-title-symbol {
+
+    display: block;
+
+    width: 32px;
+    height: 32px;
+
+    margin: 0 auto;
+
+}
+
+/* (A TILE'S LIST NEVER LARGER THAN ITS TITLE: where the page's tile titles take the small size (TileTitle, data-titles-small on the card -- a phone, a narrow
+   tile), so do their lists; owner, 2026-11-24 10:12 UTC+2, "Check the text (titles) size on mobiles, and fix them properly".) */
+.conversation-card[data-titles-small] .section-tiles-quad .section-tile-list {
+
+    font-size: var(--font-small);
+
+}
+
+/* (AN EMPTY CATEGORY'S SYMBOL IS FAINT (owner, 2026-11-24 10:38 UTC+2: "when a resource is empty, make the icon's colour faint"): drawn in the faint text colour, as
+   an empty category's name is; under the pointer it grows as every symbol does.) */
+.section-tile-list[data-symbols] > li.section-tile-list-empty .section-tile-list-fallback {
+
+    color: var(--text-faint);
+
+    opacity: 0.55;
+
+}
+
+/* (WHERE THE CHAPTERS STAND SIDE BY SIDE, A DIALOG IS NO TALLER THAN ITS ROOM (owner, 2026-11-24 10:12 UTC+2: "Do not forget the margin is 12 px"): it ends 12px above
+   the footer and its body scrolls; where the chapters stack, the page scrolls and the dialog keeps its tiles' height.) */
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) {
+
+    .section-tile-overlay.business-foundation > .section-tile-dialog.business-foundation-card {
+
+        /* (It grows down past its card's area as its tiles need, to 12px above the 64px footer; beyond that its body scrolls.) */
+        max-height: max(var(--section-dialog-height, 88vh), calc(100vh - var(--section-dialog-top, 0px) - 64px - 12px));
 
     }
 

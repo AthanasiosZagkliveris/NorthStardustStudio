@@ -714,7 +714,9 @@ export async function checkScrolledDialog(page, where) {
         }
         const title = (tile.querySelector(".section-tile-title") || tile).textContent.trim();
         const top = dialog.getBoundingClientRect().top;
-        return { title, top, rest: underline.getBoundingClientRect().bottom + 12, tab: tab ? tab.getBoundingClientRect().top - top : null };
+        // (A tablet in portrait holds the tab in the footer's band, as a phone does: owner, 2026-11-24 10:12 UTC+2; its place there is the band's, not the dialog's.)
+        const inBand = tab && getComputedStyle(tab).position === "fixed" && Math.abs(tab.getBoundingClientRect().bottom - window.innerHeight) < 1;
+        return { title, top, rest: underline.getBoundingClientRect().bottom + 12, tab: tab && !inBand ? tab.getBoundingClientRect().top - top : null };
     });
     if (opened) {
         if (opened.top < opened.rest - 1) {

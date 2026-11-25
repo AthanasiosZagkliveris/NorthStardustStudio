@@ -105,7 +105,9 @@
 
     gap: 14px;
 
-    margin-bottom: 16px;
+    /* (THE NAME, THE ORGANISATIONS AND THE BUTTONS 12px APART (owner, 2026-11-24 10:12 UTC+2: "Make sure that the gaps between the name cell, the organization,
+       and the other buttons are equal").) */
+    margin-bottom: var(--gap-12);
 }
 
 .organization-row {
@@ -126,10 +128,12 @@
     display: flex;
     align-items: center;
 
-    padding: 14px 22px;
+    /* (Its number 12px in from its edge, its corners the buttons' (owner, 2026-11-24 10:12 UTC+2: "check space before the number, it seems too much"; "fix
+       their rounded corners to match to the buttons rounded corners").) */
+    padding: 14px var(--gap-12);
 
     border: 1px solid var(--line-box);
-    border-radius: 12px;
+    border-radius: var(--radius-md);
 
     background: var(--bg-surface);
 
@@ -204,8 +208,8 @@
 
     flex-shrink: 0;
 
-    /* The list-number column (global.css). */
-    min-width: var(--list-number-width);
+    /* (No reserved column: one list of Organisations, its number where its text starts.) */
+    min-width: 0;
 
     text-align: right;
 
@@ -260,7 +264,9 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--gap-12);
 
-    margin-right: calc(var(--size-box-button) + var(--gap-12));
+    /* (They end where the cells end, before the arrow's column (24px, .page-arrow, and its 12px): owner, 2026-11-24 10:12 UTC+2, "they align to the sides with
+       the Name and Organisation cells".) */
+    margin-right: calc(24px + var(--gap-12));
 
 }
 
@@ -294,6 +300,9 @@
 
         display: flex;
         flex-wrap: wrap;
+
+        /* (Spread evenly from the cells' left edge to their right: owner, 2026-11-24 10:12 UTC+2, "spread the buttons ... equally".) */
+        justify-content: space-between;
 
     }
 
@@ -367,19 +376,22 @@
 
     gap: var(--gap-6);
 
-    margin-bottom: 3vh;
+    margin-bottom: var(--gap-12);
 }
 
 .user-name-input {
 
     box-sizing: border-box;
 
-    padding: 12px 18px;
+    /* (Its words where the Organisation's number starts: 12px in.) */
+    padding: 12px var(--gap-12);
 
+    /* (The app's colours and the buttons' corners, as the Organisation's cell beside it: owner, 2026-11-24 10:12 UTC+2, "Change the Name cell fill colour to
+       match the app".) */
     border: 1px solid var(--line-box);
-    border-radius: 12px;
+    border-radius: var(--radius-md);
 
-    background: var(--cell-fill);
+    background: var(--bg-surface);
 
     font: inherit;
     font-size: var(--font-body);
@@ -456,6 +468,7 @@
 .organization-row-main > .organization-cell-remove {
 
     flex: none;
+
 
     margin-left: var(--gap-12);
 

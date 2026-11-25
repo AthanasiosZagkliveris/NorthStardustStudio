@@ -28,6 +28,7 @@ import BulletRail from "../components/interview/rails/BulletRail";
 import useRailTab from "../hooks/useRailTab.ts";
 import PageArrow from "../components/interview/fields/PageArrow";
 import { masterSide, setTilesPage } from "../components/interview/tiles/SectionTileGeometry.tsx";
+import { verticalAcross } from "../hooks/useVerticalLayout.ts";
 import { getSystemIcon } from "../data/systemIcons";
 import "../styles/status-shape.css";
 import "../styles/system-list.css";
@@ -261,6 +262,17 @@ export default function SystemSelection() {
         if (!box) {
             return;
         }
+        // (THE CAPABILITY'S POP-UP OVER THE SYSTEMS' FRAME (owner, 2026-11-24 10:31 UTC+2: "And the pop up window's position"): its left edge and its width the
+        // frame's, so it opens exactly over the chapter it describes, never over the rail.)
+        const frame = box.querySelector<HTMLElement>(".capability-systems-frame")?.getBoundingClientRect();
+        const block = document.querySelector<HTMLElement>(".capability-help-block");
+        if (frame && block && frame.width > 0) {
+            block.style.setProperty("--help-left", Math.round(frame.left - block.getBoundingClientRect().left) + "px");
+            block.style.setProperty("--help-width", Math.round(frame.width) + "px");
+            // (No taller than the room down to 12px over the footer: what is longer scrolls inside it.)
+            const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
+            block.style.setProperty("--help-height", Math.max(200, Math.round(window.innerHeight - footer - 12 - frame.top)) + "px");
+        }
         box.querySelectorAll<HTMLElement>(".capability-system-slot").forEach(slot => {
             const body = slot.querySelector<HTMLElement>(".capability-system-body");
             const tile = slot.querySelector<HTMLElement>(":scope > .section-tile");
@@ -274,9 +286,15 @@ export default function SystemSelection() {
             // icons"): what it holds is never shown on the tile -- the System's Introduction lists it --, and the title and symbol stand in the tile's middle.)
             {
                 body.setAttribute("data-no-room", "");
-                const words = title.getBoundingClientRect();
+                // (ITS TITLE IN THE TILE'S LOWER THIRD, ITS SYMBOL LARGE ABOVE IT (owner, 2026-11-24 10:25 UTC+2: "On the capability page, when there is enough space,
+                // the tiles have title and icons. So place at the 1/3 bottom the title, and scale up the icon, so it can be easier readable and recognisable"): the
+                // symbol, 40% of the tile (workspace.css), above the words.)
+                const words = (title.querySelector<HTMLElement>(".section-tile-title-words") ?? title).getBoundingClientRect();
                 const box = tile.getBoundingClientRect();
-                slot.style.setProperty("--title-centre", Math.round((box.top + box.bottom) / 2 - (words.top + words.bottom) / 2) + "px");
+                // (Its rule a third of the tile up from its foot (owner, 2026-11-24 10:46 UTC+2: "place the title to the 1/3 from the bottom, and then the icon above
+                // the title").)
+                const line = box.top + box.height * 2 / 3;
+                slot.style.setProperty("--title-centre", Math.round(line - words.bottom) + "px");
             }
         });
     });
@@ -298,13 +316,20 @@ export default function SystemSelection() {
             const count = shownCapabilityRef.current ? systems.filter(system => system.capability === shownCapabilityRef.current).length : 0;
             if (count > 0) {
                 const across = count >= 3 && count <= 4 ? 2 : Math.min(count, 3);
-                const page = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect().width ?? box.clientWidth;
+                // (The title's rule; where the title stands in the header and its rule is hidden, the page's card.)
+                const ruleWidth = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect().width ?? 0;
+                const page = ruleWidth > 0 ? ruleWidth : document.querySelector<HTMLElement>(".conversation-card")?.getBoundingClientRect().width ?? box.clientWidth;
                 const pad = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--card-padding")) || 12;
                 const room = (across === 2 ? page / 2 - 6 : page) - 2 * pad - 2 - (across - 1) * 12;
                 // (THE SAME SIDE AS EVERY PAGE'S MASTER TILES (owner, 2026-11-23 19:48 UTC+2: "Can we be consistent and use the same sizes?"): masterSide, the side
                 // the window gives a chapter's tiles, so the SYSTEMS frame is a chapter's frame and the arrows stand between its rows as on every page.)
                 const master = masterSide();
-                const side = Math.max(120, Math.min(tall, Math.floor(room / across), master ?? Infinity));
+                // (THE SAME TILES AS EVERY PAGE OF THE WINDOW WHERE THE CHAPTERS STACK (owner, 2026-11-24 10:12 UTC+2: "Same screen, 2 columns both, different tile sizes.
+                // Why?"): there a chapter takes the page's whole width, its tiles two across up to 260px (SectionTiles), so the Systems' frame does too.)
+                const stacked = verticalAcross() > 0;
+                const side = stacked
+                    ? Math.max(72, Math.min(260, Math.floor((page - 2 * pad - 2 - (across - 1) * 12) / across)))
+                    : Math.max(120, Math.min(tall, Math.floor(room / across), master ?? Infinity));
                 // (The page as wide as its tiles, as every page of tiles: tilesPageWidth.)
                 setTilesPage(document.querySelector<HTMLElement>(".conversation-page"), master);
                 setTileSide(side);
@@ -532,7 +557,7 @@ export default function SystemSelection() {
                             )}
                         />
                     ) : (
-                        <InterviewHeader systemName="Capabilities" />
+                        <InterviewHeader systemName="Capabilities" nameCapitals /* (In capitals, as a Capability's name: owner, 2026-11-24 10:33 UTC+2, "Change the Word Capabilities to capitals".) */ />
                     )}
 
                     {/* (THE CAPABILITY'S DESCRIPTION, A POP-UP OF THE PAGE TITLE (owner, 2026-11-23 19:12 UTC+2: "This is a pop up window, not part of the chapter/systems!"):

@@ -23,6 +23,7 @@ import {
 import CardTile, { inwardOrigin } from "./CardTile.tsx";
 import type { CardBox } from "../cards/CardBoxes.tsx";
 import "../../../styles/card-tile.css";
+import { getResourceIcon } from "../../../data/resourceIcons";
 
 /**
  * THE FEWEST CARDS A CATEGORY NEEDS TO BE A CATEGORY TILE (its cards inside, with its own "+ Add"); one with fewer shows its cards as tiles directly. It is 0:
@@ -68,7 +69,7 @@ function CategoryTile({
                 className: "section-tile-slot card-tile-slot" + (add ? " section-tile-slot-plus" : "") + (names.length === 0 ? " section-tile-slot-empty" : "") + (period ? " section-tile-slot-period" : "") + (alerts?.some(entry => entry && entry.length > 0) ? " card-tile-incomplete" : ""),
                 style: { transformOrigin: origin, ...(channel ? { "--strategy-theme-hue": CHANNEL_TILE_HUE } : {}) } as CSSProperties
             }}
-            face={<TileFace title={title} empty={names.length === 0} glyph={false} />}
+            face={<TileFace title={title} empty={names.length === 0} glyph={false} symbol={getResourceIcon(plainTitle(title))} />}
                 className={"section-tile section-tile-category" + (channel ? " section-tile-channel" : "")}
                 data-opens=""
                 data-anchor={anchor ?? "category-" + id}

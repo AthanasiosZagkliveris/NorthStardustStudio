@@ -148,7 +148,31 @@
 
 }
 
-.save-status + .theme-switch {
+/* (THE ORGANISATION'S NAME ON THE HEADER'S MIDDLE (owner, 2026-11-24 10:29 UTC+2): the name centred on the window, the saved signal 24px after it; where the
+   name gives way (a phone, the page title in the header) the group stands in the row again, before the buttons.) */
+.app-header-centre {
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+
+    display: flex;
+    align-items: center;
+
+    max-width: 50%;
+
+}
+
+.app-header-centre > .save-status {
+
+    position: absolute;
+    left: 100%;
+
+}
+
+/* (After the saved signal, and after the Organisation's mark where it stands between them: BrandMark.tsx.) */
+.save-status ~ .theme-switch {
 
     margin-left: 16px;
 
@@ -339,6 +363,27 @@ body:has(.section-tile-overlay) .app-header {
 
     }
 
+    .app-header-centre {
+
+        position: static;
+        translate: none;
+
+        margin-left: auto;
+
+    }
+
+    .app-header-centre > .save-status {
+
+        position: static;
+
+    }
+
+    .app-header-centre ~ .theme-switch {
+
+        margin-left: 16px;
+
+    }
+
 }
 
 /* A PHONE TURNED TO LANDSCAPE (under 480px tall; owner, 2026-11-23 23:14 and 23:21 UTC+2: "the user could rotate his mobile or tablet and the app both ways
@@ -359,83 +404,10 @@ body:has(.section-tile-overlay) .app-header {
 
     }
 
-    /* (THE PHONE IN LANDSCAPE GIVES THE PAGE ITS HEIGHT (owner, 2026-11-24 03:14 UTC+2: "Place the page title on the header, and hide the bullets (rail), keep
-       only the arrows (navigation (bottom) and back (top). There in no reason for footing. Also, keep only the tiles Icon, and hide the word"): the Tiles logo
-       without its word; the page's title, its symbol and its Back in the header's band, from 12px after the logo to the room the header's buttons keep at the right
-       (the saved signal, the Menu, the Workbook and the Organisation's mark: 240px); its rule goes; the Organisation's name gives the title its room.) */
-    .app-brand-name,
-    .app-header-organization-name {
-
-        display: none;
-
-    }
-
-    /* (CLEAR OF THE NOTCH AND THE ROUNDED CORNERS (owner, 2026-11-24 03:14 UTC+2: "check online for the mobile working areas, and their negative spaces"; Apple's
-       layout guidance: in landscape the safe area is inset from both sides): the header's 28px, or the side's safe-area inset where that is wider.) */
-    .app-header {
-
-        padding-left: max(28px, env(safe-area-inset-left, 0px));
-        padding-right: max(28px, env(safe-area-inset-right, 0px));
-
-    }
-
-    .app-header-organization-name + .save-status {
-
-        margin-left: auto;
-
-    }
-
+    /* (On a phone in landscape the page's Back stands in the header too, before the page's symbol: AppFooter's portal.) */
     .interview-header {
 
-        position: fixed;
-        top: 0;
-        left: calc(max(28px, env(safe-area-inset-left, 0px)) + 44px + var(--gap-12) + 12px + var(--gap-12));
-        right: calc(212px + max(28px, env(safe-area-inset-right, 0px)));
-
-        z-index: 41;
-
-        height: var(--app-header-height);
-        margin: 0;
-        padding: 0;
-
-        display: flex;
-        align-items: center;
-
-        background: none;
-
-        pointer-events: none;
-
-    }
-
-    .interview-header > * {
-
-        pointer-events: auto;
-
-    }
-
-    .interview-header .interview-divider {
-
-        display: none;
-
-    }
-
-    /* (The title on one line, the header's own size (--font-h2); a title longer than its room ends in an ellipsis, whole in its tooltip.) */
-    .interview-header .interview-header-title-row {
-
-        min-width: 0;
-        max-width: 100%;
-
-    }
-
-    .interview-header h1 {
-
-        min-width: 0;
-
-        overflow: hidden;
-
-        font-size: var(--font-h2);
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        --header-back-room: calc(12px + var(--gap-12));
 
     }
 
@@ -477,7 +449,120 @@ body:has(.section-tile-overlay) .app-header {
 
     }
 
-    /* (The Organisation's own square mark at the header's right end, after the Workbook, the logo's height: BrandMark.tsx.) */
+}
+
+/* THE PAGE TITLE IN THE HEADER ON A SMALL LAPTOP, A TABLET AND A PHONE IN LANDSCAPE (owner, 2026-11-24 03:14 UTC+2 for the phone; 10:12 UTC+2: "on small laptop, and
+   tablet use the dame idea with the mobile (landscape). Place the title page on the heading, and if there is logo icon, place it before the header's buttons. Doing
+   this it would give some space to enlarge the chapter's frame and its tiles. ... Hide the Tiles name"): a window 601px wide or more that is 700px tall or less, 1100px
+   wide or less, or a touch screen. The Back, the arrows and the rail stay below (bullet-rail.css). */
+@media (min-width: 601px) and (max-height: 700px), (min-width: 601px) and (max-width: 1100px), (min-width: 601px) and (pointer: coarse) {
+
+    /* (THE PHONE IN LANDSCAPE GIVES THE PAGE ITS HEIGHT (owner, 2026-11-24 03:14 UTC+2: "Place the page title on the header, and hide the bullets (rail), keep
+       only the arrows (navigation (bottom) and back (top). There in no reason for footing. Also, keep only the tiles Icon, and hide the word"): the Tiles logo
+       without its word; the page's title, its symbol and its Back in the header's band, from 12px after the logo to the room the header's buttons keep at the right
+       (the saved signal, the Menu, the Workbook and the Organisation's mark: 240px); its rule goes; the Organisation's name gives the title its room.) */
+    .app-brand-name,
+    .app-header-organization-name {
+
+        display: none;
+
+    }
+
+    /* (CLEAR OF THE NOTCH AND THE ROUNDED CORNERS (owner, 2026-11-24 03:14 UTC+2: "check online for the mobile working areas, and their negative spaces"; Apple's
+       layout guidance: in landscape the safe area is inset from both sides): the header's 28px, or the side's safe-area inset where that is wider.) */
+    .app-header {
+
+        padding-left: max(28px, env(safe-area-inset-left, 0px));
+        padding-right: max(28px, env(safe-area-inset-right, 0px));
+
+    }
+
+    .app-header-organization-name + .save-status {
+
+        margin-left: auto;
+
+    }
+
+    .app-header-centre {
+
+        position: static;
+        translate: none;
+
+        margin-left: auto;
+
+    }
+
+    .app-header-centre > .save-status {
+
+        position: static;
+
+    }
+
+    .app-header-centre ~ .theme-switch {
+
+        margin-left: 16px;
+
+    }
+
+    .interview-header {
+
+        position: fixed;
+        top: 0;
+        /* (After the logo and 12px; on a phone in landscape after the Back too, --header-back-room.) */
+        left: calc(max(28px, env(safe-area-inset-left, 0px)) + 44px + var(--gap-12) + var(--header-back-room, 0px));
+        right: calc(212px + max(28px, env(safe-area-inset-right, 0px)));
+
+        z-index: 41;
+
+        height: var(--app-header-height);
+        margin: 0;
+        padding: 0;
+
+        display: flex;
+        align-items: center;
+
+        background: none;
+
+        pointer-events: none;
+
+    }
+
+    .interview-header > * {
+
+        pointer-events: auto;
+
+    }
+
+    .interview-header .interview-divider {
+
+        display: none;
+
+    }
+
+    /* (The title on one line, the header's own size (--font-h2); a title longer than its room ends in an ellipsis, whole in its tooltip.) */
+    .interview-header .interview-header-title-row {
+
+        min-width: 0;
+        max-width: 100%;
+
+    }
+
+    .interview-header h1 {
+
+        min-width: 0;
+
+        /* (Clipped, never scrolled: a scrolled title lost its first letter; room for the arrow after the words.) */
+        overflow: clip;
+
+        padding-right: 8px;
+
+        font-size: var(--font-h2);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+    }
+
+    /* (The Organisation's own square mark before the header's buttons, the logo's height: BrandMark.tsx.) */
     .app-brand-mark[data-square] {
 
         display: block;
@@ -486,7 +571,7 @@ body:has(.section-tile-overlay) .app-header {
 
         width: 44px;
         height: 44px;
-        margin-left: var(--gap-8);
+        margin-left: var(--gap-12);
 
         border-radius: var(--radius-md);
 
@@ -496,7 +581,7 @@ body:has(.section-tile-overlay) .app-header {
 
 }
 
-/* (Elsewhere the Organisation's mark is not shown: the phone in landscape alone has it.) */
+/* (Elsewhere the Organisation's mark is not shown.) */
 .app-brand-mark {
 
     display: none;

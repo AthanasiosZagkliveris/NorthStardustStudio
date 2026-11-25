@@ -235,6 +235,20 @@ export function tileName(title: string, items: readonly string[] = []): string {
  * less the frame's padding and edge (26px) and the 12px between two tiles; and no taller than lets two rows stand between the frame's head (the rule, 12px, the
  * frame's 61px head) and the footer with its 12px gaps. 150px at least. Null where there is no page title.
  */
+/**
+ * WHERE THE PAGE'S HEAD ENDS: the title's rule; where the title stands in the header (a small laptop, a tablet, a phone in landscape: app-header.css, its rule
+ * hidden), the header's foot. The lines of a title that wraps are taken back, so they never lower the tiles.
+ */
+function headEnd(rule: DOMRect): number {
+    if (rule.width === 0 && rule.height === 0) {
+        return document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 64;
+    }
+    const title = document.querySelector<HTMLElement>(".interview-header h1");
+    const line = title ? parseFloat(getComputedStyle(title).lineHeight) : NaN;
+    const further = title && Number.isFinite(line) && line > 0 ? Math.max(0, Math.round(title.getBoundingClientRect().height / line) - 1) * line : 0;
+    return rule.bottom - further;
+}
+
 export function masterSide(): number | null {
     const underline = document.querySelector<HTMLElement>(".interview-header .interview-divider") ?? document.querySelector<HTMLElement>(".interview-divider");
     // (The Workbook's panel stands for the card on the Workbook and the Handbook: Workbook.tsx.)
@@ -242,11 +256,7 @@ export function masterSide(): number | null {
     if (!underline || !card || card.width <= 300) {
         return null;
     }
-    const rule = underline.getBoundingClientRect();
-    const title = document.querySelector<HTMLElement>(".interview-header h1");
-    const line = title ? parseFloat(getComputedStyle(title).lineHeight) : NaN;
-    const further = title && Number.isFinite(line) && line > 0 ? Math.max(0, Math.round(title.getBoundingClientRect().height / line) - 1) * line : 0;
-    const top = rule.bottom - further + 12 + 61;
+    const top = headEnd(underline.getBoundingClientRect()) + 12 + 61;
     const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
     const inset = railInset();
     // (The room is the window's -- the widest page it allows, 1400px at most, its 56px gutters --, never the page's own width, which follows the tiles.)
@@ -254,7 +264,7 @@ export function masterSide(): number | null {
     const natural = Math.floor((column - 26 - 12) / 2);
     // (On a touch screen side by side, the band holds the rails and the page's buttons -- Inventory, Completed, "+ Add Segment" -- stand in a row above it: the
     // tiles leave that row's room, the band's button and 12px, on every page alike.)
-    const buttons = typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches ? 44 + 12 : 0;
+    const buttons = typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse), (max-height: 700px)").matches ? 44 + 12 : 0;
     const tall = Math.floor((window.innerHeight - top - footer - buttons - 12 - 12 - 12 - 12) / 2);
     // (120px at the least: a 640px-tall window, the shortest that keeps chapters side by side, gives 147.)
     return Math.max(120, Math.min(natural, tall));
@@ -340,10 +350,7 @@ export function arrowLevel(): number | null {
         return Math.round((header + window.innerHeight - footer) / 2);
     }
     if (underline && card && card.width > 300) {
-        const title = document.querySelector<HTMLElement>(".interview-header h1");
-        const line = title ? parseFloat(getComputedStyle(title).lineHeight) : NaN;
-        const further = title && Number.isFinite(line) && line > 0 ? Math.max(0, Math.round(title.getBoundingClientRect().height / line) - 1) * line : 0;
-        const top = underline.bottom - further + 12 + 61;
+        const top = headEnd(underline) + 12 + 61;
         const tile = masterSide() ?? 150;
         const gap = 12;
         // (Whole pixels: the page arrows (--arrow-level) and the carousel arrows read the same number, so they never stand a fraction apart.)

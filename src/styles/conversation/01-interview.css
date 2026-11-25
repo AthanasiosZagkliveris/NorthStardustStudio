@@ -165,6 +165,14 @@
 
 }
 
+/* (THE BOLD NAME WITH THE BOLD TRACKING (owner, 2026-11-24 10:33 UTC+2: "Any bold text should have the mentioned letter spacing"): the System's or the
+   Capability's name, the title's bold half, at --bold-tracking, as every bold text.) */
+.interview-header-system{
+
+    letter-spacing:var(--bold-tracking);
+
+}
+
 /* "— INTRODUCTION": in capitals on screen only (text-transform), so
    the words read aloud stay "Introduction". */
 .interview-header-page-title-capitals{

@@ -110,7 +110,7 @@
 
 /* THE STACKED LAYOUT -- a tablet, a phone, a short window (since 2026-11-23 23:21 UTC+2; before, the phone alone; layout rules section 23): the band holds Back and
    the page's rails (bullet-rail.css), so it is a surface: the header's ground and its soft shadow, as the app's top band has, so the page scrolls under it. */
-@media (max-width: 900px), (orientation: portrait), (max-height: 639px), (pointer: coarse) {
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px), (pointer: coarse), (max-height: 700px) {
 
     .workspace-footer {
 
@@ -538,6 +538,28 @@
 
 }
 
+/* (A SYSTEM'S SYMBOL ABOVE ITS TITLE (owner, 2026-11-24 10:12 UTC+2: "On the System Tiles, place the icons above their titles"): the symbol first, 12px over the
+   title's words and their rule.) */
+.capability-system-slot > .section-tile > .section-tile-title:has(> .section-tile-title-mark) {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.capability-system-slot > .section-tile > .section-tile-title > .section-tile-title-mark {
+
+    order: -1;
+
+    /* (Large, to be read and recognised: 40% of the tile, never under the logo's size -- owner, 2026-11-24 10:25 UTC+2.) */
+    width: max(var(--add-button-height), calc(var(--section-tile-size) * 0.4));
+    height: max(var(--add-button-height), calc(var(--section-tile-size) * 0.4));
+
+    margin: 0 auto var(--gap-12);
+
+}
+
 .capability-system-slot > .capability-system-links > .capability-system-body[data-no-room] {
 
     visibility: hidden;
@@ -560,7 +582,13 @@
 
     right: auto;
 
-    width: min(100%, calc(50% - var(--space-card) / 2));
+    /* (Over the Systems' frame, its left edge and its width: SystemSelection's --help-left and --help-width.) */
+    left: var(--help-left, 0px);
+
+    width: var(--help-width, min(100%, calc(50% - var(--space-card) / 2)));
+
+    max-height: var(--help-height, none);
+    overflow-y: auto;
 
     /* (IN THE CAPABILITY'S COLOURS, WITH ITS EDGE (owner, 2026-11-23 17:53 UTC+2: "Fix the colours of the capabilities description, add a wireframe"): a light wash
        of the Capability's colour, a 1px edge in it, as a chapter's help is in its chapter's.) */
@@ -922,6 +950,9 @@
 .capability-systems-frame > .tiles-frame-head .field-group-title {
 
     color: color-mix(in srgb, var(--tile-colour, var(--text-strong)) 85%, var(--text-strong));
+
+    /* (The chapter headings' size, as every page's (--font-h2): owner, 2026-11-24 10:12 UTC+2, "Check the text (titles) size on mobiles" -- it stood at 28px.) */
+    font-size: var(--font-h2);
 
 }
 

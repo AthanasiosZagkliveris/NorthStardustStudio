@@ -128,7 +128,7 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 const shift = slots.length > 0 && cards.length > 0 ? Math.round((cardsLeft + cardsRight) / 2 - (Math.min(...slots.map(box => box.left)) + Math.max(...slots.map(box => box.right))) / 2) : 0;
                 // (ABOVE THE BAND ON A TOUCH SCREEN (owner, 2026-11-24 00:21 UTC+2: "place the rail at the footing, and any other buttons (inventory, completed, etc.)
                 // above it"): the band holds the rails there, so the row stands on it, 6px above.)
-                const above = typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches;
+                const above = typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse), (max-height: 700px)").matches;
                 const rowTop = above ? footerBox.top - 6 - side : footerBox.top + (footer - side) / 2;
                 tiles.style.transform = "translate(" + shift + "px, " + Math.round(rowTop - top) + "px)";
             } else {

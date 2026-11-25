@@ -252,7 +252,9 @@ export default function Workbook() {
             const beside = !!back && back.getBoundingClientRect().right + 12 <= node.getBoundingClientRect().left;
             // (A phone in landscape has no footer's band, only its arrows at the corners (app-header.css): the panel runs to the window's foot.)
             const bandless = typeof window.matchMedia === "function" && window.matchMedia("(orientation: landscape) and (max-height: 479px)").matches;
-            const end = foot && !beside && !bandless ? foot.getBoundingClientRect().top : window.innerHeight;
+            // (In landscape with the band not drawn (a tablet, a small laptop: glossary.css), the panel runs down to the Back's top, 12px over it.)
+            const undrawn = typeof window.matchMedia === "function" && window.matchMedia("(orientation: landscape) and (pointer: coarse), (orientation: landscape) and (max-height: 700px)").matches;
+            const end = foot && !beside && !bandless ? (undrawn && back ? back.getBoundingClientRect().top : foot.getBoundingClientRect().top) : window.innerHeight;
             const next = Math.max(240, Math.round(end - 12 - (node.getBoundingClientRect().top + window.scrollY)));
             setPanelHeight(current => current === next ? current : next);
         };

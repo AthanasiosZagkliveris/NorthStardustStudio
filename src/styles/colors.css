@@ -35,9 +35,19 @@
    their hue: the colour reads light on the dark ground, and the
    white cut-outs go dark, as holes should. */
 :root[data-theme="dark"] .interview-header-icon,
-:root[data-theme="dark"] .capability-description-icon {
+:root[data-theme="dark"] .capability-description-icon,
+:root[data-theme="dark"] .section-tile-title-mark,
+:root[data-theme="dark"] .section-tile-title-symbol {
 
     filter: invert(1) hue-rotate(180deg);
+
+}
+
+/* (THE SYSTEMS' HEADING READABLE ON THE DARK GROUND (owner, 2026-11-24 10:45 UTC+2: "check on other reading modes too"): its Capability's colour a light
+   share over the strong text, so a dark Capability colour (the Foundation's navy) never sinks into the ground.) */
+:root[data-theme="dark"] .capability-systems-frame > .tiles-frame-head .field-group-title {
+
+    color: color-mix(in srgb, var(--tile-colour, var(--text-strong)) 25%, var(--text-strong));
 
 }
 

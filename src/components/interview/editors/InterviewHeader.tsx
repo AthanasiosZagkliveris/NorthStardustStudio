@@ -111,7 +111,8 @@ export default function InterviewHeader({
     const alignSymbol = () => {
         const picture = symbol.current;
         const title = heading.current;
-        const words = title?.querySelector<HTMLElement>("span") ?? title;
+        // (The first words drawn: the System's name, or the page's alone where the title shows it alone.)
+        const words = (title ? Array.from(title.querySelectorAll<HTMLElement>("span")).find(part => part.getBoundingClientRect().width > 0) : null) ?? title;
         if (!picture || !title || !words || !ink.current) {
             return;
         }

@@ -76,7 +76,8 @@ export function isPhone(): boolean {
  * WHERE THE RAILS STAND IN THE FOOTER'S BAND: the stacked layout (VERTICAL_QUERY) and any touch screen (owner, 2026-11-24 00:21 UTC+2: "When the tablet is on
  * landscape, place the rail at the footing"); bullet-rail.css says the same with "(pointer: coarse)".
  */
-export const BAND_QUERY = VERTICAL_QUERY + ", (pointer: coarse)";
+// (A window 700px tall or less -- a small laptop -- too (owner, 2026-11-24 10:12 UTC+2: "on small laptop ... the navigation arrow to the bottom part, and the rail in the middle").)
+export const BAND_QUERY = VERTICAL_QUERY + ", (pointer: coarse), (max-height: 700px)";
 
 /** Whether the page's rails stand in the footer's band (BAND_QUERY). */
 export function railsInBand(): boolean {

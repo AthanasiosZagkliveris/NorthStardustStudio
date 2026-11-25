@@ -737,7 +737,8 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
    should be adjusted to fit"; layout rules section 23, "The phone"): the side gutters (56px each) would leave a 390px phone a 278px card, so the page's side gutter is 16px and the Pages and
    Sections rails stand in the footer's band, one row: the "‹" page arrow and the Pages dots at the left, the Sections dots and the "›" arrow at the right, the
    bullets in a row 12px apart, their names in the tooltips as on every dots-only rail. No tab is drawn round them: the band is their ground. */
-@media (max-width: 900px), (orientation: portrait), (max-height: 639px), (pointer: coarse) {
+/* (A small laptop, 700px tall or less, too (owner, 2026-11-24 10:12 UTC+2: 'on small laptop ... the navigation arrow to the bottom part, and the rail in the middle').) */
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px), (pointer: coarse), (max-height: 700px) {
 
     /* (The side gutter: room for Back's arrow outside the page, 12px from it, on a tablet; a phone's is 16px, below.) */
     :root { --rail-gutter: 48px; }
@@ -759,7 +760,9 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
     body:has(.conversation-page[data-tiles-page]) .bullet-rails {
 
-        padding-inline: max(var(--gap-12), calc((100vw - var(--tiles-page-width, 100vw)) / 2 - 24px - var(--gap-12)));
+        /* (Clear of the Back at the band's left, which stays there (owner, 2026-11-24 10:12 UTC+2: "The back button does not move to the header, it stays there"):
+           its 24px from the edge, its arrow and 12px -- 60px at the least, the same at the right.) */
+        padding-inline: max(60px, calc((100vw - var(--tiles-page-width, 100vw)) / 2 - 24px - var(--gap-12)));
 
     }
 
@@ -898,7 +901,7 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
 /* (A TOUCH SCREEN KEEPS ITS RAILS IN THE FOOTER'S BAND (owner, 2026-11-24 00:21 UTC+2: "When the tablet is on landscape, place the rail at the footing ... So there
    will be some space to enlarge the chapters and tiles"): the page keeps no room for them at its ends, so its chapters and tiles take it.) */
-@media (pointer: coarse) {
+@media (pointer: coarse), (max-height: 700px) {
 
     :root {
 
@@ -908,7 +911,7 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
 }
 
-@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) and (pointer: fine) {
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 700.02px) and (pointer: fine) {
 
     body:has(.bullet-rail-left .bullet-rail-dot) .conversation-card > :not(.interview-header, .workspace-continue, .field-page, .capability-help-block),
     body:has(.bullet-rail-left .bullet-rail-dot) .conversation-card > .field-page > * {
@@ -991,7 +994,7 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 /* A RAIL TOO LONG FOR THE WINDOW LIES ACROSS THE FOOTER (owner, 2026-11-23 21:49 UTC+2: "place them horizontally at the footing"; BulletRail, data-across): its
    bullets in a row in the footer's band, by the band's middle -- the Pages rail ending 6px before it, the Sections rail starting 6px after it --, without a tab, as
    the phone's rails; its name in the tooltips; its arrow keeps its place. */
-@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) and (pointer: fine) {
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 700.02px) and (pointer: fine) {
 
     :root:root .bullet-rails .bullet-rail[data-across] {
 

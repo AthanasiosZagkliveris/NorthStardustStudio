@@ -25,7 +25,7 @@ interface AppFooterProps {
 
 /** What the footer's Back may never stand over, word and all: the page's card (its left edge runs down to the footer), the Inventory and Completed row and the footer's own buttons. */
 // (The rails' arrows in the footer's band too: on a phone's Capability page the word stood over the band's left arrow, 2026-11-24.)
-const BACK_OBSTACLES = ".conversation-card, .section-tiles-completed .section-tile, .business-foundation-input-actions > *, .bullet-rail[data-across], .workspace-footer-actions > *, .bullet-rails .page-arrow";
+const BACK_OBSTACLES = ".conversation-card, .workbook-panel, .section-tiles-completed .section-tile, .business-foundation-input-actions > *, .bullet-rail[data-across], .workspace-footer-actions > *, .bullet-rails .page-arrow";
 
 /** The room kept between the Back, word and all, and the nearest thing beside it. */
 const BACK_CLEARANCE = 12;
@@ -84,7 +84,7 @@ export default function AppFooter({
             const rect = back.getBoundingClientRect();
             const obstacles = Array.from(document.querySelectorAll<HTMLElement>(BACK_OBSTACLES))
                 .filter(element => !element.contains(back))
-                .map(element => ({ rect: element.getBoundingClientRect(), card: element.matches(".conversation-card") }));
+                .map(element => ({ rect: element.getBoundingClientRect(), card: element.matches(".conversation-card, .workbook-panel") }));
             node.classList.toggle("workspace-footer-back-short", backWordCovers(rect, obstacles));
         };
         fit();
@@ -108,7 +108,10 @@ export default function AppFooter({
     const [titleRow, setTitleRow] = useState<HTMLElement | null>(null);
     useLayoutEffect(() => {
         const place = () => {
-            const row = railsInBand() && window.innerWidth > 600 ? document.querySelector<HTMLElement>(".interview-header-title-row") : null;
+            // (BACK STAYS AT THE FOOT WHERE THE TITLE STANDS IN THE HEADER (owner, 2026-11-24 10:12 UTC+2: "The back button does not move to the header, it stays there"):
+            // a phone in landscape alone takes it to the title, as before.)
+            const phoneLandscape = typeof window.matchMedia === "function" && window.matchMedia("(orientation: landscape) and (max-height: 479px)").matches;
+            const row = railsInBand() && window.innerWidth > 600 && phoneLandscape ? document.querySelector<HTMLElement>(".interview-header-title-row") : null;
             setTitleRow(current => current === row ? current : row);
         };
         place();
