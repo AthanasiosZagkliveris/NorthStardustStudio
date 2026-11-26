@@ -7,7 +7,7 @@
   "capability-edges.css | textarea.interview-input):not(.option-picker-trigger):hover:not(:focus):not(:disabled) | box-shadow",
   "capability-edges.css | textarea.interview-input):not(.option-picker-trigger):not(:focus):not(:disabled) | border-color,box-shadow",
   "capability-overview.css | .strategy-sort-menu-wide .menu-option | font-size,height,letter-spacing,padding-block,text-transform",
-  "card-tile.css | .add-card-tile | background,border,border-radius,color,font,font-size,font-weight,height,letter-spacing,padding,text-transform",
+  "card-tile.css | .add-card-tile | background,border,border-radius,color,font,font-size,font-weight,height,letter-spacing,line-height,padding,text-transform",
   "card-tile.css | .add-card-tile:focus-visible | background,border-color,color",
   "card-tile.css | .add-card-tile:hover:not(:disabled) | background,border-color,color",
   "card-tile.css | .option-picker-trigger | box-shadow",

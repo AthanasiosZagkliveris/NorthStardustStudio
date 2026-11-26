@@ -91,9 +91,6 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {/* Whether the open Organization's edits are saved --
                 only where one is open. */}
 
-            {/* (The Organisation's own square mark before the header's buttons, where the page title stands in the header: BrandMark.tsx; owner, 2026-11-24 10:12
-                UTC+2, "if there is logo icon, place it before the header's buttons".) */}
-            {organizationId && organizationName && <Suspense fallback={null}><BrandMark organizationId={organizationId} organizationName={organizationName} /></Suspense>}
 
             {/* THE TOOLS (owner, 2026-11-21 00:56 and 23:44 UTC+2): one menu for Search, Notes, Calendar, Focus, Settings and the reading mode (ToolsMenu.tsx);
                 the reading mode alone where no Organisation is open. */}
@@ -117,6 +114,9 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {organizationName && <SearchButton />}
             {/* The Workbook: the same button on the Landing page (owner, 2026-11-09), there with the review of every Organisation, the Glossary and the References. */}
             {(organizationName || totalReview) && <WorkbookButton total={!organizationName} />}
+            {/* (THE ORGANISATION'S LOGO AT THE HEADER'S RIGHT END (owner, 2026-11-26: "The organization icon, should be in this position if it exists. The buttons
+                then, should move inwards"): its square mark last, where it has one, on every window; the buttons stand before it (BrandMark.tsx, app-header.css).) */}
+            {organizationId && organizationName && <Suspense fallback={null}><BrandMark organizationId={organizationId} organizationName={organizationName} /></Suspense>}
             {/* (THE SIDE PANELS UNDER THE HEADER'S SHADOW (owner, 2026-11-23 17:28 UTC+2: "The headers shadow should shade both ... any page and panel, in any part of the
                 app"): drawn outside the header, in the page's layer, so the header's shadow falls over them as over the page; inside the header they painted over it.) */}
             {organizationName && layer && createPortal(<Suspense fallback={null}><NotepadPanel /><NotepadPicker /></Suspense>, layer)}

@@ -513,7 +513,7 @@ body:has(.section-tile-overlay) .app-header {
            symbol and the words centred in it.) */
         /* (At the left the logo, the TILES word (about 70px) and 12px, and on a phone in landscape the Back; at the right the saved signal, the Menu and the
            Workbook with their gaps, 146px, and 12px.) */
-        --header-title-inset: max(calc(max(28px, env(safe-area-inset-left, 0px)) + 44px + var(--gap-12) + 70px + var(--gap-12) + var(--header-back-room, 0px)), calc(146px + var(--gap-12) + max(28px, env(safe-area-inset-right, 0px))));
+        --header-title-inset: max(calc(max(28px, env(safe-area-inset-left, 0px)) + 44px + var(--gap-12) + 70px + var(--gap-12) + var(--header-back-room, 0px)), calc(146px + var(--header-mark-room, 0px) + var(--gap-12) + max(28px, env(safe-area-inset-right, 0px))));
         left: var(--header-title-inset);
         right: var(--header-title-inset);
 
@@ -592,6 +592,29 @@ body:has(.section-tile-overlay) .app-header {
 
     }
 
+    /* (The tab's name stands in the header, so the panel's own heading is not drawn (owner, 2026-11-26: "The App guide is written on the header, so here could be
+       hidden"); it is still read, and the panel's tools keep their place at its right.) */
+    .workbook-head > .business-engagement-section-head {
+
+        position: absolute;
+
+        width: 1px;
+        height: 1px;
+
+        overflow: hidden;
+
+        clip-path: inset(50%);
+
+        white-space: nowrap;
+
+    }
+
+    .workbook-head > .workbook-tools {
+
+        margin-left: auto;
+
+    }
+
     .interview-header .interview-header-icon {
 
         margin-inline: 0;
@@ -626,9 +649,33 @@ body:has(.section-tile-overlay) .app-header {
 
 }
 
-/* (Elsewhere the Organisation's mark is not shown.) */
+/* (THE ORGANISATION'S LOGO, THE HEADER'S LAST (owner, 2026-11-26): its square mark at the right end, 12px after the Workbook, the buttons' height; where the
+   Organisation has no square mark nothing stands there: BrandMark.tsx.) */
 .app-brand-mark {
 
     display: none;
+
+}
+
+.app-brand-mark[data-square] {
+
+    display: block;
+
+    flex: none;
+
+    width: var(--add-button-height);
+    height: var(--add-button-height);
+    margin-left: var(--gap-12);
+
+    border-radius: var(--radius-md);
+
+    object-fit: contain;
+
+}
+
+/* (The page title in the header keeps clear of it: its room at the right grows by the mark and its gap.) */
+body:has(.app-brand-mark[data-square]) {
+
+    --header-mark-room: calc(var(--add-button-height) + var(--gap-12));
 
 }

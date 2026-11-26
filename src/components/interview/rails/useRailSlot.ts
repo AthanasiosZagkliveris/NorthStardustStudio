@@ -62,7 +62,9 @@ export function useRailSlot(rail: RefObject<HTMLElement | null>, arrow: () => Ar
             setSlot(previous => previous === null ? previous : null);
             return;
         }
-        const shift = index > 0 ? Math.max(0, box.top - gap - rows[index - 1].bottom) : 0;
+        // (THE FIRST BULLET AT THE TAB'S TOP (owner, 2026-11-26: "Why there is so much gap at the 1st rail's bullet?"): the list is never set down to centre the arrow
+        // between two lines; the lines before the arrow keep their place under the tab's top, those after it continue the list's gap after the arrow.)
+        const shift = 0;
         const extra = Math.max(0, box.bottom + gap - (rows[index].top + shift));
         const next = { shift: Math.round(shift * 10) / 10, index, extra: Math.round(extra * 10) / 10 };
         setSlot(previous => previous && previous.index === next.index && Math.abs(previous.shift - next.shift) < 0.5 && Math.abs(previous.extra - next.extra) < 0.5 ? previous : next);

@@ -236,7 +236,10 @@ export default function Workbook() {
         const fit = () => {
             const page = document.querySelector<HTMLElement>(".workbook .glossary-page");
             if (sideBySide?.matches) {
-                setTilesPageWidth(page, widestPage());
+                // (Under 1100px wide -- a tablet -- the page keeps the platforms' 24px margin at the window's edges, not the 56px gutter, so the document takes the
+                // room (owner, 2026-11-26: "It seems that there is space, check the requirement maybe the page could get larger"; Material 3, medium and expanded
+                // windows: 24dp margins).)
+                setTilesPageWidth(page, window.innerWidth < 1100 ? Math.min(1400, document.documentElement.clientWidth - 2 * 24) : widestPage());
             } else {
                 setTilesPage(page, null);
             }

@@ -1,3 +1,21 @@
+/* A DIALOG'S FOOT (owner, 2026-11-26: "the floated and dialoge cards, should be full size long"): 12px above the window's foot where the chapters stand side by
+   side (no band there), 12px above the footer's band where they stack. */
+:root {
+
+    --layer-foot: 64px;
+
+}
+
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) {
+
+    :root {
+
+        --layer-foot: 0px;
+
+    }
+
+}
+
 /* ==========================================================
    Section tiles and their dialog (SectionTiles.tsx,
    docs/ai/09-layout-rules.md "Section tiles and dialog")
@@ -550,7 +568,7 @@
        2026-11-24 10:12 UTC+2: "Do not forget the margin is 12 px" -- the Resources dialog ran past the window). */
     /* (FULL LENGTH (owner, 2026-11-25: "All the dialogue cards should have full length"): down to 12px above the 64px footer whatever it holds; its card's area at
        the least.) */
-    min-height: max(var(--section-dialog-height, 88vh), calc(100vh - var(--section-dialog-top, 0px) - 64px - 12px));
+    min-height: max(var(--section-dialog-height, 88vh), calc(100vh - var(--section-dialog-top, 0px) - var(--layer-foot) - 12px));
     flex-shrink: 0;
 
     padding: var(--card-padding);
@@ -806,6 +824,14 @@
 
 }
 
+/* (A symbol has no rule under it (owner, 2026-11-26: "Remove the underlines under the icons"): the title's rule is not drawn, its room kept, so the tiles keep their
+   places.) */
+.section-tile-dialog[data-title-symbols] .section-tile-title:has(> .section-tile-title-symbol) {
+
+    border-bottom-color: transparent;
+
+}
+
 .section-tile-dialog[data-title-symbols] .section-tile-title > .section-tile-title-symbol {
 
     display: block;
@@ -842,7 +868,7 @@
     .section-tile-overlay.business-foundation > .section-tile-dialog.business-foundation-card {
 
         /* (It grows down past its card's area as its tiles need, to 12px above the 64px footer; beyond that its body scrolls.) */
-        max-height: max(var(--section-dialog-height, 88vh), calc(100vh - var(--section-dialog-top, 0px) - 64px - 12px));
+        max-height: max(var(--section-dialog-height, 88vh), calc(100vh - var(--section-dialog-top, 0px) - var(--layer-foot) - 12px));
 
     }
 

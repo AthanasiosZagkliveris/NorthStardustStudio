@@ -748,7 +748,10 @@ function railsBesideFrames(box: HTMLElement): void {
     }));
     // (THE RIGHT RAIL ON THE CHAPTER'S RIGHT EDGE (owner, 2026-11-23 20:41 UTC+2: "The upper right page tag should be attached to the chapter"): how far the frames
     // end before the rail's room at the title rule's right end, read by bullet-rail.css.)
-    const rule = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect();
+    // (Where the title stands in the header its rule is hidden: the page's card gives the same ends -- owner, 2026-11-26, "Why there is gap between the chapter card
+    // and the tag?", the 1366 x 640 laptop.)
+    const drawnRule = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect();
+    const rule = drawnRule && drawnRule.width > 0 ? drawnRule : page.querySelector<HTMLElement>(".conversation-card")?.getBoundingClientRect();
     const insetValue = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-inset"));
     const inset = Number.isFinite(insetValue) ? insetValue : 54;
     const end = Math.max(...frames.map(frame => frame.getBoundingClientRect().right));

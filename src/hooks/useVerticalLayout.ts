@@ -48,7 +48,9 @@ export function verticalAcross(): number {
     }
     // (Two a row on a phone too (owner, 2026-11-22 20:35 UTC+2, a phone's Profiles tiles the window's width: "fix ... the dialogue tile sizes. Also check the other
     // tiles"), as the master tiles are: one a row made squares as wide as the phone.)
-    return 2;
+    // (THREE A ROW WIDER THAN A PHONE (owner, 2026-11-26, a tablet in portrait's Resources dialog: "Use 3x grid"): a dialog's grid three across, as where the
+    // chapters stand side by side.)
+    return window.matchMedia(PHONE_QUERY).matches ? 2 : 3;
 }
 
 /** verticalAcross(), kept current as the window turns or is resized. */

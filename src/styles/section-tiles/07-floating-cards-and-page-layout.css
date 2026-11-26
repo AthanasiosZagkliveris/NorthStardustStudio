@@ -1758,3 +1758,44 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     overflow-wrap: anywhere;
 
 }
+
+/* NO CHAPTER FRAMES ON A PHONE (owner, 2026-11-25: "on mobiles, could remove the chapter frames, and make the background at the same colour to the chapter's";
+   2026-11-26: "I have said, on mobiles remove the background (chapter) frames"): a chapter keeps its place and its tiles, without its edge and its corners, and its
+   colour runs out to the window's sides; chapters that follow one another meet, each in its own colour. */
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px) {
+
+    .conversation-card .business-foundation-input:has(.section-tiles-quad),
+    .conversation-card .segment-chapter,
+    .capability-tiles > .capability-systems-frame {
+
+        position: relative;
+
+        border-color: transparent !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+
+    }
+
+    .conversation-card .business-foundation-input:has(.section-tiles-quad)::before,
+    .conversation-card .segment-chapter::before,
+    .capability-tiles > .capability-systems-frame::before {
+
+        content: "";
+
+        position: absolute;
+        inset: -1px -100vmax;
+        z-index: -1;
+
+        background: inherit;
+
+        pointer-events: none;
+
+    }
+
+    .conversation-card .answer-columns:has(.section-tiles-quad) {
+
+        row-gap: 0;
+
+    }
+
+}

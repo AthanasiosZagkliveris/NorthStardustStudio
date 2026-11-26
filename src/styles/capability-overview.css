@@ -1200,3 +1200,17 @@
     white-space: normal;
 
 }
+
+/* (A TABLET UPRIGHT: the table's dialog as wide as the window less the Back's room at its left and the same at its right -- 48px each (owner, 2026-11-26: "It
+   seems that there is space for the table to get bigger").) */
+@media (min-width: 601px) and (orientation: portrait) {
+
+    .section-tile-overlay > .section-tile-dialog:has(.capability-overview-table-mode) {
+
+        width: calc(100vw - 2 * 48px) !important;
+
+        margin-inline: auto !important;
+
+    }
+
+}
