@@ -9,7 +9,7 @@ Status: **rules**, written 2026-10-29, updated 2026-11-21. How a document in `do
 | `docs/app/` | The app: contents, index of its places, glossary | plain names |
 | `docs/guide/` | The user guide: how a founder uses the app, step by step, and the overview of the app, its specifications and its future features | plain names |
 | `docs/design/foundation/` | The single description of the Foundation and its card structure (Foundation 1 and 2) | `NN-name.md` |
-| `docs/design/interface/` | What every screen shares: texts, reactions, links, components, help texts and what an "i" says, pop-ups, tooltips (16 to 24, 39) | `NN-name.md` |
+| `docs/design/interface/` | What every screen shares: texts, reactions, links, components, help texts and what an "i" says, pop-ups, tooltips, the symbols (16 to 24, 39) | `NN-name.md` |
 | `docs/design/questions/` | The first version and what it leaves for later, the plan, the specification and the guide of the questions, the questions of each tile, the register, the legal starts and the answers worked out from earlier ones (27 to 29, 33, 35 to 38, 41 to 50, 52 to 54) | `NN-name.md` |
 | `docs/design/research/` | The sources, the research, the owner's data as given, the lists and classifications, and the survey of the Beta founders (2, 3, 30 to 32, 34, 51, 55) | `NN-name.md` |
 | `docs/design/records/` | The log, what has not been done, and the generated catalogue record and structure tables (4 to 7) | `NN-name.md` |

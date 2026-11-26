@@ -1,8 +1,8 @@
-# The interface (Interface 1 to 10)
+# The interface (Interface 1 to 11)
 
-Status: **index**, updated 2026-11-23. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-11-26. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
-What every screen shares, from the shared components (1) to the smallest text: the text holders (2), the free texts (3), the Frequency options (4), the reactions (5), the text links (6), the pop-ups (7), the tooltips (8), the help texts (9) and the guide to what an "i" says (10).
+What every screen shares, from the shared components (1) to the smallest text: the text holders (2), the free texts (3), the Frequency options (4), the reactions (5), the text links (6), the pop-ups (7), the tooltips (8), the help texts (9), the guide to what an "i" says (10) and the symbols of the Capabilities and the Systems (11).
 
 The standard for these documents is [the standard of the documents](../../standard.md); the contents of all the documents are [README.md](../../README.md) and the alphabetical index is [index.md](../../index.md).
 
@@ -18,3 +18,4 @@ The standard for these documents is [the standard of the documents](../../standa
 | [08-tooltips.md](08-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-21 |
 | [09-help-texts.md](09-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-11-21 |
 | [10-help-texts-guide.md](10-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-21 |
+| [11-symbols.md](11-symbols.md) | current design | The 30 symbols of the Capabilities and the Systems: grid, sizes and their three drawings, line, corners, tints, gaps, colours and reading modes, each symbol's drawing by size, and the files the app reads. | 2026-11-26 |
