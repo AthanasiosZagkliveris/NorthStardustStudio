@@ -36,7 +36,8 @@ export function reachRank(id: string): number {
     return id === "online" ? 5 : VISION_REACH.find(entry => entry.id === id)?.rank ?? 0;
 }
 
-export const PB7_INFO = ["The kind of future your Vision describes.", "Your choices put the matching Strategic Themes first on the Strategy page."];
+// (Its second point, "Your choices put the matching Strategic Themes first on the Strategy page.", returns when the Theme order is built: Questions 21, 2.5; owner, 2026-11-26 03:11 UTC+2.)
+export const PB7_INFO = ["The kind of future your Vision describes."];
 export const PB8_INFO = ["Where your customers will be when your Vision comes true.", "The distance from today's reach, shown below, guides the growth choices on the Strategy page."];
 
 /** PB7 as saved: known ids, each once, three at most. */

@@ -157,7 +157,7 @@ Added 2026-11-12 (owner approved, D1). In the Mission & Vision dialog, in the Vi
 
 - **"i":**
   - The kind of future your Vision describes.
-  - Your choices put the matching Strategic Themes first on the Strategy page.
+  - (Its second point, "Your choices put the matching Strategic Themes first on the Strategy page.", returns when the Theme order is built, Questions 21, 2.5; taken out 2026-11-26, owner: the "i" promised what the app did not do.)
 - **Saved as:** `purpose.visionAmbitions: string[]`.
 - **Read by:** the Theme order; the Compass draft; the Business Plan's Executive Summary.
 
