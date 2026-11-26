@@ -208,7 +208,7 @@ export function rememberedOptions(context: AmbassadorContext): { id: string; lab
     ];
 }
 
-/** The choices as the tiles show them: each start where the founder set nothing (BA3 from O6, BA4 and BA6 from the first character). */
+/** The choices as the tiles show them: each start where the founder set nothing (BA4 and BA6 from the first character; BA3 has none). */
 export function ambassadorShown(saved: AmbassadorChoices, context: AmbassadorContext): Required<Omit<AmbassadorChoices, "energy" | "expression">> & { energy?: number; expression?: number } {
     const first = AMBASSADOR_CHARACTERS.find(entry => entry.id === saved.character?.[0]);
     const offered = new Set(feelingOptions(context).map(option => option.id));

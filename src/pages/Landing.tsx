@@ -15,6 +15,7 @@ import {
     UnsupportedFormatVersionError
 } from "../services/OrganizationService";
 import { PreferencesService } from "../services/PreferencesService.ts";
+import { IndexedDbStorage } from "../services/IndexedDbStorage.ts";
 import { refreshExampleOrganizations } from "../services/ExampleOrganizations.ts";
 
 import "../styles/global.css";
@@ -145,6 +146,15 @@ export default function Landing() {
 
     // Says why a chosen file could not be imported, until the next try.
     const [importError, setImportError] = useState<string | null>(null);
+
+    // Whether the browser refused to keep this site's data under storage pressure (IndexedDbStorage.keep: asked once at start).
+    // Then the founder is told to keep a copy with Export (Guide 2, 5.5 row 2; the review of 2026-11-25, C2).
+    const [storageAtRisk, setStorageAtRisk] = useState(false);
+    useEffect(() => {
+        let live = true;
+        void IndexedDbStorage.keep().then(kept => { if (live) setStorageAtRisk(!kept); });
+        return () => { live = false; };
+    }, []);
 
     /**
      * Adds an Organization from a JSON file -- one saved from another
@@ -460,6 +470,12 @@ export default function Landing() {
 
         {importError && (
             <p className="organization-hint" role="alert">{importError}</p>
+        )}
+
+        {storageAtRisk && organizations.length > 0 && (
+            <p className="organization-hint">
+                Export each Organisation to keep a copy: this browser may clear its stored data when space runs low.
+            </p>
         )}
 
         {organizations.length === 0 && (

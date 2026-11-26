@@ -198,7 +198,7 @@ Note: the doc comment on `ambassadorShown` still says "BA3 from O6", but the cod
 | 116 | Strategy > Strategic Compass > SC1 stance | start (the quadrant pair with the most lines; so / wo only at Planning and Launching) | The SWOT as shown; stage | StrategyChoices.ts:`stanceStart` | spec Strategy §4; Questions 21 (SC1) |
 | 117 | Strategy > Strategic Compass text | draft | Period, SC3, SC2, SC1, SC3's K14 phrases | StrategyChoices.ts:`compassDraft`; StrategyFoundationEditor.tsx (`AutoDraft`) | spec Strategy §4; Questions 21 §2.4 |
 | 118 | Strategy > Strategic Period > an Objective's name | draft (the first draft name no Objective uses yet) | Each Segment's Value Proposition open items; needed skills not yet covered | reading.ts:`strategyObjectiveDrafts`; StrategicPeriodEditor.tsx (`AutoDraft`) | spec Strategy §5; Questions 21 §2.6 |
-| 119 | Strategy > Strategic Themes ordered by PB7 | options, claimed but **not built** (PB7's "i" says "Your choices put the matching Strategic Themes first"; `VISION_AMBITIONS[].theme` is read by nothing) | PB7 | VisionChoices.ts:`PB7_INFO`, `VISION_AMBITIONS` | Questions 9 PB7; Questions 21 §2.5 table |
+| 119 | Strategy > Strategic Themes ordered by PB7 | options, **not built** (`VISION_AMBITIONS[].theme` is read by nothing; PB7's "i" no longer promises it, since 2026-11-26) | PB7 | VisionChoices.ts:`PB7_INFO`, `VISION_AMBITIONS` | Questions 9 PB7; Questions 21 §2.5 table |
 
 ## 6. Workbook > Review
 
@@ -230,7 +230,4 @@ None since 2026-11-25: the seven rows once listed here (1, 2, 3, 5, 79, 83, 95) 
 
 ## Code and doc disagree
 
-| # | Item |
-|---|---|
-| 119 | Themes ordered by PB7. PB7's "i" and Questions 9 and 21 describe it, but it is not built. |
-| Brand note | `ambassadorShown`'s comment says "BA3 from O6", but BA3 has no start. |
+None since 2026-11-26: PB7's "i" no longer promises the Theme order (#119, still to build: Questions 21, 2.5), and `ambassadorShown`'s comment no longer gives BA3 a start.

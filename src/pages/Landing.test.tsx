@@ -137,3 +137,25 @@ describe("Landing user name", () => {
     });
 
 });
+
+describe("Landing storage warning", () => {
+
+    it("asks for an Export when the browser will not keep the data, and says nothing when it will", async () => {
+
+        const { IndexedDbStorage } = await import("../services/IndexedDbStorage");
+        const text = "Export each Organisation to keep a copy: this browser may clear its stored data when space runs low.";
+
+        const keep = vi.spyOn(IndexedDbStorage, "keep").mockResolvedValue(false);
+        render(<MemoryRouter><Landing /></MemoryRouter>);
+        expect(await screen.findByText(text)).toBeTruthy();
+        cleanup();
+
+        keep.mockResolvedValue(true);
+        render(<MemoryRouter><Landing /></MemoryRouter>);
+        await waitFor(() => expect(keep).toHaveBeenCalledTimes(2));
+        expect(screen.queryByText(text)).toBeNull();
+        keep.mockRestore();
+
+    });
+
+});
