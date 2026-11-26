@@ -172,19 +172,16 @@
 
     transition: transform .15s ease;
 
-    background: currentColor;
-
-    -webkit-mask: var(--fallback-symbol) center / contain no-repeat;
-    mask: var(--fallback-symbol) center / contain no-repeat;
+    /* (Its colour and drawing: the shared symbol rule, colors.css, .symbol-mark.) */
 
 }
 
-/* (A SYMBOL GROWS 25% UNDER THE POINTER, OUTWARDS (owner, 2026-11-24 01:59 UTC+2; 10:37 UTC+2: "Make the icons to scale up to the opposite direction"): the left
+/* (A SYMBOL GROWS 10% UNDER THE POINTER, OUTWARDS (owner, 2026-11-24 01:59 UTC+2; 10% since 2026-11-26; 10:37 UTC+2: "Make the icons to scale up to the opposite direction"): the left
    column from its right edge, the right from its left, the middle from its centre; the top row from its bottom, the bottom from its top.) */
 .section-tile-list[data-symbols] > li:hover .section-tile-list-fallback,
 .section-tile-list[data-symbols] .section-tile-link:focus-visible .section-tile-list-fallback {
 
-    transform: scale(1.25);
+    transform: scale(1.1);
 
 }
 
@@ -859,6 +856,9 @@
     width: var(--title-symbol-size, 44px);
     height: var(--title-symbol-size, 44px);
 
+    /* (In its card's hue: the shared symbol rule, colors.css, .symbol-mark.) */
+    mask: var(--title-symbol) center / contain no-repeat;
+
 }
 
 /* (With its title: the words at the top, as on every tile, in the small size and wrapping whole words; the symbol centred in the room under them.) */
@@ -920,7 +920,7 @@
    an empty category's name is; under the pointer it grows as every symbol does.) */
 .section-tile-list[data-symbols] > li.section-tile-list-empty .section-tile-list-fallback {
 
-    color: var(--text-faint);
+    --symbol-line-ink: var(--text-faint);
 
     opacity: 0.55;
 

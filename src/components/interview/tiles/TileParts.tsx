@@ -9,13 +9,22 @@ import { incompleteTitle, TILE_DIVIDER, drawnTitle, plainTitle, brokenLines, bol
  * What a tile or a box shows: its title, centred, and -- while the section holds nothing yet --
  * a small "+" under the title (decorative; the button is described as "No items yet").
  */
+/**
+ * A SYMBOL IN ITS CARD'S HUE (owner, 2026-11-26 21:32 UTC+2: "Make a rule, and fix it on the root of all the icons, that they take the hue of their cards"; Interface 11,
+ * section 8.1): every symbol on a tile -- a Capability's, a System's, a Resource's -- is drawn as a mask of its file over its card's ink (colors.css, .symbol-mark), never
+ * as a picture in a colour of its own. Its words are said by the title or the line beside it, so the symbol itself is hidden from assistive technology.
+ */
+export function SymbolMark({ src, className }: { src: string; className: string }) {
+    return <span className={"symbol-mark " + className} style={{ "--symbol": "url(\"" + src + "\")" } as React.CSSProperties} aria-hidden="true" />;
+}
+
 export function TileFace({ title, empty, items, glyph = true, alerts, marks, icon, mark, symbol }: { title: string; empty?: boolean; items?: readonly string[]; glyph?: boolean; alerts?: readonly (readonly string[] | undefined)[]; marks?: readonly (ItemMark | undefined)[]; /** A symbol before the title, on its line. */ icon?: string; /** A symbol under the title's words, above its rule. */ mark?: string; /** A symbol that stands for the title where a dialog's titles do not fit (TileTitle, data-title-symbols): a Resource category's. */ symbol?: string }) {
     return (
         <>
             {/* (A title with a forced break is drawn on its lines: the one title that is allowed two.) */}
             {title.includes("\n")
                 ? <TileTitle className="section-tile-title-broken">{brokenLines(title).map((part, at) => <Fragment key={at}>{at > 0 && <br />}{drawnTitle(part)}</Fragment>)}</TileTitle>
-                : <TileTitle>{icon && <img className="section-tile-title-icon" src={icon} alt="" />}{mark ? <span className="section-tile-title-words">{drawnTitle(plainTitle(title))}</span> : symbol ? <span className="section-tile-title-named">{drawnTitle(plainTitle(title))}</span> : drawnTitle(plainTitle(title))}{mark && <img className="section-tile-title-mark" src={mark} alt="" />}{symbol && <img className="section-tile-title-symbol" src={symbol} alt="" />}</TileTitle>}
+                : <TileTitle>{icon && <SymbolMark src={icon} className="section-tile-title-icon" />}{mark ? <span className="section-tile-title-words">{drawnTitle(plainTitle(title))}</span> : symbol ? <span className="section-tile-title-named">{drawnTitle(plainTitle(title))}</span> : drawnTitle(plainTitle(title))}{mark && <SymbolMark src={mark} className="section-tile-title-mark" />}{symbol && <SymbolMark src={symbol} className="section-tile-title-symbol" />}</TileTitle>}
             {empty && (
                 <>
                     {/* (A tile that has the "+" box does not draw this glyph as well.) */}
@@ -779,7 +788,7 @@ export function TileList({
                 const symbol = marks?.[position]?.icon;
                 const status = marks?.[position]?.status;
                 const fallback = marks?.[position]?.symbol;
-                const drawn = <>{fallback && <span className="section-tile-list-fallback" style={{ "--fallback-symbol": "url(\"" + fallback + "\")" } as React.CSSProperties} aria-hidden="true" />}{status && <span className="status-shape section-tile-list-shape" data-status={status} aria-hidden="true" />}{symbol && <img className="section-tile-list-symbol" src={symbol} alt="" />}{brokenLines(item).map((part, at, parts) => <Fragment key={at}><span className="section-tile-list-line">{boldWords(part)}</span>{at < parts.length - 1 && " "}</Fragment>)}</>;
+                const drawn = <>{fallback && <SymbolMark src={fallback} className="section-tile-list-fallback" />}{status && <span className="status-shape section-tile-list-shape" data-status={status} aria-hidden="true" />}{symbol && <SymbolMark src={symbol} className="section-tile-list-symbol" />}{brokenLines(item).map((part, at, parts) => <Fragment key={at}><span className="section-tile-list-line">{boldWords(part)}</span>{at < parts.length - 1 && " "}</Fragment>)}</>;
                 return (
                     <li
                         key={position}
