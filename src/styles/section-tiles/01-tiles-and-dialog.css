@@ -818,28 +818,91 @@
 }
 
 /* (Three across as the dialog's grid sets them (owner, 2026-11-25: "keep 3 tiles per row"; it replaces "place 2 columns" of 2026-11-24).) */
-.section-tile-dialog[data-title-symbols] .section-tile-title:has(> .section-tile-title-symbol) > .section-tile-title-named {
+
+/* (A SYMBOL WITH ITS TITLE, OR ALONE (owner, 2026-11-26 16:02 UTC+2: "If a tile has: An add button, icon, and title, then the title should be above the icon. The
+   icon should be centered and have a side (horizontal gap 12px with the add button. If there is only an Icon and an add button, then place the icon in the middle
+   of the tile"): TileTitle sets the layout (data-symbol-layout) and the symbol's size (--title-symbol-size: 40% of the tile, never under 44px, 12px clear of the
+   "+"). Its title stands 12px inside the tile, out of the tile's title lift; the title's rule is not drawn ("Remove the underlines under the icons").) */
+.section-tile-dialog[data-symbol-layout] .section-tile-slot > .section-tile > .section-tile-title:has(> .section-tile-title-symbol) {
+
+    position: absolute;
+    inset: var(--gap-12);
+
+    margin: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    max-width: none;
+
+    padding-bottom: 0;
+
+    border-bottom-color: transparent;
+
+    white-space: normal;
+
+    overflow: visible;
+
+    translate: none;
+
+}
+
+.section-tile-dialog[data-symbol-layout] .section-tile-title > .section-tile-title-symbol {
+
+    display: block;
+
+    flex: none;
+
+    width: var(--title-symbol-size, 44px);
+    height: var(--title-symbol-size, 44px);
+
+}
+
+/* (With its title: the words at the top, as on every tile, in the small size and wrapping whole words; the symbol centred in the room under them.) */
+/* (Every title takes two lines' room, its words at its foot, growing upward as every tile's title does: the symbols stand at one height across the dialog.) */
+.section-tile-dialog[data-symbol-layout="named"] .section-tile-title > .section-tile-title-named {
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    min-height: 2.5em;
+
+    margin-bottom: var(--gap-12);
+
+    font-size: var(--font-small);
+    line-height: 1.25;
+    text-align: center;
+
+    /* (The weight's own tracking alone (--bold-tracking): "INFRASTRUCTURE" then fits a tablet's tile whole.) */
+    letter-spacing: var(--bold-tracking);
+
+    overflow-wrap: normal;
+    word-break: keep-all;
+
+}
+
+.section-tile-dialog[data-symbol-layout="named"] .section-tile-title > .section-tile-title-symbol {
+
+    margin-block: auto;
+
+}
+
+/* (Alone: its name in the tooltip; the symbol in the middle across, and down in the room above the "+" (--title-symbol-room), 12px clear of it.) */
+.section-tile-dialog[data-symbol-layout="alone"] .section-tile-title:has(> .section-tile-title-symbol) > .section-tile-title-named {
 
     display: none;
 
 }
 
-/* (A symbol has no rule under it (owner, 2026-11-26: "Remove the underlines under the icons"): the title's rule is not drawn, its room kept, so the tiles keep their
-   places.) */
-.section-tile-dialog[data-title-symbols] .section-tile-title:has(> .section-tile-title-symbol) {
+.section-tile-dialog[data-symbol-layout="alone"] .section-tile-slot > .section-tile > .section-tile-title:has(> .section-tile-title-symbol) {
 
-    border-bottom-color: transparent;
+    bottom: auto;
 
-}
+    height: calc(var(--title-symbol-room, 44px) - var(--gap-12));
 
-.section-tile-dialog[data-title-symbols] .section-tile-title > .section-tile-title-symbol {
-
-    display: block;
-
-    width: 32px;
-    height: 32px;
-
-    margin: 0 auto;
+    justify-content: center;
 
 }
 

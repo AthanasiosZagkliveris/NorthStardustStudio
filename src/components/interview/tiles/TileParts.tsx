@@ -126,6 +126,10 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             tile.closest<HTMLElement>(".section-tile-slot")?.removeAttribute("data-title-small");
             const fitWidth = () => {
             node.style.width = "";
+            // (A dialog's title over its symbol stands across the tile, its words centred: never fitted to its widest line.)
+            if (node.querySelector(":scope > .section-tile-title-symbol") && tile.closest(".section-tile-dialog[data-symbol-layout]")) {
+                return;
+            }
             const range = document.createRange();
             // (A title with a symbol under it measures its words alone: TileFace's `mark`.)
             range.selectNodeContents(node.querySelector(".section-tile-title-words") ?? node);
@@ -253,7 +257,36 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
                     dialog.toggleAttribute("data-title-symbols", symbols);
                     window.requestAnimationFrame(() => window.dispatchEvent(new Event("tile-titles-unified")));
                 }
+                // (A SYMBOL WITH ITS TITLE, OR ALONE (owner, 2026-11-26 16:02 UTC+2, on the dialog tile prototypes: "If a tile has: An add button, icon, and title,
+                // then the title should be above the icon. The icon should be centered and have a side (horizontal gap 12px with the add button. If there is only an
+                // Icon and an add button, then place the icon in the middle of the tile"): the symbol centred across, at its proper size (40% of the tile, never under
+                // the add button's 44px, as the Systems' symbols), and 12px clear of the "+" beside it; where a tile leaves it under 44px, the symbol stands alone, its
+                // name in the tooltip.)
+                let layout: "named" | "alone" | null = null;
                 if (symbols) {
+                    const plus = tile.parentElement?.querySelector<HTMLElement>(":scope > .section-tile-plus");
+                    const side = tile.getBoundingClientRect().width;
+                    if (plus && side > 0) {
+                        const outer = tile.getBoundingClientRect();
+                        const box = plus.getBoundingClientRect();
+                        const proper = Math.max(44, side * 0.4);
+                        const across = side - 2 * (outer.right - box.left + 12);
+                        layout = across >= 44 ? "named" : "alone";
+                        // (Alone: in the middle across, and down in the room above the "+", 12px clear of it: the tile's true middle would meet the "+".)
+                        const above = box.top - outer.top - 2 * 12;
+                        const size = Math.floor(layout === "named" ? Math.min(proper, across) : Math.min(proper, above));
+                        dialog.style.setProperty("--title-symbol-size", String(size) + "px");
+                        dialog.style.setProperty("--title-symbol-room", String(Math.floor(box.top - outer.top - 12)) + "px");
+                    }
+                }
+                if (dialog.getAttribute("data-symbol-layout") !== layout) {
+                    if (layout) {
+                        dialog.setAttribute("data-symbol-layout", layout);
+                    } else {
+                        dialog.removeAttribute("data-symbol-layout");
+                    }
+                }
+                if (layout === "alone") {
                     tile.setAttribute("data-tip", named.textContent ?? "");
                     tile.setAttribute("data-tip-named", "");
                 } else {
