@@ -296,6 +296,16 @@
    and its 24px symbol); the word stays in the button's name.) */
 @media (max-width: 600px) {
 
+    /* (THE ORGANISATIONS AT THE TOP OF A PHONE (owner, 2026-11-26 18:12 UTC+2: "Work on the mobile version ... This is how the other apps look like?"): a phone
+       app lists its items from the top, under its bar, not in the middle of an empty screen; 24px under the header.) */
+    .landing {
+
+        justify-content: flex-start;
+
+        padding-top: calc(var(--app-header-height, 64px) + var(--gap-24, 24px));
+
+    }
+
     .organization-actions {
 
         display: flex;
