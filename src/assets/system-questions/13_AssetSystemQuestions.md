@@ -1,6 +1,6 @@
 System Number: 13
 System Name: Asset System
-Capability: Manage Information
+Capability: Information
 System Scope: Defines how reusable organizational assets are organized, maintained, protected, and made accessible.
 
 ## 1. Assets

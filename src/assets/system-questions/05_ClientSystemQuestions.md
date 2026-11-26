@@ -1,6 +1,6 @@
 System Number: 5
 System Name: Client System
-Capability: Deliver Value
+Capability: Value Delivery
 System Scope: Defines who the organization serves, what they need, and how lasting customer relationships are developed.
 
 ## 1. Clients

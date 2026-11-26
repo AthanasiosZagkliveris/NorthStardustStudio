@@ -1,6 +1,6 @@
 System Number: 24
 System Name: Improvement System
-Capability: Measure & Improve
+Capability: Performance
 System Scope: Defines how organizational improvements are identified, prioritized, implemented, evaluated, and sustained.
 
 ## 1. Improvement Sources

@@ -115,7 +115,7 @@ export interface AnswerRendererProps {
      * one Table per Section) becomes a row-picker in addition
      * to an editable table -- each row is clickable/highlighted
      * per `isSelected`, and a selection bullet is rendered under
-     * the "#" column. Used by the Product Development System's
+     * the "#" column. Used by the Product System's
      * Product Register step so the user can pick which Product
      * to work on directly from the table, instead of a separate
      * picker list underneath it.

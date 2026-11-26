@@ -1,6 +1,6 @@
 System Number: 10
 System Name: Documentation System
-Capability: Manage Information
+Capability: Information
 System Scope: Defines how organizational documentation is created, structured, maintained, and governed.
 
 ## 1. Folder Structure

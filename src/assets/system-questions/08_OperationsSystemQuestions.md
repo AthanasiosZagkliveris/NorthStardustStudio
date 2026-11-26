@@ -1,6 +1,6 @@
 System Number: 8
 System Name: Operations System
-Capability: Deliver Value
+Capability: Value Delivery
 System Scope: Defines how everyday activities are organized, executed, and improved to deliver consistent operational performance.
 
 ## 1. Handbook

@@ -405,7 +405,7 @@
 }
 
 /*
-   Row-selection support (Product Development System's Product
+   Row-selection support (Product System's Product
    Register acting as a Product picker -- see DynamicTable's
    `rowSelection` prop). Deliberately background-color based
    rather than transform:scale(), since scaling a <tr> risks

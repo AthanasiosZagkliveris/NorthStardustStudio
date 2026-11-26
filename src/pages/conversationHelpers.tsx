@@ -87,7 +87,7 @@ export type ExportStep = "none" | "warning" | "options";
 export type CapabilityChoice = "original" | "other";
 
 /**
- * The Product Development System's Export Options offer a choice
+ * The Product System's Export Options offer a choice
  * (item's follow-up request) between exporting just the currently
  * selected Product's own content, or the whole System file covering
  * every Product -- irrelevant to every other System, which only
@@ -128,7 +128,7 @@ export const OPERATIONS_OPERATIONAL_LOG_SECTION = 3;
 export const OPERATIONS_ROLES_SECTION = 4;
 
 /**
- * The Product Development System's Product Register is kept in the
+ * The Product System's Product Register is kept in the
  * Organization's shared product list (OrganizationService.products),
  * so the list outlives any one System's answers. The Business System
  * had a Product Register sharing the same list until its nine
@@ -301,7 +301,7 @@ export function mergeSharedAudienceIntoSocialMediaRows(sharedRows: unknown, loca
 }
 
 /**
- * The Product Development System's Sections 2-7 (Product
+ * The Product System's Sections 2-7 (Product
  * Validation through Product Review) are answered once PER
  * Product, not once per System (see OrganizationService.
  * productAnswers) -- exporting this System needs to include
@@ -313,7 +313,7 @@ export const PRODUCT_DEVELOPMENT_PER_PRODUCT_SECTIONS = new Set([2, 3, 4, 5, 6, 
 /**
  * Pulls every non-blank "Product" cell out of the shared
  * Product Register's rows, de-duplicated -- used to populate
- * the Product Development System's product picker (item 7).
+ * the Product System's product picker (item 7).
  * Rows are matched by their Product name text rather than a
  * synthetic row id, the same way `resolveDynamicOptions`
  * below matches Sections/Cards by title text.
@@ -528,7 +528,7 @@ export function groupValidationIssues(
 }
 
 /**
- * Validates a Product Development System Interview Session scoped
+ * Validates a Product System Interview Session scoped
  * to a single, currently-selected Product -- rather than
  * `reviewManager.validate` (InterviewValidator), which checks the
  * shared Product Register (Section 1) as a WHOLE Table (every row,

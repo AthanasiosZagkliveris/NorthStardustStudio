@@ -568,8 +568,9 @@
        2026-11-24 10:12 UTC+2: "Do not forget the margin is 12 px" -- the Resources dialog ran past the window). */
     /* (AS LONG AS ITS TILES (owner, 2026-11-26 18:01 UTC+2: "I meant that it should not be cut, but continue after the screen's end"; "All the cards have 12 px
        margin"): it ends 12px under its last tile -- its padding --, and one longer than the window runs on past its foot, the layer scrolling it, never cut. It
-       replaces the reading of 2026-11-25's "full length" as down to the footer.) */
-    min-height: 0;
+       replaces the reading of 2026-11-25's "full length" as down to the footer.) AT THE LEAST ITS CARD'S AREA (owner, 2026-11-26 20:38 UTC+2: "There is a minimum
+       size for the dialogue cards. They should cover the cards behind them"): never shorter than the frame it opens over (--section-dialog-height, dialogFrame). */
+    min-height: var(--section-dialog-height, 0px);
     flex-shrink: 0;
 
     padding: var(--card-padding);

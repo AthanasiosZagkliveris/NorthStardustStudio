@@ -31,7 +31,7 @@ export interface Metadata {
      * recommendations and capability mapping.
      *
      * Example:
-     * Deliver Value
+     * Value Delivery
      */
     capability: string;
 

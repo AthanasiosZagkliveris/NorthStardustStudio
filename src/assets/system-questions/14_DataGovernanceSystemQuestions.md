@@ -1,6 +1,6 @@
 System Number: 14
-System Name: Data Governance System
-Capability: Manage Information
+System Name: Data System
+Capability: Information
 System Scope: Defines how organizational data is managed, protected, governed, and maintained throughout its lifecycle.
 
 ## 1. Data Inventory

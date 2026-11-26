@@ -1,6 +1,6 @@
 System Number: 22
-System Name: Metrics & Reporting System
-Capability: Measure & Improve
+System Name: Analytics System
+Capability: Performance
 System Scope: Defines how organizational performance is measured, monitored, analyzed, and reported.
 
 ## 1. Performance Areas

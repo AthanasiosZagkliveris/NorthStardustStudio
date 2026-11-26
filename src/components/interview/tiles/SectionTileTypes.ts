@@ -65,7 +65,7 @@ export interface SectionTile {
     /** A symbol under the title's words, the size of the app's logo (a Capability's: owner, 2026-11-22 21:39 UTC+2). */
     titleMark?: string;
 
-    /** The tile's own colour where a hue alone cannot tell two tiles apart (the Capabilities: Foundation's midnight and Manage the Organization's blue share a hue). */
+    /** The tile's own colour where a hue alone cannot tell two tiles apart (the Capabilities: Foundation's midnight and Organisation's blue share a hue). */
     colour?: string;
 
     /** What a link calls this tile (see jumpTo.ts): `data-anchor`, space separated. */

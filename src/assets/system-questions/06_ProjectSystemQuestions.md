@@ -1,6 +1,6 @@
 System Number: 6
 System Name: Project System
-Capability: Deliver Value
+Capability: Value Delivery
 System Scope: Defines how projects are planned, coordinated, delivered, and reviewed to achieve successful outcomes.
 
 ## 1. Project Overview

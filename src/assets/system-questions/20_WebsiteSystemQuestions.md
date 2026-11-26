@@ -1,6 +1,6 @@
 System Number: 20
 System Name: Website System
-Capability: Communicate
+Capability: Communication
 System Scope: Defines how the organization's website communicates information, supports its objectives, and serves its audiences.
 
 ## 1. Website Specification

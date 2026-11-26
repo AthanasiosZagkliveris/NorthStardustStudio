@@ -451,7 +451,7 @@ export default function SystemSelection() {
                 face={(
                     <>
                         {/* (Its number and name, whole, on as many lines as it takes; "System" is the dialog's word for all of them, so a tile says the name
-                            alone -- "07. Product Development" -- and its accessible name says it whole. ITS ICON UNDER THE NAME AS A CAPABILITY'S IS (owner,
+                            alone -- "07. Product" -- and its accessible name says it whole. ITS ICON UNDER THE NAME AS A CAPABILITY'S IS (owner,
                             2026-11-23 15:32 UTC+2: "Place each system's icon, to look like the capabilities (size, colour and position)"): the logo's size, in its
                             Capability's colour (the icon's own).) */}
                         <TileTitle className="section-tile-title-broken">

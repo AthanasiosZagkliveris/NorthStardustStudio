@@ -1,6 +1,6 @@
 System Number: 15
 System Name: Governance System
-Capability: Manage the Organization
+Capability: Organisation
 System Scope: Defines how authority, decision-making, policies, accountability, and organizational oversight are established.
 
 ## 1. Governance Framework

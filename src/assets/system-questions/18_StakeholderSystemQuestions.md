@@ -1,6 +1,6 @@
 System Number: 18
 System Name: Stakeholder System
-Capability: Manage the Organization
+Capability: Organisation
 System Scope: Defines how relationships with stakeholders are identified, managed, and strengthened over time.
 
 ## 1. Stakeholder Categories

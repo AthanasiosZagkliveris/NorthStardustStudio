@@ -1,6 +1,6 @@
 System Number: 17
 System Name: Finance System
-Capability: Manage the Organization
+Capability: Organisation
 System Scope: Defines how financial resources are planned, allocated, monitored, and managed responsibly.
 
 ## 1. Financial Model

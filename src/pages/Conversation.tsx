@@ -310,14 +310,14 @@ export default function Conversation() {
 
     }, [session, openingField]);
 
-    // The Product Development System's Product Register is kept in
+    // The Product System's Product Register is kept in
     // the Organization's shared product list (see
     // SHARED_PRODUCT_REGISTER_BINDINGS above). Landing on it pulls
     // in the latest shared rows before anything renders, rather
     // than showing a possibly stale copy from this Session's own
     // last save.
     //
-    // Separately, the Product Development System's Sections 2-7
+    // Separately, the Product System's Sections 2-7
     // (Product Validation through Product Review) each have their
     // OWN answers per Product, not one shared answer for whichever
     // Product happened to be selected last -- so landing on any of
@@ -1140,7 +1140,7 @@ export default function Conversation() {
         ? pageNumberOf(currentSection.number) + ". " + resolvedSectionTitle
         : resolvedSectionTitle;
 
-    // Product Development System product picker (item 7): Section
+    // Product System product picker (item 7): Section
     // 1 (Product Register) requires picking one of its own rows
     // before "Next" unlocks; Sections 2-7 then show that Product's
     // name under their own title (see InterviewSection's subtitle).

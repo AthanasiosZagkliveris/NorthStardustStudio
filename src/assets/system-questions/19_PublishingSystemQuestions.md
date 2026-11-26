@@ -1,6 +1,6 @@
 System Number: 19
 System Name: Publishing System
-Capability: Communicate
+Capability: Communication
 System Scope: Defines how organizational information is prepared, published, maintained, and communicated consistently.
 
 ## 1. Content Strategy

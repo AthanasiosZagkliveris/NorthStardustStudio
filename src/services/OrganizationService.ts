@@ -109,7 +109,7 @@ export interface OrganizationDocument {
      */
     retiredBusinessResponses?: unknown[];
     /**
-     * The Product Development System's Sections 2-7 (Product
+     * The Product System's Sections 2-7 (Product
      * Validation through Product Review) are answered separately
      * for EACH Product in the shared register, not once per
      * Organization -- keyed first by the Product's name (see
@@ -599,7 +599,7 @@ export class OrganizationService {
 
     }
 
-    // -- Per-Product Section answers (Product Development System, Sections 2-7) --
+    // -- Per-Product Section answers (Product System, Sections 2-7) --
 
     static getProductSectionResponse(
         organizationId: string,
