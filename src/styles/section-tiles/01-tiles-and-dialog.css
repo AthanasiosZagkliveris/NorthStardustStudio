@@ -185,18 +185,90 @@
 
 }
 
-.section-tile-list[data-symbols] > li:nth-child(3n + 1) .section-tile-list-fallback { transform-origin: right center; }
-.section-tile-list[data-symbols] > li:nth-child(3n) .section-tile-list-fallback { transform-origin: left center; }
-.section-tile-list[data-symbols] > li:nth-child(-n + 3) .section-tile-list-fallback { transform-origin: center bottom; }
-.section-tile-list[data-symbols] > li:nth-child(1) .section-tile-list-fallback { transform-origin: right bottom; }
-.section-tile-list[data-symbols] > li:nth-child(3) .section-tile-list-fallback { transform-origin: left bottom; }
-.section-tile-list[data-symbols] > li:nth-child(n + 7) .section-tile-list-fallback { transform-origin: center top; }
-.section-tile-list[data-symbols] > li:nth-child(7) .section-tile-list-fallback { transform-origin: right top; }
-.section-tile-list[data-symbols] > li:nth-child(9) .section-tile-list-fallback { transform-origin: left top; }
+/* (Where each grows from: a point of its own box, given across by its column and down by its row; its glow grows from the same point.) */
+.section-tile-list[data-symbols] > li {
+
+    --symbol-origin-x: calc(var(--symbol-size) / 2);
+    --symbol-origin-y: calc(var(--symbol-size) / 2);
+
+}
+
+.section-tile-list[data-symbols] > li:nth-child(3n + 1) { --symbol-origin-x: var(--symbol-size); }
+.section-tile-list[data-symbols] > li:nth-child(3n) { --symbol-origin-x: 0px; }
+.section-tile-list[data-symbols] > li:nth-child(-n + 3) { --symbol-origin-y: var(--symbol-size); }
+.section-tile-list[data-symbols] > li:nth-child(n + 7) { --symbol-origin-y: 0px; }
+
+.section-tile-list[data-symbols] .section-tile-list-fallback {
+
+    transform-origin: var(--symbol-origin-x) var(--symbol-origin-y);
+
+}
+
+/* (A SYMBOL GLOWS UNDER THE POINTER, OUTWARDS ONLY (owner, 2026-11-27 00:31 UTC+2: "add the glowing effect only. not the colour change"; 2026-11-26 23:56: "if it
+   was glowing outwards only, the tool's inner part tint should have stay the same to its idle state"): a solid copy of its outline in its ink glows, and the outline
+   is cut out of the glow, so the symbol keeps its colours and only the room round it glows; it grows with the symbol, from the same point. TileParts, SymbolGlow.) */
+.section-tile-list[data-symbols] .section-tile-link {
+
+    position: relative;
+
+}
+
+.section-tile-list[data-symbols] .section-tile-list-glow {
+
+    /* (The layer is the symbol's own size: the wire is drawn past it by the filter, which takes no room, so no list grows or scrolls for it.) */
+    --glow-room: 0px;
+
+    /* (One glow colour for the card: its own ink, for a faint or a teal symbol too -- owner, 2026-11-27 00:40 UTC+2: "try to use the same glow colour per card (no grey)".) */
+    --symbol-line-ink: initial;
+
+    position: absolute;
+    top: calc(-1 * var(--glow-room));
+    left: calc(-1 * var(--glow-room));
+
+    width: calc(var(--symbol-size) + 2 * var(--glow-room));
+    height: calc(var(--symbol-size) + 2 * var(--glow-room));
+
+    background: none;
+
+    -webkit-mask: none;
+    mask: none;
+
+    /* (A WIRE, NOT A GLOW (owner, 2026-11-27 00:57 UTC+2: "instead of glow, do this. Around eash icon's silhouette let 2 px gap and after that gap create a wire 2
+       pc thick"): the solid outline grown 4px less the outline grown 2px -- SymbolRingFilter, App.tsx --, in the card's ink.) */
+    filter: url(#symbol-ring);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transform-origin: calc(var(--symbol-origin-x) + var(--glow-room)) calc(var(--symbol-origin-y) + var(--glow-room));
+    transition: transform .15s ease, opacity .15s ease;
+
+}
+
+.section-tile-list[data-symbols] .section-tile-list-glow > i {
+
+    position: absolute;
+    inset: var(--glow-room);
+
+    background: var(--symbol-ink);
+
+    -webkit-mask: var(--outline) center / contain no-repeat;
+    mask: var(--outline) center / contain no-repeat;
+
+}
+
+.section-tile-list[data-symbols] > li:hover .section-tile-list-glow,
+.section-tile-list[data-symbols] .section-tile-link:focus-visible .section-tile-list-glow {
+
+    opacity: 1;
+    transform: scale(1.1);
+
+}
 
 @media (prefers-reduced-motion: reduce) {
 
-    .section-tile-list[data-symbols] .section-tile-list-fallback {
+    .section-tile-list[data-symbols] .section-tile-list-fallback,
+    .section-tile-list[data-symbols] .section-tile-list-glow {
 
         transition: none;
 
@@ -925,6 +997,7 @@
     opacity: 0.55;
 
 }
+
 
 /* (WHERE THE CHAPTERS STAND SIDE BY SIDE, A DIALOG IS NO TALLER THAN ITS ROOM (owner, 2026-11-24 10:12 UTC+2: "Do not forget the margin is 12 px"): it ends 12px above
    the footer and its body scrolls; where the chapters stack, the page scrolls and the dialog keeps its tiles' height.) */

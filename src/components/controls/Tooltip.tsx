@@ -20,8 +20,36 @@ export function aboveTipPosition(at: DOMRect, size: DOMRect, alignRight = false)
  * (the icons', the bullets', the action symbols', the titles'). (Until 2026-11-21 a tip that would cover a control moved under it or beside it, so tips stood in
  * three places; one tip shows at a time, and it goes when the pointer leaves.)
  */
-export function tipPlace(box: DOMRect, size: DOMRect, _own: HTMLElement, alignRight = false): { left: number; top: number } {
-    return aboveTipPosition(box, size, alignRight);
+export function tipPlace(box: DOMRect, size: DOMRect, own: HTMLElement, alignRight = false): { left: number; top: number } {
+    return aboveTipPosition(grownBox(box, own), size, alignRight);
+}
+
+/**
+ * A SYMBOL'S TIP STANDS WHERE THE GROWN SYMBOL WILL BE (owner, 2026-11-26 23:04 and 23:10 UTC+2, "Reduce the icons scale over hovering to 10%"; "because the icons over hovering scale up, you must calculate that space,
+ * and adjust the tooltips position ahead. Tooltips should appear on specific position, not to change after the icon's scale"): a Resources tile's symbol grows 10%
+ * under the pointer from the corner its place in the 3 x 3 sets (01-tiles-and-dialog.css: the top row from its foot, the left column from its right edge ...), so
+ * the box its tip stands above is the grown one, worked out before it grows: the tip opens in its one place, 6px over the grown top, at the grown left edge, clear
+ * of the pointer at the symbol's middle.
+ */
+/** How much a tile's symbol grows under the pointer: 10% (workspace.css). */
+const SYMBOL_GROWTH = 0.1;
+
+function grownBox(box: DOMRect, own: HTMLElement): DOMRect {
+    const item = own.closest<HTMLElement>(".section-tile-list[data-symbols] > li");
+    if (!item?.parentElement) {
+        return box;
+    }
+    // (Measured from the symbol's place at rest -- its row item, which never grows --, whether the symbol has grown already or not.)
+    box = item.getBoundingClientRect();
+    const index = Array.from(item.parentElement.children).indexOf(item);
+    const column = index % 3;
+    const row = Math.floor(index / 3);
+    const extraX = box.width * SYMBOL_GROWTH;
+    const extraY = box.height * SYMBOL_GROWTH;
+    // (Growing from its right edge (left column), its middle (middle column), its left edge (right column); from its foot (top row), its middle, its top (bottom row).)
+    const left = box.left - (column === 0 ? extraX : column === 1 ? extraX / 2 : 0);
+    const top = box.top - (row === 0 ? extraY : row === 1 ? extraY / 2 : 0);
+    return new DOMRect(left, top, box.width + extraX, box.height + extraY);
 }
 
 /** ONE TOOLTIP AT A TIME, app-wide (owner, 2026-11-14 12:40: two "Linked to 2 resources" tips showed at once): the one opened last closes the one before. */

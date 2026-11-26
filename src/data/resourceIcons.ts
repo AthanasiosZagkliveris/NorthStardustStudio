@@ -25,3 +25,29 @@ export function getResourceIcon(category: string): string | undefined {
     const found = Object.entries(iconFiles).find(([path]) => path.endsWith("/" + name + ".svg"));
     return found?.[1];
 }
+
+/**
+ * A SYMBOL'S SOLID OUTLINE, for its glow (owner, 2026-11-27 00:31 UTC+2: "add the glowing effect only"; 2026-11-26 23:56: the glow outwards only, the symbol's inside
+ * as at rest): the same drawing with its light fills made full, so the glow can be cut out wherever the symbol stands. Keyed by the symbol's own address.
+ */
+const iconTexts = import.meta.glob(
+    "../assets/resource-icons/*.svg",
+    {
+        eager: true,
+        query: "?raw",
+        import: "default"
+    }
+) as Record<string, string>;
+
+/*
+ * (Every shape is filled solid, its inside too -- a frame's, a head's circle -- so the glow cut round it lights only the outer side of each line: owner, 2026-11-27
+ * 00:46 UTC+2, "The glow should be along the lines, glowing outwards only! I cycle (head) should glow only outwards". The drawings' own masks are left as they are.)
+ */
+const SOLID = "<style>:is(path, circle, rect, ellipse, polygon):not(mask *) { fill: #000 !important; fill-opacity: 1 !important; }</style>";
+
+const outlines = new Map(Object.entries(iconFiles).map(([path, src]) => [src, "data:image/svg+xml," + encodeURIComponent((iconTexts[path] ?? "").replace(/<svg\b[^>]*>/, open => open + SOLID))]));
+
+/** The solid outline of a Resource symbol, from its address (getResourceIcon's), or undefined for any other picture. */
+export function resourceIconOutline(src: string): string | undefined {
+    return outlines.get(src);
+}
