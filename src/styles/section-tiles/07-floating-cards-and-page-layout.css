@@ -1798,6 +1798,39 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
     }
 
+    /* (A DIVIDING LINE BETWEEN CHAPTERS (owner, 2026-11-26 20:26 UTC+2, his drawing: "Dividing line"): each chapter after the first opens with a hairline from
+       the window's side to side, in the ink's 40%, the colour of a tile title's rule.) */
+    .conversation-card .business-foundation-input:has(.section-tiles-quad) ~ .business-foundation-input:has(.section-tiles-quad)::before,
+    .conversation-card .segment-chapter ~ .segment-chapter::before {
+
+        border-top: 1px solid color-mix(in srgb, var(--text-strong, currentColor) 40%, transparent);
+
+    }
+
+    /* (A PHONE SHOWS ONE LAYER AT A TIME (owner, 2026-11-26 18:12 UTC+2: "Work on the mobile version ... This is how the other apps look like?"): a phone app
+       opens a card over the screen alone, as Material's full-screen dialogs; the dialog under a floating card is not drawn, so its title and tiles no longer show
+       round the card and under its name. Closing the card shows the dialog again.) */
+    body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .section-tile-dialog {
+
+        visibility: hidden;
+
+    }
+
+    /* (And the page under them: a dialog's layer takes the page's own ground instead of its shade, so a dialog or a card stands on a plain screen under the
+       header.) */
+    .section-tile-overlay:not(.floating-overlay) {
+
+        background: var(--bg-page);
+
+    }
+
+    /* (The chapter's shade has nothing to shade there: it keeps taking the press that closes the card, unseen.) */
+    .floating-chapter-shade {
+
+        background: transparent;
+
+    }
+
     /* (The colour runs out to the window's sides and stops there: a phone's browser widens its page to whatever stands past its edge, and the page then opened
        at 1217px on a 390px phone, drawn at a third of its size -- found 2026-11-26 with a phone's own viewport. The page clips it across, never down.) */
     .conversation-content {

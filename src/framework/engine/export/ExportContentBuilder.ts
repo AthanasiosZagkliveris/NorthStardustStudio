@@ -177,7 +177,7 @@ export function buildExportContent(
 /**
  * Builds export content for a System whose Sections are answered
  * once PER PRODUCT rather than once per System (currently only the
- * Product Development System's Sections 2-7 -- see
+ * Product System's Sections 2-7 -- see
  * OrganizationService.productAnswers). `sectionNumbersWithoutSharedAnswer`
  * marks which Section numbers to treat this way; every other Section
  * (e.g. the Product Register itself) exports its single current
@@ -259,7 +259,7 @@ export function buildMultiProductExportContent(
 /**
  * Builds export content for a single Product within a System whose
  * Sections are otherwise answered once PER PRODUCT (see
- * buildMultiProductExportContent above) -- the Product Development
+ * buildMultiProductExportContent above) -- the Product
  * System's "export this Product only" option. Unlike
  * buildMultiProductExportContent, this never produces
  * `productGroups`: everything (the shared Section, filtered down to

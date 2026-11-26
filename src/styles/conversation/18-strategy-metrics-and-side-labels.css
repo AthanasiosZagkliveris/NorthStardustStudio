@@ -541,6 +541,34 @@
 
 }
 
+/* (ON A PHONE IN PORTRAIT, EVERY SIDE LABEL STANDS ABOVE ITS FIELD (owner, 2026-11-26 18:12 UTC+2: "Work on the mobile version, it needs far improvement. This is how
+   the other apps look like?"): a phone app sets each label over a field as wide as the card -- Apple's and Material's forms --, where two columns left the values
+   99px and cut them ("Partne...", "Proper...").) */
+@media (max-width: 600px){
+
+    .business-field-side{
+
+        grid-template-columns:minmax(0, 1fr);
+
+        align-items:start;
+
+    }
+
+    .business-field-side > :not(:first-child){
+
+        grid-column:1;
+
+    }
+
+    /* (A link symbol, drawn in the label's column beside the label, stands in its field's row instead, before the dropdown: the label above has no column.) */
+    .business-field-side .business-capability-performer > :is(.business-link-symbol, .business-capability-row-spacer:not(.business-capability-row-spacer-units)){
+
+        margin-left:0;
+
+    }
+
+}
+
 @container cost-fields (max-width: 339.98px){
 
     .business-capability-cost-grid .business-field-side{

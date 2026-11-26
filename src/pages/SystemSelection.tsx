@@ -22,7 +22,7 @@ import CapabilityDescriptionDialog from "../components/capabilities/CapabilityDe
 import InterviewHeader from "../components/interview/editors/InterviewHeader";
 import SectionTiles, { type SectionTile } from "../components/interview/tiles/SectionTiles";
 import Tile from "../components/interview/tiles/Tile";
-import { TileList, TileTitle } from "../components/interview/tiles/TileParts";
+import { SymbolMark, TileList, TileTitle } from "../components/interview/tiles/TileParts";
 import { systemContents } from "../components/systems/systemContents";
 import BulletRail from "../components/interview/rails/BulletRail";
 import useRailTab from "../hooks/useRailTab.ts";
@@ -451,13 +451,13 @@ export default function SystemSelection() {
                 face={(
                     <>
                         {/* (Its number and name, whole, on as many lines as it takes; "System" is the dialog's word for all of them, so a tile says the name
-                            alone -- "07. Product Development" -- and its accessible name says it whole. ITS ICON UNDER THE NAME AS A CAPABILITY'S IS (owner,
+                            alone -- "07. Product" -- and its accessible name says it whole. ITS ICON UNDER THE NAME AS A CAPABILITY'S IS (owner,
                             2026-11-23 15:32 UTC+2: "Place each system's icon, to look like the capabilities (size, colour and position)"): the logo's size, in its
                             Capability's colour (the icon's own).) */}
                         <TileTitle className="section-tile-title-broken">
                             {/* (Its name on one line where the tile holds it, "Social Media"; between its words where it does not: owner, 2026-11-23 18:03 UTC+2.) */}
                             <span className="section-tile-title-words">{system.title.replace(/ System$/, "")}</span>
-                            {getSystemIcon(system.number) && <img className="section-tile-title-mark" src={getSystemIcon(system.number)} alt="" />}
+                            {getSystemIcon(system.number) && <SymbolMark src={getSystemIcon(system.number)!} className="section-tile-title-mark" />}
                         </TileTitle>
                     </>
                 )}

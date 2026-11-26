@@ -1169,6 +1169,29 @@
             }
         }
 
+        // 16f. EVERY BULLET OF THE RAIL IN USE TAKES ITS PRESS (owner, 2026-11-26 20:51 UTC+2: "On work book hovring over the rail bullets does not react, either work
+        //      when clicking on them. Check if all the rails work properly"): each bullet in the window, of the rails of the layer opened last (the page's where none is
+        //      open), is the topmost thing at its centre -- no page box over the Workbook's tab, no bullet scrolled under a band's arrow.
+        {
+            const overlays = [...document.querySelectorAll(".section-tile-overlay")].filter(visible);
+            const scope = overlays.length > 0 ? overlays[overlays.length - 1] : document;
+            for (const item of [...scope.querySelectorAll(".bullet-rail-item")].filter(visible)) {
+                const r = rect(item);
+                if (r.top < 0 || r.bottom > window.innerHeight || r.left < 0 || r.right > window.innerWidth) continue;
+                if (getComputedStyle(item).visibility === "hidden" || item.closest("[hidden], [aria-hidden='true']")) continue;
+                // (A bullet scrolled out of its row's view is out of reach by design -- the row scrolls, as Apple's page control, the lit one brought to its middle.)
+                const row = item.closest(".bullet-rail-list");
+                if (row && (row.scrollWidth > row.clientWidth + 1 || row.scrollHeight > row.clientHeight + 1)) {
+                    const box = rect(row), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+                    if (cx < box.left || cx > box.right || cy < box.top || cy > box.bottom) continue;
+                }
+                const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+                if (top && top !== item && !item.contains(top)) {
+                    fail("every bullet of the rail in use takes its press", item, { covering: (top.className && top.className.baseVal !== undefined ? top.className.baseVal : top.className) || top.tagName });
+                }
+            }
+        }
+
         // 16b. THE CAROUSEL ARROWS ARE NEVER COVERED (owner, 2026-11-09: "Where is the left arrow?"): each arrow of the layer opened last is
         //      the topmost thing at its own centre -- not under the page tab (.carousel-rail), however long its list.
         for (const arrow of [...document.querySelectorAll(".page-arrow.carousel-arrow")].filter(visible)) {
@@ -3607,7 +3630,6 @@
                 const most = window.innerWidth * 0.92;
                 let width = Math.min(most, 1400);
                 let height = window.innerHeight * 0.88;
-                let pageWide = false;
                 let top = (window.innerHeight - height) / 2;
                 // A dialog covers the area of the card of its section (its left and right edges, top and height); a page-level dialog keeps the page frame.
                 const sectionCard = tile.closest(".section-tiles-completed") ? null : tile.closest(".business-foundation-input");
@@ -3647,7 +3669,6 @@
                     // (Under the header and the page title that stays under it while the page scrolls; owner, 2026-11-11.)
                     top = Math.max(cardBox.top, rest);
                 } else if (underline) {
-                    pageWide = true;
                     // A page-wide dialog (Inventory, Completed) stands from the top of the page's cards to 12px above the window's foot, over the footer's band (owner, 2026-11-12).
                     const cardsTop = document.querySelector(".answer-columns.business-capability > .business-foundation-card");
                     const upper = Math.max(cardsTop ? cardsTop.getBoundingClientRect().top : 0, underline.getBoundingClientRect().bottom, header ? header.getBoundingClientRect().bottom : 0);
@@ -3658,10 +3679,10 @@
                         top = upper;
                     }
                 }
-                // (A SECTION DIALOG IS AS LONG AS ITS TILES (owner, 2026-11-26 18:01 UTC+2: "All the cards have 12 px margin"): its height is no longer the frame's; the
-                // page-wide dialogs (Inventory, Completed) keep their frame.)
-                if (Math.abs(box.width - width) > 1.5 || (pageWide && box.height < height - 1.5)) {
-                    failures.push({ rule: "a section dialog is the page card area's width (a page-wide one from the heading's underline to the footer)", where: title, detail: { width: box.width, height: box.height, expected: [width, height] } });
+                // (A SECTION DIALOG IS AS LONG AS ITS TILES, AND AT THE LEAST ITS CARD'S AREA (owner, 2026-11-26 18:01 and 20:38 UTC+2: "All the cards have 12 px
+                // margin"; "There is a minimum size for the dialogue cards. They should cover the cards behind them").)
+                if (Math.abs(box.width - width) > 1.5 || box.height < height - 1.5) {
+                    failures.push({ rule: "a section dialog is the page card area's width, and covers it at the least", where: title, detail: { width: box.width, height: box.height, expected: [width, height] } });
                 }
                 if (Math.abs(box.top - top) > 1.5) {
                     failures.push({ rule: "a section tile's dialog starts at the heading's underline", where: title, detail: { top: box.top, expected: top } });

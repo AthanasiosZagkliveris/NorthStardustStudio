@@ -49,8 +49,11 @@ export default function TileGrid({ label, className, columns, threeAcross = fals
                 const width = (node.parentElement ?? node).clientWidth;
                 setFitSide(Math.max(72, (width - (verticalAcross - 1) * TILE_GAP) / verticalAcross - 0.01));
             } else if (fill) {
-                const across = Math.max(1, Math.floor((node.clientWidth + TILE_GAP) / (pageSide + TILE_GAP)));
-                setFitSide((node.clientWidth - (across - 1) * TILE_GAP) / across - 0.01);
+                // (The grid's own width to the fraction of a pixel: clientWidth rounds up, and the row of six then came 0.2px too wide, so the stylesheet's auto-fill
+                // laid five, a tile's room empty at the row's end -- owner, 2026-11-26 20:39 UTC+2, the Inventory at 1440 x 900.)
+                const width = node.getBoundingClientRect().width || node.clientWidth;
+                const across = Math.max(1, Math.floor((width + TILE_GAP) / (pageSide + TILE_GAP)));
+                setFitSide(Math.floor(((width - (across - 1) * TILE_GAP) / across) * 100) / 100 - 0.01);
             } else {
                 setFitSide(Math.max(72, Math.floor((node.clientWidth - 2 * TILE_GAP) / 3)));
             }

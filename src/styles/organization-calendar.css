@@ -45,7 +45,7 @@
 
     /* 44px handle column + 460px content card (see `.org-calendar-
        content` below) -- wide enough that even the longest System
-       title ("Product Development System") stays on one line at
+       title ("Social Media System") stays on one line at
        this card's type size, in BOTH its regular and hover (bold)
        weights, with room to spare. */
     width:504px;

@@ -114,7 +114,7 @@ export function pageNavigation({ session, organizationId, system, persistAndRedr
                 StorageService.saveInterview(organizationId, session);
             }
 
-            // The Product Development System's Sections are
+            // The Product System's Sections are
             // completed once PER PRODUCT (see
             // PRODUCT_DEVELOPMENT_PER_PRODUCT_SECTIONS) -- "Finish"
             // should only require the currently selected Product's

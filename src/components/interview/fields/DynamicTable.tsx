@@ -40,7 +40,7 @@ interface DynamicTableProps {
      * Turns each row into a single-select picker: a small bullet
      * appears under the row-number column, and clicking anywhere
      * on the row (not just the bullet) selects it. Used by the
-     * Product Development System's Product Register (item 7) so
+     * Product System's Product Register (item 7) so
      * picking which Product to work on happens directly in the
      * table instead of a separate list underneath it. Omitted for
      * every other Table in the app, which renders exactly as

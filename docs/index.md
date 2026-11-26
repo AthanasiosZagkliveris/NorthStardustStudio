@@ -111,7 +111,7 @@ Status: **index**, updated 2026-11-26, written by `npm run docs:index` (the subj
 - **Strategy (SWOT, Compass, Themes, Metrics)**: [Questions 21 (built in part)](design/questions/21-strategy.md); [specifications, Strategy System](specifications/04-strategy-system/01-situation-and-direction.md)
 - **Strategy System pages**: [specifications](specifications/04-strategy-system/01-situation-and-direction.md)
 - **Structure tables**: [Records 4](design/records/04-structure-tables.md)
-- **Symbols of the Capabilities and the Systems (icons)**: [Interface 11](design/interface/11-symbols.md)
+- **Symbols of the Capabilities, the Systems and the Resources (icons)**: [Interface 11](design/interface/11-symbols.md)
 ## T
 
 - **Tests (what each one checks)**: [testing/app-tests-guide](testing/01-app-tests-guide.md)

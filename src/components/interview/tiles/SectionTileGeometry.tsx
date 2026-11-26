@@ -418,6 +418,16 @@ export function dialogFrame(opener?: HTMLElement | null): { width: number; heigh
                 box.width = width;
             }
         }
+        // (ON A PHONE A DIALOG STANDS ALONE UNDER THE HEADER (owner, 2026-11-26 18:12 UTC+2: "Work on the mobile version ... This is how the other apps look like?"):
+        // as Material's full-screen dialogs, it starts 12px under the app header, over the page title, and its layer covers the page (07-floating-cards-and-page-
+        // layout.css, "A phone shows one layer at a time").)
+        if (typeof window.matchMedia === "function" && window.matchMedia("(max-width: 600px), (orientation: landscape) and (max-height: 479px)").matches && box.width > 200) {
+            const appHeader = document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 0;
+            const footer = document.querySelector<HTMLElement>(".workspace-footer")?.getBoundingClientRect().top;
+            const top = appHeader + 12;
+            const bottom = footer !== undefined ? footer - 12 : window.innerHeight - 12;
+            return { width: box.width, height: Math.max(200, bottom - top), top, left: box.left };
+        }
         if (box.width > 200 && box.height > 200) {
             // (A card taller than the window is covered only as far as the window shows: under the header and the page title that stays under it, above the footer.)
             const header = Math.max(document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 0, document.querySelector<HTMLElement>(".interview-divider")?.getBoundingClientRect().bottom ?? 0);
@@ -440,8 +450,12 @@ export function dialogFrame(opener?: HTMLElement | null): { width: number; heigh
     // A page-wide dialog (Inventory, Completed) starts where the page's cards start and runs down to the window's foot, 12px above it, over the footer's band
     // (owner, 2026-11-12: "The dialogue card (inventory) should reach the bottom part of the screen").
     const cardsTop = document.querySelector<HTMLElement>(".answer-columns.business-capability > .business-foundation-card")?.getBoundingClientRect().top;
-    const top = Math.max(cardsTop ?? underline.getBoundingClientRect().bottom, underline.getBoundingClientRect().bottom, header?.getBoundingClientRect().bottom ?? 0);
-    const bottom = window.innerHeight - 12;
+    // (On a phone it stands alone under the header, as every dialog there: "A phone shows one layer at a time", owner 2026-11-26 18:12 UTC+2; the footer's band
+    // stays in view under it.)
+    const phone = typeof window.matchMedia === "function" && window.matchMedia("(max-width: 600px), (orientation: landscape) and (max-height: 479px)").matches;
+    const top = phone ? (header?.getBoundingClientRect().bottom ?? 0) + 12 : Math.max(cardsTop ?? underline.getBoundingClientRect().bottom, underline.getBoundingClientRect().bottom, header?.getBoundingClientRect().bottom ?? 0);
+    const footerTop = document.querySelector<HTMLElement>(".workspace-footer")?.getBoundingClientRect().top;
+    const bottom = phone && footerTop !== undefined ? footerTop - 12 : window.innerHeight - 12;
     const space = bottom - top;
     if (!(space >= 200)) {
         return null;

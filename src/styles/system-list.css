@@ -4,7 +4,7 @@
 
 /* One column as wide as its widest row -- never narrower than the
    section -- so every row's highlight lines up and still encloses
-   a long title like "Product Development System". */
+   a long title like "Social Media System". */
 .system-list {
     display: grid;
 

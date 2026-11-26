@@ -686,6 +686,17 @@
 
 }
 
+/* (A phone in landscape draws its Back arrow at 24px too, in the header: "The back arrow a phone app draws", below.) */
+@media (orientation: landscape) and (max-height: 479px){
+
+    .interview-header-title-row > .interview-header-back.back-link > .back-arrow{
+
+        scale:1.85;
+
+    }
+
+}
+
 /* THE PAGE TITLE ON A PHONE (owner, 2026-11-24 03:14 UTC+2: "Check the Title's text size"): the header's size there, --font-h2 (about 21px at 390px), as a phone in
    landscape draws it in the header (app-header.css), so a page's name fits on one line beside its symbol. */
 @media (max-width: 600px){
@@ -699,6 +710,17 @@
         order:-1;
 
         translate:none;
+
+    }
+
+    /* (THE BACK ARROW A PHONE APP DRAWS (owner, 2026-11-26 18:12 UTC+2: "Work on the mobile version ... This is how the other apps look like?"): the arrow at
+       the size of the header's symbols, 24px, where it was 13px; its press area 44px (--press-area).) */
+    .interview-header-title-row > .interview-header-back.back-link > .back-arrow{
+
+        scale:1.85;
+
+        /* (Grown from its left edge: it keeps the page's 16px from the window.) */
+        transform-origin:left center;
 
     }
 

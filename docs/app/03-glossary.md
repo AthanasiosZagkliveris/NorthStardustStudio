@@ -6,7 +6,7 @@ One-line definitions, so that terminology is the same in every document and Skil
 
 ## 1. The framework
 
-**Capability** — one of the 6 top-level groupings (for example Foundation, Deliver Value) under which the 24 Systems are organised. *Owner: `06-framework-conventions-and-patterns.md`.*
+**Capability** — one of the 6 top-level groupings (for example Foundation, Value Delivery) under which the 24 Systems are organised. *Owner: `06-framework-conventions-and-patterns.md`.*
 
 **System** — one of the 24 units of the Framework (for example the Identity System), each delivered as a structured interview. *Owner: `06-framework-conventions-and-patterns.md`.*
 

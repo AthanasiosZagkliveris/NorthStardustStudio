@@ -24,9 +24,9 @@ The Client System gives you one place to record and manage everything about the 
 
 The Project System is where individual pieces of work get organized from start to finish. It keeps track of a project's objectives, scope, resources, deliverables, and progress, so nothing important gets lost once the work actually starts. Use it any time you need to plan effort, manage deadlines, or keep a project moving toward completion. By the end, every project has clear objectives, a defined scope, organized resources, and milestones you can actually measure progress against.
 
-## 07. Product Development System
+## 07. Product System
 
-The Product Development System covers the full journey a product takes, from an early idea all the way through launch and beyond. It helps you evaluate whether an opportunity is worth pursuing, define what the product actually needs to do, plan the work, and prepare properly for launch. Because it spans the whole lifecycle, it is just as useful for improving something you have already released as it is for building something new. Completing it leaves you with a documented product portfolio, clear development priorities, and real insights from what is already shipped that can shape what comes next.
+The Product System covers the full journey a product takes, from an early idea all the way through launch and beyond. It helps you evaluate whether an opportunity is worth pursuing, define what the product actually needs to do, plan the work, and prepare properly for launch. Because it spans the whole lifecycle, it is just as useful for improving something you have already released as it is for building something new. Completing it leaves you with a documented product portfolio, clear development priorities, and real insights from what is already shipped that can shape what comes next.
 
 ## 08. Operations System
 
@@ -52,9 +52,9 @@ The Knowledge System is where hard-won experience gets captured and shared acros
 
 The Asset System is your record of the important assets your organization relies on, and where to find them. It tracks what exists, who can access it, and when it was last updated, which matters most for anything shared across multiple projects or teams. It comes into play whenever assets need tracking, maintenance, or a review to confirm they are still accurate and useful. The payoff is a documented inventory and a clear summary that gives everyone visibility into what your organization actually has.
 
-## 14. Data Governance System
+## 14. Data System
 
-The Data Governance System documents how your organization's data is identified, protected, and looked after throughout its life. It exists to keep that data accurate, consistent, secure, and accessible enough to actually support good decisions. You will want it whenever data ownership needs clarifying, quality needs maintaining, or compliance and security need to be put in writing. Completing it gives you a documented data inventory along with clear frameworks for ownership, quality, security, and ongoing review.
+The Data System documents how your organization's data is identified, protected, and looked after throughout its life. It exists to keep that data accurate, consistent, secure, and accessible enough to actually support good decisions. You will want it whenever data ownership needs clarifying, quality needs maintaining, or compliance and security need to be put in writing. Completing it gives you a documented data inventory along with clear frameworks for ownership, quality, security, and ongoing review.
 
 ## 15. Governance System
 
@@ -84,9 +84,9 @@ The Website System covers your website from initial planning through to ongoing 
 
 The Social Media System brings structure to how your organization shows up across social platforms. It covers defining your audience, building a strategy for each platform, planning content, and tracking how campaigns and posts actually perform. Call on it whenever you are scheduling content, launching a campaign, or trying to bring more consistency to how often and how well you post. By the end, you will have defined audience profiles, platform strategies, a posting schedule, and tracking procedures that show what is actually working.
 
-## 22. Metrics & Reporting System
+## 22. Analytics System
 
-The Metrics & Reporting System is where you decide what actually gets measured across the organization, and how those numbers turn into reports people use. It helps you define meaningful performance indicators, build a reporting schedule, and set up a review process so results get discussed and acted on. Make use of it whenever performance needs measuring, indicators need defining, or reporting feels inconsistent from one period to the next. What comes out of it is a set of defined performance areas, real KPIs, and a reporting and review structure that keeps decisions grounded in actual data.
+The Analytics System is where you decide what actually gets measured across the organization, and how those numbers turn into reports people use. It helps you define meaningful performance indicators, build a reporting schedule, and set up a review process so results get discussed and acted on. Make use of it whenever performance needs measuring, indicators need defining, or reporting feels inconsistent from one period to the next. What comes out of it is a set of defined performance areas, real KPIs, and a reporting and review structure that keeps decisions grounded in actual data.
 
 ## 23. Quality System
 

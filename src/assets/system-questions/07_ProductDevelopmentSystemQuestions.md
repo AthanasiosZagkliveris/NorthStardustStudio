@@ -1,6 +1,6 @@
 System Number: 7
-System Name: Product Development System
-Capability: Deliver Value
+System Name: Product System
+Capability: Value Delivery
 System Scope: Defines how products and services are designed, developed, maintained, and continuously improved.
 
 ## 1. Product Register

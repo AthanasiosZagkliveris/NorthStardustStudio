@@ -29,6 +29,21 @@
 
 }
 
+/* (THE PAGE TAKES NO PRESS WHERE IT IS EMPTY (owner, 2026-11-26 20:51 UTC+2: "On work book hovring over the rail bullets does not react, either work when clicking
+   on them"): the Handbook's and the Workbook's tab stands behind their layer (z-index -1, as every tab), and this page's own box, wide to the window's gutters,
+   lay over it and took its pointer; the page's parts take it as before.) */
+.glossary-page{
+
+    pointer-events:none;
+
+}
+
+.glossary-page > *{
+
+    pointer-events:auto;
+
+}
+
 /* The two kinds' colours: on the page, and on the list wherever it stands. */
 .glossary-page,
 .glossary-section{

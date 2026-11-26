@@ -215,7 +215,7 @@ export function isCellFilled(cell: unknown): boolean {
  * `isAnswerEmpty` applies across every row of a whole
  * Table, but scoped to just one row.
  *
- * Used by the Product Development System's "Finish"
+ * Used by the Product System's "Finish"
  * validation (see Conversation.tsx): the shared Product
  * Register (Section 1) holds every Product's row, but
  * finishing one Product's interview should only require

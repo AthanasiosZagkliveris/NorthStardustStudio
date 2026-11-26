@@ -206,7 +206,7 @@ export class MarkdownExporter {
      * `contentOverride` lets a caller supply already-built
      * `ExportContent` instead of the single-response-per-Section
      * default (see ExportContentBuilder.buildMultiProductExportContent,
-     * used by the Product Development System so its export includes
+     * used by the Product System so its export includes
      * every Product's own Sections 2-7, not just whichever Product
      * happens to be selected right now).
      */

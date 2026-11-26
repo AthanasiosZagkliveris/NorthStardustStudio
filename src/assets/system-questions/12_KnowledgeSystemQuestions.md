@@ -1,6 +1,6 @@
 System Number: 12
 System Name: Knowledge System
-Capability: Manage Information
+Capability: Information
 System Scope: Defines how organizational knowledge is captured, shared, preserved, and reused over time.
 
 ## 1. Knowledge Base

@@ -1261,7 +1261,7 @@
 
 }
 
-/* The selected Product's name, shown above a Product Development
+/* The selected Product's name, shown above a Product
    page. Bold, and a plain <div> -- so the heading rule in
    global.css does not reach it. */
 .product-name-banner{

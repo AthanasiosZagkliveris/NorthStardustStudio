@@ -8,7 +8,7 @@ The standard for these documents is [the standard of the documents](../../standa
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [01-shared-components.md](01-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-11-22 |
+| [01-shared-components.md](01-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-11-26 |
 | [02-text-holders.md](02-text-holders.md) | generated | The text holders: sizes, style classes and rules. | 2026-11-21 |
 | [03-free-text-categories.md](03-free-text-categories.md) | current design | Free texts in four categories: the categories, the owner's decisions, the proposed limits and what is still to build. | 2026-11-21 |
 | [04-frequency-options.md](04-frequency-options.md) | generated | The Frequency options by group, compared with the code. | 2026-11-21 |
@@ -18,4 +18,4 @@ The standard for these documents is [the standard of the documents](../../standa
 | [08-tooltips.md](08-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-21 |
 | [09-help-texts.md](09-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-11-21 |
 | [10-help-texts-guide.md](10-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-21 |
-| [11-symbols.md](11-symbols.md) | current design | The 30 symbols of the Capabilities and the Systems: grid, sizes and their three drawings, line, corners, tints, gaps, colours and reading modes, each symbol's drawing by size, and the files the app reads. | 2026-11-26 |
+| [11-symbols.md](11-symbols.md) | current design | The 39 symbols of the Capabilities, the Systems and the Resources: grid, sizes and their three drawings, line, corners, tints, gaps, the rule that a symbol takes its card's hue, reading modes, each symbol's drawing by size, and the files the app reads. | 2026-11-26 |

@@ -99,7 +99,7 @@ const descriptions = parseDescriptions(raw);
 
 /**
  * Finds a Capability's description by its title
- * (e.g. "Deliver Value"), matching the same title
+ * (e.g. "Value Delivery"), matching the same title
  * strings used in data/capabilities.ts.
  */
 export function getCapabilityDescription(

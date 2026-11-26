@@ -163,7 +163,9 @@ export function FloatingCards({
             // underline, never over it; owner, 2026-11-11: "the page title, should always stay in place".)
             const header = document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom;
             const underline = document.querySelector<HTMLElement>(".interview-divider")?.getBoundingClientRect().bottom;
-            const bandTop = header !== undefined || underline !== undefined ? Math.max(header ?? 0, underline ?? 0) : (frame ? frame.top : 0);
+            // (On a phone the page title under the header is covered while a card is open: the header alone cuts the card -- "A phone shows one layer at a time".)
+            const phone = typeof window.matchMedia === "function" && window.matchMedia("(max-width: 600px), (orientation: landscape) and (max-height: 479px)").matches;
+            const bandTop = phone && header !== undefined ? header : header !== undefined || underline !== undefined ? Math.max(header ?? 0, underline ?? 0) : (frame ? frame.top : 0);
             // (Only the header cuts a card: it runs to the window's bottom, never to the footer.)
             const bandBottom = window.innerHeight - 8;
             const where = anchorRef.current;
@@ -193,6 +195,12 @@ export function FloatingCards({
             // (Where the first row is out of view -- the cards stacked under 1100px, the page scrolled -- the stack stands at the top of the band instead:
             // under the page heading's underline, never below the point where 200px of it would still show.)
             top = Math.min(Math.max(top, bandTop + 8), Math.max(bandTop + 8, bandBottom - 200));
+            // (ON A PHONE THE CARD STANDS ALONE UNDER THE HEADER (owner, 2026-11-26 18:12 UTC+2: "Work on the mobile version ... This is how the other apps look
+            // like?"): the page under it is covered (07-floating-cards-and-page-layout.css, "A phone shows one layer at a time"), so the card starts 12px under the
+            // app header, as a phone app's full-screen card does.)
+            if (phone) {
+                top = (header ?? 0) + 12;
+            }
             const left = Math.max(8, Math.min(centreX - width / 2, window.innerWidth - 8 - width));
             measureShade();
             setPlace(previous => previous && Math.abs(previous.band - bandTop) < 0.5 && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.top - top) < 0.5 ? previous : { left, top, band: bandTop });

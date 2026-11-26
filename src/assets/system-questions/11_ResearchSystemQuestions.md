@@ -1,6 +1,6 @@
 System Number: 11
 System Name: Research System
-Capability: Manage Information
+Capability: Information
 System Scope: Defines how information is gathered, evaluated, and applied to support informed organizational decisions.
 
 ## 1. Research Overview

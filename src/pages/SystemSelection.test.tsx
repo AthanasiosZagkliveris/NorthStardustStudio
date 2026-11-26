@@ -73,7 +73,7 @@ describe("SystemSelection: the Capabilities as tiles", () => {
         expect(foundation.closest(".section-tile-slot")?.textContent).toContain("Identity");
         // (By its name alone: owner, 2026-11-22 21:11 UTC+2, "remove the System word".)
         expect(foundation.closest(".section-tile-slot")?.textContent).not.toContain("System");
-        expect(screen.getByRole("button", { name: /^Deliver/ })).toBeTruthy();
+        expect(screen.getByRole("button", { name: /^Value Delivery/ })).toBeTruthy();
 
     });
 
@@ -89,7 +89,7 @@ describe("SystemSelection: the Capabilities as tiles", () => {
         fireEvent.keyDown(window, { key: "Escape" });
         expect(screen.queryByText("Core principle")).toBeNull();
         fireEvent.keyDown(window, { key: "ArrowRight" });
-        expect(document.querySelector(".interview-header h1")?.textContent).toContain("Deliver Value");
+        expect(document.querySelector(".interview-header h1")?.textContent).toContain("Value Delivery");
         fireEvent.keyDown(window, { key: "ArrowLeft" });
         expect(document.querySelector(".interview-header h1")?.textContent).toContain("Foundation");
         fireEvent.click(screen.getByRole("button", { name: /^01. Identity System/ }));
@@ -104,7 +104,7 @@ describe("SystemSelection: the Capabilities as tiles", () => {
 
         expect(screen.getByRole("button", { name: /^01. Identity System/ })).toBeTruthy();
         fireEvent.keyDown(window, { key: "Escape" });
-        expect(screen.getByRole("button", { name: /^Deliver/ })).toBeTruthy();
+        expect(screen.getByRole("button", { name: /^Value Delivery/ })).toBeTruthy();
 
     });
 

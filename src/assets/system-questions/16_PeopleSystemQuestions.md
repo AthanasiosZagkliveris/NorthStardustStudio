@@ -1,6 +1,6 @@
 System Number: 16
 System Name: People System
-Capability: Manage the Organization
+Capability: Organisation
 System Scope: Defines how people, roles, responsibilities, and organizational relationships are structured and coordinated.
 
 ## 1. Organization Structure

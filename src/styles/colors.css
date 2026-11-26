@@ -30,14 +30,44 @@
 
 }
 
-/* The Capability and System icons are drawn in their dark colour
-   on white. In the dark theme they are inverted and turned back to
-   their hue: the colour reads light on the dark ground, and the
-   white cut-outs go dark, as holes should. */
+/* THE SYMBOLS TAKE THEIR CARD'S HUE (owner, 2026-11-26 21:32 UTC+2: "Make a rule, and fix it on the root of all the icons, that they take the hue of their cards";
+   Interface 11, section 8.1). A symbol on a tile (TileParts, SymbolMark) is a mask of its file over its card's ink: the card's own colour where the card has one
+   (--tile-colour: a Capability's tile and its Systems' frame), else the card's mark ink, its hue (--strategy-theme-hue) in the reading mode's mark tone
+   (--theme-mark-ink: a Resource in Infrastructure or in the Offering); a line may name its own (--symbol-line-ink: the Channel's teal, an empty category's faint
+   ink -- contrast test, 2026-11-26 22:20 UTC+2: the text ink is neutral, so it could not carry the card's hue). The file's tints are opacities and its cut-outs holes, so a mask keeps both: the tints are the ink at 18% and 40%, and the
+   tile's ground shows through the holes in every mode. */
+.symbol-mark {
+
+    --symbol-ink: var(--tile-colour, var(--symbol-line-ink, hsl(var(--strategy-theme-hue, 217) var(--theme-mark-ink))));
+
+    background: var(--symbol-ink);
+
+    -webkit-mask: var(--symbol) center / contain no-repeat;
+    mask: var(--symbol) center / contain no-repeat;
+
+}
+
+/* (In the dark mode a card's own colour turns light at the same hue and saturation -- its lightness mirrored, as the invert filter of the headers' symbols does
+   below -- so a dark Capability colour reads on the dark ground. A card with no colour of its own takes the dark mode's mark tone, light already.) */
+:root[data-theme="dark"] .symbol-mark {
+
+    --symbol-lightness-full: 100;
+    --symbol-ink-dark: hsl(from var(--tile-colour) h s calc(var(--symbol-lightness-full) - l));
+    --symbol-ink: var(--symbol-ink-dark, var(--symbol-line-ink, hsl(var(--strategy-theme-hue, 217) var(--theme-mark-ink))));
+
+}
+
+/* (The Channel line of Offering's Resources draws its symbol in the channel's teal, as its words: 06-floating-card-links-and-rows.css.) */
+.section-tile-list > li.section-tile-list-teal {
+
+    --symbol-line-ink: var(--channel-marker);
+
+}
+
+/* The headers' symbols (a System page's, the Capability description's) are pictures in their Capability's colour, the colour of the page they head, drawn on
+   white. In the dark theme they are inverted and turned back to their hue: the colour reads light on the dark ground. */
 :root[data-theme="dark"] .interview-header-icon,
-:root[data-theme="dark"] .capability-description-icon,
-:root[data-theme="dark"] .section-tile-title-mark,
-:root[data-theme="dark"] .section-tile-title-symbol {
+:root[data-theme="dark"] .capability-description-icon {
 
     filter: invert(1) hue-rotate(180deg);
 

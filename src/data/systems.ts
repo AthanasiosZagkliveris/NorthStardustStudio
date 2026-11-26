@@ -47,7 +47,7 @@ export const systems: FrameworkSystem[] = [
   {
     number: 7,
     id: "product-development",
-    title: "Product Development System",
+    title: "Product System",
     capability: "deliver-value",
     frameworkScope: "",
   },
@@ -97,7 +97,7 @@ export const systems: FrameworkSystem[] = [
   {
     number: 14,
     id: "data-governance",
-    title: "Data Governance System",
+    title: "Data System",
     capability: "manage-information",
     frameworkScope: "",
   },
@@ -156,7 +156,7 @@ export const systems: FrameworkSystem[] = [
   {
     number: 22,
     id: "metrics-reporting",
-    title: "Metrics & Reporting System",
+    title: "Analytics System",
     capability: "measure-improve",
     frameworkScope: "",
   },

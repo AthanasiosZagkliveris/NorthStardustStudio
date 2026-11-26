@@ -1,4 +1,4 @@
-# 14. Data Governance System
+# 14. Data System
 
 ## 01. Data Inventory
 

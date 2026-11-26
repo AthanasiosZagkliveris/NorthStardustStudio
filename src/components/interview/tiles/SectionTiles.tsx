@@ -157,13 +157,43 @@ export default function SectionTiles({
                 const extra = hug && box.getBoundingClientRect().width > 0 ? hug.getBoundingClientRect().width - box.getBoundingClientRect().width : 26;
                 const fill = Math.floor(((room > 0 ? room - extra : box.clientWidth) - (row - 1) * 12) / row);
                 side = Math.max(isPhone() ? fill : Math.min(fill, cap), 72);
+                // (The chapter and the page keep the width's side: the smaller tiles below stand centred in it, the chapter's title on its line.)
+                const span = side;
+                // (A PHONE IN PORTRAIT SHOWS TWO CHAPTERS AT ONCE (owner, 2026-11-26 20:26 UTC+2, his drawing of Infrastructure & Capability on a phone: each chapter's
+                // four square tiles 2 x 2, centred, the next chapter under a dividing line, both in view): the side lets two chapters -- their titles, their tiles and
+                // their padding -- stand between the page title's rule and the footer's band; never larger than the width allows, never under 96px.)
+                // (Only a page of two chapters or more, each of two rows at the most: a Segment's one chapter of seven keeps the width's side, its titles whole.)
+                const chapters = Array.from(box.closest(".conversation-card")?.querySelectorAll<HTMLElement>(".section-tiles-quad") ?? []).filter(quad => quad.getClientRects().length > 0);
+                const twoRows = box.querySelectorAll(".section-tile-slot").length <= 4 && !box.closest(".segment-chapter");
+                if (isPhone() && window.innerHeight > window.innerWidth && hug && chapters.length >= 2 && twoRows && box.getBoundingClientRect().height > 0) {
+                    const rule = document.querySelector<HTMLElement>(".interview-divider")?.getBoundingClientRect().bottom ?? (document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 64);
+                    const foot = document.querySelector<HTMLElement>(".workspace-footer")?.getBoundingClientRect().top ?? window.innerHeight;
+                    const frameExtra = hug.getBoundingClientRect().height - box.getBoundingClientRect().height;
+                    const both = Math.floor(((foot - rule - 12) / 2 - frameExtra - 12) / 2);
+                    // (Never so small that a title's longest word is cut: each word measured as a title draws it at the small size, with the tile's padding round it.)
+                    const titles = Array.from(box.closest(".conversation-card")?.querySelectorAll<HTMLElement>(".section-tiles-quad .section-tile-title") ?? []).filter(title => title.getClientRects().length > 0);
+                    let widest = 0;
+                    if (titles.length > 0) {
+                        const probe = document.createElement("span");
+                        const style = getComputedStyle(titles[0]);
+                        probe.style.cssText = "position:absolute;visibility:hidden;white-space:nowrap;font-family:" + style.fontFamily + ";font-weight:" + style.fontWeight + ";text-transform:" + style.textTransform + ";letter-spacing:var(--bold-tracking);font-size:var(--font-small)";
+                        document.body.appendChild(probe);
+                        for (const word of titles.flatMap(title => (title.innerText ?? title.textContent ?? "").split(/[s ]+/))) {
+                            probe.textContent = word;
+                            widest = Math.max(widest, probe.getBoundingClientRect().width);
+                        }
+                        probe.remove();
+                    }
+                    const tilePadding = parseFloat(getComputedStyle(box.querySelector(".section-tile") ?? box).paddingLeft) || 13;
+                    side = Math.min(side, Math.max(96, both, Math.ceil(widest + 2 * tilePadding + 4)));
+                }
                 // (THE PAGE AS WIDE AS ITS CHAPTER ON A TABLET OR A PHONE TOO (owner, 2026-11-24 00:56 UTC+2, his lines at the chapter's edges: "The arrows should start
                 // exactly after the page limits"): the title's rule and the footer's arrows take the chapter's edges.)
-                setTilesPageWidth(box.closest<HTMLElement>(".conversation-page"), row * side + (row - 1) * 12 + extra);
+                setTilesPageWidth(box.closest<HTMLElement>(".conversation-page"), row * span + (row - 1) * 12 + extra);
                 box.style.setProperty("--quad-across", String(row));
                 if (hug && box.getBoundingClientRect().width > 0) {
                     // (A width of its own: centred by its auto margins, a frame would otherwise shrink round tiles that measure their frame, to nothing.)
-                    hug.style.setProperty("width", Math.ceil(row * side + (row - 1) * 12 + extra) + "px", "important");
+                    hug.style.setProperty("width", Math.ceil(row * span + (row - 1) * 12 + extra) + "px", "important");
                     hug.style.maxWidth = "100%";
                     hug.style.marginInline = "auto";
                 }

@@ -172,19 +172,16 @@
 
     transition: transform .15s ease;
 
-    background: currentColor;
-
-    -webkit-mask: var(--fallback-symbol) center / contain no-repeat;
-    mask: var(--fallback-symbol) center / contain no-repeat;
+    /* (Its colour and drawing: the shared symbol rule, colors.css, .symbol-mark.) */
 
 }
 
-/* (A SYMBOL GROWS 25% UNDER THE POINTER, OUTWARDS (owner, 2026-11-24 01:59 UTC+2; 10:37 UTC+2: "Make the icons to scale up to the opposite direction"): the left
+/* (A SYMBOL GROWS 10% UNDER THE POINTER, OUTWARDS (owner, 2026-11-24 01:59 UTC+2; 10% since 2026-11-26; 10:37 UTC+2: "Make the icons to scale up to the opposite direction"): the left
    column from its right edge, the right from its left, the middle from its centre; the top row from its bottom, the bottom from its top.) */
 .section-tile-list[data-symbols] > li:hover .section-tile-list-fallback,
 .section-tile-list[data-symbols] .section-tile-link:focus-visible .section-tile-list-fallback {
 
-    transform: scale(1.25);
+    transform: scale(1.1);
 
 }
 
@@ -568,8 +565,9 @@
        2026-11-24 10:12 UTC+2: "Do not forget the margin is 12 px" -- the Resources dialog ran past the window). */
     /* (AS LONG AS ITS TILES (owner, 2026-11-26 18:01 UTC+2: "I meant that it should not be cut, but continue after the screen's end"; "All the cards have 12 px
        margin"): it ends 12px under its last tile -- its padding --, and one longer than the window runs on past its foot, the layer scrolling it, never cut. It
-       replaces the reading of 2026-11-25's "full length" as down to the footer.) */
-    min-height: 0;
+       replaces the reading of 2026-11-25's "full length" as down to the footer.) AT THE LEAST ITS CARD'S AREA (owner, 2026-11-26 20:38 UTC+2: "There is a minimum
+       size for the dialogue cards. They should cover the cards behind them"): never shorter than the frame it opens over (--section-dialog-height, dialogFrame). */
+    min-height: var(--section-dialog-height, 0px);
     flex-shrink: 0;
 
     padding: var(--card-padding);
@@ -858,6 +856,9 @@
     width: var(--title-symbol-size, 44px);
     height: var(--title-symbol-size, 44px);
 
+    /* (In its card's hue: the shared symbol rule, colors.css, .symbol-mark.) */
+    mask: var(--title-symbol) center / contain no-repeat;
+
 }
 
 /* (With its title: the words at the top, as on every tile, in the small size and wrapping whole words; the symbol centred in the room under them.) */
@@ -919,7 +920,7 @@
    an empty category's name is; under the pointer it grows as every symbol does.) */
 .section-tile-list[data-symbols] > li.section-tile-list-empty .section-tile-list-fallback {
 
-    color: var(--text-faint);
+    --symbol-line-ink: var(--text-faint);
 
     opacity: 0.55;
 

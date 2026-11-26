@@ -1,6 +1,6 @@
 System Number: 23
 System Name: Quality System
-Capability: Measure & Improve
+Capability: Performance
 System Scope: Defines how quality is planned, evaluated, maintained, and continuously improved across the organization.
 
 ## 1. Quality Standards

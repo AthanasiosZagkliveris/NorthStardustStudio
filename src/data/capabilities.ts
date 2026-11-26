@@ -8,27 +8,27 @@ export const capabilities: Capability[] = [
   },
   {
     id: "deliver-value",
-    title: "Deliver Value",
+    title: "Value Delivery",
     color: "#0D5929",
   },
   {
     id: "manage-information",
-    title: "Manage Information",
+    title: "Information",
     color: "#A45D0A",
   },
   {
     id: "manage-organization",
-    title: "Manage the Organization",
+    title: "Organisation",
     color: "#1C4AB0",
   },
   {
     id: "communicate",
-    title: "Communicate",
+    title: "Communication",
     color: "#BB4B11",
   },
   {
     id: "measure-improve",
-    title: "Measure & Improve",
+    title: "Performance",
     color: "#531FAD",
   },
 ];

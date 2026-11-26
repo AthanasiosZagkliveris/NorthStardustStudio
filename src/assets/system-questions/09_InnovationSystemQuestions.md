@@ -1,6 +1,6 @@
 System Number: 9
 System Name: Innovation System
-Capability: Deliver Value
+Capability: Value Delivery
 System Scope: Defines how opportunities, ideas, and improvements are explored, evaluated, and transformed into organizational value.
 
 ## 1. Ideas

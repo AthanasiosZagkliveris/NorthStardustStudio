@@ -1,6 +1,6 @@
 System Number: 21
 System Name: Social Media System
-Capability: Communicate
+Capability: Communication
 System Scope: Defines how the organization communicates, engages, and builds relationships through social media.
 
 ## 1. Audience Profiles

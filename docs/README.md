@@ -36,7 +36,7 @@ How the documents are numbered, headed and written.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [standard.md](standard.md) | rules | The standard of the documents: where a document goes, how it is numbered, the head every document has, the kinds, how a document is written, and how to add one. | 2026-11-21 |
+| [standard.md](standard.md) | rules | The standard of the documents: where a document goes, how it is numbered, the head every document has, the kinds, how a document is written, and how to add one. | 2026-11-26 |
 
 ## 2. The app (`app/`)
 
@@ -44,9 +44,9 @@ How the app is entered, its Systems and pages, the places in it, and the terms.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [app/01-contents.md](app/01-contents.md) | contents | The contents of the app: how it is entered, the Systems and pages, where the figures and dates come from, where things are in the code. | 2026-11-25 |
-| [app/02-index.md](app/02-index.md) | index | An alphabetical index of the places in the app (pages, tiles, cards, the header): where each is, and which document describes it. | 2026-11-25 |
-| [app/03-glossary.md](app/03-glossary.md) | reference | One line per term: the framework, the app, the business stage, positioning, buyer and user, the question ids, the documents. | 2026-11-21 |
+| [app/01-contents.md](app/01-contents.md) | contents | The contents of the app: how it is entered, the Systems and pages, where the figures and dates come from, where things are in the code. | 2026-11-26 |
+| [app/02-index.md](app/02-index.md) | index | An alphabetical index of the places in the app (pages, tiles, cards, the header): where each is, and which document describes it. | 2026-11-26 |
+| [app/03-glossary.md](app/03-glossary.md) | reference | One line per term: the framework, the app, the business stage, positioning, buyer and user, the question ids, the documents. | 2026-11-26 |
 
 ## 3. The user guide (`guide/`)
 
@@ -100,7 +100,7 @@ What every screen shares, from the shared components (1) to the smallest text: t
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [design/interface/01-shared-components.md](design/interface/01-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-11-22 |
+| [design/interface/01-shared-components.md](design/interface/01-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-11-26 |
 | [design/interface/02-text-holders.md](design/interface/02-text-holders.md) | generated | The text holders: sizes, style classes and rules. | 2026-11-21 |
 | [design/interface/03-free-text-categories.md](design/interface/03-free-text-categories.md) | current design | Free texts in four categories: the categories, the owner's decisions, the proposed limits and what is still to build. | 2026-11-21 |
 | [design/interface/04-frequency-options.md](design/interface/04-frequency-options.md) | generated | The Frequency options by group, compared with the code. | 2026-11-21 |
@@ -110,7 +110,7 @@ What every screen shares, from the shared components (1) to the smallest text: t
 | [design/interface/08-tooltips.md](design/interface/08-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-21 |
 | [design/interface/09-help-texts.md](design/interface/09-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-11-21 |
 | [design/interface/10-help-texts-guide.md](design/interface/10-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-21 |
-| [design/interface/11-symbols.md](design/interface/11-symbols.md) | current design | The 30 symbols of the Capabilities and the Systems: grid, sizes and their three drawings, line, corners, tints, gaps, colours and reading modes, each symbol's drawing by size, and the files the app reads. | 2026-11-26 |
+| [design/interface/11-symbols.md](design/interface/11-symbols.md) | current design | The 39 symbols of the Capabilities, the Systems and the Resources: grid, sizes and their three drawings, line, corners, tints, gaps, the rule that a symbol takes its card's hue, reading modes, each symbol's drawing by size, and the files the app reads. | 2026-11-26 |
 
 ## 7. The research and the sources (`design/research/`, Research 1 to 8)
 
@@ -173,7 +173,7 @@ Standing rules, references and playbooks for an AI assistant working on the proj
 | [ai/06-framework-conventions-and-patterns.md](ai/06-framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-11-21 |
 | [ai/02-review.md](ai/02-review.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured and the report (sections 1 to 12), and the checklist to tick before saying done (section 13). | 2026-11-21 |
 | [ai/04-code-map.md](ai/04-code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-22 |
-| [ai/09-layout-rules.md](ai/09-layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-25 |
+| [ai/09-layout-rules.md](ai/09-layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-26 |
 | [ai/08-card-kinds.md](ai/08-card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-11-21 |
 | [ai/05-folder-plan.md](ai/05-folder-plan.md) | reference | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder (it was document 25; the number is retired). | 2026-11-21 |
 

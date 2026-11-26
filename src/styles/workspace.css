@@ -63,7 +63,7 @@
 
 /* The static "Capabilities" sidebar heading only -- NOT
    `.workspace-current-capability` (the dynamic active-Capability
-   name on the right, e.g. "Deliver Value"), which keeps its own
+   name on the right, e.g. "Value Delivery"), which keeps its own
    normal casing since it's naming a specific Capability, not
    labeling a section. */
 
@@ -472,7 +472,7 @@
 
 }
 
-/* (A Capability's name wraps on its own lines, whole, as a master tile's does: "Manage the Organization" on two.) */
+/* (A Capability's name wraps on its own lines, whole, as a master tile's does: "Value Delivery" on two where it must.) */
 .capability-tiles .section-tile-slot > .section-tile .section-tile-title {
 
     white-space: normal;

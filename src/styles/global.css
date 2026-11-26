@@ -567,7 +567,7 @@ body {
 /* A LABEL THAT GOES BOLD ON HOVER OR SELECTION KEEPS ITS ROOM. It
    is widened by its 5% tracking the moment it goes bold, and a
    label held to one line then ran out past the highlight drawn
-   behind it ("Manage the Organization" on the Capability list).
+   behind it ("Organisation" on the Capability list).
    An invisible, zero-height copy of it at the bold tracking
    (data-reserve) makes it as wide as it will ever be from the
    start, so the row, its highlight and the list around it are
