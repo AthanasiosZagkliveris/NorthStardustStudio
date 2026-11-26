@@ -576,6 +576,14 @@
    rail's bullets, as on a System page: bullet-rail.css.) */
 @media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) {
 
+    /* (Back 16px from the window's edge, so its word stands beside the full-length panel (owner, 2026-11-26: "The BACK word maybe could fit", option A).) */
+    :root body .workbook .workspace-footer .back-button.back-button {
+
+        left: 16px;
+        translate: none;
+
+    }
+
     .workbook .glossary-page[data-tiles-page] > .workbook-panel {
 
         margin-inline: var(--rail-inset);
