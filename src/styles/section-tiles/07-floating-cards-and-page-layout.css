@@ -1798,4 +1798,12 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
     }
 
+    /* (The colour runs out to the window's sides and stops there: a phone's browser widens its page to whatever stands past its edge, and the page then opened
+       at 1217px on a 390px phone, drawn at a third of its size -- found 2026-11-26 with a phone's own viewport. The page clips it across, never down.) */
+    .conversation-content {
+
+        overflow-x: clip;
+
+    }
+
 }

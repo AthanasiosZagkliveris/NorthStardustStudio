@@ -1153,6 +1153,22 @@
             }
         }
 
+        // 16e. A PAGE RAIL'S ARROW IS CENTRED ON ITS RAIL (docs/ai/09-layout-rules.md, "Rails and arrows": "Each arrow is centred on its rail"; owner, 2026-11-26
+        //      18:02 UTC+2, the right arrow 23px off its rail at 1366 x 640, where the rail stands against a chapter that ends short): where the chapters stand side
+        //      by side, a page rail's arrow and its bullets share one centre across.
+        if (window.matchMedia("(min-width: 900.02px) and (orientation: landscape) and (min-height: 640px)").matches) {
+            for (const railNode of [...document.querySelectorAll(".bullet-rails .bullet-rail")].filter(visible)) {
+                const arrow = railNode.querySelector(":scope > .bullet-rail-head > .page-arrow");
+                const dot = railNode.querySelector(".bullet-rail-dot");
+                if (!arrow || !dot || !visible(arrow) || !visible(dot)) continue;
+                const a = rect(arrow), d = rect(dot);
+                const off = Math.abs((a.left + a.width / 2) - (d.left + d.width / 2));
+                if (off > 2) {
+                    fail("a page rail's arrow is centred on its rail", arrow, { direction: arrow.getAttribute("data-direction"), off: Math.round(off) });
+                }
+            }
+        }
+
         // 16b. THE CAROUSEL ARROWS ARE NEVER COVERED (owner, 2026-11-09: "Where is the left arrow?"): each arrow of the layer opened last is
         //      the topmost thing at its own centre -- not under the page tab (.carousel-rail), however long its list.
         for (const arrow of [...document.querySelectorAll(".page-arrow.carousel-arrow")].filter(visible)) {
@@ -3591,6 +3607,7 @@
                 const most = window.innerWidth * 0.92;
                 let width = Math.min(most, 1400);
                 let height = window.innerHeight * 0.88;
+                let pageWide = false;
                 let top = (window.innerHeight - height) / 2;
                 // A dialog covers the area of the card of its section (its left and right edges, top and height); a page-level dialog keeps the page frame.
                 const sectionCard = tile.closest(".section-tiles-completed") ? null : tile.closest(".business-foundation-input");
@@ -3630,6 +3647,7 @@
                     // (Under the header and the page title that stays under it while the page scrolls; owner, 2026-11-11.)
                     top = Math.max(cardBox.top, rest);
                 } else if (underline) {
+                    pageWide = true;
                     // A page-wide dialog (Inventory, Completed) stands from the top of the page's cards to 12px above the window's foot, over the footer's band (owner, 2026-11-12).
                     const cardsTop = document.querySelector(".answer-columns.business-capability > .business-foundation-card");
                     const upper = Math.max(cardsTop ? cardsTop.getBoundingClientRect().top : 0, underline.getBoundingClientRect().bottom, header ? header.getBoundingClientRect().bottom : 0);
@@ -3640,8 +3658,10 @@
                         top = upper;
                     }
                 }
-                if (Math.abs(box.width - width) > 1.5 || box.height < height - 1.5) {
-                    failures.push({ rule: "a section dialog is the page card area's width, from the heading's underline to the footer", where: title, detail: { width: box.width, height: box.height, expected: [width, height] } });
+                // (A SECTION DIALOG IS AS LONG AS ITS TILES (owner, 2026-11-26 18:01 UTC+2: "All the cards have 12 px margin"): its height is no longer the frame's; the
+                // page-wide dialogs (Inventory, Completed) keep their frame.)
+                if (Math.abs(box.width - width) > 1.5 || (pageWide && box.height < height - 1.5)) {
+                    failures.push({ rule: "a section dialog is the page card area's width (a page-wide one from the heading's underline to the footer)", where: title, detail: { width: box.width, height: box.height, expected: [width, height] } });
                 }
                 if (Math.abs(box.top - top) > 1.5) {
                     failures.push({ rule: "a section tile's dialog starts at the heading's underline", where: title, detail: { top: box.top, expected: top } });

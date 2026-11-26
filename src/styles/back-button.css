@@ -34,15 +34,15 @@
     position: relative;
 }
 
-/* (Every Back: the page's link and the rail's arrow alone, 12px wide beside a card at 768px -- the layout check, 2026-11-14.) */
-.back-button.back-button.back-link::after,
-.back-button.back-button.carousel-rail-back::after {
+/* (Every Back: the page's link and the rail's arrow alone, 12px wide beside a card at 768px -- the layout check, 2026-11-14; at least --press-area, 44px on a
+   touch screen -- owner, 2026-11-26 17:04 UTC+2.) */
+.back-button.back-button::after {
     content: "";
     position: absolute;
     top: 50%;
     left: 50%;
-    width: max(100%, 24px);
-    height: max(100%, 24px);
+    width: max(100%, var(--press-area));
+    height: max(100%, var(--press-area));
     translate: -50% -50%;
 }
 

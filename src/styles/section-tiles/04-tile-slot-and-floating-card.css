@@ -176,6 +176,19 @@
 
 }
 
+/* (A TILE IS ONE TARGET ON A TOUCH SCREEN (owner, 2026-11-26 17:04 UTC+2, the touch proposal: "check how the other apps work ... and do it!"): as a card in
+   Material and a widget in Apple's guidance, a tap anywhere on a tile opens it -- its dialog --, and its list lines are read there; with a mouse each line still
+   opens its card. A line 24px tall is under a finger's 44px.) */
+@media (pointer: coarse) {
+
+    .section-tile-link {
+
+        pointer-events: none;
+
+    }
+
+}
+
 .section-tile-link:hover,
 .section-tile-link:focus-visible {
 
@@ -250,6 +263,21 @@
     background: currentColor;
 
     transform: translate(-50%, -50%);
+
+}
+
+/* (Its press area, at least --press-area -- 44px on a touch screen (owner, 2026-11-26 17:04 UTC+2) --: an invisible box centred on it, the box's own
+   pseudo-elements drawing its cross.) */
+.plus-box > .press-area {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: max(100%, var(--press-area));
+    height: max(100%, var(--press-area));
+
+    translate: -50% -50%;
 
 }
 

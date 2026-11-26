@@ -566,9 +566,10 @@
     width: var(--section-dialog-width, min(92vw, 1400px));
     /* The area of its card, and no more: it ends 12px above the footer (or the window's foot), and what its tiles do not fit scrolls in its body (owner,
        2026-11-24 10:12 UTC+2: "Do not forget the margin is 12 px" -- the Resources dialog ran past the window). */
-    /* (FULL LENGTH (owner, 2026-11-25: "All the dialogue cards should have full length"): down to 12px above the 64px footer whatever it holds; its card's area at
-       the least.) */
-    min-height: max(var(--section-dialog-height, 88vh), calc(100vh - var(--section-dialog-top, 0px) - var(--layer-foot) - 12px));
+    /* (AS LONG AS ITS TILES (owner, 2026-11-26 18:01 UTC+2: "I meant that it should not be cut, but continue after the screen's end"; "All the cards have 12 px
+       margin"): it ends 12px under its last tile -- its padding --, and one longer than the window runs on past its foot, the layer scrolling it, never cut. It
+       replaces the reading of 2026-11-25's "full length" as down to the footer.) */
+    min-height: 0;
     flex-shrink: 0;
 
     padding: var(--card-padding);
@@ -821,7 +822,7 @@
 
 /* (A SYMBOL WITH ITS TITLE, OR ALONE (owner, 2026-11-26 16:02 UTC+2: "If a tile has: An add button, icon, and title, then the title should be above the icon. The
    icon should be centered and have a side (horizontal gap 12px with the add button. If there is only an Icon and an add button, then place the icon in the middle
-   of the tile"): TileTitle sets the layout (data-symbol-layout) and the symbol's size (--title-symbol-size: 40% of the tile, never under 44px, 12px clear of the
+   of the tile"): TileTitle sets the layout (data-symbol-layout) and the symbol's size (--title-symbol-size: 48px, Material's display size -- 2026-11-26 17:04 UTC+2 --, 12px clear of the
    "+"). Its title stands 12px inside the tile, out of the tile's title lift; the title's rule is not drawn ("Remove the underlines under the icons").) */
 .section-tile-dialog[data-symbol-layout] .section-tile-slot > .section-tile > .section-tile-title:has(> .section-tile-title-symbol) {
 
@@ -921,17 +922,6 @@
     color: var(--text-faint);
 
     opacity: 0.55;
-
-}
-
-/* (WHERE THE CHAPTERS STACK, A DIALOG RUNS AT LEAST TO 12PX ABOVE THE FOOTER'S BAND (owner, 2026-11-26), and on to its whole length past it.) */
-@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
-
-    .section-tile-overlay.business-foundation > .section-tile-dialog.business-foundation-card {
-
-        min-height: calc(100vh - var(--section-dialog-top, 0px) - var(--layer-foot) - 12px);
-
-    }
 
 }
 

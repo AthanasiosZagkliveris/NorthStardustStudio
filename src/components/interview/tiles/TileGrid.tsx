@@ -29,9 +29,18 @@ export default function TileGrid({ label, className, columns, threeAcross = fals
     // one on a phone, each the share of the grid's width; the Strategy cards' three across and the Inventory's own grid keep theirs. Layout rules section 23.)
     const vertical = useVerticalAcross();
     const verticalAcross = !threeAcross && !bare && vertical > 0 ? vertical : 0;
+    // (A DIALOG ON A TOUCH SCREEN KEEPS THREE ACROSS, FILLING ITS WIDTH (owner, 2026-11-26 17:04 UTC+2, the touch proposal; "keep 3 tiles per row", 2026-11-25): where the
+    // page's tiles are too small for their names (under 180px, a tablet in landscape), the dialog takes at least 640px (dialogFrame) and its three tiles share it,
+    // so a finger reads every title.)
+    const [touchThree, setTouchThree] = useState(false);
     useLayoutEffect(() => {
         const node = grid.current;
-        if (!(threeAcross || fill || verticalAcross) || !node) {
+        setTouchThree(!!node && !threeAcross && !bare && !fill && !verticalAcross && pageSide < 180 && node.closest(".section-tile-dialog") !== null && typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches);
+    }, [threeAcross, bare, fill, verticalAcross, pageSide]);
+    const three = threeAcross || touchThree;
+    useLayoutEffect(() => {
+        const node = grid.current;
+        if (!(three || fill || verticalAcross) || !node) {
             return;
         }
         const measure = () => {
@@ -53,10 +62,10 @@ export default function TileGrid({ label, className, columns, threeAcross = fals
         const observer = new ResizeObserver(measure);
         observer.observe(node);
         return () => observer.disconnect();
-    }, [threeAcross, fill, pageSide, verticalAcross]);
-    const side = (threeAcross || fill || verticalAcross) && fitSide ? fitSide : pageSide;
-    const placed = !threeAcross && !verticalAcross && columns !== undefined && fitting >= columns;
-    const across = threeAcross ? 3 : verticalAcross ? verticalAcross : placed ? columns : fitting;
+    }, [three, fill, pageSide, verticalAcross]);
+    const side = (three || fill || verticalAcross) && fitSide ? fitSide : pageSide;
+    const placed = !three && !verticalAcross && columns !== undefined && fitting >= columns;
+    const across = three ? 3 : verticalAcross ? verticalAcross : placed ? columns : fitting;
     const box = (
         <div
             ref={grid}

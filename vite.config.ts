@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import hoverOnlyWithMouse from "./tools/scripts/vite/hover-only-with-mouse.mjs";
 
 // @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
@@ -7,6 +8,13 @@ const host = process.env.TAURI_DEV_HOST;
 // https://vite.dev/config/
 export default defineConfig(async () => ({
   plugins: [react()],
+
+  // Every :hover selector only where the input can hover (tools/scripts/vite/hover-only-with-mouse.mjs): a tapped control keeps no hover look on a touch screen.
+  css: {
+    postcss: {
+      plugins: [hoverOnlyWithMouse()],
+    },
+  },
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //

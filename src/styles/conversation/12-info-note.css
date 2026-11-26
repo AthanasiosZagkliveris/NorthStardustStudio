@@ -160,8 +160,9 @@
     top:50%;
     left:50%;
 
-    width:var(--size-mark);
-    height:var(--size-mark);
+    /* (At least --press-area, 44px on a touch screen: owner, 2026-11-26 17:04 UTC+2.) */
+    width:max(var(--size-mark), var(--press-area));
+    height:max(var(--size-mark), var(--press-area));
 
     transform:translate(-50%, -50%);
 

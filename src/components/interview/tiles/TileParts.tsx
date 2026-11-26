@@ -247,7 +247,10 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
                 const three = box && box.clientWidth > 0 ? (box.clientWidth - 2 * 12) / 3 - (parseFloat(style.paddingLeft) || 0) - (parseFloat(style.paddingRight) || 0) : Infinity;
                 // (WHERE A DIALOG'S TILES ARE TOO SMALL FOR TEXT (owner, 2026-11-25: "When in a dialogue card, the tiles are too small to use text, so we place symbols,
                 // keep 3 tiles per row"): a tile under 180px a side (a tablet in portrait three across), beside a phone's; a larger tile keeps its cut title sliding under the pointer.)
-                const small = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 601px)").matches && tile.getBoundingClientRect().width < 180;
+                // (And on every touch screen, whatever the tile's size (owner, 2026-11-26 17:04 UTC+2, the touch proposal): a cut title slides only under a pointer,
+                // so a finger reads its whole title, over its symbol.)
+                const touch = typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches;
+                const small = touch || (typeof window.matchMedia === "function" && window.matchMedia("(min-width: 601px)").matches && tile.getBoundingClientRect().width < 180);
                 const cut = small && parseFloat(node.getAttribute("data-words-width") ?? "0") > three + 0.5;
                 if (tile.hasAttribute("data-title-cut") !== cut) {
                     tile.toggleAttribute("data-title-cut", cut);
@@ -259,9 +262,9 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
                 }
                 // (A SYMBOL WITH ITS TITLE, OR ALONE (owner, 2026-11-26 16:02 UTC+2, on the dialog tile prototypes: "If a tile has: An add button, icon, and title,
                 // then the title should be above the icon. The icon should be centered and have a side (horizontal gap 12px with the add button. If there is only an
-                // Icon and an add button, then place the icon in the middle of the tile"): the symbol centred across, at its proper size (40% of the tile, never under
-                // the add button's 44px, as the Systems' symbols), and 12px clear of the "+" beside it; where a tile leaves it under 44px, the symbol stands alone, its
-                // name in the tooltip.)
+                // Icon and an add button, then place the icon in the middle of the tile"): the symbol centred across, at one size, 48px (Material's display size for a
+                // symbol; the touch proposal, owner, 2026-11-26 17:04 UTC+2), and 12px clear of the "+" beside it; where a tile leaves it under 44px, the symbol stands
+                // alone, its name in the tooltip.)
                 let layout: "named" | "alone" | null = null;
                 if (symbols) {
                     const plus = tile.parentElement?.querySelector<HTMLElement>(":scope > .section-tile-plus");
@@ -269,7 +272,7 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
                     if (plus && side > 0) {
                         const outer = tile.getBoundingClientRect();
                         const box = plus.getBoundingClientRect();
-                        const proper = Math.max(44, side * 0.4);
+                        const proper = 48;
                         const across = side - 2 * (outer.right - box.left + 12);
                         layout = across >= 44 ? "named" : "alone";
                         // (Alone: in the middle across, and down in the room above the "+", 12px clear of it: the tile's true middle would meet the "+".)
