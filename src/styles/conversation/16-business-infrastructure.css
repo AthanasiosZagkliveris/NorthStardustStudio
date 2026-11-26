@@ -77,12 +77,15 @@
 
 }
 
-@media (min-width: 1212px) and (min-height: 560px) and (orientation: landscape){
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px){
 
     /* An area whose tiles do not fit GROWS DOWN: the page scrolls, nothing is clipped inside a card. */
     .conversation-page:has(.answer-columns.business-capability){
 
         min-height:100vh;
+
+        /* (The height the browser's own bars leave, as they show and hide: dvh, with vh where it is not known.) */
+        min-height:100dvh;
 
     }
 

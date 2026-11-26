@@ -231,6 +231,9 @@ export interface CrumbNote {
 
 /** The marks of one line of a tile's list (see SectionTile.itemMarks). */
 export interface ItemMark {
+    /** THE LINE'S SYMBOL WHEN ROOM RUNS SHORT (a Resources category's: data/resourceIcons.ts): where the list cannot show every line, and every line has one, the
+     * tile shows these symbols in a grid instead of the names (TileList, data-symbols), each named in its tooltip. */
+    symbol?: string;
     /** The category or group holds no card: its line (text and bullet) is drawn 75% transparent. */
     empty?: boolean;
     /** The Channel line of Offering's Resources: its text and bullet in the channel's teal. */

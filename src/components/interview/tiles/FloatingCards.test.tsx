@@ -642,10 +642,10 @@ describe("the stylesheet of the page tiles, the floating cards and the dialog gr
     const css = stylesheet("section-tiles.css");
     const global = stylesheet("global.css");
 
-    it("lifts a page tile on HOVER by its shadow, in its cell -- it never grows over its neighbours (owner, 2026-11-23 18:32 UTC+2) -- with no motion when reduced", () => {
+    it("lifts a page tile on HOVER by its shadow and grows it 4%, inside the 12px gap -- it never grows over its neighbours (owner, 2026-11-23 18:32 and 2026-11-24 04:47 UTC+2) -- with no motion when reduced", () => {
         expect(css).toMatch(/\.section-tile-slot \{[^}]*position: relative;[^}]*transform-origin: 50% 50%;[^}]*transition: transform \.15s ease;/);
         expect(css).toMatch(/\.section-tile-slot:hover \{[^}]*z-index: 6;/);
-        expect(css).not.toMatch(/:not\(\[data-pointer-still\]\) \.section-tile-slot:hover \{[^}]*transform: scale/);
+        expect(css).toMatch(/:not\(\[data-pointer-still\]\) \.section-tile-slot:hover \{[^}]*transform: scale\(1\.04\);/);
         expect(css).toMatch(/\.section-tile-slot:hover > \.section-tile \{[^}]*box-shadow: var\(--box-inset\), var\(--shadow-tile-lift\)/);
         // Never with the focus: a tile that holds the focus has its ring, it does not grow.
         expect(css).not.toMatch(/\.section-tile-slot:[^{]*focus[^{]*\{[^}]*transform: scale/);

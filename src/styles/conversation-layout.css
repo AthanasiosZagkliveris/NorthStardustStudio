@@ -29,7 +29,7 @@
        80 + 24 = 104. Bottom padding clears the fixed Footer (64px),
        plus a little breathing room -- 64 + 32 = 96 -- so content
        scrolled all the way down gets fully clear of "← Back". */
-    padding: 104px 40px 96px;
+    padding: calc(var(--app-header-height, 64px) + 24px) 40px 96px;
 
 }
 

@@ -269,27 +269,63 @@ track of the grid it stands in.
 
 ### The page's sizes (one set for every page)
 
-Owner, 2026-11-23 19:48 UTC+2: "Can we be consistent and use the same sizes? Is there any document report the sizes?" This table owns the sizes of a page of chapters: every System page and every Capability page take them, and no page sets its own. The master side is worked out from the window alone (`masterSide`, SectionTileGeometry.tsx); `SectionTiles` and the Capability pages never draw a master tile larger, and `arrowLevel` places the arrows from it.
+The owner asked on 2026-11-23 (19:48, 20:58 and 21:05 UTC+2): "Can we be consistent and use the same sizes?"; "The tiles should always be square … The frame chapter should hug its tiles … I do not want the user, specially on landscape size screens to scroll down"; "Looks good, let's refine it adjusting the text size".
+
+This table owns the sizes of a page of tiles. Every System page and every Capability page takes them, and no page sets its own.
+
+**The page follows its tiles.** The window gives one master side. The page is drawn as wide as two chapters of that side plus the rails, and is centred in the window. Inside the page everything stands at the left.
+
+The code that sets these sizes:
+- `masterSide` and `tilesPageWidth` (SectionTileGeometry.tsx) work out the master side and the page width.
+- `setTilesPage` gives the page its width through `--tiles-page-width` and `data-tiles-page` on `.conversation-page`.
+- `SectionTiles` and the Capability pages draw the tiles at that size.
+- `arrowLevel` places the arrows from it.
 
 | What | Size | Where it is set |
 |---|---|---|
-| Page width (the title rule) | min(1400px, the window less its gutters) | `--card-width`, bullet-rail.css |
+| Master tile side | Always square. The smaller of two limits: the height (two rows between the page title and the footer, with their 12px gaps) and the width (four tiles of the widest page the window allows, 1400px at most). 150px at the least. Examples: 301px at 1920 x 950, 211px at 1440 x 770, 191px at 1536 x 730, 150px at 1366 x 640 (the visible area). | `masterSide` |
+| Page width (the title rule) | 2 x (2 x side + 12 + 26) + 12 + 2 x 54: two chapters, the gap between them and the rails' room. It never exceeds the widest page the window allows. The page is centred in the window. | `tilesPageWidth`, `setTilesPage`, bullet-rail.css |
 | Rail room at each end of the rule | 54px (the dots-only tab) | `--rail-inset`, bullet-rail.css |
-| A chapter's column | (page width - 2 x 54 - 12) / 2 | `masterSide` |
+| A frame's padding and edge | 12px + 1px on all four sides: the frame hugs its tiles | `--card-padding`, global.css; `SectionTiles` (hug, `data-hug-pair`) |
 | Between two chapters, between two tiles, under a frame's head | 12px | `--space-card`, global.css |
-| A frame's padding and edge | 12px + 1px each side (26px across) | `--card-padding`, global.css |
 | A frame's head (its title) | 36px | `--section-head-height`, global.css |
-| First tile row's top | the rule's bottom + 12 + 61 (edge and padding 13, head 36, 12) | `masterSide`, `arrowLevel` |
-| Master tile side | min((column - 26 - 12) / 2, what lets two rows stand above the footer with its 12px gaps), 150px at least: 301px at 1870 x 1000, 258px at 1536 x 864, 210px at 1366 x 768 | `masterSide` |
-| Frame of a lone chapter | hugs its tiles: 2 x side + 12 + 26, at the page's left against the left rail | `SectionTiles` (hug) |
-| Two chapters, or one with two groups | each hugs its tiles too (13px round them on all four sides), the two 12px apart at the page's left; what the page leaves over is at their right (owner, 2026-11-23 20:12 UTC+2: "The chapter's side gaps seems larger that its top down") | `SectionTiles` (`data-hug-pair`: the grid's two tracks the chapters' width, a third the rest, so a row across the page, Inventory and Completed, keeps its place) |
-| Arrow level | the first row's top + side + 6 (the middle of the gap between the rows) | `arrowLevel` |
-| The page arrows | each centred in its rail's room at its end of the title rule, inside the page, the right one mirroring the left | bullet-rail.css |
-| "+ Add Segment" | in the footer's band, its left edge on the chapter frame's left edge (the rule's left end + 54px) | bullet-rail.css |
-| A text tile's last line | a whole line, ending in "…" where the text runs on | `TileList` (line-clamp) |
-| The vertical layout (under 1100px or portrait) | its own steps: section 23 | `SectionTiles` (vertical) |
+| The page's head | The header 64px (`--app-header-height`; 56px on a phone in landscape); 24px from the header to the title's capitals, 12px from the letters' foot to the underline, 12px from the underline to the chapter; the page's symbol level with the capitals (owner, 2026-11-24 00:56 UTC+2) | global.css, 01-interview.css |
+| First tile row's top | The rule's bottom + 12 + 61 (edge and padding 13, head 36, 12) | `masterSide`, `arrowLevel` |
+| A lone chapter | Keeps the two-chapter page width. It hugs its tiles at the page's left, against the left rail. | `SectionTiles` |
+| The page title | One line. On a wide screen it steps down 2px at a time to 24px at the least, and its line keeps its height. | `InterviewHeader` |
+| The type | One fluid scale in `rem` (global.css): h1 24 to 36, h2 20 to 28, h3 18 to 24, body 16 to 18, small 13 to 14, moving with the window (the responsive layout, docs/proposals/responsive-layout-2026-11-23.md, section 4.2). A master tile's title and list are the body step; a word too wide for its tile takes the small step (`data-title-small`); a chapter's heading steps down to stand on one line (`fitHeading`) | global.css, `TileTitle`, `fitHeading` |
+| The footer's band | One button high (64px), with Back, "+ Add Segment", Inventory and Completed in it. At least 12px between the chapter's foot and the band. "+ Add Segment" starts on the chapter's left edge. | `--tiles-page-width` page foot, bullet-rail.css |
+| Rails and arrows | Together, inside the page, under the title rule, at its ends. Each arrow is centred on its rail. The page's symbol is on the left rail's line. The right rail stands against its chapter. | bullet-rail.css |
+| Arrow level | The first row's top + side + 6 (the middle of the gap between the rows) | `arrowLevel` |
+| A text tile's last line | A whole line, ending in "…" where the text runs on; a list ends at a whole item | `TileList` (line-clamp) |
+| A tile with too little room | A list or a text cut to less than two lines is not shown: the tile keeps its title and its symbol (owner, 2026-11-23 21:49 UTC+2) | `TileList` (`data-no-room`) |
+| The page tags' place | Always 12px under the top of the chapter they stand against (a Segment's chapter included), measured again when the page title settles | `useRailTab` |
+| A rail too long for the window | Its bullets lie in a row in the footer's band, by its middle (the Pages rail before it, the Sections rail after it), without a tab; its arrow keeps its place (owner, 2026-11-23 21:49 UTC+2: "place them horizontally at the footing") | `BulletRail` (`data-across`), bullet-rail.css |
+| The tiers | Side by side, no scroll: a landscape window 900px wide and 640px tall or more. Stacked (one chapter a row, the page scrolls, tiles at most 260px, the rails in the footer's band): under 900px, a portrait window or under 640px tall. A phone turned to landscape (under 480px tall): header 56px, band 48px, four tiles a row. The safe areas pad the bands (`env(safe-area-inset-*)`, `viewport-fit=cover`) | `VERTICAL_QUERY`, `ROW_OF_FOUR_QUERY` (useVerticalLayout.ts), bullet-rail.css, app-header.css |
+| A Resources tile short of room | Its nine categories as 24px symbols in a 3 x 3 grid, as many whole rows as fit, each named in its tooltip; under one row, the title alone (owner, 2026-11-24 00:21 UTC+2) | `TileList` (`data-symbols`), data/resourceIcons.ts |
+| A touch screen (a tablet) | Its rails always in the footer's band, its page keeping no rails' room (`--rail-inset: 0`); side by side, Inventory, Completed and "+ Add Segment" stand on the band, 6px above it; Back stands first in the page title's row on any window wider than a phone's where the band holds the rails (owner, 2026-11-24 00:21 UTC+2) | `BAND_QUERY` / `railsInBand` (useVerticalLayout.ts), `AppFooter`, bullet-rail.css |
+| The page title | "System — Page" on one row; where it does not fit, the page's symbol and name alone (`.interview-header-page-only`), then steps down to 24px at the least (owner, 2026-11-24 00:21 UTC+2) | `InterviewHeader` |
+| A tile's content | On the tile's midline, the same line on every tile of a row (owner, 2026-11-24 04:24 UTC+2: "The blue lines are the mid points"), never above 12px under the title's rule nor past the room's foot (or its +), its items up to 8px further apart where there is room; where three lines do not fit, the title alone, centred in the tile (owner, 2026-11-24 03:14 UTC+2) | `TileList` (`--list-centre`, `--list-air`, `data-no-room`, `--title-centre`) |
+| Titles on a page | One size for every master tile's title on every page of a window: the large size, a long title wrapping onto its lines; the small size on every page only where the app's longest title word (RELATIONSHIP) would not stand whole in a tile (owner, 2026-11-24 03:14 and 04:54 UTC+2: "All the tiles' titles should have the same size!"); one size for a page's chapter headings (the smallest a heading steps down to) | `TileTitle` (`data-titles-small`), `unifyHeadings` |
+| The Workbook and the Handbook | Side by side, as wide as a page of tiles at the window, their rule as long; with a mouse, the rail's tab inside the rule's left end, the panel 54px in from both ends, the symbol over the bullets (owner, 2026-11-24 03:14 UTC+2) | `Workbook.tsx` (`setTilesPage`), glossary.css |
+| The Landing page | The name's cell ends with the Organisations' cells, before their arrow; on a phone, Add, Export, Import and Reload are their symbols alone in the header buttons' box (owner, 2026-11-24 03:14 UTC+2) | landing.css |
+| A tile under the pointer | Grows 4% about its centre, inside the 12px gap, never over a neighbour (owner, 2026-11-24 04:47 UTC+2) | 04-tile-slot-and-floating-card.css |
+| The page's symbol | Its ink as tall as the title's capitals (0.727 of the title's size) and its middle on theirs, on every page: the square sized from the drawing's own ink (--icon-box), its 36px column centred on the rail's bullets (owner, 2026-11-24 05:18 and 05:27 UTC+2) | `InterviewHeader` (ink measured), 01-interview.css, bullet-rail.css |
+| A System's tile on its Capability's page | Its title and symbol alone, centred; what it holds is on its Introduction (owner, 2026-11-24 05:32 UTC+2) | `SystemSelection`, workspace.css |
+| Spacing between list lines | Up to 8px, one amount for every list of a page or dialog -- the least any list allows, 0 where one is full -- and never cutting a line (owner, 2026-11-24 04:28 and 05:16 UTC+2) | `TileList` (`data-air-allows`, `--list-air`) |
+| One place per part per screen size | The owner's table of 2026-11-25: the page title in the header centred, the System's symbol and the page's name (the Handbook and Workbook the open tab's name); rails at the sides wherever the chapters stand side by side (a laptop never has its rail in the footer), the band where they stack; Back left of the page at the first card's top on a tablet in portrait, first in the title's row on a phone in portrait; dialogs full length; Inventory and Completed one master tile wide under the first two tiles; tables and documents as wide as the window allows | app-header.css, bullet-rail.css, back-button.css, AppFooter, BusinessCapabilityEditor, Workbook, capability-overview.css |
+| A dialog tile's symbol | Where a dialog's titles do not fit three across on a tablet (`data-title-symbols`): with room for the symbol 12px clear of the "+" across, the title at the top (two lines' room, small size, the weight's tracking) and the symbol centred under it; with less, the symbol alone, centred across in the room above the "+", its name in the tooltip. Its size 40% of the tile, never under 44px, never nearer the "+" than 12px (owner, 2026-11-26 16:02 UTC+2) | `TileTitle` (`data-symbol-layout`, `--title-symbol-size`), 01-tiles-and-dialog.css |
+| One rule for a screen's tiles | Where one master tile of a page or a dialog is short of room (its list cut, or a grid of symbols missing rows), every one there shows its title alone, its rule on the tile's middle (owner, 2026-11-24 10:12 UTC+2) | `TileList` (`data-room-short`) |
+| A dialog's titles that do not fit | Two across, and a Resource category's title as its symbol (32px), its name in the tooltip (owner, 2026-11-24 10:12 UTC+2) | `TileTitle` (`data-title-symbols`), 01-tiles-and-dialog.css |
+| The page title in the header | A window 601px wide or more that is 700px tall or less, 1100px wide or less, or a touch screen: the title, its symbol in the header, the TILES word hidden, the Organisation's square mark before the buttons; on a small laptop the rails, arrows and Back in the footer's band (owner, 2026-11-24 10:12 UTC+2) | app-header.css, bullet-rail.css, `BAND_QUERY` |
+| A dialog's height | It ends 12px above the footer; what does not fit scrolls in its body (owner, 2026-11-24 10:12 UTC+2) | 01-tiles-and-dialog.css |
+| A phone's page title | `--font-h2`, one line (owner, 2026-11-24 03:14 UTC+2) | 01-interview.css |
+| A phone in landscape | The Tiles logo without its word; the page's title, symbol and Back in the header on one line (`--font-h2`; the page's name alone, then an ellipsis); no footer band, no bullets, the arrows at the bottom corners; the Organisation's square Brand icon (else its logo) at the header's right end; the header's sides clear of the notch, `max(28px, env(safe-area-inset-*))` (owner, 2026-11-24 03:14 UTC+2) | app-header.css, `BrandMark` |
 
-The layout check measures them: every page's master tiles one side in a window, and the arrows between the rows (`checkCapabilityArrows`, the probe's tile rules).
+The layout check measures these sizes:
+- `checkLandscapePages`: no page of tiles scrolls at 1920 x 950, 1536 x 730, 1440 x 770 or 1366 x 640, and every master tile is square and one size.
+- `checkCapabilityArrows`: the Capability pages' arrows stand between the rows.
+- The probe's tile rules.
 
 ### Heights
 

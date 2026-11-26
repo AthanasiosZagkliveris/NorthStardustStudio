@@ -40,7 +40,7 @@
 .bullet-rails {
 
     position: fixed;
-    top: 104px;
+    top: calc(var(--app-header-height, 64px) + 24px);
     /* Clear of the footer (64px), with the same 32px to spare as
        the page. */
     bottom: 96px;
@@ -65,7 +65,7 @@
     /* (EVERY RAIL STARTS 12px UNDER ITS FRAME'S TOP, as a dialog's or a card's tab does: --rail-frame-top, read from the page's frame by useRailTab.ts; owner,
        2026-11-19 12:52 UTC+2, "Why the rails (chapter/page and dialogue card) have different Top gaps". They stood 24px under the arrow level. A page with no
        frame keeps that place.) */
-    flex: 0 1 max(0px, calc(var(--rail-frame-top, calc(var(--arrow-level, calc(50vh - 24px)) + 24px)) - 104px));
+    flex: 0 1 max(0px, calc(var(--rail-frame-top, calc(var(--arrow-level, calc(50vh - 24px)) + 24px)) - var(--app-header-height, 64px) - 24px));
 
 }
 
@@ -732,23 +732,63 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 }
 
 
-/* THE PHONE (600px and under; owner, 2026-11-22 09:52 UTC+2, "for smaller screens (mobiles), the texts, tiles and cards sizes should be adjusted to fit"; layout
-   rules section 23, "The phone"): the side gutters (56px each) would leave a 390px phone a 278px card, so the page's side gutter is 16px and the Pages and
+/* THE STACKED LAYOUT: A TABLET, A PHONE, A SHORT WINDOW (since 2026-11-23 23:21 UTC+2, the responsive layout approved, section 4.3: the rails of a stacked page
+   never stand in the side margins; before, the phone alone -- owner, 2026-11-22 09:52 UTC+2, "for smaller screens (mobiles), the texts, tiles and cards sizes
+   should be adjusted to fit"; layout rules section 23, "The phone"): the side gutters (56px each) would leave a 390px phone a 278px card, so the page's side gutter is 16px and the Pages and
    Sections rails stand in the footer's band, one row: the "‹" page arrow and the Pages dots at the left, the Sections dots and the "›" arrow at the right, the
    bullets in a row 12px apart, their names in the tooltips as on every dots-only rail. No tab is drawn round them: the band is their ground. */
-@media (max-width: 600px) {
+/* (A small laptop, 700px tall or less, too (owner, 2026-11-24 10:12 UTC+2: 'on small laptop ... the navigation arrow to the bottom part, and the rail in the middle').) */
+/* (THE BAND WHERE THE CHAPTERS STACK ALONE: a laptop and a tablet in landscape keep the monitor's rails at the sides (owner, 2026-11-25: "Laptop NEVER gets rail at its button!"; "the rail system should be the same across all the app's pages, per screen size"; 2026-11-24 10:12: "On the tablet (landscape), the rail should be at the side").) */
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
 
-    :root { --rail-gutter: 16px; }
+    /* (The side gutter: room for Back's arrow outside the page, 12px from it, on a tablet; a phone's is 16px, below.) */
+    :root { --rail-gutter: 48px; }
+
+    /* (The page as wide as its chapter (SectionTiles: --tiles-page-width), centred; the footer's arrows just outside its edges, 12px from them, the bullets between --
+       owner, 2026-11-24 00:56 UTC+2: "The arrows should start exactly after the page limits".) */
+    .conversation-page[data-tiles-page] {
+
+        --card-width: var(--tiles-page-width);
+
+    }
+
+    .conversation-page[data-tiles-page] .conversation-card {
+
+        max-width: var(--tiles-page-width);
+
+    }
+
+
+    body:has(.conversation-page[data-tiles-page]) .bullet-rails {
+
+        /* (Clear of the Back at the band's left, which stays there (owner, 2026-11-24 10:12 UTC+2: "The back button does not move to the header, it stays there"):
+           its 24px from the edge, its arrow and 12px -- 60px at the least, the same at the right.) */
+        padding-inline: max(60px, calc((100vw - var(--tiles-page-width, 100vw)) / 2 - 24px - var(--gap-12)));
+
+    }
+
+    /* (A PHONE IN LANDSCAPE: its Back stands in the header (AppFooter), so the arrows take their place 12px outside the page's edges, as on a tablet, never over
+       the chapters (owner, 2026-11-25 15:51 UTC+2, "Rails and their place"); clear of a notch.) */
+    @media (orientation: landscape) and (max-height: 479px) {
+
+        body:has(.conversation-page[data-tiles-page]) .bullet-rails {
+
+            padding-inline: max(env(safe-area-inset-left, 0px), calc((100vw - var(--tiles-page-width, 100vw)) / 2 - 24px - var(--gap-12)));
+
+        }
+
+    }
 
     .bullet-rails {
 
         top: auto;
-        bottom: 0;
+        /* (Above the home indicator, clear of a landscape notch: the band's safe areas, as the footer's (workspace.css).) */
+        bottom: env(safe-area-inset-bottom, 0px);
         height: 64px;
 
         z-index: 31;
 
-        padding-inline: var(--gap-12);
+        padding-inline: calc(var(--gap-12) + env(safe-area-inset-left, 0px)) calc(var(--gap-12) + env(safe-area-inset-right, 0px));
 
         flex-direction: row;
         align-items: center;
@@ -838,6 +878,29 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
     }
 
+    /* (THE BAND'S BULLETS SPREAD EVENLY, THE SECTIONS' HIDDEN (owner, 2026-11-23 22:44 UTC+2: "In mobiles ... spread the bullets (footing) equally. Hide the bullets
+       of the segments; the user has to scroll down to visit the other segment"): the Pages bullets share the row between the two arrows, evenly; the right rail
+       keeps its arrow alone.) */
+    :root:root .bullet-rail.bullet-rail-left {
+
+        flex: 1 1 auto;
+
+    }
+
+    .bullet-rail-left .bullet-rail-list {
+
+        flex: 1 1 auto;
+
+        justify-content: space-evenly;
+
+    }
+
+    .bullet-rail-right .bullet-rail-list {
+
+        display: none;
+
+    }
+
 }
 
 /* THE RAILS INSIDE THE PAGE'S EDGES (owner, 2026-11-23 18:07 UTC+2: "I said align to the left!"; "This also should take all the page size" -- the rails stood out
@@ -849,7 +912,7 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
 }
 
-@media (min-width: 1100px) and (orientation: landscape) {
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) {
 
     body:has(.bullet-rail-left .bullet-rail-dot) .conversation-card > :not(.interview-header, .workspace-continue, .field-page, .capability-help-block),
     body:has(.bullet-rail-left .bullet-rail-dot) .conversation-card > .field-page > * {
@@ -899,7 +962,7 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
        align in the centre"): the centre of the rail's tab, --rail-inset / 2 in from the title rule's end; the symbol (36px) and the arrow (24px) centred on it.) */
     body:has(.bullet-rail-left .bullet-rail-dot) .interview-header-icon {
 
-        margin-left: calc(var(--rail-inset) / 2 - 18px);
+        margin-left: calc(var(--rail-inset) / 2 - var(--icon-box, 36px) / 2);
 
     }
 
@@ -923,7 +986,116 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
        from the title rule's left end, past the rail's room, where the chapter frame starts.) */
     body:has(.bullet-rail-left .bullet-rail-dot) .business-foundation-segment-frames + .business-foundation-input-actions {
 
-        left: calc(max(var(--rail-gutter, 56px), (var(--view-width) - 1400px) / 2) + var(--rail-inset));
+        left: calc((var(--view-width) - var(--card-width)) / 2 + var(--rail-inset));
+
+    }
+
+}
+
+/* A RAIL TOO LONG FOR THE WINDOW LIES ACROSS THE FOOTER (owner, 2026-11-23 21:49 UTC+2: "place them horizontally at the footing"; BulletRail, data-across): its
+   bullets in a row in the footer's band, by the band's middle -- the Pages rail ending 6px before it, the Sections rail starting 6px after it --, without a tab, as
+   the phone's rails; its name in the tooltips; its arrow keeps its place. */
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) {
+
+    :root:root .bullet-rails .bullet-rail[data-across] {
+
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        z-index: 31;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        width: auto;
+        height: 64px;
+        margin: 0;
+        padding: 0;
+
+        background: none;
+        border: 0;
+        box-shadow: none;
+
+    }
+
+    :root:root .bullet-rails .bullet-rail-left[data-across] {
+
+        left: auto;
+        right: calc(50% + 6px);
+
+    }
+
+    :root:root .bullet-rails .bullet-rail-right[data-across] {
+
+        right: auto;
+        left: calc(50% + 6px);
+
+    }
+
+    .bullet-rail[data-across] .bullet-rail-list {
+
+        flex-direction: row;
+        align-items: center;
+        gap: var(--rail-dot-gap);
+        padding: var(--rail-dot-overhang);
+
+    }
+
+    .bullet-rail[data-across] .bullet-rail-head > .bullet-rail-title {
+
+        display: none;
+
+    }
+
+}
+
+/* THE PAGE OF TILES SIDE BY SIDE, A MOUSE'S OR A TOUCH SCREEN'S (moved out of the rails' block on 2026-11-24, which a touch screen does not take: its rails stand in
+   the footer's band). */
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) {
+
+    /* (THE PAGE FOLLOWS ITS TILES (owner, 2026-11-23 21:05 UTC+2; layout rules section 4, "The page's sizes"): a page of tiles is as wide as its chapters and its
+       rails (--tiles-page-width, SectionTileGeometry's setTilesPage), centred in the window; the rails, the arrows and the footer's buttons are placed from it.) */
+    .conversation-page[data-tiles-page] {
+
+        --card-width: var(--tiles-page-width);
+
+    }
+
+    .conversation-page[data-tiles-page] .conversation-card {
+
+        max-width: var(--tiles-page-width);
+
+    }
+
+    /* (Its foot: the footer's band and the 12px above it, as the tile pages' (16-business-infrastructure.css), the Capability pages' too, so no page of tiles
+       scrolls.) */
+    .conversation-page[data-tiles-page] > .conversation-content {
+
+        padding-bottom: calc(64px + var(--space-card));
+
+    }
+
+}
+
+/* (A PHONE'S GUTTER: 16px -- a 390px phone keeps 358px for its card; its Back stays in the footer's band.) */
+@media (max-width: 600px) {
+
+    :root {
+
+        --rail-gutter: 16px;
+
+    }
+
+}
+
+/* (THE STACKED PAGE'S CARDS ON ITS EDGES: a page of cards with no page group round it -- Infrastructure & Capability -- gives its columns' 13px back, as .page-group
+   does, so its chapter takes the page's edges; side by side its two columns already stand on them.) */
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
+
+    .conversation-page[data-tiles-page] .conversation-card > .field-page > .answer-columns:not(.column-tiles-page) {
+
+        margin-inline: -13px;
 
     }
 

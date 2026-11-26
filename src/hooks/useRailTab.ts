@@ -63,7 +63,9 @@ export default function useRailTab(colours?: RailTabColours) {
             // (chapter/page and dialogue card) have different Top gaps", 13:04: "Fix it in the root"): the page's rails take the top of the frame they are attached
             // to, as the page rests (its scroll taken back), as a dialog's or a card's tab takes its layer's; --rail-frame-top, read by bullet-rail.css.
             if (frames.length > 0) {
-                const frame = frames[0];
+                // (A Segment's group stands in its Segment's chapter, under the chapter's name: the tab takes the chapter's top, as on every page -- owner, 2026-11-23
+                // 21:49 UTC+2, "Check the page tags should stay always in place".)
+                const frame = frames[0].closest<HTMLElement>(".segment-chapter") ?? frames[0];
                 let scrolled = window.scrollY;
                 // (The window's scroll once: the document element's own scrollTop is the same scroll, and counting it too put the rail that far down once the page's
                 // stacked chapters (below 1200px) had been scrolled -- 2026-11-20, a rail 680px under its frame at 768.)
@@ -82,6 +84,14 @@ export default function useRailTab(colours?: RailTabColours) {
             }
         }
 
+        // (The page title settles after the page is drawn -- it steps its type down to stand on one line (InterviewHeader) --, so the frame's top moves: measured
+        // again when the title's box changes.)
+        const heading = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(later);
+        const header = document.querySelector(".interview-header");
+        if (header) {
+            heading?.observe(header);
+        }
+        window.addEventListener("tiles-fit", later);
         const observer = new MutationObserver(later);
         observer.observe(document.body, { childList: true, subtree: true });
         window.addEventListener("resize", later);
@@ -92,6 +102,8 @@ export default function useRailTab(colours?: RailTabColours) {
         return () => {
             observer.disconnect();
             theme.disconnect();
+            heading?.disconnect();
+            window.removeEventListener("tiles-fit", later);
             window.removeEventListener("resize", later);
             if (frame !== 0) {
                 window.cancelAnimationFrame(frame);

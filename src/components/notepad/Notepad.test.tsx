@@ -338,7 +338,7 @@ describe("the Notepad panel", () => {
 
     it("slides in over the page (no reduced-motion slide), from the header to the foot of the window, with a shadow off its left edge", () => {
         const css = stylesheet("notepad.css");
-        expect(css).toContain("position: fixed; top: 80px; bottom: 0; right: 0; z-index: 29;");
+        expect(css).toContain("position: fixed; top: var(--app-header-height, 64px); bottom: 0; right: 0; z-index: 29;");
         expect(css).toContain("box-shadow: -8px 0 16px -8px var(--shadow-ink-18); /* It slides in from the right, briefly -- not at all under reduced motion. */ animation: notepad-slide-in 0.2s ease-out;");
         expect(css).toContain("@media (prefers-reduced-motion: reduce) { .notepad-panel { animation: none; } }");
         // Over the page: it never narrows it.

@@ -664,6 +664,21 @@ export default function CapabilityOverview({ rows, format = String, currency = "
         const names = (row.offeringIds ?? []).map(id => offerings.find(offering => offering.id === id)?.name.trim() || "").filter(Boolean).filter(chosen);
         return column === "offering" && names.length > 0 ? <Values items={names.map(name => ({ key: name, node: name }))} /> : undefined;
     };
+    // (TWO COST NATURES ON TWO ROWS (owner, 2026-11-26 12:35 UTC+2: "some other cards have 2 Cost Natures. To save some space better to place them in 2 rows (per
+    // nature cost)"): "Pre-Operating Expense, then OpEx" as the first nature over the second, divided as a card's two channels are.)
+    const natureLines = (column: string, value: ReactNode): ReactNode => {
+        if (column !== "nature" || typeof value !== "string" || !value.includes(", then ")) {
+            return value;
+        }
+        const [first, second] = value.split(", then ");
+        return (
+            <div className="channel-resource-place">
+                <span className="channel-resource-place-channel">{first}</span>
+                <span className="channel-resource-place-rule" aria-hidden="true" />
+                <span className="channel-resource-place-sub">{"then " + second}</span>
+            </div>
+        );
+    };
     const channelCell = (row: FloorRow, column: string): ReactNode | undefined => {
         const facts = row.channel;
         if (!facts) {
@@ -780,6 +795,16 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                 </TileGrid>
             )}
 
+            {/* (A PHONE HELD UPRIGHT: TURN IT FOR THE WHOLE TABLE (owner, 2026-11-24 10:12 UTC+2: "For table, that on portrait position, does not work. create a message to
+                rotate the screen"): a note over the table, its symbol a phone turning, shown in a phone's portrait alone (capability-overview.css). It never blocks the
+                table, which still scrolls sideways -- a message that locks a view to one orientation fails WCAG 2.1 SC 1.3.4 (W3C failure F100).) */}
+            {view === "table" && shown.length > 0 && (
+                <p className="capability-overview-rotate" role="note">
+                    <svg className="capability-overview-rotate-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2" fill="none" stroke="currentColor" strokeWidth="1.6" /><path d="M11 18h2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /><path d="M19.5 9.5a8 8 0 0 1 0 5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /><path d="M18.2 14l1.3 1.2 1.2-1.4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    <span>Turn your phone sideways to see every column. The table also scrolls left and right.</span>
+                </p>
+            )}
+
             {view === "table" && shown.length > 0 && (
                 <table
                     className="capability-overview-table"
@@ -827,7 +852,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                                             )}
                                         </td>
                                     )
-                                    : <td key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>{channelCell(row, column.id) ?? servedCell(row, column.id) ?? line[column.id]}</td>)}
+                                    : <td key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>{channelCell(row, column.id) ?? servedCell(row, column.id) ?? natureLines(column.id, line[column.id])}</td>)}
                             </tr>
                         )))}
                     </tbody>

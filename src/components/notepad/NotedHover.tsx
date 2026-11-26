@@ -21,7 +21,7 @@ import { placeTooltip } from "../interview/editors/roadmapTooltip";
 */
 
 /** The fixed header's and footer's heights: a field under either is out of view. */
-const VIEW_TOP = 80;
+const VIEW_TOP = 64;
 const VIEW_BOTTOM = 64;
 
 /**

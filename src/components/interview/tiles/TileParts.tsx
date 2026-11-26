@@ -9,13 +9,13 @@ import { incompleteTitle, TILE_DIVIDER, drawnTitle, plainTitle, brokenLines, bol
  * What a tile or a box shows: its title, centred, and -- while the section holds nothing yet --
  * a small "+" under the title (decorative; the button is described as "No items yet").
  */
-export function TileFace({ title, empty, items, glyph = true, alerts, marks, icon, mark }: { title: string; empty?: boolean; items?: readonly string[]; glyph?: boolean; alerts?: readonly (readonly string[] | undefined)[]; marks?: readonly (ItemMark | undefined)[]; /** A symbol before the title, on its line. */ icon?: string; /** A symbol under the title's words, above its rule. */ mark?: string }) {
+export function TileFace({ title, empty, items, glyph = true, alerts, marks, icon, mark, symbol }: { title: string; empty?: boolean; items?: readonly string[]; glyph?: boolean; alerts?: readonly (readonly string[] | undefined)[]; marks?: readonly (ItemMark | undefined)[]; /** A symbol before the title, on its line. */ icon?: string; /** A symbol under the title's words, above its rule. */ mark?: string; /** A symbol that stands for the title where a dialog's titles do not fit (TileTitle, data-title-symbols): a Resource category's. */ symbol?: string }) {
     return (
         <>
             {/* (A title with a forced break is drawn on its lines: the one title that is allowed two.) */}
             {title.includes("\n")
                 ? <TileTitle className="section-tile-title-broken">{brokenLines(title).map((part, at) => <Fragment key={at}>{at > 0 && <br />}{drawnTitle(part)}</Fragment>)}</TileTitle>
-                : <TileTitle>{icon && <img className="section-tile-title-icon" src={icon} alt="" />}{mark ? <span className="section-tile-title-words">{drawnTitle(plainTitle(title))}</span> : drawnTitle(plainTitle(title))}{mark && <img className="section-tile-title-mark" src={mark} alt="" />}</TileTitle>}
+                : <TileTitle>{icon && <img className="section-tile-title-icon" src={icon} alt="" />}{mark ? <span className="section-tile-title-words">{drawnTitle(plainTitle(title))}</span> : symbol ? <span className="section-tile-title-named">{drawnTitle(plainTitle(title))}</span> : drawnTitle(plainTitle(title))}{mark && <img className="section-tile-title-mark" src={mark} alt="" />}{symbol && <img className="section-tile-title-symbol" src={symbol} alt="" />}</TileTitle>}
             {empty && (
                 <>
                     {/* (A tile that has the "+" box does not draw this glyph as well.) */}
@@ -126,6 +126,10 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             tile.closest<HTMLElement>(".section-tile-slot")?.removeAttribute("data-title-small");
             const fitWidth = () => {
             node.style.width = "";
+            // (A dialog's title over its symbol stands across the tile, its words centred: never fitted to its widest line.)
+            if (node.querySelector(":scope > .section-tile-title-symbol") && tile.closest(".section-tile-dialog[data-symbol-layout]")) {
+                return;
+            }
             const range = document.createRange();
             // (A title with a symbol under it measures its words alone: TileFace's `mark`.)
             range.selectNodeContents(node.querySelector(".section-tile-title-words") ?? node);
@@ -153,11 +157,61 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             fitWidth();
             // (A MASTER TILE'S TITLE TOO LONG FOR THE ROOM ABOVE ITS LINE DROPS TO THE SMALL SIZE, THAT TITLE ONLY (layout rules section 8, "Tile anatomy": its first line at
             // least 12px from the square's top; 2026-11-20, "BREAK-EVEN & SUSTAINABILITY" at 1366 and 768): the tile and its slot take data-title-small, and it is measured again.)
-            if (node.closest(".section-tiles-quad") && (node.getBoundingClientRect().top - tile.getBoundingClientRect().top < 12 + tile.clientTop || node.scrollHeight > node.clientHeight + 1)) {
+            // (A WORD WIDER THAN THE TILE takes the small size too: a word is never cut at a letter ("RESOURCE / S"), now that the title keeps the window's size on
+            // every tile -- the responsive layout approved, 2026-11-23 23:21 UTC+2, section 4.2. Laid out with its words whole, it runs past its own width.)
+            const wordTooWide = (): boolean => {
+                const width = node.style.width;
+                node.style.width = "";
+                node.style.overflowWrap = "normal";
+                node.style.wordBreak = "normal";
+                const over = node.scrollWidth > node.clientWidth + 1;
+                node.style.overflowWrap = "";
+                node.style.wordBreak = "";
+                node.style.width = width;
+                return over;
+            };
+            // (A tile not shown -- another Segment's chapter, behind the carousel -- measures nothing and needs nothing: it never makes the page's titles small.)
+            const shown = tile.getBoundingClientRect().width > 0;
+            // (EVERY TILE TITLE ONE SIZE (owner, 2026-11-24 04:54 UTC+2: "All the tiles' titles should have the same size!"): a master tile's title keeps the size
+            // and wraps onto its lines; only a word wider than the tile -- never cut at a letter -- takes the small size, and then every title of the page.)
+            const quadTile = !!node.closest(".section-tiles-quad");
+            // (The same on every page of a window: the longest word of the app's master tile titles, RELATIONSHIP (Customer's Relationship), measured in this title's
+            // type against the tile's width -- where it would not stand whole, every master tile takes the small size, whatever its own words.)
+            const longestTooWide = (): boolean => {
+                const probe = document.createElement("span");
+                probe.textContent = "Relationship";
+                probe.style.cssText = "position: absolute; visibility: hidden; white-space: nowrap;";
+                node.appendChild(probe);
+                const width = probe.getBoundingClientRect().width;
+                probe.remove();
+                const style = getComputedStyle(tile);
+                return width > tile.clientWidth - (parseFloat(style.paddingLeft) || 0) - (parseFloat(style.paddingRight) || 0) + 0.5;
+            };
+            const needs = shown && (quadTile ? wordTooWide() || longestTooWide() : node.getBoundingClientRect().top - tile.getBoundingClientRect().top < 12 + tile.clientTop || node.scrollHeight > node.clientHeight + 1 || wordTooWide());
+            // (ONE TITLE SIZE ON A PAGE (owner, 2026-11-24 03:14 UTC+2: "Be consistent, use only the same size and style for the text per titles"): where one master tile's
+            // title needs the small size, every master tile's title of the page takes it; the others are told to measure again.)
+            const quad = !!node.closest(".section-tiles-quad");
+            const card = quad ? tile.closest<HTMLElement>(".conversation-card") : null;
+            // (Its own need changed: the page's other titles measure again, so a need that has gone -- measured while the tiles were still taking their size -- never
+            // keeps the page small.)
+            if (quad && tile.hasAttribute("data-title-needs-small") !== needs) {
+                tile.toggleAttribute("data-title-needs-small", needs);
+                window.requestAnimationFrame(() => window.dispatchEvent(new Event("tile-titles-unified")));
+            }
+            const small = quad && (card ? card.querySelector(".section-tiles-quad .section-tile[data-title-needs-small]") !== null : needs);
+            if (small) {
                 tile.setAttribute("data-title-small", "");
                 tile.closest<HTMLElement>(".section-tile-slot")?.setAttribute("data-title-small", "");
                 fitWidth();
             }
+            if (card && card.hasAttribute("data-titles-small") !== small) {
+                card.toggleAttribute("data-titles-small", small);
+                window.requestAnimationFrame(() => window.dispatchEvent(new Event("tile-titles-unified")));
+            }
+            // (ONE TITLE SIZE ON A PAGE (owner, 2026-11-24 03:14 UTC+2: "Be consistent, use only the same size and style for the text per titles"): where one master tile's
+            // title takes the small size, every master tile's title of the page does (the page's data-titles-small, 01-tiles-and-dialog.css); the others are told to
+            // measure again.)
+
             // The distance from the title's rule to the foot of the title's row: the list under it comes up by that (or goes down, a title of two lines).
             const row = parseFloat(getComputedStyle(tile).gridTemplateRows.split(" ")[0]) || 0;
             const standing = String(row > 0 ? Math.round((row - (node.offsetTop + node.offsetHeight + tile.clientTop)) * 10) / 10 : parseFloat(getComputedStyle(node).marginBottom) || 0) + "px";
@@ -168,11 +222,76 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             const list = slot?.querySelector<HTMLElement>(".section-tile-list");
             const box = tile.getBoundingClientRect();
             if (slot && list && Math.abs(box.height - tile.offsetHeight) < 0.5) {
-                const extra = list.getBoundingClientRect().top - node.getBoundingClientRect().bottom - 12;
+                // (Less the list's own centring in its room: TileList's --list-centre.)
+                const extra = list.getBoundingClientRect().top - node.getBoundingClientRect().bottom - 12 - (parseFloat(list.style.getPropertyValue("--list-centre")) || 0);
                 if (Math.abs(extra) > 0.2 && Math.abs(extra) < 6) {
                     const corrected = String(Math.round((parseFloat(standing) + extra) * 10) / 10) + "px";
                     tile.style.setProperty("--tile-lift", corrected);
                     slot.style.setProperty("--tile-lift", corrected);
+                }
+            }
+            // (A DIALOG'S TITLES AS THEIR SYMBOLS WHERE THEY DO NOT FIT (owner, 2026-11-24 10:12 UTC+2, the Resources dialog at 1366 x 640: "the used could read only 4
+            // letters. Here, place 2 columns, instead of 3, and also replace their titles with their symbols and add tooltips"): a title with a symbol measures its
+            // words against a third of the dialog's grid -- three across --; where one does not fit, the dialog takes two across and every such title shows its
+            // symbol, its name in the tooltip.)
+            const named = node.querySelector<HTMLElement>(":scope > .section-tile-title-named");
+            const dialog = named ? tile.closest<HTMLElement>(".section-tile-dialog") : null;
+            if (named && dialog) {
+                const width = named.getBoundingClientRect().width;
+                if (width > 0) {
+                    node.setAttribute("data-words-width", String(Math.ceil(width)));
+                }
+                // (The grid the tiles stand in, its width the dialog's whichever the number across.)
+                const box = tile.closest<HTMLElement>(".section-tiles");
+                const style = getComputedStyle(tile);
+                const three = box && box.clientWidth > 0 ? (box.clientWidth - 2 * 12) / 3 - (parseFloat(style.paddingLeft) || 0) - (parseFloat(style.paddingRight) || 0) : Infinity;
+                // (WHERE A DIALOG'S TILES ARE TOO SMALL FOR TEXT (owner, 2026-11-25: "When in a dialogue card, the tiles are too small to use text, so we place symbols,
+                // keep 3 tiles per row"): a tile under 180px a side (a tablet in portrait three across), beside a phone's; a larger tile keeps its cut title sliding under the pointer.)
+                const small = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 601px)").matches && tile.getBoundingClientRect().width < 180;
+                const cut = small && parseFloat(node.getAttribute("data-words-width") ?? "0") > three + 0.5;
+                if (tile.hasAttribute("data-title-cut") !== cut) {
+                    tile.toggleAttribute("data-title-cut", cut);
+                }
+                const symbols = dialog.querySelector(".section-tile[data-title-cut]") !== null;
+                if (dialog.hasAttribute("data-title-symbols") !== symbols) {
+                    dialog.toggleAttribute("data-title-symbols", symbols);
+                    window.requestAnimationFrame(() => window.dispatchEvent(new Event("tile-titles-unified")));
+                }
+                // (A SYMBOL WITH ITS TITLE, OR ALONE (owner, 2026-11-26 16:02 UTC+2, on the dialog tile prototypes: "If a tile has: An add button, icon, and title,
+                // then the title should be above the icon. The icon should be centered and have a side (horizontal gap 12px with the add button. If there is only an
+                // Icon and an add button, then place the icon in the middle of the tile"): the symbol centred across, at its proper size (40% of the tile, never under
+                // the add button's 44px, as the Systems' symbols), and 12px clear of the "+" beside it; where a tile leaves it under 44px, the symbol stands alone, its
+                // name in the tooltip.)
+                let layout: "named" | "alone" | null = null;
+                if (symbols) {
+                    const plus = tile.parentElement?.querySelector<HTMLElement>(":scope > .section-tile-plus");
+                    const side = tile.getBoundingClientRect().width;
+                    if (plus && side > 0) {
+                        const outer = tile.getBoundingClientRect();
+                        const box = plus.getBoundingClientRect();
+                        const proper = Math.max(44, side * 0.4);
+                        const across = side - 2 * (outer.right - box.left + 12);
+                        layout = across >= 44 ? "named" : "alone";
+                        // (Alone: in the middle across, and down in the room above the "+", 12px clear of it: the tile's true middle would meet the "+".)
+                        const above = box.top - outer.top - 2 * 12;
+                        const size = Math.floor(layout === "named" ? Math.min(proper, across) : Math.min(proper, above));
+                        dialog.style.setProperty("--title-symbol-size", String(size) + "px");
+                        dialog.style.setProperty("--title-symbol-room", String(Math.floor(box.top - outer.top - 12)) + "px");
+                    }
+                }
+                if (dialog.getAttribute("data-symbol-layout") !== layout) {
+                    if (layout) {
+                        dialog.setAttribute("data-symbol-layout", layout);
+                    } else {
+                        dialog.removeAttribute("data-symbol-layout");
+                    }
+                }
+                if (layout === "alone") {
+                    tile.setAttribute("data-tip", named.textContent ?? "");
+                    tile.setAttribute("data-tip-named", "");
+                } else {
+                    tile.removeAttribute("data-tip");
+                    tile.removeAttribute("data-tip-named");
                 }
             }
             // (A title with a forced break says itself on one line: a space where its lines meet.)
@@ -186,8 +305,10 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
         let live = true;
         void document.fonts?.ready.then(() => { if (live) apply(); });
         document.fonts?.addEventListener?.("loadingdone", apply);
+        window.addEventListener("tile-titles-unified", apply);
         const forget = () => {
             live = false;
+            window.removeEventListener("tile-titles-unified", apply);
             pictures.forEach(picture => picture.removeEventListener("load", apply));
             document.fonts?.removeEventListener?.("loadingdone", apply);
         };
@@ -260,6 +381,28 @@ if (typeof window !== "undefined") {
     window.addEventListener("resize", () => document.querySelectorAll<HTMLElement>(".section-tile-dialog :is(.section-tile-slot, .card-tile-slot)").forEach(slot => askToAlign(slot.parentElement)));
 }
 
+/**
+ * THE TILE'S CONTENT ON ITS MIDLINE (owner, 2026-11-24 03:14 and 04:24 UTC+2: "place the tile's content ... in the centre of the Tile"; "The blue lines are the mid
+ * points"): how far down a list (or a grid of symbols) of this height moves so its middle stands on its tile's middle -- the same line on every tile of a row,
+ * whatever its title's lines --, held inside its room (from 12px under the title's rule to the room's foot).
+ */
+function centresOnMidline(node: HTMLElement): boolean {
+    // (Every tile's list -- a page's, a dialog's, the Capabilities' -- but a System's on its Capability's page, whose kind and list stand together: workspace.css.)
+    // (Owner, 2026-11-24 04:28 UTC+2: "Check where it is possible and give them space".)
+    return node.closest(".capability-system-body") === null;
+}
+
+function onMidline(node: HTMLElement, height: number, room: number): number {
+    const tile = node.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile");
+    if (!tile) {
+        return 0;
+    }
+    const box = tile.getBoundingClientRect();
+    const top = node.getBoundingClientRect().top;
+    const wanted = (box.top + box.bottom) / 2 - height / 2 - top;
+    return Math.floor(Math.max(0, Math.min(wanted, room - height)));
+}
+
 export function TileList({
     items: given, links: givenLinks, alerts: givenAlerts, marks: givenMarks, onLink, onPlain
 }: {
@@ -323,7 +466,67 @@ export function TileList({
         // HEIGHT DECIDES, NOT LENGTH: on a page tile the list is as tall as the whole items that fit in the room under the title (the layer's second row, less the
         // list's own top margin): it ends at the foot of the last item that fits entirely, so no line is ever cut in half; the rest scrolls.
         const layer = node.parentElement?.classList.contains("section-tile-links-layer") ? node.parentElement : null;
+        // (A TITLE ALONE HAS ITS RULE ON THE TILE'S MIDDLE (owner, 2026-11-24 10:12 UTC+2: "When the master tiles have only their titles ..., make sure the title's
+        // underline pass through the middle of the tile").)
+        const titleOnMiddle = (slot: HTMLElement | null = node.closest<HTMLElement>(".section-tile-slot")) => {
+            const tile = slot?.querySelector<HTMLElement>(".section-tile");
+            const title = tile?.querySelector<HTMLElement>(".section-tile-title");
+            if (!slot || !tile || !title) {
+                return;
+            }
+            slot.style.removeProperty("--title-centre");
+            const box = tile.getBoundingClientRect();
+            const words = title.getBoundingClientRect();
+            // (An Inventory or Completed rectangle has no rule: its words stand on the middle.)
+            const line = slot.closest(".section-tiles-completed") ? (words.top + words.bottom) / 2 : words.bottom;
+            slot.style.setProperty("--title-centre", Math.round((box.top + box.bottom) / 2 - line) + "px");
+        };
+        // (ONE RULE FOR EVERY TILE OF A SCREEN (owner, 2026-11-24 10:12 UTC+2: "cannot have in the same screen size, some cells only with their titles, others with a
+        // few symbols, and other with names. The rule should cover them all"): a tile short of room -- its title alone, or a grid of symbols missing rows -- says so,
+        // and where one tile of the page (or of the dialog) is short, every tile there shows its title alone.)
+        const scopeOfList = (list: Element) => list.closest(".section-tile-dialog, .conversation-card, .capability-tiles");
+        const oneRule = () => {
+            // (The Inventory and Completed rectangles are buttons of the page, not its master tiles: they keep their own look.)
+            if (!layer || !centresOnMidline(node) || node.closest(".section-tiles-completed")) {
+                return;
+            }
+            const short = node.hasAttribute("data-no-room") || (node.hasAttribute("data-symbols") && Number(node.getAttribute("data-symbol-rows") ?? "3") < 3);
+            if (node.hasAttribute("data-room-short") !== short) {
+                node.toggleAttribute("data-room-short", short);
+                window.requestAnimationFrame(() => window.dispatchEvent(new Event("tile-titles-unified")));
+            }
+            const scope = scopeOfList(node);
+            const any = !!scope && Array.from(scope.querySelectorAll<HTMLElement>(".section-tile-list[data-room-short]"))
+                .some(other => scopeOfList(other) === scope && (other.closest(".section-tile-slot")?.getClientRects().length ?? 0) > 0);
+            // (AN EMPTY TILE OF THE SAME SCREEN TOO (owner, 2026-11-25 15:51 UTC+2, the phone's Resources dialog: Vehicles' title at the top, its neighbours' on the
+            // middle): a tile with no list follows its neighbours, its title on the middle where theirs are, at the top where theirs are.)
+            if (scope) {
+                for (const slot of Array.from(scope.querySelectorAll<HTMLElement>(".section-tile-slot"))) {
+                    if (slot.querySelector(".section-tile-list") || scopeOfList(slot) !== scope) {
+                        continue;
+                    }
+                    slot.toggleAttribute("data-title-alone", any);
+                    if (any) {
+                        titleOnMiddle(slot);
+                    } else {
+                        slot.style.removeProperty("--title-centre");
+                    }
+                }
+            }
+            if (any) {
+                node.setAttribute("data-no-room", "");
+                node.removeAttribute("data-symbols");
+                node.style.removeProperty("translate");
+                node.style.removeProperty("--list-centre");
+                node.style.removeProperty("--list-air");
+                titleOnMiddle();
+            }
+        };
         const snap = () => {
+            snapOwn();
+            oneRule();
+        };
+        const snapOwn = () => {
             if (!layer) {
                 // (A LIST WITH NO LINKS LAYER -- a card tile's in a dialog -- ends at a whole item too, inside the room its tile gives it: at 768 a card tile 1px smaller
                 // cut its last line by a pixel; layout rules section 9, "A tile's lines"; 2026-11-20.)
@@ -346,15 +549,29 @@ export function TileList({
                 }
                 return;
             }
+            // (Measured from the list's own place: its centring, below, taken back first.)
+            node.style.removeProperty("--list-centre");
+            node.style.removeProperty("--list-air");
             const rows = getComputedStyle(layer).gridTemplateRows.split(" ").map(parseFloat);
             // (The list may run 5px past the layer's second row, as far as the top of the "+" box and never under it, and ends 4px under its last line so a
             // descender (g, y, p) is never cut.)
             const room = rows.length > 1 && Number.isFinite(rows[1]) ? rows[1] - (parseFloat(getComputedStyle(node).marginTop) || 0) + 5 : 0;
             if (room <= 0) {
+                // (No room at all under the title: the list is not shown -- the title alone, as below.)
+                node.setAttribute("data-no-room", "");
                 return;
             }
             node.style.height = "auto";
             node.style.maxHeight = "none";
+            node.removeAttribute("data-no-room");
+            node.closest<HTMLElement>(".section-tile-slot")?.style.removeProperty("--title-centre");
+            node.removeAttribute("data-symbols");
+            node.style.removeProperty("translate");
+            node.querySelectorAll<HTMLElement>("[data-symbol-off]").forEach(line => line.removeAttribute("data-symbol-off"));
+            node.querySelectorAll<HTMLElement>("[data-symbol-tip]").forEach(link => {
+                link.removeAttribute("data-symbol-tip");
+                link.removeAttribute("data-tip");
+            });
             // (A paragraph clamped on an earlier measure is measured whole again.)
             node.querySelectorAll<HTMLElement>("[data-clamped]").forEach(line => {
                 line.removeAttribute("data-clamped");
@@ -404,6 +621,114 @@ export function TileList({
                 ? Math.floor(room / lineHeight) * lineHeight
                 : Array.from(node.children).length > 0 && fit > 0 ? fit : room;
             node.style.height = Math.min(byLines ? whole : whole + 4, room) + "px";
+            // (TOO LITTLE ROOM SHOWS THE TITLE ALONE (owner, 2026-11-23 21:49 UTC+2: "If there is not enough space for listed items or text on the Tiles, then hide it,
+            // and keep only the Tile's title, and symbol"): a list or a text cut to less than two lines is not shown; the tile keeps its title and its symbol, and
+            // its whole text is in its dialog and its tooltip.)
+            // (SYMBOLS WHERE THE NAMES DO NOT FIT (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved, section 4.4): a list cut short whose every line has its
+            // symbol -- a Resources tile's categories -- shows the symbols in a grid in the room, each named in its tooltip; a grid that does not fit either goes, as
+            // below.)
+            const lines = Array.from(node.children) as HTMLElement[];
+            if (node.scrollHeight > node.clientHeight + 1 && lines.length > 0 && lines.every(line => line.querySelector(".section-tile-list-fallback"))) {
+                // (As many whole rows of symbols as the room holds -- the tile opens on all of them; under one row, the title alone, as below.)
+                // (32px symbols 16px apart where three rows of them fit, else 24px ones 12px apart: owner, 2026-11-24 01:59 UTC+2, "when there is space, make the icons
+                // 32 px and spread them out more".)
+                const width = node.clientWidth;
+                // (Their room runs down to the tile's padding, beside the "+": a row that would meet it moves left, below.)
+                const tileBottom = (node.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? layer).getBoundingClientRect().bottom;
+                const symbolRoom = Math.max(room, Math.floor(tileBottom - 12 - node.getBoundingClientRect().top));
+                const large = symbolRoom >= 3 * 32 + 2 * 16 && width >= 3 * 32 + 2 * 16;
+                const symbol = large ? 32 : 24;
+                const gap = large ? 16 : 12;
+                const rowsFit = Math.min(3, Math.floor((symbolRoom + gap) / (symbol + gap)));
+                if (rowsFit >= 1) {
+                    node.setAttribute("data-symbols", large ? "large" : "");
+                    node.setAttribute("data-symbol-rows", String(rowsFit));
+                    node.style.height = (rowsFit * (symbol + gap) - gap) + "px";
+                    if (centresOnMidline(node)) {
+                        const shift = onMidline(node, rowsFit * (symbol + gap) - gap, Math.min(room, symbolRoom));
+                        if (shift > 0) {
+                            node.style.setProperty("--list-centre", shift + "px");
+                        }
+                    }
+                    // (The rows the room does not hold are not drawn: the grid stands open for a symbol's growth, so nothing may hang under it.)
+                    lines.forEach((line, at) => line.toggleAttribute("data-symbol-off", at >= rowsFit * 3));
+                    // (Each symbol says its name in the app's tooltip: its words are read, not drawn, so the tip says them.)
+                    lines.forEach(line => {
+                        const link = line.querySelector<HTMLElement>(".section-tile-link") ?? line;
+                        const name = line.getAttribute("data-tip") ?? line.getAttribute("title") ?? line.textContent?.trim() ?? "";
+                        link.setAttribute("data-tip", name);
+                        link.setAttribute("data-symbol-tip", "");
+                    });
+                    // (Clear of the tile's "+" by 12px: where the grid's last row would reach it, every symbol moves left alike -- owner, 2026-11-24 01:59 UTC+2.)
+                    const plus = node.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile-plus, .plus-box");
+                    const shown = lines.filter(line => !line.hasAttribute("data-symbol-off")).map(line => line.getBoundingClientRect()).filter(box => box.width > 0);
+                    if (plus && shown.length > 0) {
+                        const box = plus.getBoundingClientRect();
+                        const right = Math.max(...shown.map(item => item.right));
+                        const bottom = Math.max(...shown.map(item => item.bottom));
+                        const over = right - (box.left - 12);
+                        if (bottom > box.top && over > 0) {
+                            node.style.translate = -Math.ceil(over) + "px 0";
+                        }
+                    }
+                    return;
+                }
+            }
+            const shownHeight = node.clientHeight;
+            const cut = node.scrollHeight > shownHeight + 1 || clamped;
+            const line = lineHeight > 0 ? lineHeight : parseFloat(getComputedStyle(node).lineHeight) || 24;
+            // (Nor is a list whose first item does not fit whole and cannot end at a line: a name with what is said of it, cut under the name.)
+            // (Three lines at the least since 2026-11-24 01:59 UTC+2 -- "when there is not much space ... let the tiles show only their titles".)
+            if ((cut && shownHeight < 3 * line - 1) || (!byLines && !clamped && fit === 0 && node.children.length > 0)) {
+                node.setAttribute("data-no-room", "");
+                // (The title alone stands in the tile's middle: the offset from where it stands.)
+                const slot = node.closest<HTMLElement>(".section-tile-slot");
+                const tile = slot?.querySelector<HTMLElement>(".section-tile");
+                const title = tile?.querySelector<HTMLElement>(".section-tile-title");
+                if (slot && tile && title && centresOnMidline(node)) {
+                    titleOnMiddle();
+                }
+            }
+            // (A MASTER TILE'S LIST IN THE MIDDLE OF ITS ROOM (owner, 2026-11-24 03:14 UTC+2: "Generally place the tile's content (listed items, icons etc.) in the centre of
+            // the Tile, and give some space, specially when there is enough"): what the room leaves is shared above and below it.)
+            if (centresOnMidline(node) && !node.hasAttribute("data-no-room")) {
+                // (Room to spare spreads the lines: up to 8px between two, where the whole list then still stands with room above and below.)
+                // (ONE SPACING ON A PAGE (owner, 2026-11-24 05:16 UTC+2, his Identity page: lists side by side spaced unevenly, the Organisation's address cut): each
+                // list says the most it allows -- 0 where it is full --, and every list of the page, or of the dialog, takes the least of them; a one-line list asks
+                // nothing.)
+                const items = Array.from(node.children).filter(child => !child.matches(".section-tile-divider")).length;
+                const gaps = Math.max(1, node.children.length - 1);
+                const free = room - 5 - node.getBoundingClientRect().height;
+                const allows = items > 1 ? (cut ? 0 : Math.max(0, Math.min(8, Math.floor(free / (gaps + 3))))) : 8;
+                const before = node.getAttribute("data-air-allows");
+                node.setAttribute("data-air-allows", String(allows));
+                if (before !== String(allows)) {
+                    window.requestAnimationFrame(() => window.dispatchEvent(new Event("tile-titles-unified")));
+                }
+                const scopeOf = (list: Element) => list.closest(".section-tile-dialog, .conversation-card, .capability-tiles");
+                const scope = scopeOf(node);
+                const others = scope
+                    ? Array.from(scope.querySelectorAll<HTMLElement>(".section-tile-list[data-air-allows]"))
+                        .filter(other => other.getClientRects().length > 0 && scopeOf(other) === scope)
+                        .map(other => parseFloat(other.getAttribute("data-air-allows") ?? "8"))
+                    : [];
+                const air = items > 1 && !cut ? Math.min(allows, ...others) : 0;
+                if (air >= 2) {
+                    const height = node.getBoundingClientRect().height;
+                    node.style.setProperty("--list-air", air + "px");
+                    node.style.height = (height + air * (node.children.length - 1)) + "px";
+                    // (Never a line lost to the spacing: where it would cut the list, it is taken back.)
+                    if (node.scrollHeight > node.clientHeight + 1) {
+                        node.style.removeProperty("--list-air");
+                        node.style.height = height + "px";
+                    }
+                }
+                const shift = onMidline(node, node.getBoundingClientRect().height, room - 5);
+                if (shift > 0) {
+                    node.style.setProperty("--list-centre", shift + "px");
+                }
+            }
+
         };
         const measure = () => {
             snap();
@@ -415,7 +740,13 @@ export function TileList({
         }
         const observer = new ResizeObserver(measure);
         observer.observe(layer ?? node);
-        return () => observer.disconnect();
+        // (Measured again when the page's titles take one size: TileTitle.)
+        const again = () => window.requestAnimationFrame(measure);
+        window.addEventListener("tile-titles-unified", again);
+        return () => {
+            observer.disconnect();
+            window.removeEventListener("tile-titles-unified", again);
+        };
     }, [items]);
     const shown = items;
     // (A list of plain lines repeats what the tile's own name and its dialog say, so it is hidden from screen readers -- and so never a Tab stop either, even where
@@ -444,7 +775,8 @@ export function TileList({
                 }
                 const symbol = marks?.[position]?.icon;
                 const status = marks?.[position]?.status;
-                const drawn = <>{status && <span className="status-shape section-tile-list-shape" data-status={status} aria-hidden="true" />}{symbol && <img className="section-tile-list-symbol" src={symbol} alt="" />}{brokenLines(item).map((part, at, parts) => <Fragment key={at}><span className="section-tile-list-line">{boldWords(part)}</span>{at < parts.length - 1 && " "}</Fragment>)}</>;
+                const fallback = marks?.[position]?.symbol;
+                const drawn = <>{fallback && <span className="section-tile-list-fallback" style={{ "--fallback-symbol": "url(\"" + fallback + "\")" } as React.CSSProperties} aria-hidden="true" />}{status && <span className="status-shape section-tile-list-shape" data-status={status} aria-hidden="true" />}{symbol && <img className="section-tile-list-symbol" src={symbol} alt="" />}{brokenLines(item).map((part, at, parts) => <Fragment key={at}><span className="section-tile-list-line">{boldWords(part)}</span>{at < parts.length - 1 && " "}</Fragment>)}</>;
                 return (
                     <li
                         key={position}

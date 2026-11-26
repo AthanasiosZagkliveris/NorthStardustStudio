@@ -32,7 +32,17 @@ function restoreBand(band: HTMLElement): void {
 
 export function paintCardEnd(card: HTMLElement): void {
     const box = card.getBoundingClientRect();
-    const bands = [...card.querySelectorAll<HTMLElement>(CARD_BANDS)].filter(band => {
+    // (And any box of see-through tint as wide as the card or half of it -- a Brand card's Notes, a band this list does not name: a card made full length shows
+    // the room under its last band, so every band counts, as the layout check measures them (owner, 2026-11-26: "the floated and dialoge cards, should be full
+    // size long").)
+    const wide = [...card.querySelectorAll<HTMLElement>("div, section")].filter(band => {
+        if (band.closest(".section-tile, .floating-card-caption")) {
+            return false;
+        }
+        const colour = band.dataset.endBand ?? getComputedStyle(band).backgroundColor;
+        return /\/\s*0?\.\d+\)$|rgba\([^)]*,\s*0?\.\d+\)$/.test(colour) && !/\/\s*0\)$|,\s*0\)$/.test(colour) && band.getBoundingClientRect().width >= box.width * 0.45;
+    });
+    const bands = [...new Set([...card.querySelectorAll<HTMLElement>(CARD_BANDS), ...wide])].filter(band => {
         const r = band.getBoundingClientRect();
         return r.width > 0 && r.height > 0 && band.closest(".section-tile-dialog, .floating-card-body") === card;
     });

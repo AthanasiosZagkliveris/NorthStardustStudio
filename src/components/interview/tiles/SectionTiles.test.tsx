@@ -651,7 +651,8 @@ describe("a category with several groups opens on tiles", () => {
         expect(within(dialog).queryByRole("button", { name: "+ Add Card" })).toBeNull();
         const css = stylesheet("card-tile.css");
         // (Half of the page tile's size; no transform on hover, on hover the stroke goes and the ground is a dark tint, the + does not scale.)
-        expect(css).toMatch(/\.add-card-slot \{[^}]*width: calc\(var\(--section-tile-size\) \/ 2\);[^}]*height: calc\(var\(--section-tile-size\) \/ 2\);/);
+        // (And never less than its words with 12px round them: owner, 2026-11-26.)
+        expect(css).toMatch(/\.add-card-slot \{[^}]*width: max\(calc\(var\(--section-tile-size\) \/ 2\), var\(--add-card-room\)\);[^}]*height: max\(calc\(var\(--section-tile-size\) \/ 2\), var\(--add-card-room\)\);/);
         expect(css).not.toMatch(/\.add-card-tile:focus-visible \{[^}]*transform/);
         expect(css).toMatch(/\.add-card-tile:hover:not\(:disabled\),[^{]*\{[^}]*border-color: transparent;[^}]*background: color-mix/);
 

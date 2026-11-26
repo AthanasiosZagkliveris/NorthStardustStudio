@@ -412,7 +412,7 @@ export default function Landing() {
                 aria-label="Add Organisation"
                 onClick={addOrganization}>
                 <svg className="organization-action-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                Add
+                <span className="organization-action-word">Add</span>
             </AddButton>
 
             {/* (Export before Import: keep a copy first, then bring one in; owner, 2026-11-22 20:41 UTC+2: "Swap export with import, as it seems more logical order".) */}
@@ -422,14 +422,14 @@ export default function Landing() {
                 title={selectedId ? undefined : "Select an Organisation to export"}
                 onClick={exportOrganization}>
                 <svg className="organization-action-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 12V3M6.5 6.5 10 3l3.5 3.5M4 13v3h12v-3" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                Export
+                <span className="organization-action-word">Export</span>
             </AddButton>
 
             <AddButton
                 aria-label="Import Organisation"
                 onClick={() => importInputRef.current?.click()}>
                 <svg className="organization-action-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9M6.5 8.5 10 12l3.5-3.5M4 13v3h12v-3" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                Import
+                <span className="organization-action-word">Import</span>
             </AddButton>
 
             {/* (RELOAD WITH THE OTHER BUTTONS OF THE LIST (owner, 2026-11-22 20:35 UTC+2: "Place the reload with the other similar buttons"): it refreshes the two
@@ -437,8 +437,8 @@ export default function Landing() {
             <AddButton
                 aria-label="Reload the app and refresh the examples"
                 onClick={async () => { await refreshExampleOrganizations(); window.location.reload(); }}>
-                <svg className="organization-action-icon" viewBox="2.97 2.47 14.05 14.05" aria-hidden="true"><path d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                Reload
+                <svg className="organization-action-icon" viewBox="2 2 16 16" aria-hidden="true"><path d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                <span className="organization-action-word">Reload</span>
             </AddButton>
 
         </div>

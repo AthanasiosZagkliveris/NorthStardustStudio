@@ -714,7 +714,9 @@ export async function checkScrolledDialog(page, where) {
         }
         const title = (tile.querySelector(".section-tile-title") || tile).textContent.trim();
         const top = dialog.getBoundingClientRect().top;
-        return { title, top, rest: underline.getBoundingClientRect().bottom + 12, tab: tab ? tab.getBoundingClientRect().top - top : null };
+        // (A tablet in portrait holds the tab in the footer's band, as a phone does: owner, 2026-11-24 10:12 UTC+2; its place there is the band's, not the dialog's.)
+        const inBand = tab && getComputedStyle(tab).position === "fixed" && Math.abs(tab.getBoundingClientRect().bottom - window.innerHeight) < 1;
+        return { title, top, rest: underline.getBoundingClientRect().bottom + 12, tab: tab && !inBand ? tab.getBoundingClientRect().top - top : null };
     });
     if (opened) {
         if (opened.top < opened.rest - 1) {
@@ -761,6 +763,41 @@ export async function checkCapabilityArrows(page, base) {
             });
             if (read && Math.abs(read.arrow - read.middle) > 2) {
                 failures.push({ page: "Capabilities › " + name, width, height, rule: "a Capability page's arrows stand between its rows of Systems", detail: "the arrow's centre " + Math.round(read.arrow) + ", the gap's middle " + Math.round(read.middle) });
+            }
+        }
+    }
+    return failures;
+}
+
+/**
+ * NO PAGE OF TILES SCROLLS ON A LANDSCAPE SCREEN (owner, 2026-11-23 20:58 UTC+2: "I do not want the user, specially on landscape size screens to scroll down"; layout
+ * rules section 4, "The page's sizes"): every System page of tiles at four landscape windows (the browser's visible area on common screens), its master tiles square
+ * and one size, the page no taller than the window.
+ */
+export async function checkLandscapePages(page, base) {
+    const failures = [];
+    const pages = [["Identity System", "Identity System"], ["Brand System", "Brand System"], ["Strategy System", "Strategy System"], ["Business System", "Foundation & Engagement"], ["Business System", "Infrastructure & Capability"], ["Business System", "Financials"]];
+    for (const [width, height] of [[1920, 950], [1536, 730], [1440, 770], [1366, 640], [1024, 768]]) {
+        await page.setViewportSize({ width, height });
+        for (const [system, name] of pages) {
+            if (!(await openPage(page, base, system, name))) {
+                continue;
+            }
+            await page.waitForTimeout(1200);
+            const read = await page.evaluate(() => {
+                const tiles = [...document.querySelectorAll(".section-tiles-quad .section-tile")].map(tile => tile.getBoundingClientRect()).filter(rect => rect.width > 0);
+                return {
+                    scroll: document.documentElement.scrollHeight - window.innerHeight,
+                    square: tiles.every(rect => Math.abs(rect.width - rect.height) <= 1),
+                    sides: [...new Set(tiles.map(rect => Math.round(rect.width)))],
+                };
+            });
+            const where = system + " › " + name;
+            if (read.scroll > 1) {
+                failures.push({ page: where, width, height, rule: "a page of tiles never scrolls on a landscape screen", detail: "it scrolls " + read.scroll + "px" });
+            }
+            if (!read.square || read.sides.length > 1) {
+                failures.push({ page: where, width, height, rule: "every master tile is square and one size", detail: read.sides.join(", ") });
             }
         }
     }
@@ -1048,6 +1085,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
         try {
             await seedExample(page, base, readFileSync(jobs[0].file, "utf8"));
             failures.push(...(await checkCapabilityArrows(page, base)).map(failure => ({ example: jobs[0].example, ...failure })));
+            failures.push(...(await checkLandscapePages(page, base)).map(failure => ({ example: jobs[0].example, ...failure })));
         } finally {
             await page.context().close();
         }

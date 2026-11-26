@@ -36,7 +36,7 @@
 
     /* Clears the fixed app header (80px) plus the page's
        own original 110px breathing room. */
-    padding-top: 190px;
+    padding-top: calc(var(--app-header-height, 64px) + 110px);
     padding-bottom: 80px;
 
 }

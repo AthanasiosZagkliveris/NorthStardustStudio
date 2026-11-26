@@ -1,3 +1,4 @@
+import { BAND_QUERY } from "../../../hooks/useVerticalLayout.ts";
 import { toneHue } from "../tiles/CardTile.tsx";
 import { asBusinessEngagementValue } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { offeringChannelRevenue, offeringMonthlyRevenue, offeringPayingRevenue, referralOnly } from "../../../framework/engine/DemandCapacity.ts";
@@ -84,7 +85,10 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
             // (As large as the page's tiles where the room allows, smaller where it does not, down to 150px, under which they stay the footer's bricks.)
             const room = footerBox ? Math.floor(footerBox.top - 12 - (cardsBottom + 12)) : 0;
             const squareSide = Math.min(pageSide, room);
-            const squares = !stacked && !!footerBox && !!tiles && pageSide > 0 && columnsLeft.length >= 2 && squareSide >= 150;
+            // (ALWAYS THE FOOTER'S BUTTONS NOW (owner, 2026-11-23 20:58 and 21:57 UTC+2: "The footing should have minimum space for a button (Inventory, add chapter,
+            // completed)"; "the inventory and completed tiles are off place"): the page follows its tiles, so the room under the cards is no longer kept for squares;
+            // on a wide screen the row is the band's two buttons, level with Back, whatever the window's height.)
+            const squares = false && !stacked && !!footerBox && !!tiles && pageSide > 0 && columnsLeft.length >= 2 && squareSide >= 150;
             row.style.removeProperty("--completed-width");
             if (tiles) {
                 tiles.style.gridTemplateColumns = "";
@@ -116,7 +120,18 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 const top = row.getBoundingClientRect().top;
                 tiles.style.position = "relative";
                 tiles.style.zIndex = "40";
-                tiles.style.transform = "translateY(" + Math.round(footerBox.top + (footer - side) / 2 - top) + "px)";
+                // (Centred under the two cards (owner, 2026-11-10 20:50 UTC+2, "Place the inventory and the completed tiles in the centre"), measured from the cards:
+                // the row spans the page's grid, which reaches past the cards where they hug their tiles -- owner, 2026-11-23 22:18 UTC+2, "Is the inventory and completed
+                // tiles at their proper position?".)
+                const cardsLeft = Math.min(...cards.map(card => card.getBoundingClientRect().left));
+                const cardsRight = Math.max(...cards.map(card => card.getBoundingClientRect().right));
+                const slots = [...tiles.querySelectorAll<HTMLElement>(".section-tile-slot")].map(slot => slot.getBoundingClientRect()).filter(box => box.width > 0);
+                const shift = slots.length > 0 && cards.length > 0 ? Math.round((cardsLeft + cardsRight) / 2 - (Math.min(...slots.map(box => box.left)) + Math.max(...slots.map(box => box.right))) / 2) : 0;
+                // (ABOVE THE BAND ON A TOUCH SCREEN (owner, 2026-11-24 00:21 UTC+2: "place the rail at the footing, and any other buttons (inventory, completed, etc.)
+                // above it"): the band holds the rails there, so the row stands on it, 6px above.)
+                const above = typeof window.matchMedia === "function" && window.matchMedia(BAND_QUERY).matches;
+                const rowTop = above ? footerBox.top - 6 - side : footerBox.top + (footer - side) / 2;
+                tiles.style.transform = "translate(" + shift + "px, " + Math.round(rowTop - top) + "px)";
             } else {
                 row.style.height = "";
                 row.style.overflow = "";
@@ -128,6 +143,26 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 const room = window.innerHeight - row.getBoundingClientRect().top - footer - 12;
                 // (Square, 215px, while the window has the room; the height alone gives way when it has not, so the tiles become rectangles.)
                 side = Math.round(Math.max(SQUEEZED_ROW_MIN, Math.min(215, room)));
+            }
+            // (ONE MASTER TILE WIDE (owner, 2026-11-25: "the Inventory and Completed tile's width should be related to the master tiles
+            // width, and be aligned underneath them"): each as wide as a master tile, 12px apart as the tiles are, the first under the first chapter's first tile;
+            // the row keeps its height and its place in the band or under the cards.)
+            const firstTile = pageTiles[0]?.getBoundingClientRect();
+            const secondTile = firstTile ? pageTiles.map(tile => tile.getBoundingClientRect()).find(box => Math.abs(box.top - firstTile.top) < 2 && box.left > firstTile.right) : undefined;
+            if (tiles && firstTile && secondTile) {
+                const width = Math.round(firstTile.width);
+                row.style.setProperty("--completed-width", width + "px");
+                tiles.style.gridTemplateColumns = "repeat(2, " + width + "px)";
+                tiles.style.columnGap = Math.round(secondTile.left - firstTile.right) + "px";
+                const lift = /translate\([^,]+,\s*(-?[\d.]+)px\)/.exec(tiles.style.transform)?.[1] ?? "0";
+                tiles.style.transform = "translate(0px, " + lift + "px)";
+                // (CENTRED UNDER THE CHAPTERS (owner, 2026-11-26: "Correct idea, but place them in the centre"): the pair's middle on the middle of the cards above.)
+                const pairSlots = [...tiles.querySelectorAll<HTMLElement>(".section-tile-slot")].map(slot => slot.getBoundingClientRect()).filter(box => box.width > 0);
+                if (pairSlots.length > 0 && cards.length > 0) {
+                    const cardsMiddle = (Math.min(...cards.map(card => card.getBoundingClientRect().left)) + Math.max(...cards.map(card => card.getBoundingClientRect().right))) / 2;
+                    const pairMiddle = (Math.min(...pairSlots.map(box => box.left)) + Math.max(...pairSlots.map(box => box.right))) / 2;
+                    tiles.style.transform = "translate(" + Math.round(cardsMiddle - pairMiddle) + "px, " + lift + "px)";
+                }
             }
             row.style.setProperty("--section-tile-size", side + "px");
             // (Squeezed under what a list needs, the tiles keep their titles.)

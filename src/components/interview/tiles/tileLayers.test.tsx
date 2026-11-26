@@ -61,19 +61,20 @@ describe("the tiles' stylesheet", () => {
     it("keeps page 3's heading and the cards' title rows in place and scrolls each card's body on its own", () => {
         const page = stylesheet("conversation.css");
         // The page no longer locks to the window: the area grows down and the page scrolls; no card scrolls inside.
-        expect(page).toMatch(/@media \(min-width: 1212px\) and \(min-height: 560px\) and \(orientation: landscape\) ?\{[^@]*\.conversation-page:has\(\.answer-columns\.business-capability\) ?\{ ?min-height: ?100vh;/);
+        // (Side by side from the Laptop tier: a landscape window 900px wide and 640px tall -- the responsive layout, 2026-11-23.)
+        expect(page).toMatch(/@media \(min-width: 900\.02px\) and \(orientation: landscape\) and \(min-height: 640px\) ?\{[^@]*\.conversation-page:has\(\.answer-columns\.business-capability\) ?\{ ?min-height: ?100vh;/);
         expect(page).not.toMatch(/\.conversation-page:has\(\.answer-columns\.business-capability\) ?\{[^}]*overflow: ?hidden;/);
         expect(page).toMatch(/\.conversation-card \.answer-columns\.business-capability ?\{[^}]*grid-template-rows: ?auto;/);
         expect(page).toMatch(/\.answer-columns\.business-capability > \.business-foundation-card ?\{ ?max-height: ?none;/);
         expect(page).toMatch(/\.business-capability > \.business-foundation-card > \.card-scroll ?\{ ?flex: ?1 1 auto;[^}]*overflow: ?visible;/);
     });
 
-    it("sets the page's two cards side by side in the page's two equal columns, stacked where every page's chapters stack (under 1100px or a portrait window)", () => {
+    it("sets the page's two cards side by side in the page's two equal columns, stacked where every page's chapters stack (under 900px, a portrait window or under 640px tall)", () => {
         const page = stylesheet("conversation.css");
         expect(page).toMatch(/\.business-capability > \.business-foundation-card ?\{ ?grid-column: ?auto;[^}]*align-self: ?start; ?\}/);
         // (The one stacking query, 07-floating-cards-and-page-layout.css; owner, 2026-11-22 09:52 and 09:58 UTC+2; layout rules section 23.)
         const tiles = stylesheet("section-tiles.css");
-        expect(tiles).toMatch(/@media \(max-width: 1099px\), \(orientation: portrait\) ?\{[^@]*\.business-capability:not\(\.page-group \.answer-columns\) > \.business-foundation-card:is\(:nth-child\(1\), :nth-child\(2\)\) ?\{ ?grid-column: ?1 \/ -1;/);
+        expect(tiles).toMatch(/@media \(max-width: 900px\), \(orientation: portrait\), \(max-height: 639px\) ?\{[^@]*\.business-capability:not\(\.page-group \.answer-columns\) > \.business-foundation-card:is\(:nth-child\(1\), :nth-child\(2\)\) ?\{ ?grid-column: ?1 \/ -1;/);
         expect(page).not.toMatch(/@container page-card \(max-width: 699px\) ?\{[^@]*\.business-capability[^{]*> \.business-foundation-card:is/);
     });
 
@@ -185,13 +186,13 @@ describe("the page's cards and titles", () => {
         expect(stylesheet("section-tiles.css")).toMatch(/\.section-tile \{[^}]*font-size: var\(--font-body\);/);
     });
 
-    it("sizes every title on the type scale, in a hierarchy: page 36, column title 28, dialog title and section heading 24, tile / box / card name 18", () => {
+    it("sizes every title on the one fluid type scale, in rem, in a hierarchy: page 24 to 36, column title 20 to 28, dialog title and section heading 18 to 24, body 16 to 18, small 13 to 14", () => {
         const global = stylesheet("global.css");
-        expect(global).toMatch(/--font-h1: 36px;/);
-        expect(global).toMatch(/--font-h2: 28px;/);
-        expect(global).toMatch(/--font-h3: 24px;/);
-        expect(global).toMatch(/--font-body: 18px;/);
-        expect(global).toMatch(/--font-small: 14px;/);
+        expect(global).toMatch(/--font-h1: clamp\(1\.5rem, [^;]*, 2\.25rem\);/);
+        expect(global).toMatch(/--font-h2: clamp\(1\.25rem, [^;]*, 1\.75rem\);/);
+        expect(global).toMatch(/--font-h3: clamp\(1\.125rem, [^;]*, 1\.5rem\);/);
+        expect(global).toMatch(/--font-body: clamp\(1rem, [^;]*, 1\.125rem\);/);
+        expect(global).toMatch(/--font-small: clamp\(0\.8125rem, [^;]*, 0\.875rem\);/);
         const css = stylesheet("section-tiles.css");
         expect(css).toMatch(/\.business-capability > \.business-foundation-card:not\(\.section-tile-dialog\) \.answer-column-label \{[^}]*font-size: var\(--font-h2\);/);
         expect(css).toMatch(/\.business-capability-tiles-section > \.business-engagement-section-head \.field-group-title,\s*\.section-tile-dialog-body > div > \.business-engagement-section-head \.field-group-title,\s*\.workbook-head > \.business-engagement-section-head \.field-group-title \{[^}]*font-size: var\(--font-h3\);/);

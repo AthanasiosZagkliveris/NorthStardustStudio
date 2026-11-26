@@ -66,12 +66,72 @@
 
     gap:18px;
 
+    position:relative;
+
+    /* (THE THREE GAPS OF THE PAGE'S HEAD (owner, 2026-11-24 00:56 UTC+2: "check the gaps 1. above the page title, 2. between the title and the underline, 3. between
+       the underline and the chapter top edge"): measured from the letters, not their line's box -- 24px from the header to the capitals' top, 12px from the
+       letters' foot to the underline, 12px from the underline to the chapter. The line's box keeps about a fifth of the size above the capitals (Inter) and a
+       twelfth under the descenders: the row gives them back.) */
+    margin-top:calc(-0.19 * var(--font-h1));
+    margin-bottom:calc(-0.1 * var(--font-h1));
+
+}
+
+/* (BACK BESIDE THE PAGE'S TITLE ON A TABLET (AppFooter; owner, 2026-11-24 00:21 UTC+2): first in the title's row, before the page's symbol, its word and arrow as in the
+   footer; it never shrinks, the title gives way.) */
+.interview-header-title-row > .interview-header-back.back-link{
+
+    /* (Outside the page's left edge, 12px from it, level with the title -- owner, 2026-11-24 00:56 UTC+2, his line at the page's limit: the title's row starts
+       on the page's edge.) */
+    position:absolute;
+
+    top:50%;
+    right:calc(100% + var(--gap-12));
+    left:auto;
+    bottom:auto;
+
+    flex-shrink:0;
+
+    margin:0;
+
+    translate:0 -50%;
+
+    pointer-events:auto;
+
+    white-space:nowrap;
+
+}
+
+/* (ONE HEIGHT FOR EVERY PAGE'S SYMBOL (owner, 2026-11-24 01:59 UTC+2: "All the icons should have the same height"): a System's symbol is drawn 26px tall in its
+   36px square; a Capability's fills its square, so it is drawn in a 26px one, centred on the capitals as it stands.) */
+.interview-header-icon.interview-header-icon-full{
+
+    --icon-box:26px;
+
+    translate:0 calc(-0.02 * var(--font-h1));
+
+}
+
+/* (Back beside the title is its arrow alone, its name in the tooltip -- owner, 2026-11-24 01:59 UTC+2, "instead of Back, place the arrow".) */
+.interview-header-title-row > .interview-header-back .back-button-word,
+.interview-header-title-row > .interview-header-back.interview-header-back-short .back-button-word{
+
+    display:none;
+
 }
 
 .interview-header-icon{
 
-    width:36px;
-    height:36px;
+    /* (Level with the capitals' middle: the symbols' drawing stands a little low in its square -- owner, 2026-11-24 00:56 UTC+2, "Align the icons properly next to
+       the titles".) */
+    translate:0 calc(-0.14 * var(--font-h1));
+
+    /* (Its square sized from its own drawing so its ink is the capitals' height, InterviewHeader's --icon-box; its column stays 36px wide, so it stays centred on
+       the rail's line.) */
+    width:var(--icon-box, 36px);
+    height:var(--icon-box, 36px);
+
+    margin-inline:calc((36px - var(--icon-box, 36px)) / 2);
 
     flex-shrink:0;
 
@@ -105,6 +165,14 @@
 
 }
 
+/* (THE BOLD NAME WITH THE BOLD TRACKING (owner, 2026-11-24 10:33 UTC+2: "Any bold text should have the mentioned letter spacing"): the System's or the
+   Capability's name, the title's bold half, at --bold-tracking, as every bold text.) */
+.interview-header-system{
+
+    letter-spacing:var(--bold-tracking);
+
+}
+
 /* "— INTRODUCTION": in capitals on screen only (text-transform), so
    the words read aloud stay "Introduction". */
 .interview-header-page-title-capitals{
@@ -113,35 +181,20 @@
 
 }
 
-/* THE TITLE IN THE VERTICAL LAYOUT (layout rules section 23; owner, 2026-11-22 18:58 UTC+2: "When the screen became narrower, the page name should go Under the
-   System Name. The em dash between them do not need to exist anymore. The Icon should stay at the System's level"): the page's title on a line of its own, no dash,
-   and the icon level with the System's name, the first line. (The one query of the vertical layout, 07-floating-cards-and-page-layout.css.) */
-@media (max-width: 1099px), (orientation: portrait){
+/* THE TITLE ON ONE ROW, OR THE PAGE'S NAME ALONE (owner, 2026-11-24 00:21 UTC+2: "Generally, If the system and the page title do not fit in a single row, then use
+   only the symbol and the page title"; it replaces the vertical layout's second line of 2026-11-22): where "System — Page" does not stand on one row, the System's
+   name and the dash step aside (InterviewHeader, .interview-header-page-only) and the symbol stands beside the page's name. */
+/* (The open tab's name shows only where the title stands in the header: app-header.css.) */
+.interview-header-tab-name{
 
-    .interview-header-title-row{
+    display:none;
 
-        align-items:flex-start;
+}
 
-    }
+.interview-header h1.interview-header-page-only .interview-header-system,
+.interview-header h1.interview-header-page-only .interview-header-dash{
 
-    .interview-header-icon{
-
-        /* (centred on the first line: the h1's line is 1.2 of its size, global.css) */
-        margin-top:calc((var(--font-h1) * 1.2 - 36px) / 2);
-
-    }
-
-    .interview-header-page-title{
-
-        display:block;
-
-    }
-
-    .interview-header-dash{
-
-        display:none;
-
-    }
+    display:none;
 
 }
 
@@ -617,7 +670,7 @@
 
     position:sticky;
 
-    top:80px;
+    top:var(--app-header-height, 64px);
 
     z-index:5;
 
@@ -630,5 +683,30 @@
     padding-bottom:12px;
 
     background:var(--bg-page);
+
+}
+
+/* THE PAGE TITLE ON A PHONE (owner, 2026-11-24 03:14 UTC+2: "Check the Title's text size"): the header's size there, --font-h2 (about 21px at 390px), as a phone in
+   landscape draws it in the header (app-header.css), so a page's name fits on one line beside its symbol. */
+@media (max-width: 600px){
+
+    /* (A PHONE IN PORTRAIT: Back first in the page title's row, at the page's top, inside its left edge -- no room beside the card (owner, 2026-11-25: "Place it on
+       the top part of the page"; AppFooter).) */
+    .interview-header-title-row > .interview-header-back.back-link{
+
+        position:static;
+
+        order:-1;
+
+        translate:none;
+
+    }
+
+
+    .interview-header h1{
+
+        font-size:var(--font-h2);
+
+    }
 
 }

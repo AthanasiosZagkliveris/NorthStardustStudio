@@ -90,6 +90,11 @@
 
     height: 64px;
 
+    /* (THE SAFE AREAS (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved, section 7, adjustment 3): the band stands above a phone's home indicator and
+       clear of a landscape phone's notch -- env(safe-area-inset-*), which the page's viewport-fit=cover gives (index.html); 0 everywhere else.) */
+    box-sizing: content-box;
+    padding: 0 env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+
     /* No band of its own: "← Back" stands on the page's ground, in
        every theme. */
     background: transparent;
@@ -103,9 +108,9 @@
 
 }
 
-/* THE PHONE (600px and under; layout rules section 23, "The phone"): the band holds Back and the page's rails (bullet-rail.css), so it is a surface: the
-   header's ground and its soft shadow, as the app's top band has, so the page scrolls under it. */
-@media (max-width: 600px) {
+/* THE STACKED LAYOUT -- a tablet, a phone, a short window (since 2026-11-23 23:21 UTC+2; before, the phone alone; layout rules section 23): the band holds Back and
+   the page's rails (bullet-rail.css), so it is a surface: the header's ground and its soft shadow, as the app's top band has, so the page scrolls under it. */
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
 
     .workspace-footer {
 
@@ -522,6 +527,51 @@
 
 }
 
+/* (WHAT A SYSTEM'S TILE HOLDS, IN THE TILE'S MIDDLE (owner, 2026-11-24 03:14 UTC+2: "Generally place the tile's content ... in the centre of the Tile, and give
+   some space"): its kind and its list centred in the room under its title, 12px clear of the tile's foot; short of room, the title alone, centred
+   (SystemSelection, data-no-room, --title-centre).) */
+.capability-system-slot > .capability-system-links > .capability-system-body {
+
+    justify-content: center;
+
+    margin-bottom: var(--gap-12);
+
+}
+
+/* (A SYSTEM'S SYMBOL ABOVE ITS TITLE (owner, 2026-11-24 10:12 UTC+2: "On the System Tiles, place the icons above their titles"): the symbol first, 12px over the
+   title's words and their rule.) */
+.capability-system-slot > .section-tile > .section-tile-title:has(> .section-tile-title-mark) {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.capability-system-slot > .section-tile > .section-tile-title > .section-tile-title-mark {
+
+    order: -1;
+
+    /* (Large, to be read and recognised: 40% of the tile, never under the logo's size -- owner, 2026-11-24 10:25 UTC+2.) */
+    width: max(var(--add-button-height), calc(var(--section-tile-size) * 0.4));
+    height: max(var(--add-button-height), calc(var(--section-tile-size) * 0.4));
+
+    margin: 0 auto var(--gap-12);
+
+}
+
+.capability-system-slot > .capability-system-links > .capability-system-body[data-no-room] {
+
+    visibility: hidden;
+
+}
+
+.capability-system-slot:has(> .capability-system-links > .capability-system-body[data-no-room]) > .section-tile > .section-tile-title {
+
+    translate: 0 var(--title-centre, 0px);
+
+}
+
 /* A CAPABILITY'S HELP (owner, 2026-11-23 16:19 UTC+2): dropped by the title's arrow, floating under the title as a chapter's help does (title-arrow.css), the
    width of a chapter (half the page) and the help's type; its words as the description had them -- the tagline, the paragraphs, the core principle. */
 .capability-help-block > .capability-help {
@@ -532,7 +582,13 @@
 
     right: auto;
 
-    width: min(100%, calc(50% - var(--space-card) / 2));
+    /* (Over the Systems' frame, its left edge and its width: SystemSelection's --help-left and --help-width.) */
+    left: var(--help-left, 0px);
+
+    width: var(--help-width, min(100%, calc(50% - var(--space-card) / 2)));
+
+    max-height: var(--help-height, none);
+    overflow-y: auto;
 
     /* (IN THE CAPABILITY'S COLOURS, WITH ITS EDGE (owner, 2026-11-23 17:53 UTC+2: "Fix the colours of the capabilities description, add a wireframe"): a light wash
        of the Capability's colour, a 1px edge in it, as a chapter's help is in its chapter's.) */
@@ -573,6 +629,17 @@
     width: min(100%, calc(var(--capability-across, 3) * var(--capability-side, var(--quad-cap)) + (var(--capability-across, 3) - 1) * var(--space-card) + 2 * var(--frame-pad) + 2px));
 
     margin-inline: 0 auto;
+
+}
+
+/* (Where the chapters stack, the frame stands on the page's middle, as a stacked chapter does.) */
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
+
+    .capability-tiles:has(> .capability-systems-frame) {
+
+        margin-inline: auto;
+
+    }
 
 }
 
@@ -697,7 +764,7 @@
     vertical-align: middle;
 
     /* (On the capitals' middle, not the lower case's: a little higher than vertical-align middle puts it.) */
-    translate: 0 -0.08em;
+    translate: 0 -0.12em;
 
 }
 
@@ -751,7 +818,7 @@
 
 }
 
-.capability-tiles[data-large] .section-tile-list {
+.capability-tiles .section-tile-list {
 
     font-size: var(--font-body);
 
@@ -894,6 +961,9 @@
 .capability-systems-frame > .tiles-frame-head .field-group-title {
 
     color: color-mix(in srgb, var(--tile-colour, var(--text-strong)) 85%, var(--text-strong));
+
+    /* (The chapter headings' size, as every page's (--font-h2): owner, 2026-11-24 10:12 UTC+2, "Check the text (titles) size on mobiles" -- it stood at 28px.) */
+    font-size: var(--font-h2);
 
 }
 
