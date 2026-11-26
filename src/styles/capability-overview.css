@@ -1214,3 +1214,63 @@
     }
 
 }
+
+/* THE BAR WHERE IT IS SHORT OF ROOM (owner, 2026-11-26, the tablet in portrait: "Priority has the filter button. Also, use the options smartly"): under 900px of
+   bar, the count and the funnel take the first row -- the funnel at its right end, always in view --, the kinds, Tiles / Table and the text sizes the rows under
+   it, 12px apart. */
+.capability-overview {
+
+    container: capability-overview / inline-size;
+
+}
+
+@container capability-overview (max-width: 899.98px) {
+
+    .capability-overview-bar {
+
+        flex-wrap: wrap;
+        row-gap: var(--gap-12);
+
+    }
+
+    .capability-overview-bar > .capability-overview-count {
+
+        order: -3;
+
+    }
+
+    .capability-overview-bar > .strategy-box-actions {
+
+        order: -2;
+
+        margin-left: auto;
+
+    }
+
+    .capability-overview-bar::before {
+
+        content: "";
+
+        order: -1;
+
+        flex-basis: 100%;
+
+        height: 0;
+
+    }
+
+    .capability-overview-bar > .capability-overview-sizes {
+
+        margin-left: 0;
+
+    }
+
+}
+
+/* (THE KINDS FOLLOW THE LINKED COLUMN (owner, 2026-11-26: "On the table, if the linked column is not active, then the Resources, Activity, Partner, and Supplier
+   indicators should be hidden too"): in the Table view, where the Linked column is not shown, the four kinds that pick by its links are not shown either.) */
+.capability-overview-table-mode:not(:has(.capability-overview-table th[data-col="linked"])) .capability-overview-legend {
+
+    display: none;
+
+}

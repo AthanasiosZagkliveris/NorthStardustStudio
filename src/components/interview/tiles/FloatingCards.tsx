@@ -215,6 +215,8 @@ export function FloatingCards({
             const now = parseFloat(body.style.minHeight) || 0;
             if (want > 0 && Math.abs(want - now) > 1) {
                 body.style.minHeight = want + "px";
+                // (A card whose fields run past the window keeps its whole length, the window scrolling it (owner, 2026-11-26 12:35 UTC+2: "The dialogue cards should
+                // get their full length (beyond the screen size), like the floated cards").)
             }
             // (The room it gains in its last band's colour, as every card's end: cardEndGround.ts.)
             const card = last.querySelector<HTMLElement>(":scope > .floating-card-body");

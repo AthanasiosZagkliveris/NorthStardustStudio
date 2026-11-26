@@ -861,6 +861,17 @@
 
 }
 
+/* (WHERE THE CHAPTERS STACK, A DIALOG RUNS AT LEAST TO 12PX ABOVE THE FOOTER'S BAND (owner, 2026-11-26), and on to its whole length past it.) */
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
+
+    .section-tile-overlay.business-foundation > .section-tile-dialog.business-foundation-card {
+
+        min-height: calc(100vh - var(--section-dialog-top, 0px) - var(--layer-foot) - 12px);
+
+    }
+
+}
+
 /* (WHERE THE CHAPTERS STAND SIDE BY SIDE, A DIALOG IS NO TALLER THAN ITS ROOM (owner, 2026-11-24 10:12 UTC+2: "Do not forget the margin is 12 px"): it ends 12px above
    the footer and its body scrolls; where the chapters stack, the page scrolls and the dialog keeps its tiles' height.) */
 @media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) {
@@ -868,7 +879,9 @@
     .section-tile-overlay.business-foundation > .section-tile-dialog.business-foundation-card {
 
         /* (It grows down past its card's area as its tiles need, to 12px above the 64px footer; beyond that its body scrolls.) */
-        max-height: max(var(--section-dialog-height, 88vh), calc(100vh - var(--section-dialog-top, 0px) - var(--layer-foot) - 12px));
+        /* (Its whole length, past the window where its tiles need it, the layer scrolling it (owner, 2026-11-26 12:35 UTC+2: "The dialogue cards should get
+           their full length (beyond the screen size), like the floated cards"); never shorter than 12px above the footer.) */
+        max-height: none;
 
     }
 

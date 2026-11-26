@@ -287,6 +287,17 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
     // (The one placement of every rail: useRailSlot, shared with the page's rails.)
     const slot = useRailSlot(railRef, () => at ? { left: at.side === "left" ? at.left : window.innerWidth - at.right - CAROUSEL_ARROW_WIDTH, right: (at.side === "left" ? at.left : window.innerWidth - at.right - CAROUSEL_ARROW_WIDTH) + CAROUSEL_ARROW_WIDTH, top: at.top - 22, bottom: at.top + 22 } : null, !!at?.tab && !covered && !isPhone());
     railSlot.current = slot;
+    // (Its word where the room left of the layer holds it, else its arrow alone -- as the page's: AppFooter.)
+    useLayoutEffect(() => {
+        const back = target.current?.querySelector<HTMLElement>(":scope > .page-top-back");
+        if (!back) {
+            return;
+        }
+        back.classList.remove("page-top-back-short");
+        if (back.getBoundingClientRect().left < 12) {
+            back.classList.add("page-top-back-short");
+        }
+    });
 
     if (!at || !topmost || covered) {
         return null;

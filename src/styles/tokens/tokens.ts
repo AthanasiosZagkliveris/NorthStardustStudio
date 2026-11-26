@@ -1081,6 +1081,8 @@ export const containerBreakpoints: readonly Boundary[] = [
     { axis: "width", wideFrom: 606, queries: { "max-width: 605.98px": 1 } },
     { axis: "width", wideFrom: 700, queries: { "max-width: 699px": 1 } },
     { axis: "width", wideFrom: 800, queries: { "max-width: 799px": 1 } },
+    // (The Inventory's bar short of room: the count and the funnel on its first row -- owner, 2026-11-26, "Priority has the filter button".)
+    { axis: "width", wideFrom: 900, queries: { "max-width: 899.98px": 1 } },
     { axis: "width", wideFrom: 915, queries: { "max-width: 914.98px": 1 } },
     { axis: "width", wideFrom: 1000, queries: { "max-width: 999px": 1 } },
     { axis: "width", wideFrom: 1100, queries: { "max-width: 1099.98px": 2, "max-width: 1099px": 1 } },
