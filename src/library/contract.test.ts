@@ -31,7 +31,9 @@ describe("the asset contracts", () => {
         expect(css).toContain("height: " + arrow.geometry.glyphHeightEm + "em;");
         expect(css).toContain("translateX(" + arrow.geometry.openShiftEm + "em)");
         expect(css).toContain("stroke-width: " + arrow.geometry.lineWidthPx + "px;");
-        expect(css).toContain("max(" + arrow.geometry.minTargetPx + "px, 1em)");
+        // (Its least target is the press area: minTargetPx, 24px, with a mouse (--size-mark); 44px on a touch screen -- global.css, owner 2026-11-26.)
+        expect(css).toContain("max(var(--press-area), 1em)");
+        expect(arrow.geometry.minTargetPx).toBe(24);
     });
 
 

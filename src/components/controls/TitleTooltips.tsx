@@ -168,8 +168,23 @@ export default function TitleTooltips() {
             }
             setTip(element && text ? { text, element } : null);
         };
-        const over = (event: PointerEvent) => show(reach(event.target));
-        const focus = (event: FocusEvent) => show(reach(event.target));
+        // (A FINGER SHOWS NO TOOLTIP (owner, 2026-11-26 17:04 UTC+2, the touch proposal): a tap is not a pointer resting over a control, and the tip it raised stayed on
+        // the screen -- the Handbook's and Workbook's buttons on a tablet and a phone, the screens catalogue. A touch's pointer and the focus a tap gives raise none;
+        // the names a finger needs are drawn.)
+        let touched = 0;
+        const over = (event: PointerEvent) => {
+            if (event.pointerType === "touch") {
+                touched = Date.now();
+                return;
+            }
+            show(reach(event.target));
+        };
+        const focus = (event: FocusEvent) => {
+            if (Date.now() - touched < 1000) {
+                return;
+            }
+            show(reach(event.target));
+        };
         const ownOpened = () => setTip(null);
         document.addEventListener(OWN_TIP_EVENT, ownOpened);
         const away = () => setTip(null);

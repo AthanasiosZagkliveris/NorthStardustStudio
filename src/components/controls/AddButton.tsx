@@ -21,7 +21,8 @@ const AddButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonE
         );
     }
     if (shape === "box") {
-        return <button ref={ref} type="button" {...rest} className={"plus-box" + (small ? " plus-box-small" : "") + (className ? " " + className : "")} />;
+        // (Its press area, an invisible box round it: 44px on a touch screen, section-tiles/04-tile-slot-and-floating-card.css.)
+        return <button ref={ref} type="button" {...rest} className={"plus-box" + (small ? " plus-box-small" : "") + (className ? " " + className : "")}><span className="press-area" aria-hidden="true" /></button>;
     }
     return <button ref={ref} type="button" {...rest} className={(look ?? "strategy-add-button") + (className ? " " + className : "")}>{children}</button>;
 });

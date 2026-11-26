@@ -222,7 +222,9 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: max(100%, 24px);
+    /* (At least --press-area across, 44px on a touch screen (owner, 2026-11-26 17:04 UTC+2); down, 24px: the bullets stand 18px and more apart, and a taller
+       box would take its neighbour's press.) */
+    width: max(100%, var(--press-area));
     height: max(100%, 24px);
     translate: -50% -50%;
 }
@@ -979,6 +981,15 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
         right: calc(50% - var(--card-width) / 2 + var(--rail-inset) / 2 - 12px);
         left: auto;
+
+    }
+
+    /* (ON ITS RAIL WHERE THE RAIL MOVES IN (owner, 2026-11-26 18:02 UTC+2, the screens catalogue at 1366 x 640: "Why the right navigation arrow does not follow the
+       rules?"; layout rules section 10, "Each arrow is centred on its rail"): where the chapters end short of the rule's end, the right tab stands against them
+       (--rail-frame-shift), and its arrow moves in with it, centred on its bullets -- or where they would stand, on a page with none.) */
+    .bullet-rails .bullet-rail.bullet-rail-right .bullet-rail-head > .page-arrow {
+
+        right: calc(50% - var(--card-width) / 2 + var(--rail-frame-shift, 0px) + var(--rail-inset) / 2 - 12px);
 
     }
 

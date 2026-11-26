@@ -9,7 +9,7 @@
 ========================================================== */
 .label-arrow {
 
-    --label-arrow-hit: max(24px, 1em);
+    --label-arrow-hit: max(var(--press-area), 1em);
     /* The outline's line, in 1em (about 1.5px at 16px) -- the inner triangle below is the outer one inset by it. */
 
     position: relative;

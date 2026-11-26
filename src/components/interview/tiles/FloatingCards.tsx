@@ -197,29 +197,18 @@ export function FloatingCards({
             measureShade();
             setPlace(previous => previous && Math.abs(previous.band - bandTop) < 0.5 && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.top - top) < 0.5 ? previous : { left, top, band: bandTop });
         };
-        // (FULL LENGTH (owner, 2026-11-26: "the floated and dialoge cards, should be full size long"): the last card of the stack runs down to 12px above the window's
-        // foot -- above the footer's band where the chapters stack --, its record line under it included.)
+        // (A CARD AS LONG AS ITS FIELDS (owner, 2026-11-26 18:01 UTC+2: "I meant that it should not be cut, but continue after the screen's end. The floated cards,
+        // should have specific size (12 px) as margins"; it replaces the morning's reading, every card down to the window's foot): a card ends 12px under its last
+        // field, and one longer than the window runs on past its foot, the window scrolling it -- never cut.)
         const fullLength = () => {
             const items = node.querySelectorAll<HTMLElement>(".floating-card-item");
             const last = items[items.length - 1];
-            // (The card drawn is the body's first box; the body itself has no ground.)
             const body = last?.querySelector<HTMLElement>(":scope > .floating-card-body > :first-child") ?? last?.querySelector<HTMLElement>(":scope > .floating-card-body");
-            if (!body) {
-                return;
+            if (body && body.style.minHeight) {
+                body.style.minHeight = "";
             }
-            const sideBySide = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 900.02px) and (orientation: landscape) and (min-height: 640px)").matches;
-            const foot = sideBySide ? 0 : document.querySelector<HTMLElement>(".workspace-footer")?.getBoundingClientRect().height ?? 64;
-            // (What stands under the card in its stack -- its record line, the host's own room at its foot.)
-            const under = Math.max(0, last.getBoundingClientRect().bottom - body.getBoundingClientRect().bottom);
-            const want = Math.floor(window.innerHeight - foot - 12 - under - body.getBoundingClientRect().top);
-            const now = parseFloat(body.style.minHeight) || 0;
-            if (want > 0 && Math.abs(want - now) > 1) {
-                body.style.minHeight = want + "px";
-                // (A card whose fields run past the window keeps its whole length, the window scrolling it (owner, 2026-11-26 12:35 UTC+2: "The dialogue cards should
-                // get their full length (beyond the screen size), like the floated cards").)
-            }
-            // (The room it gains in its last band's colour, as every card's end: cardEndGround.ts.)
-            const card = last.querySelector<HTMLElement>(":scope > .floating-card-body");
+            // (Its end in its last band's colour, as every card's: cardEndGround.ts.)
+            const card = last?.querySelector<HTMLElement>(":scope > .floating-card-body");
             if (card) {
                 paintCardEnd(card);
             }

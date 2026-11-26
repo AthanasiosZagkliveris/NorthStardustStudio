@@ -249,14 +249,34 @@ function headEnd(rule: DOMRect): number {
     return rule.bottom - further;
 }
 
-export function masterSide(): number | null {
+/** Where the page title shows in the header, not under it (app-header.css): the page's head is then the header itself. */
+const TITLE_IN_HEADER_QUERY = "(min-width: 601px) and (max-height: 700px), (min-width: 601px) and (max-width: 1100px), (min-width: 601px) and (pointer: coarse)";
+
+/** The page title's row under the header where it shows there (24px to its capitals, the title, 12px to its rule: 70px at 1366, 71 at 1920). */
+const TITLE_ROW = 70;
+
+/**
+ * THE END OF A PAGE'S HEAD AT THIS WINDOW: its title's rule, measured where a page shows one; where none does -- the Handbook, the Workbook, the Landing --, where
+ * a page's would stand at this window (the header's foot, and the title's row under it where the title is not in the header). So every layer of a window reads
+ * one arrow level (owner, 2026-11-26 18:05 UTC+2: "The Navigation arrows should be at a specific level per screen size").
+ */
+function pageHeadEnd(): number {
     const underline = document.querySelector<HTMLElement>(".interview-header .interview-divider") ?? document.querySelector<HTMLElement>(".interview-divider");
+    if (underline) {
+        return headEnd(underline.getBoundingClientRect());
+    }
+    const header = document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 64;
+    const inHeader = typeof window.matchMedia === "function" && window.matchMedia(TITLE_IN_HEADER_QUERY).matches;
+    return header + (inHeader ? 0 : TITLE_ROW);
+}
+
+export function masterSide(): number | null {
     // (The Workbook's panel stands for the card on the Workbook and the Handbook: Workbook.tsx.)
     const card = document.querySelector<HTMLElement>(".conversation-card, .workbook-panel")?.getBoundingClientRect();
-    if (!underline || !card || card.width <= 300) {
+    if (!card || card.width <= 300) {
         return null;
     }
-    const top = headEnd(underline.getBoundingClientRect()) + 12 + 61;
+    const top = pageHeadEnd() + 12 + 61;
     const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
     const inset = railInset();
     // (The room is the window's -- the widest page it allows, 1400px at most, its 56px gutters --, never the page's own width, which follows the tiles.)
@@ -339,9 +359,9 @@ export function setTilesPage(page: HTMLElement | null, side: number | null): voi
  * middle of the dialog's frame.
  */
 export function arrowLevel(): number | null {
-    const underline = document.querySelector<HTMLElement>(".interview-divider")?.getBoundingClientRect();
-    const card = document.querySelector<HTMLElement>(".conversation-card")?.getBoundingClientRect();
-    if (underline && card && card.width > 300 && verticalAcross() > 0) {
+    // (A page's card, or the Workbook's and Handbook's panel, which stands for it: one level for every layer of the window.)
+    const card = document.querySelector<HTMLElement>(".conversation-card, .workbook-panel")?.getBoundingClientRect();
+    if (card && card.width > 300 && verticalAcross() > 0) {
         // (THE ARROWS STAY IN PLACE IN THE VERTICAL LAYOUT (owner, 2026-11-22 18:58 UTC+2: "The navigation arrow when exist, should stay in place"; layout rules section 23):
         // the tiles there fill their chapter and the page scrolls, so the arrows stand at the middle of the window between the header and the footer, the same on every
         // page whatever its title's lines.)
@@ -349,8 +369,8 @@ export function arrowLevel(): number | null {
         const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
         return Math.round((header + window.innerHeight - footer) / 2);
     }
-    if (underline && card && card.width > 300) {
-        const top = headEnd(underline) + 12 + 61;
+    if (card && card.width > 300) {
+        const top = pageHeadEnd() + 12 + 61;
         const tile = masterSide() ?? 150;
         const gap = 12;
         // (Whole pixels: the page arrows (--arrow-level) and the carousel arrows read the same number, so they never stand a fraction apart.)
@@ -360,6 +380,9 @@ export function arrowLevel(): number | null {
     return frame ? Math.round(frame.top + frame.height / 2) : null;
 }
 
+
+/** The least width of a dialog on a touch screen where the page has the room: Material's sheets, up to 640dp. */
+const TOUCH_DIALOG_WIDTH = 640;
 
 /**
  * THE DIALOG'S FRAME (docs/ai/09-layout-rules.md, "Section tiles and dialog"): it
@@ -383,6 +406,18 @@ export function dialogFrame(opener?: HTMLElement | null): { width: number; heigh
         const frame = shownFrame(section).getBoundingClientRect();
         const top0 = frame.top < own.top && frame.bottom >= own.bottom - 1 ? frame.top : own.top;
         const box = { left: own.left, width: own.width, top: top0, bottom: own.bottom, height: own.bottom - top0 };
+        // (A DIALOG ON A TOUCH SCREEN IS AT LEAST 640PX WIDE where the page has the room (owner, 2026-11-26 17:04 UTC+2, the touch proposal: "check how the other apps
+        // work ... and do it!"): Material's sheets span the window up to 640dp. A tablet in landscape gives a section 396px, its dialog's tiles 115px, too small for
+        // their names, which a finger never reads in a tooltip; at 640px they take 196px, their titles and lists, as on a monitor. It stays inside the page's cards,
+        // from its own section's edge.)
+        if (typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches && box.width < TOUCH_DIALOG_WIDTH) {
+            const area = document.querySelector<HTMLElement>(".conversation-card")?.getBoundingClientRect();
+            if (area && area.width > box.width) {
+                const width = Math.min(TOUCH_DIALOG_WIDTH, area.width);
+                box.left = Math.max(area.left, Math.min(box.left, area.right - width));
+                box.width = width;
+            }
+        }
         if (box.width > 200 && box.height > 200) {
             // (A card taller than the window is covered only as far as the window shows: under the header and the page title that stays under it, above the footer.)
             const header = Math.max(document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 0, document.querySelector<HTMLElement>(".interview-divider")?.getBoundingClientRect().bottom ?? 0);

@@ -854,10 +854,22 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-back {
 
 }
 
-/* A tile grows 10% under the pointer: the dialog’s body leaves room under the last row of tiles, so the grown tile is not cut by the dialog’s edge. */
+/* (A foot that holds only that hidden Back takes no room either: the dialog's gap above it would stand under the last tile, and every card ends 12px under its
+   content -- owner, 2026-11-26 18:01 UTC+2: "All the cards have 12 px margin".) */
+.section-tile-overlay:has(.carousel-rail-back) .section-tile-dialog-foot:not(:has(> :not(.section-tile-back))),
+body:has(.floating-overlay) .section-tile-dialog .section-tile-dialog-foot:not(:has(> :not(.section-tile-back))),
+.section-tile-dialog:has(> .page-top-back) > .section-tile-dialog-foot:not(:has(> :not(.section-tile-back))) {
+
+    display: none;
+
+}
+
+/* A tile grows 10% under the pointer: the dialog’s body leaves room under the last row of tiles, so the grown tile is not cut by the dialog’s edge; the room is
+   taken back below it, so the dialog still ends 12px under its last tile (owner, 2026-11-26 18:01 UTC+2: "All the cards have 12 px margin"). */
 .section-tile-dialog-body:has(.card-tile-slot) {
 
     padding-bottom: 20px;
+    margin-bottom: -20px;
 
 }
 
