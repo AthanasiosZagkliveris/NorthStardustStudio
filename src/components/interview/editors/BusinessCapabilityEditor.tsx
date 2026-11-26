@@ -144,7 +144,7 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 // (Square, 215px, while the window has the room; the height alone gives way when it has not, so the tiles become rectangles.)
                 side = Math.round(Math.max(SQUEEZED_ROW_MIN, Math.min(215, room)));
             }
-            // (ONE MASTER TILE WIDE, UNDER THE FIRST TWO MASTER TILES (owner, 2026-11-25: "the Inventory and Completed tile's width should be related to the master tiles
+            // (ONE MASTER TILE WIDE (owner, 2026-11-25: "the Inventory and Completed tile's width should be related to the master tiles
             // width, and be aligned underneath them"): each as wide as a master tile, 12px apart as the tiles are, the first under the first chapter's first tile;
             // the row keeps its height and its place in the band or under the cards.)
             const firstTile = pageTiles[0]?.getBoundingClientRect();
@@ -156,9 +156,12 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 tiles.style.columnGap = Math.round(secondTile.left - firstTile.right) + "px";
                 const lift = /translate\([^,]+,\s*(-?[\d.]+)px\)/.exec(tiles.style.transform)?.[1] ?? "0";
                 tiles.style.transform = "translate(0px, " + lift + "px)";
-                const firstSlot = tiles.querySelector<HTMLElement>(".section-tile-slot")?.getBoundingClientRect();
-                if (firstSlot) {
-                    tiles.style.transform = "translate(" + Math.round(firstTile.left - firstSlot.left) + "px, " + lift + "px)";
+                // (CENTRED UNDER THE CHAPTERS (owner, 2026-11-26: "Correct idea, but place them in the centre"): the pair's middle on the middle of the cards above.)
+                const pairSlots = [...tiles.querySelectorAll<HTMLElement>(".section-tile-slot")].map(slot => slot.getBoundingClientRect()).filter(box => box.width > 0);
+                if (pairSlots.length > 0 && cards.length > 0) {
+                    const cardsMiddle = (Math.min(...cards.map(card => card.getBoundingClientRect().left)) + Math.max(...cards.map(card => card.getBoundingClientRect().right))) / 2;
+                    const pairMiddle = (Math.min(...pairSlots.map(box => box.left)) + Math.max(...pairSlots.map(box => box.right))) / 2;
+                    tiles.style.transform = "translate(" + Math.round(cardsMiddle - pairMiddle) + "px, " + lift + "px)";
                 }
             }
             row.style.setProperty("--section-tile-size", side + "px");

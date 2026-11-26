@@ -1176,3 +1176,27 @@
     }
 
 }
+
+/* (A FIGURES COLUMN AS WIDE AS ITS FIGURES (owner, 2026-11-26: "Cost column why is it so wide?"): the room a wide table gains goes to its words; a number column
+   keeps its header and figures on one line, no wider.) */
+.capability-overview-table .capability-overview-number,
+.capability-overview-table td[data-col="share"],
+.capability-overview-table th[data-col="share"] {
+
+    width: 1%;
+
+}
+
+/* (Its header on one line; a figure that is words too, a fee's "2.5% + 0.25 an order", wraps under itself.) */
+.capability-overview-table th.capability-overview-number,
+.capability-overview-table th[data-col="share"] {
+
+    white-space: nowrap;
+
+}
+
+.capability-overview-table tbody td.capability-overview-number[data-col="cost"] {
+
+    white-space: normal;
+
+}
