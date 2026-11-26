@@ -63,13 +63,24 @@ export class IndexedDbStorage implements Storage {
         return storage;
     }
 
-    /** Asks the browser to keep this site's data under storage pressure (granted or not, the app works the same). */
-    static async keep(): Promise<boolean> {
-        try {
-            return (await navigator.storage?.persist?.()) ?? false;
-        } catch {
-            return false;
-        }
+    /** The browser's one answer to `keep` (asked once, at start; main.tsx). */
+    private static kept: Promise<boolean> | null = null;
+
+    /**
+     * Asks the browser to keep this site's data under storage pressure (granted or not, the app works the same), once; later
+     * calls get the same answer. The desktop app (Tauri) keeps its data in its own folder, so it counts as kept. A browser
+     * without the Storage API answers no.
+     */
+    static keep(): Promise<boolean> {
+        IndexedDbStorage.kept ??= (async () => {
+            if (typeof window !== "undefined" && "__TAURI_INTERNALS__" in window) return true;
+            try {
+                return (await navigator.storage?.persist?.()) ?? false;
+            } catch {
+                return false;
+            }
+        })();
+        return IndexedDbStorage.kept;
     }
 
     /** Who hears how each write ended (LocalOrganizationStore, for the saved signal). */

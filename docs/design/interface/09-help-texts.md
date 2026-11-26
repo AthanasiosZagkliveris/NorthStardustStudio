@@ -645,7 +645,7 @@ Listed, never failed (Interface 10, 3.6). The budget is 160 characters a point; 
 | Mission | tile dialog | 14 | 4 | 276 | Who do you serve? What do you do for them? Why does it matter to them? Say what you do today; the future you aim for belongs in the Vision. Make it specific eno... |
 | Today | tile dialog | 3 | 1 | 67 | Read from the Segment that reaches widest today: NYC Service Firms. |
 | Vision | tile dialog | 12 | 3 | 261 | What will be different for your customers when you succeed, and what will the business be by then? Think five to ten years ahead. Describe the result; the steps... |
-| What will your business be when your Vision comes true? | tile dialog | 7 | 2 | 116 | The kind of future your Vision describes. Your choices put the matching Strategic Themes first on the Strategy page. |
+| What will your business be when your Vision comes true? | tile dialog | 7 | 1 | 41 | The kind of future your Vision describes. |
 | Where will your customers be? | tile dialog | 7 | 2 | 151 | Where your customers will be when your Vision comes true. The distance from today's reach, shown below, guides the growth choices on the Strategy page. |
 
 **organization**
