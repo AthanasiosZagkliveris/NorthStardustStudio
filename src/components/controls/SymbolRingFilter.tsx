@@ -16,7 +16,8 @@ const BRIDGE = 5;
 // (The outline 2px out: owner, 01:41, "tight it 1 px inwards"; it was 3px.)
 const GAP = 2, WIRE = 1;
 // (The glow soft and wide, owner 01:35: "Blur it more, but it should not effect the icons"; brought up to keep its strength.)
-const ROUND = 2.2, GLOW = 3, GLOW_STRENGTH = 5;
+// (Softer again, 01:44: "blur further the glow".)
+const ROUND = 2.2, GLOW = 4.5, GLOW_STRENGTH = 7;
 
 function Grown({ by, name }: { by: number; name: string }) {
     const near = (by * 0.414).toFixed(2), corner = (by * 0.707).toFixed(2);
