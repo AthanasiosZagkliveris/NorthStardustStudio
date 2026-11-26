@@ -7,7 +7,7 @@ import { consumeKey } from "../fields/consumeKey.ts";
 import InfoNote, { InfoText } from "../fields/InfoNote.tsx";
 import { type SectionTile, type TileAdd, type CrumbNote, type CarouselStep, type FloatingItem, type DialogRail } from "./SectionTileTypes.ts";
 import { dialogFrame, emptyHalfCentre } from "./SectionTileGeometry.tsx";
-import { useCardEndGround } from "./cardEndGround.ts";
+import { paintCardEnd, useCardEndGround } from "./cardEndGround.ts";
 import { settlePage, InnerBackContext, CrumbsContext, OpenCardContext, InitialBoxContext, type InnerBackApi, type Crumb } from "./DialogLevels.tsx";
 import { CARD_LEVEL, CarouselArrows } from "./CarouselArrows.tsx";
 
@@ -197,19 +197,53 @@ export function FloatingCards({
             measureShade();
             setPlace(previous => previous && Math.abs(previous.band - bandTop) < 0.5 && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.top - top) < 0.5 ? previous : { left, top, band: bandTop });
         };
+        // (FULL LENGTH (owner, 2026-11-26: "the floated and dialoge cards, should be full size long"): the last card of the stack runs down to 12px above the window's
+        // foot -- above the footer's band where the chapters stack --, its record line under it included.)
+        const fullLength = () => {
+            const items = node.querySelectorAll<HTMLElement>(".floating-card-item");
+            const last = items[items.length - 1];
+            // (The card drawn is the body's first box; the body itself has no ground.)
+            const body = last?.querySelector<HTMLElement>(":scope > .floating-card-body > :first-child") ?? last?.querySelector<HTMLElement>(":scope > .floating-card-body");
+            if (!body) {
+                return;
+            }
+            const sideBySide = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 900.02px) and (orientation: landscape) and (min-height: 640px)").matches;
+            const foot = sideBySide ? 0 : document.querySelector<HTMLElement>(".workspace-footer")?.getBoundingClientRect().height ?? 64;
+            // (What stands under the card in its stack -- its record line, the host's own room at its foot.)
+            const under = Math.max(0, last.getBoundingClientRect().bottom - body.getBoundingClientRect().bottom);
+            const want = Math.floor(window.innerHeight - foot - 12 - under - body.getBoundingClientRect().top);
+            const now = parseFloat(body.style.minHeight) || 0;
+            if (want > 0 && Math.abs(want - now) > 1) {
+                body.style.minHeight = want + "px";
+                // (A card whose fields run past the window keeps its whole length, the window scrolling it (owner, 2026-11-26 12:35 UTC+2: "The dialogue cards should
+                // get their full length (beyond the screen size), like the floated cards").)
+            }
+            // (The room it gains in its last band's colour, as every card's end: cardEndGround.ts.)
+            const card = last.querySelector<HTMLElement>(":scope > .floating-card-body");
+            if (card) {
+                paintCardEnd(card);
+            }
+        };
+        const settle = () => { fullLength(); window.requestAnimationFrame(fullLength); };
         position();
+        settle();
         window.addEventListener("resize", position);
+        window.addEventListener("resize", settle);
         window.addEventListener("scroll", measureShade, true);
         if (typeof ResizeObserver === "undefined") {
             return () => {
                 window.removeEventListener("resize", position);
+                window.removeEventListener("resize", settle);
                 window.removeEventListener("scroll", measureShade, true);
             };
         }
-        const observer = new ResizeObserver(position);
+        const later = window.setTimeout(settle, 400);
+        const observer = new ResizeObserver(() => { position(); settle(); });
         observer.observe(node);
         return () => {
+            window.clearTimeout(later);
             window.removeEventListener("resize", position);
+            window.removeEventListener("resize", settle);
             window.removeEventListener("scroll", measureShade, true);
             observer.disconnect();
         };

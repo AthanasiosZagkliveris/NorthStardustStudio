@@ -371,7 +371,7 @@
    only", replacing the 1200px line of 2026-11-20: two chapters and their 28px titles fit from 1100px, so a landscape iPad, 1180 or 1194 wide, keeps them side by side). CSS reads no variable inside @media, so this query is written
    once, here: a page's frames one to a row, Infrastructure & Capability's two cards one under the other, a chapter's two groups one under the other (below), a page of
    one chapter the page's whole width (--one-chapter-width, global.css). (The rules that hold only while chapters stand side by side say `and (orientation: landscape)`.) */
-@media (max-width: 1099px), (orientation: portrait) {
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
 
     :root {
 
@@ -1049,7 +1049,7 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
    this page scroll? There is nothing lower to reveal"; "make sure all chapters and their master tiles are the same size across pages"): it takes no room above the
    footer, so the page fits the window as every tile page does and its chapters are their size. At the left edge of the page card; where the page card stacks or
    the window is short (under 640px, where the chapters reach the footer's band), it stays under the chapters. */
-@media (min-width: 1212px) and (min-height: 640px) and (orientation: landscape) {
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) {
 
     .business-foundation-segment-frames + .business-foundation-input-actions {
 
@@ -1057,7 +1057,7 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
         z-index: 31;
 
-        left: max(var(--rail-gutter, 56px), (var(--view-width) - 1400px) / 2);
+        left: calc((var(--view-width) - var(--card-width, min(1400px, calc(var(--view-width) - 2 * var(--rail-gutter, 56px))))) / 2);
 
         bottom: 0;
 
@@ -1078,7 +1078,8 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
-@media (max-width: 1100px) {
+
+@media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
 
     .business-foundation-segment-frames {
 
@@ -1755,5 +1756,46 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 .business-capability-card-link.fold-list-line-wrap {
 
     overflow-wrap: anywhere;
+
+}
+
+/* NO CHAPTER FRAMES ON A PHONE (owner, 2026-11-25: "on mobiles, could remove the chapter frames, and make the background at the same colour to the chapter's";
+   2026-11-26: "I have said, on mobiles remove the background (chapter) frames"): a chapter keeps its place and its tiles, without its edge and its corners, and its
+   colour runs out to the window's sides; chapters that follow one another meet, each in its own colour. */
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px) {
+
+    .conversation-card .business-foundation-input:has(.section-tiles-quad),
+    .conversation-card .segment-chapter,
+    .capability-tiles > .capability-systems-frame {
+
+        position: relative;
+
+        border-color: transparent !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+
+    }
+
+    .conversation-card .business-foundation-input:has(.section-tiles-quad)::before,
+    .conversation-card .segment-chapter::before,
+    .capability-tiles > .capability-systems-frame::before {
+
+        content: "";
+
+        position: absolute;
+        inset: -1px -100vmax;
+        z-index: -1;
+
+        background: inherit;
+
+        pointer-events: none;
+
+    }
+
+    .conversation-card .answer-columns:has(.section-tiles-quad) {
+
+        row-gap: 0;
+
+    }
 
 }

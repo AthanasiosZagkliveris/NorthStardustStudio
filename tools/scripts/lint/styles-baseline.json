@@ -4,8 +4,7 @@
       "max-width: 1699px": 1
     },
     "section-tiles.css": {
-      "max-width: 443.98px": 1,
-      "min-height: 640px": 1
+      "max-width: 443.98px": 1
     }
   },
   "colour": {
@@ -84,7 +83,6 @@
       "7px": 2
     },
     "landing.css": {
-      "12px": 2,
       "24px": 1
     },
     "numbered-list.css": {

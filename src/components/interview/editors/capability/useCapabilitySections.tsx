@@ -2,6 +2,7 @@
  * THE BOXES AND SECTIONS: the resource, activity and partner boxes and the Infrastructure and Offering sections. These call one another, so they stay in one file.
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
+import { getResourceIcon } from "../../../../data/resourceIcons";
 import TickField from "../../../controls/TickField.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import { connectedOfferings } from "../../../../framework/engine/cards/GeneratedCards.ts";
@@ -756,6 +757,8 @@ export function useCapabilitySections(earlier: Earlier) {
             // A category with no card is faded; Offering's Channel line (Resources) is teal; a line of Offering's Activities / Partners & Suppliers that holds cards a channel made has a teal bullet behind its own.
             itemMarks: filled.flatMap((category): ItemMark[] => big(category)
                 ? [{
+                    // (A Resources category's symbol, shown where the tile cannot list every category: the responsive layout, section 4.4.)
+                    symbol: args.id === "resources" ? getResourceIcon(category.title) : undefined,
                     empty: category.cards.length === 0,
                     teal: args.scope === "offering" && args.id === "resources" && !!category.channel,
                     channel: args.scope === "offering" && args.id !== "resources" && category.cards.some(card => channelToneIds.has(card.id))

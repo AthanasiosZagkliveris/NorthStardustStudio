@@ -4,7 +4,7 @@ import { freshCards } from "../cards/freshCards.ts";
 import { cardNameOf } from "../cards/cardNames.ts";
 import "../../../styles/section-tiles.css";
 import { type SectionTile, type TileLink, type TileAdd, type OpenRequest, type FloatingCentre, type FloatingOpen } from "./SectionTileTypes.ts";
-import { masterSide, cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
+import { masterSide, setTilesPage, setTilesPageWidth, fitHeading, unifyHeadings, cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
 import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext, StackUnderContext } from "./DialogLevels.tsx";
 import { TileFace, TileLinks, TilePlus, useTileAim } from "./TileParts.tsx";
 import { OPEN_EVENT, FloatingCards, TileDialog } from "./FloatingCards.tsx";
@@ -136,17 +136,30 @@ export default function SectionTiles({
             let side: number;
             if (vertical) {
                 const row = masterAcross();
-                const cap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--quad-cap")) || 330;
+                // (A tablet's tiles never outgrow a laptop's: 260px at the most in the stacked layout -- owner, 2026-11-23 23:21 UTC+2, the responsive layout
+                // approved, section 4.3.)
+                const cap = Math.min(parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--quad-cap")) || 330, 260);
                 // (The room the frame may take: the page title's underline, where every frame starts and ends; what the frame adds round its tiles, measured unhugged.)
                 if (hug) {
                     hug.style.width = "";
                     hug.style.maxWidth = "";
                     hug.style.marginInline = "";
+                    // (A window turned from side by side to stacked -- a tablet to a phone's size, a rotation -- drops the two columns set for the chapters side by
+                    // side, below; else the chapters kept them and ran past the window.)
+                    box.closest(".conversation-card")?.querySelectorAll<HTMLElement>("[data-hug-pair]").forEach(pair => {
+                        pair.style.gridTemplateColumns = "";
+                        pair.removeAttribute("data-hug-pair");
+                    });
                 }
-                const room = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect().width ?? 0;
+                // (The room is the window's -- 1400px at most, its gutters taken off --, never the page's own width, which follows the chapter here too.)
+                const gutterValue = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-gutter"));
+                const room = Math.min(1400, document.documentElement.clientWidth - 2 * (Number.isFinite(gutterValue) ? gutterValue : 16));
                 const extra = hug && box.getBoundingClientRect().width > 0 ? hug.getBoundingClientRect().width - box.getBoundingClientRect().width : 26;
                 const fill = Math.floor(((room > 0 ? room - extra : box.clientWidth) - (row - 1) * 12) / row);
                 side = Math.max(isPhone() ? fill : Math.min(fill, cap), 72);
+                // (THE PAGE AS WIDE AS ITS CHAPTER ON A TABLET OR A PHONE TOO (owner, 2026-11-24 00:56 UTC+2, his lines at the chapter's edges: "The arrows should start
+                // exactly after the page limits"): the title's rule and the footer's arrows take the chapter's edges.)
+                setTilesPageWidth(box.closest<HTMLElement>(".conversation-page"), row * side + (row - 1) * 12 + extra);
                 box.style.setProperty("--quad-across", String(row));
                 if (hug && box.getBoundingClientRect().width > 0) {
                     // (A width of its own: centred by its auto margins, a frame would otherwise shrink round tiles that measure their frame, to nothing.)
@@ -174,7 +187,10 @@ export default function SectionTiles({
                 const fill = column > 0 ? Math.floor((column - extra - 12) / 2) : tall;
                 // (ONE SIDE ON EVERY PAGE (owner, 2026-11-23 19:48 UTC+2: "Can we be consistent and use the same sizes?"): never larger than masterSide, the side
                 // the window gives every page's master tiles, so a page with one rail or none has the tiles of a page with two.)
-                side = Math.min(tall, fill, masterSide() ?? Infinity);
+                const master = masterSide();
+                side = Math.min(tall, fill, master ?? Infinity);
+                // (The page as wide as its tiles: tilesPageWidth.)
+                setTilesPage(box.closest<HTMLElement>(".conversation-page"), master);
                 // (THE FRAMES ON THE PAGE'S BORDERS (owner, 2026-11-23 16:19 UTC+2: "Fix the layout of all the pages to follow the proper borders"): two chapters side
                 // by side fill their columns, the outer edges on the page title's rule and 12px between them, their tiles centred inside; a chapter standing alone
                 // -- one page of one chapter, or the one chapter of two shown at a time -- hugs its tiles at the LEFT, in the left half (owner, 2026-11-23 18:07
@@ -186,7 +202,7 @@ export default function SectionTiles({
                 // between its rails as two chapters do, never hugs (owner, 2026-11-23 19:41 and 19:45 UTC+2: "Fix the errors"; "the chapter frames / tiles are not
                 // properly placed. Check with the other pages and fix it properly").)
                 const pair = hug ? hug.querySelectorAll(".section-tiles-quad").length > 1 : false;
-                if (hug && box.getBoundingClientRect().width > 0 && side >= 150 && beside.length === 0 && !pair) {
+                if (hug && box.getBoundingClientRect().width > 0 && side >= 120 && beside.length === 0 && !pair) {
                     hug.style.setProperty("width", Math.ceil(2 * side + 12 + extra) + "px", "important");
                     hug.style.maxWidth = "100%";
                     hug.style.marginInline = "0 auto";
@@ -194,7 +210,7 @@ export default function SectionTiles({
                 // (TWO CHAPTERS HUG THEIR TILES TOO (owner, 2026-11-23 20:12 UTC+2: "The chapter's side gaps seems larger that its top down. If you hug the Master Tiles
                 // properly, maybe the right arrow, could fit in the page"): two chapters side by side, or a Segment's two groups, stand at the page's left, each its
                 // padding round its tiles on all four sides, 12px apart; what the page leaves over is at their right, where the right arrow stands.)
-                if (hug && box.getBoundingClientRect().width > 0 && side >= 150 && (beside.length > 0 || pair)) {
+                if (hug && box.getBoundingClientRect().width > 0 && side >= 120 && (beside.length > 0 || pair)) {
                     const part = pair ? box.closest<HTMLElement>(".segment-chapter-part") ?? box.parentElement : hug;
                     const round = part ? part.getBoundingClientRect().width - box.getBoundingClientRect().width : 26;
                     const both = 2 * Math.ceil(2 * side + 12 + round) + 12;
@@ -230,8 +246,15 @@ export default function SectionTiles({
             }
             if (hug) {
                 railsBesideFrames(box);
+                // (Its heading on one line over the tiles it hugs: fitHeading.)
+                hug.querySelectorAll<HTMLElement>(":scope .answer-column-label, :scope .tiles-frame-head .field-group-title").forEach(heading => {
+                    if (heading.closest(".section-tile-dialog") === null) {
+                        fitHeading(heading);
+                    }
+                });
+                unifyHeadings(box.closest<HTMLElement>(".conversation-card"));
             }
-            box.style.setProperty("--quad-max-side", Math.max(side, vertical ? 72 : 150) + "px");
+            box.style.setProperty("--quad-max-side", Math.max(side, vertical ? 72 : 120) + "px");
             // The type of the four tiles from the type scale by their size: 24px titles and 18px lists from 250px a side, else 18px and 14px.
             // (EVERY CHAPTER HAS THE SAME TYPE (owner, 2026-11-19 22:47 UTC+2, the Segment chapters): the width is the first chapter's, the one shown, so a chapter
             // measured while hidden -- 0px wide -- takes the same size as the first, and measures again when it is shown.)
@@ -262,6 +285,7 @@ export default function SectionTiles({
             // (The next page sets its own frames' span, or has none: its rail then stands beside the page's width.)
             box.closest<HTMLElement>(".conversation-page")?.style.removeProperty("--rail-frame-span");
             box.closest<HTMLElement>(".conversation-page")?.style.removeProperty("--rail-frame-shift");
+            setTilesPage(box.closest<HTMLElement>(".conversation-page"), null);
         };
     }, [big, bigRows, across]);
 
@@ -724,8 +748,12 @@ function railsBesideFrames(box: HTMLElement): void {
     }));
     // (THE RIGHT RAIL ON THE CHAPTER'S RIGHT EDGE (owner, 2026-11-23 20:41 UTC+2: "The upper right page tag should be attached to the chapter"): how far the frames
     // end before the rail's room at the title rule's right end, read by bullet-rail.css.)
-    const rule = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect();
-    const inset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-inset")) || 54;
+    // (Where the title stands in the header its rule is hidden: the page's card gives the same ends -- owner, 2026-11-26, "Why there is gap between the chapter card
+    // and the tag?", the 1366 x 640 laptop.)
+    const drawnRule = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect();
+    const rule = drawnRule && drawnRule.width > 0 ? drawnRule : page.querySelector<HTMLElement>(".conversation-card")?.getBoundingClientRect();
+    const insetValue = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-inset"));
+    const inset = Number.isFinite(insetValue) ? insetValue : 54;
     const end = Math.max(...frames.map(frame => frame.getBoundingClientRect().right));
     const shift = rule ? Math.max(0, Math.round(rule.right - inset - end)) + "px" : "0px";
     if (page.style.getPropertyValue("--rail-frame-shift") !== shift) {

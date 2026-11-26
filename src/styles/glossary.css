@@ -72,7 +72,7 @@
 .workbook .glossary-page{
 
     max-width:var(--card-width);
-    padding:104px 0 96px;
+    padding:calc(var(--app-header-height, 64px) + 24px) 0 96px;
 
 }
 
@@ -557,5 +557,59 @@
 .handbook-points > li + li{
 
     margin-top:var(--gap-4);
+
+}
+
+/* THE WORKBOOK AND THE HANDBOOK FOLLOW THE APP'S PAGES (owner, 2026-11-24 03:14 UTC+2: "It needs more space at the sides ... the workbook/handbook does not follow
+   the app's pages"): side by side the page is as wide as a page of tiles at this window (--tiles-page-width, Workbook.tsx), its title rule as long. */
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) {
+
+    .workbook .glossary-page[data-tiles-page] {
+
+        max-width: var(--tiles-page-width);
+
+    }
+
+}
+
+/* (With a mouse, the rail's tab inside the rule's left end and the panel clear of the rail's room at both ends, as a page's chapters; the symbol centred over the
+   rail's bullets, as on a System page: bullet-rail.css.) */
+@media (min-width: 900.02px) and (orientation: landscape) and (min-height: 640px) {
+
+    /* (Back 16px from the window's edge, so its word stands beside the full-length panel (owner, 2026-11-26: "The BACK word maybe could fit", option A).) */
+    :root body .workbook .workspace-footer .back-button.back-button {
+
+        left: 16px;
+        translate: none;
+
+    }
+
+    .workbook .glossary-page[data-tiles-page] > .workbook-panel {
+
+        margin-inline: var(--rail-inset);
+
+    }
+
+    .workbook .glossary-page[data-tiles-page] .interview-header-icon {
+
+        margin-left: calc(var(--rail-inset) / 2 - var(--icon-box, 36px) / 2);
+
+    }
+
+}
+
+/* THE WORKBOOK AND THE HANDBOOK IN LANDSCAPE WITH THE BAND (a tablet, a small laptop; owner, 2026-11-24 10:12 UTC+2: "On the tablet (landscape), the rail should be at
+   the side, and there is no reason to have footing, and extend the cards"): their rail stays at the panel's side, the band is not drawn (the Back alone stands on
+   the page's ground) and the panel runs down to 12px over the window's foot (Workbook.tsx). */
+/* (Since 2026-11-25 a tablet and a laptop in landscape have no band at all: a phone in landscape alone.) */
+@media (orientation: landscape) and (max-height: 479px) {
+
+    .workbook .workspace-footer {
+
+        background: none;
+
+        box-shadow: none;
+
+    }
 
 }

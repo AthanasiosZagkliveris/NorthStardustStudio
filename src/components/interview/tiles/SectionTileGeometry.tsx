@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { type SectionTile } from "./SectionTileTypes.ts";
 import { shownFrame } from "../../../hooks/shownFrame.ts";
-import { verticalAcross } from "../../../hooks/useVerticalLayout.ts";
+import { BAND_QUERY, verticalAcross } from "../../../hooks/useVerticalLayout.ts";
 
 /**
  * ONE WAY TO PRESENT A CARD: the cards of these tiles (Resource, Activity, Partner, Provider; their channel and finished ones) are only ever FLOATING cards,
@@ -235,23 +235,97 @@ export function tileName(title: string, items: readonly string[] = []): string {
  * less the frame's padding and edge (26px) and the 12px between two tiles; and no taller than lets two rows stand between the frame's head (the rule, 12px, the
  * frame's 61px head) and the footer with its 12px gaps. 150px at least. Null where there is no page title.
  */
-export function masterSide(): number | null {
-    const underline = document.querySelector<HTMLElement>(".interview-header .interview-divider") ?? document.querySelector<HTMLElement>(".interview-divider");
-    const card = document.querySelector<HTMLElement>(".conversation-card")?.getBoundingClientRect();
-    if (!underline || !card || card.width <= 300) {
-        return null;
+/**
+ * WHERE THE PAGE'S HEAD ENDS: the title's rule; where the title stands in the header (a small laptop, a tablet, a phone in landscape: app-header.css, its rule
+ * hidden), the header's foot. The lines of a title that wraps are taken back, so they never lower the tiles.
+ */
+function headEnd(rule: DOMRect): number {
+    if (rule.width === 0 && rule.height === 0) {
+        return document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 64;
     }
-    const rule = underline.getBoundingClientRect();
     const title = document.querySelector<HTMLElement>(".interview-header h1");
     const line = title ? parseFloat(getComputedStyle(title).lineHeight) : NaN;
     const further = title && Number.isFinite(line) && line > 0 ? Math.max(0, Math.round(title.getBoundingClientRect().height / line) - 1) * line : 0;
-    const top = rule.bottom - further + 12 + 61;
+    return rule.bottom - further;
+}
+
+export function masterSide(): number | null {
+    const underline = document.querySelector<HTMLElement>(".interview-header .interview-divider") ?? document.querySelector<HTMLElement>(".interview-divider");
+    // (The Workbook's panel stands for the card on the Workbook and the Handbook: Workbook.tsx.)
+    const card = document.querySelector<HTMLElement>(".conversation-card, .workbook-panel")?.getBoundingClientRect();
+    if (!underline || !card || card.width <= 300) {
+        return null;
+    }
+    const top = headEnd(underline.getBoundingClientRect()) + 12 + 61;
     const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
-    const inset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-inset")) || 54;
-    const column = (rule.width - 2 * inset - 12) / 2;
+    const inset = railInset();
+    // (The room is the window's -- the widest page it allows, 1400px at most, its 56px gutters --, never the page's own width, which follows the tiles.)
+    const column = (widestPage() - 2 * inset - 12) / 2;
     const natural = Math.floor((column - 26 - 12) / 2);
-    const tall = Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - 12) / 2);
-    return Math.max(150, Math.min(natural, tall));
+    // (On a touch screen side by side, the band holds the rails and the page's buttons -- Inventory, Completed, "+ Add Segment" -- stand in a row above it: the
+    // tiles leave that row's room, the band's button and 12px, on every page alike.)
+    const buttons = typeof window.matchMedia === "function" && window.matchMedia(BAND_QUERY).matches ? 44 + 12 : 0;
+    const tall = Math.floor((window.innerHeight - top - footer - buttons - 12 - 12 - 12 - 12) / 2);
+    // (120px at the least: a 640px-tall window, the shortest that keeps chapters side by side, gives 147.)
+    return Math.max(120, Math.min(natural, tall));
+}
+
+/** The rails' room at each end of the page (--rail-inset, bullet-rail.css). */
+function railInset(): number {
+    const inset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-inset"));
+    // (0 on a touch screen, whose rails stand in the footer's band: bullet-rail.css.)
+    return Number.isFinite(inset) ? inset : 54;
+}
+
+/** The widest page the window allows: 1400px at most, the window less its 56px gutters (--rail-gutter). */
+export function widestPage(): number {
+    return Math.min(1400, document.documentElement.clientWidth - 2 * 56);
+}
+
+/**
+ * THE PAGE FOLLOWS ITS TILES (owner, 2026-11-23 20:58 and 21:05 UTC+2: "The frame chapter should hug its tiles"; "I do not want the user, specially on landscape size
+ * screens to scroll down"; "Looks good, let's refine it"; layout rules section 4, "The page's sizes"): a page of tiles is as wide as two chapters of the master side
+ * -- each its tiles, the 12px between them and its 13px round them --, the 12px between the chapters and the rails' room at both ends, never wider than the window
+ * allows. The page is centred in the window; inside it everything stands at the left.
+ */
+export function tilesPageWidth(side: number): number {
+    return Math.min(widestPage(), 2 * (2 * side + 12 + 26) + 12 + 2 * railInset());
+}
+
+/** Sets the page's width from its tiles on the page's root (.conversation-page: --tiles-page-width, data-tiles-page), or takes it away (side null). */
+/** Sets the page's width to a measured width (the stacked layout: its one chapter's), or takes it away (null). */
+export function setTilesPageWidth(page: HTMLElement | null, width: number | null): void {
+    if (!page) {
+        return;
+    }
+    if (width === null) {
+        page.removeAttribute("data-tiles-page");
+        page.style.removeProperty("--tiles-page-width");
+        return;
+    }
+    const value = Math.ceil(width) + "px";
+    if (page.style.getPropertyValue("--tiles-page-width") !== value) {
+        page.style.setProperty("--tiles-page-width", value);
+        page.setAttribute("data-tiles-page", "");
+        window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+    }
+}
+
+export function setTilesPage(page: HTMLElement | null, side: number | null): void {
+    if (!page) {
+        return;
+    }
+    if (side === null) {
+        page.removeAttribute("data-tiles-page");
+        page.style.removeProperty("--tiles-page-width");
+        return;
+    }
+    const width = Math.floor(tilesPageWidth(side)) + "px";
+    if (page.style.getPropertyValue("--tiles-page-width") !== width) {
+        page.style.setProperty("--tiles-page-width", width);
+        page.setAttribute("data-tiles-page", "");
+        window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+    }
 }
 
 
@@ -276,10 +350,7 @@ export function arrowLevel(): number | null {
         return Math.round((header + window.innerHeight - footer) / 2);
     }
     if (underline && card && card.width > 300) {
-        const title = document.querySelector<HTMLElement>(".interview-header h1");
-        const line = title ? parseFloat(getComputedStyle(title).lineHeight) : NaN;
-        const further = title && Number.isFinite(line) && line > 0 ? Math.max(0, Math.round(title.getBoundingClientRect().height / line) - 1) * line : 0;
-        const top = underline.bottom - further + 12 + 61;
+        const top = headEnd(underline) + 12 + 61;
         const tile = masterSide() ?? 150;
         const gap = 12;
         // (Whole pixels: the page arrows (--arrow-level) and the carousel arrows read the same number, so they never stand a fraction apart.)
@@ -411,4 +482,61 @@ export function scaleOrigin(
     const x = axis(at.column, columns, box.left, box.right, box.width, room ? room.left : NaN, room ? room.right : NaN);
     const y = axis(at.row, rows, box.top, box.bottom, box.height, room ? room.top : NaN, room ? room.bottom : NaN);
     return x + " " + y;
+}
+
+
+/**
+ * A CHAPTER'S HEADING ON ONE LINE (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved, section 4.2): the chapter frame hugs its tiles, so a long heading
+ * ("2. OFFERING'S CAPABILITY") over small tiles may not fit; it steps down from the scale's size, 2px at a time, to 18px at the least, keeping its line's height,
+ * until it stands on one line.
+ */
+export function fitHeading(heading: HTMLElement): void {
+    heading.style.removeProperty("font-size");
+    heading.style.removeProperty("line-height");
+    const line = parseFloat(getComputedStyle(heading).lineHeight) || 0;
+    let size = parseFloat(getComputedStyle(heading).fontSize) || 0;
+    if (line <= 0 || heading.getBoundingClientRect().height <= line * 1.5) {
+        return;
+    }
+    heading.style.lineHeight = line + "px";
+    while (size > 18 && heading.getBoundingClientRect().height > line * 1.5) {
+        size -= 2;
+        heading.style.fontSize = size + "px";
+    }
+}
+
+/**
+ * EVERY CHAPTER'S HEADING ON A PAGE ONE SIZE (owner, 2026-11-24 03:14 UTC+2: "Be consistent, use only the same size and style for the text per titles"): after
+ * each has stepped down to stand on one line (fitHeading), all take the smallest of them.
+ */
+export function unifyHeadings(card: HTMLElement | null): void {
+    if (!card) {
+        return;
+    }
+    const headings = Array.from(card.querySelectorAll<HTMLElement>(".answer-column-label, .tiles-frame-head .field-group-title")).filter(heading => heading.closest(".section-tile-dialog, .section-tile-overlay, [role=dialog], [class*=\"floating\"], .section-tiles-completed") === null && heading.getClientRects().length > 0);
+    if (headings.length < 2) {
+        return;
+    }
+    // (The page's chapters alone: a dialog's or a floating card's heading has its own size. What this set before is taken back first; the smallest is the one a
+    // heading stepped down to on its own (fitHeading), so a heading of another kind never sets the page's size.)
+    headings.filter(heading => heading.hasAttribute("data-heading-unified")).forEach(heading => {
+        heading.removeAttribute("data-heading-unified");
+        heading.style.removeProperty("font-size");
+        heading.style.removeProperty("line-height");
+    });
+    const stepped = headings.filter(heading => heading.style.fontSize !== "").map(heading => parseFloat(heading.style.fontSize)).filter(size => size > 0);
+    if (stepped.length === 0) {
+        return;
+    }
+    const least = Math.min(...stepped);
+    headings.forEach(heading => {
+        if (heading.style.fontSize === "" && (parseFloat(getComputedStyle(heading).fontSize) || 0) > least + 0.5) {
+            const line = parseFloat(getComputedStyle(heading).lineHeight);
+            if (Number.isFinite(line)) {
+                heading.style.lineHeight = line + "px";
+            }
+            heading.style.fontSize = least + "px";
+            heading.setAttribute("data-heading-unified", "");
+        }
+    });
 }

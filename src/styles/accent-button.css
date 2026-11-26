@@ -31,7 +31,9 @@
 .strategy-add-button:hover:not(:disabled),
 .header-tool:hover:not(:disabled),
 .org-calendar-chip:hover:not(:disabled),
-.header-tool[aria-expanded="true"] {
+.header-tool[aria-expanded="true"],
+/* (The header's Workbook or Handbook while it is open: the open Menu's look, so it reads as activated -- owner, 2026-11-26: "This should look that is activated".) */
+.header-tool[aria-current="page"] {
 
     border-color: var(--accent-line);
 

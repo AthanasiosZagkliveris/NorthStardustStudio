@@ -23,6 +23,8 @@ import "../../styles/app-header.css";
 const NotepadPanel = lazy(() => import("../notepad/Notepad").then(module => ({ default: module.NotepadPanel })));
 const NotepadPicker = lazy(() => import("../notepad/Notepad").then(module => ({ default: module.NotepadPicker })));
 const OrganizationCalendarPanel = lazy(() => import("../calendar/OrganizationCalendarPanel"));
+// (The Organisation's own mark, from its Brand System: BrandMark.tsx.)
+const BrandMark = lazy(() => import("./BrandMark"));
 
 interface AppHeaderProps {
     /**
@@ -75,15 +77,20 @@ export default function AppHeader({ organizationName, focusable = false, reloada
 
             {/* THE BUTTONS AT THE HEADER'S RIGHT END (owner, 2026-11-22 18:58 UTC+2: "Place the headers button at the right side"): the Organisation's name stands
                 before the saved signal and the tools, against them (app-header.css). */}
+            {/* (THE ORGANISATION'S NAME IN THE HEADER'S CENTRE (owner, 2026-11-24 10:29 UTC+2: "When the organization name is displayed on the header, it should be in
+                the centre"): the name on the header's middle, the saved signal after it (app-header.css).) */}
             {organizationName && (
+                <div className="app-header-centre">
                 <h1 className="app-header-organization-name" title={organizationName}>
                     {organizationName}
                 </h1>
+                <SaveStatus />
+                </div>
             )}
 
             {/* Whether the open Organization's edits are saved --
                 only where one is open. */}
-            {organizationName && <SaveStatus />}
+
 
             {/* THE TOOLS (owner, 2026-11-21 00:56 and 23:44 UTC+2): one menu for Search, Notes, Calendar, Focus, Settings and the reading mode (ToolsMenu.tsx);
                 the reading mode alone where no Organisation is open. */}
@@ -93,7 +100,7 @@ export default function AppHeader({ organizationName, focusable = false, reloada
                 <AddButton className="header-tool app-reload"
                     aria-label="Reload the app and refresh the examples"
                     onClick={async () => { await onReload?.(); window.location.reload(); }}>
-                    <svg className="header-tool-icon" viewBox="2.97 2.47 14.05 14.05" aria-hidden="true">
+                    <svg className="header-tool-icon" viewBox="2 2 16 16" aria-hidden="true">
                         <path d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <span className="header-tool-word">Reload</span>
@@ -107,6 +114,9 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {organizationName && <SearchButton />}
             {/* The Workbook: the same button on the Landing page (owner, 2026-11-09), there with the review of every Organisation, the Glossary and the References. */}
             {(organizationName || totalReview) && <WorkbookButton total={!organizationName} />}
+            {/* (THE ORGANISATION'S LOGO AT THE HEADER'S RIGHT END (owner, 2026-11-26: "The organization icon, should be in this position if it exists. The buttons
+                then, should move inwards"): its square mark last, where it has one, on every window; the buttons stand before it (BrandMark.tsx, app-header.css).) */}
+            {organizationId && organizationName && <Suspense fallback={null}><BrandMark organizationId={organizationId} organizationName={organizationName} /></Suspense>}
             {/* (THE SIDE PANELS UNDER THE HEADER'S SHADOW (owner, 2026-11-23 17:28 UTC+2: "The headers shadow should shade both ... any page and panel, in any part of the
                 app"): drawn outside the header, in the page's layer, so the header's shadow falls over them as over the page; inside the header they painted over it.) */}
             {organizationName && layer && createPortal(<Suspense fallback={null}><NotepadPanel /><NotepadPicker /></Suspense>, layer)}

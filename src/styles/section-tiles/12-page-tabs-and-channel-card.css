@@ -1234,7 +1234,8 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-back {
 /* THE PHONE (600px and under; layout rules sections 10 and 23, "The phone"): a dialog's or a floating card's arrows and rail stand in the footer's band, as the
    page's do (bullet-rail.css): one row across the window's foot on the header's ground -- Back at the left (12px in), the "‹" arrow, the dots 12px apart,
    the "›" arrow at the right -- over the layer, never beside it (a 390px phone leaves no room beside a 358px card). The tab's colours stay on its dots. */
-@media (max-width: 600px) {
+/* (A tablet in portrait too: owner, 2026-11-24 10:12 UTC+2, "When it is portrait then the rail placed at the bottom part".) */
+@media (max-width: 600px), (orientation: portrait) {
 
     .carousel-rail.carousel-rail.carousel-rail {
 
@@ -1322,6 +1323,22 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-back {
     .page-arrow.carousel-arrow[data-direction="next"] {
 
         right: var(--gap-12) !important;
+
+    }
+
+    /* (The Workbook's and the Handbook's rail over the footer's band: they are a page's own layer, the band in it.) */
+    .workbook .carousel-rail.carousel-rail.carousel-rail {
+
+        z-index: 31;
+
+        background: none;
+        box-shadow: none;
+
+    }
+
+    .workbook .page-arrow.carousel-arrow.carousel-arrow {
+
+        z-index: 32;
 
     }
 

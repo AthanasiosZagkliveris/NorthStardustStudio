@@ -27,7 +27,8 @@ import { systemContents } from "../components/systems/systemContents";
 import BulletRail from "../components/interview/rails/BulletRail";
 import useRailTab from "../hooks/useRailTab.ts";
 import PageArrow from "../components/interview/fields/PageArrow";
-import { masterSide } from "../components/interview/tiles/SectionTileGeometry.tsx";
+import { masterSide, setTilesPage, setTilesPageWidth } from "../components/interview/tiles/SectionTileGeometry.tsx";
+import { isPhone, masterAcross, verticalAcross } from "../hooks/useVerticalLayout.ts";
 import { getSystemIcon } from "../data/systemIcons";
 import "../styles/status-shape.css";
 import "../styles/system-list.css";
@@ -253,6 +254,53 @@ export default function SystemSelection() {
     // (THE MASTER TILES' SIDE (SectionTiles' fit): what the window's height leaves for two rows under the tiles' top, above the footer and its 12px; 150px at least.)
     const tilesBox = useRef<HTMLDivElement | null>(null);
     const [tileSide, setTileSide] = useState<number | null>(null);
+    // (Where the chapters stack, the Systems stand in the page's row of master tiles: two, or four on a phone in landscape -- masterAcross.)
+    const [stackedRow, setStackedRow] = useState<number | null>(null);
+    // (A SYSTEM'S TILE SHORT OF ROOM SHOWS ITS TITLE ALONE, CENTRED (owner, 2026-11-24 03:14 UTC+2: "When there is not enough space in the tiles, let only the
+    // titles, and place them in the centre"), as a page's master tiles do (TileList, data-no-room): where what it holds would run past the tile's foot, less 12px,
+    // it is not shown, and the title (its name and symbol) stands in the tile's middle.)
+    useLayoutEffect(() => {
+        const box = tilesBox.current;
+        if (!box) {
+            return;
+        }
+        // (THE CAPABILITY'S POP-UP OVER THE SYSTEMS' FRAME (owner, 2026-11-24 10:31 UTC+2: "And the pop up window's position"): its left edge and its width the
+        // frame's, so it opens exactly over the chapter it describes, never over the rail.)
+        const frame = box.querySelector<HTMLElement>(".capability-systems-frame")?.getBoundingClientRect();
+        const block = document.querySelector<HTMLElement>(".capability-help-block");
+        if (frame && block && frame.width > 0) {
+            block.style.setProperty("--help-left", Math.round(frame.left - block.getBoundingClientRect().left) + "px");
+            block.style.setProperty("--help-width", Math.round(frame.width) + "px");
+            // (No taller than the room down to 12px over the footer: what is longer scrolls inside it.)
+            const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
+            block.style.setProperty("--help-height", Math.max(200, Math.round(window.innerHeight - footer - 12 - frame.top)) + "px");
+        }
+        box.querySelectorAll<HTMLElement>(".capability-system-slot").forEach(slot => {
+            const body = slot.querySelector<HTMLElement>(".capability-system-body");
+            const tile = slot.querySelector<HTMLElement>(":scope > .section-tile");
+            const title = tile?.querySelector<HTMLElement>(".section-tile-title");
+            if (!body || !tile || !title) {
+                return;
+            }
+            body.removeAttribute("data-no-room");
+            slot.style.removeProperty("--title-centre");
+            // (A SYSTEM'S TILE IS ITS TITLE AND SYMBOL ALONE (owner, 2026-11-24 05:32 UTC+2: "from the System Tiles, hide their content. Keep only their Titles and
+            // icons"): what it holds is never shown on the tile -- the System's Introduction lists it --, and the title and symbol stand in the tile's middle.)
+            {
+                body.setAttribute("data-no-room", "");
+                // (ITS TITLE IN THE TILE'S LOWER THIRD, ITS SYMBOL LARGE ABOVE IT (owner, 2026-11-24 10:25 UTC+2: "On the capability page, when there is enough space,
+                // the tiles have title and icons. So place at the 1/3 bottom the title, and scale up the icon, so it can be easier readable and recognisable"): the
+                // symbol, 40% of the tile (workspace.css), above the words.)
+                const words = (title.querySelector<HTMLElement>(".section-tile-title-words") ?? title).getBoundingClientRect();
+                const box = tile.getBoundingClientRect();
+                // (Its rule a third of the tile up from its foot (owner, 2026-11-24 10:46 UTC+2: "place the title to the 1/3 from the bottom, and then the icon above
+                // the title").)
+                // (The title's TOP a third of the tile up from its foot (owner, 2026-11-25: "The title's top part should reach the 1/3 of the card from its bottom").)
+                const line = box.top + box.height * 2 / 3;
+                slot.style.setProperty("--title-centre", Math.round(line - words.top) + "px");
+            }
+        });
+    });
     useLayoutEffect(() => {
         const fit = () => {
             const box = tilesBox.current;
@@ -271,15 +319,38 @@ export default function SystemSelection() {
             const count = shownCapabilityRef.current ? systems.filter(system => system.capability === shownCapabilityRef.current).length : 0;
             if (count > 0) {
                 const across = count >= 3 && count <= 4 ? 2 : Math.min(count, 3);
-                const page = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect().width ?? box.clientWidth;
+                // (The title's rule; where the title stands in the header and its rule is hidden, the page's card.)
+                const ruleWidth = document.querySelector<HTMLElement>(".interview-header .interview-divider")?.getBoundingClientRect().width ?? 0;
+                const page = ruleWidth > 0 ? ruleWidth : document.querySelector<HTMLElement>(".conversation-card")?.getBoundingClientRect().width ?? box.clientWidth;
                 const pad = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--card-padding")) || 12;
                 const room = (across === 2 ? page / 2 - 6 : page) - 2 * pad - 2 - (across - 1) * 12;
                 // (THE SAME SIDE AS EVERY PAGE'S MASTER TILES (owner, 2026-11-23 19:48 UTC+2: "Can we be consistent and use the same sizes?"): masterSide, the side
                 // the window gives a chapter's tiles, so the SYSTEMS frame is a chapter's frame and the arrows stand between its rows as on every page.)
-                const side = Math.max(120, Math.min(tall, Math.floor(room / across), masterSide() ?? Infinity));
+                const master = masterSide();
+                // (THE SAME TILES AS EVERY PAGE OF THE WINDOW WHERE THE CHAPTERS STACK (owner, 2026-11-24 10:12 UTC+2: "Same screen, 2 columns both, different tile sizes.
+                // Why?"): there a chapter takes the page's whole width, its tiles two across up to 260px (SectionTiles), so the Systems' frame does too.)
+                // (THE SAME SIDE AS THE PAGES' MASTER TILES ON A PHONE TOO (owner, 2026-11-25 15:51 UTC+2: "Consistency accross all the pages per screen size"; a phone
+                // in portrait drew the Systems at 120px beside the pages' 160px, one in landscape at 260px beside their 171px): the stacked side of SectionTiles -- the
+                // window's room less its gutters and the frame round the tiles, the page's row (two, four on a phone in landscape), 260px at most but on a phone.)
+                const stacked = verticalAcross() > 0;
+                const row = stacked ? Math.min(count, masterAcross()) : across;
+                const gutterValue = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-gutter"));
+                const windowRoom = Math.min(1400, document.documentElement.clientWidth - 2 * (Number.isFinite(gutterValue) ? gutterValue : 16));
+                const fill = Math.floor((windowRoom - 2 * pad - 2 - (masterAcross() - 1) * 12) / masterAcross());
+                const side = stacked
+                    ? Math.max(72, isPhone() ? fill : Math.min(fill, 260))
+                    : Math.max(120, Math.min(tall, Math.floor(room / across), master ?? Infinity));
+                setStackedRow(stacked ? row : null);
+                // (The page as wide as its tiles, as every page of tiles: tilesPageWidth; where the chapters stack, as wide as the frame, as a stacked chapter's page.)
+                if (stacked) {
+                    setTilesPageWidth(document.querySelector<HTMLElement>(".conversation-page"), row * side + (row - 1) * 12 + 2 * pad + 2);
+                } else {
+                    setTilesPage(document.querySelector<HTMLElement>(".conversation-page"), master);
+                }
                 setTileSide(side);
                 return;
             }
+            setTilesPage(document.querySelector<HTMLElement>(".conversation-page"), null);
             setTileSide(tall);
         };
         fit();
@@ -490,6 +561,7 @@ export default function SystemSelection() {
                             capabilityId={shown.id}
                             nameCapitals
                             icon={getCapabilityIcon(capabilities.indexOf(shown) + 1)}
+                            iconFull
                             note={(
                                 <FoldArrow variant="label"
                                     open={helpOpen}
@@ -500,7 +572,7 @@ export default function SystemSelection() {
                             )}
                         />
                     ) : (
-                        <InterviewHeader systemName="Capabilities" />
+                        <InterviewHeader systemName="Capabilities" nameCapitals /* (In capitals, as a Capability's name: owner, 2026-11-24 10:33 UTC+2, "Change the Word Capabilities to capitals".) */ />
                     )}
 
                     {/* (THE CAPABILITY'S DESCRIPTION, A POP-UP OF THE PAGE TITLE (owner, 2026-11-23 19:12 UTC+2: "This is a pop up window, not part of the chapter/systems!"):
@@ -542,7 +614,7 @@ export default function SystemSelection() {
                     <div ref={tilesBox} className="capability-tiles" style={{ "--strategy-theme-hue": hueOf(getCapabilityColor(shown?.id ?? "foundation")), ...(tileSide ? { "--capability-side": tileSide + "px" } : {}),
                         // (FOUR TILES STAND TWO BY TWO (owner, 2026-11-22 21:37 UTC+2: "If there are 4 tiles make the layout 2 x 2"), as a chapter's four; else three a row.)
                         // (And three, two by two, the fourth place empty: owner, 2026-11-23 17:28 UTC+2, "If there are 3 tiles the lay out should still be 2 x 2".)
-                        ...(shown && shownSystems.length >= 3 && shownSystems.length <= 4 ? { "--capability-across": 2 } : {}) } as React.CSSProperties}>
+                        ...(stackedRow ? { "--capability-across": stackedRow } : shown && shownSystems.length >= 3 && shownSystems.length <= 4 ? { "--capability-across": 2 } : {}) } as React.CSSProperties}>
                         {shown
                             ? (
                                 // (The Capability's Systems, a tile each, as the Capabilities are, in its colour; IN ONE FRAME WITH NO TITLE, THE TILES FROM ITS LEFT

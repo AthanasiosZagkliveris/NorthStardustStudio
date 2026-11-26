@@ -1,4 +1,6 @@
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { railsInBand } from "../../hooks/useVerticalLayout.ts";
 import BackButton from "../controls/BackButton.tsx";
 import AddButton from "../controls/AddButton.tsx";
 import "../../styles/workspace.css";
@@ -22,7 +24,9 @@ interface AppFooterProps {
 }
 
 /** What the footer's Back may never stand over, word and all: the page's card (its left edge runs down to the footer), the Inventory and Completed row and the footer's own buttons. */
-const BACK_OBSTACLES = ".conversation-card, .section-tiles-completed, .workspace-footer-actions > *";
+// (The rails' arrows in the footer's band too: on a phone's Capability page the word stood over the band's left arrow, 2026-11-24.)
+// (And a dialog's arrows there, the Handbook's and the Workbook's on a phone: "B<CK", owner, 2026-11-25 15:51 UTC+2.)
+const BACK_OBSTACLES = ".page-arrow.carousel-arrow, .conversation-card, .workbook-panel, .section-tiles-completed .section-tile, .business-foundation-input-actions > *, .bullet-rail[data-across], .workspace-footer-actions > *, .bullet-rails .page-arrow";
 
 /** The room kept between the Back, word and all, and the nearest thing beside it. */
 const BACK_CLEARANCE = 12;
@@ -36,8 +40,10 @@ export function backWordCovers(back: DOMRect, obstacles: readonly { rect: DOMRec
         if (rect.width === 0 || rect.height === 0) {
             return false;
         }
+        // (THE CARD COUNTS WHERE IT IS DRAWN (owner, 2026-11-23 22:44 UTC+2: "As long as there is space for the BACK button, do not remove it"): a page of tiles ends
+        // above the footer's band, so its card no longer stands beside the Back; a long page that runs down under the band still does.)
         if (card) {
-            return back.right + BACK_CLEARANCE > rect.left && back.left < rect.right;
+            return back.right + BACK_CLEARANCE > rect.left && back.left < rect.right && back.bottom > rect.top && back.top < rect.bottom + BACK_CLEARANCE;
         }
         return back.right + BACK_CLEARANCE > rect.left && back.left < rect.right + BACK_CLEARANCE && back.bottom > rect.top && back.top < rect.bottom;
     });
@@ -79,7 +85,7 @@ export default function AppFooter({
             const rect = back.getBoundingClientRect();
             const obstacles = Array.from(document.querySelectorAll<HTMLElement>(BACK_OBSTACLES))
                 .filter(element => !element.contains(back))
-                .map(element => ({ rect: element.getBoundingClientRect(), card: element.matches(".conversation-card") }));
+                .map(element => ({ rect: element.getBoundingClientRect(), card: element.matches(".conversation-card, .workbook-panel") }));
             node.classList.toggle("workspace-footer-back-short", backWordCovers(rect, obstacles));
         };
         fit();
@@ -97,11 +103,83 @@ export default function AppFooter({
         };
     }, []);
 
+    // BACK BESIDE THE PAGE'S TITLE ON A TABLET (owner, 2026-11-24 00:21 UTC+2: "For the Back, just place it on the top left side next to the page's title"; "When the
+    // Tablet is in portrait, again place the button at the top left side next to the page's title"): where the footer's band holds the rails (railsInBand) on a
+    // window wider than a phone's, Back stands first in the page title's row, and the band keeps its room for the rails.
+    const [titleRow, setTitleRow] = useState<HTMLElement | null>(null);
+    // (BACK AT THE TOP OF THE PAGE WHERE THE WINDOW IS UPRIGHT (owner, 2026-11-25, the tablet in portrait: "The back arrow should not be next to the navigation
+    // arrow. Place it on the top part of the page to align to the top card's edge"): a tablet in portrait sets it left of the page, level with the top of its first
+    // card (back-button.css, .page-top-back); a phone in portrait, with no room beside the card, first in the page title's row at the page's top.)
+    const [pageTop, setPageTop] = useState<HTMLElement | null>(null);
+    useLayoutEffect(() => {
+        const place = () => {
+            const upright = typeof window.matchMedia === "function" && window.matchMedia("(orientation: portrait)").matches && window.innerWidth > 600;
+            const card = upright ? Array.from(document.querySelectorAll<HTMLElement>(".conversation-card, .workbook-panel")).find(node => node.getClientRects().length > 0) ?? null : null;
+            setPageTop(current => current === card ? current : card);
+        };
+        place();
+        const later = [100, 400, 1000].map(delay => window.setTimeout(place, delay));
+        window.addEventListener("resize", place);
+        window.addEventListener("tiles-fit", place);
+        return () => {
+            later.forEach(timer => window.clearTimeout(timer));
+            window.removeEventListener("resize", place);
+            window.removeEventListener("tiles-fit", place);
+        };
+    }, []);
+    useLayoutEffect(() => {
+        const place = () => {
+            // (BACK STAYS AT THE FOOT WHERE THE TITLE STANDS IN THE HEADER (owner, 2026-11-24 10:12 UTC+2: "The back button does not move to the header, it stays there"):
+            // a phone in landscape alone takes it to the title, as before.)
+            const phoneLandscape = typeof window.matchMedia === "function" && window.matchMedia("(orientation: landscape) and (max-height: 479px)").matches;
+            const phonePortrait = typeof window.matchMedia === "function" && window.matchMedia("(orientation: portrait) and (max-width: 600px)").matches;
+            const row = railsInBand() && ((window.innerWidth > 600 && phoneLandscape) || phonePortrait) ? document.querySelector<HTMLElement>(".interview-header-title-row") : null;
+            setTitleRow(current => current === row ? current : row);
+        };
+        place();
+        const later = [100, 400, 1000].map(delay => window.setTimeout(place, delay));
+        window.addEventListener("resize", place);
+        window.addEventListener("tiles-fit", place);
+        return () => {
+            later.forEach(timer => window.clearTimeout(timer));
+            window.removeEventListener("resize", place);
+            window.removeEventListener("tiles-fit", place);
+        };
+    }, []);
+
+    // (At the page's top too: its word where the room left of the page holds it, else its arrow alone.)
+    useLayoutEffect(() => {
+        const back = pageTop?.querySelector<HTMLElement>(":scope > .page-top-back");
+        if (!back) {
+            return;
+        }
+        back.classList.remove("page-top-back-short");
+        if (back.getBoundingClientRect().left < 12) {
+            back.classList.add("page-top-back-short");
+        }
+    });
+
+    // (Its word where the room left of the page holds it, else its arrow alone, its name in the tooltip.)
+    useLayoutEffect(() => {
+        const back = titleRow?.querySelector<HTMLElement>(".interview-header-back");
+        if (!titleRow || !back) {
+            return;
+        }
+        back.classList.remove("interview-header-back-short");
+        if (back.getBoundingClientRect().left < 4) {
+            back.classList.add("interview-header-back-short");
+        }
+    });
+
     return (
 
         <footer className="workspace-footer" ref={footer}>
 
-            <BackButton className="back-link" onClick={onBack} />
+            {titleRow
+                ? createPortal(<BackButton className="back-link interview-header-back" onClick={onBack} />, titleRow)
+                : pageTop
+                    ? createPortal(<BackButton className="back-link page-top-back" onClick={onBack} />, pageTop)
+                    : <BackButton className="back-link" onClick={onBack} />}
 
             <div className="workspace-footer-actions">
 

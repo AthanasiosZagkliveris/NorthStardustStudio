@@ -1732,9 +1732,11 @@
                         if (Math.abs((listBox.left + listBox.right) / 2 - (box.left + box.right) / 2) > 2.5) {
                             fail("a tile's list block is centred under its title", tile, { list: (listBox.left + listBox.right) / 2, tile: (box.left + box.right) / 2 });
                         }
-                        // THE LIST STARTS A FIXED 12px UNDER THE UNDERLINE of the title (it comes up with the lifted title).
+                        // THE LIST STARTS 12px UNDER THE UNDERLINE of the title AT THE LEAST (it comes up with the lifted title); on a master tile it is centred in the room
+                        // under it, so it may stand lower (owner, 2026-11-24 03:14 UTC+2: "place the tile's content ... in the centre of the Tile"; TileList, --list-centre).
                         // (The tile under the pointer grows, and its title's lift is measured on that frame: a pixel more or less, 1.25 here.)
-                        if (!rules.near(listBox.top - titleBox.bottom, spec.fieldGap, 1.25)) {
+                        const centred = true;
+                        if (centred ? listBox.top - titleBox.bottom < spec.fieldGap - 1.25 : !rules.near(listBox.top - titleBox.bottom, spec.fieldGap, 1.25)) {
                             fail("a tile's list starts 12px under the title's underline", tile, { gap: listBox.top - titleBox.bottom });
                         }
                         // (A line of two columns -- a name and its figure -- is drawn by its two parts: the line itself has no box, display: contents.)
@@ -3230,8 +3232,10 @@
                 }
                 const arrows = [...document.querySelectorAll(".carousel-arrow")].filter(visible).map(rect).filter(arrow => arrow.left < box.right && arrow.right > box.left);
                 const gaps = items.slice(1).map((item, i) => ({ gap: item.top - items[i].bottom, across: arrows.some(arrow => items[i].bottom <= arrow.top + 1 && item.top >= arrow.bottom - 1) })).filter(g => !g.across).map(g => g.gap);
-                if (gaps.some(gap => Math.abs(gap - 18) > 0.6)) {
-                    fail("every tab has 18px between its rows", tab, { gaps });
+                // (One even gap, 18px at the least: the room the side arrow leaves is shared among the gaps -- owner, 2026-11-26 12:20 UTC+2, "Check the rail
+                // bullets to follow a proper sequence"; useRailSlot.)
+                if (gaps.length && (Math.min(...gaps) < 17.4 || Math.max(...gaps) - Math.min(...gaps) > 0.6)) {
+                    fail("every tab has one even gap between its rows, 18px at the least", tab, { gaps });
                 }
                 const layer = [...document.querySelectorAll(".floating-card-body, .section-tile-dialog")].filter(visible).pop();
                 if (layer && Math.abs(box.top - rect(layer).top - 12) > 0.6 && box.top > 80) {
