@@ -917,8 +917,8 @@
     width: var(--title-symbol-size, 44px);
     height: var(--title-symbol-size, 44px);
 
-    /* (In its card's hue: the shared symbol rule, colors.css, .symbol-mark.) */
-    mask: var(--title-symbol) center / contain no-repeat;
+    /* (In its card's hue and drawn by its own file: the shared symbol rule, colors.css, .symbol-mark, --symbol. A mask here named --title-symbol, which no
+       element sets any more, so the symbol was drawn as a filled square -- the Resources dialog on a phone, the check round of 2026-11-27.) */
 
 }
 
