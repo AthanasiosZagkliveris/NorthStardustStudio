@@ -11,6 +11,7 @@ import { TABLE_SIZES } from "../components/interview/tiles/CapabilityOverview";
 import "../styles/capability-overview.css";
 import { DialogHeading } from "../components/interview/tiles/SectionTiles";
 import { setTilesPage, setTilesPageWidth, widestPage } from "../components/interview/tiles/SectionTileGeometry";
+import { PHONE_QUERY } from "../hooks/useVerticalLayout";
 import BusinessDocumentsView from "../components/workbook/BusinessDocumentsView";
 import { workHue } from "../framework/engine/WorkColours";
 import ResponsibilityFilter from "../components/interview/fields/ResponsibilityFilter";
@@ -35,6 +36,9 @@ import "../styles/status-shape.css";
 import "../styles/bullet-rail.css";
 import "../styles/glossary.css";
 import "../styles/review.css";
+
+/** An upright phone: the Handbook's and Workbook's title row takes the open page's name and its buttons. */
+const PHONE_UPRIGHT_QUERY = PHONE_QUERY + " and (orientation: portrait)";
 
 // (The list and its letter ranges are the shared GlossaryList's; the tests and the search read them here as before.)
 export { letterRanges, REFERENCES_PER_RANGE, type LetterRange } from "../components/workbook/GlossaryList";
@@ -220,6 +224,20 @@ export default function Workbook() {
     }, [tab]);
     // (The row of the title holds the section's buttons at its right end: WorkbookTools.)
     const [toolsSlot, setToolsSlot] = useState<HTMLElement | null>(null);
+    // (AN UPRIGHT PHONE (owner, 2026-11-27 14:34 UTC+2: "On the Handbook/Workbook, keep only their icons on the title. Instead of their text titles, place the page
+    // title ... Place also the filter button next to the title, and include also the text size ... These changes, only for the upright mobile version"; 14:35: "there
+    // is no need for a frame"): the page's title row holds the Handbook's or Workbook's symbol, the open page's name and the page's buttons (the text size, the
+    // filter); the panel keeps neither its heading nor its buttons nor its frame (workspace.css, glossary.css).)
+    const [phoneUpright, setPhoneUpright] = useState(() => typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia(PHONE_UPRIGHT_QUERY).matches);
+    useEffect(() => {
+        if (typeof window.matchMedia !== "function") {
+            return;
+        }
+        const query = window.matchMedia(PHONE_UPRIGHT_QUERY);
+        const change = () => setPhoneUpright(query.matches);
+        query.addEventListener?.("change", change);
+        return () => query.removeEventListener?.("change", change);
+    }, []);
     // The text size of the section (owner, 2026-11-10: "Add a letter-size option like the Inventory"): the Inventory's three steps, 14, 18 and 24px, kept while
     // the page stays open; the section is drawn at that scale.
     const [textSize, setTextSize] = useState<string>("body");
@@ -284,6 +302,20 @@ export default function Workbook() {
         go: (id: string) => show(id as WorkbookTab)
     };
 
+    // (The page's buttons: in the panel's head, or in the page's title row on an upright phone.)
+    const tools = (
+        <div className="workbook-tools" ref={setToolsSlot}>
+            <RadioChoice
+                className="capability-overview-sizes"
+                label="Text size"
+                group="workbook-text-size"
+                options={TABLE_SIZES.map((size, at) => ({ id: size.id, label: <span className="capability-overview-size-aa" data-size={size.id}>Aa</span>, name: ["Smaller text", "Standard text", "Larger text"][at] }))}
+                value={textSize}
+                onChange={setTextSize}
+            />
+        </div>
+    );
+
     return (
 
         <div
@@ -297,7 +329,7 @@ export default function Workbook() {
             <main className="glossary-page">
 
                 {/* The top of the page as on a System page: "Workbook" at the top left, over its rule; the section's name is the panel's heading. */}
-                <InterviewHeader systemName={landing ? "Handbook" : "Workbook"} tabName={tabs[at]?.label} icon={workbookIcon} />
+                <InterviewHeader systemName={landing ? "Handbook" : "Workbook"} tabName={tabs[at]?.label} icon={workbookIcon} actions={phoneUpright ? tools : undefined} />
 
                 <WorkbookToolsSlot.Provider value={toolsSlot}>
 
@@ -309,16 +341,7 @@ export default function Workbook() {
                     <div className="business-engagement-section-head" role="heading" aria-level={2}>
                         <DialogHeading key={tab} title={title} info={tab === "glossary" || tab === "references" || tab === "documents" || tab === "financial-documents" ? GLOSSARY_INFO[tab] : undefined} />
                     </div>
-                    <div className="workbook-tools" ref={setToolsSlot}>
-                        <RadioChoice
-                            className="capability-overview-sizes"
-                            label="Text size"
-                            group="workbook-text-size"
-                            options={TABLE_SIZES.map((size, at) => ({ id: size.id, label: <span className="capability-overview-size-aa" data-size={size.id}>Aa</span>, name: ["Smaller text", "Standard text", "Larger text"][at] }))}
-                            value={textSize}
-                            onChange={setTextSize}
-                        />
-                    </div>
+                    {!phoneUpright && tools}
                 </div>
 
                 {/* As a dialog's: the body that holds the section and scrolls. */}
