@@ -25,6 +25,8 @@ The two stages as defined on 2026-11-27. An item marked **(owner decides)** is o
 
 **Not looked at in a browser**: the Process library and Operational log pages (not reachable in this version of the app); the tooltips of the Roadmap bars, the action symbols and the noted fields. The tests cover them.
 
+**The phone in landscape** (Beta): decided on 2026-11-27, not built: section 5.14.
+
 **The catalogue records** (V1; `03-catalogue-record.md` and the crawl behind it) still show Quillfield as an LLC (its "Form the LLC and get an EIN" activity); the next full crawl rewrites them. Quillfield is a sole proprietorship in the example now, and its figures moved with it (Funding Need $24,734, cash in hand $10,675, still short after the SBA loan's repayments $1,208; the golden files: `WRITE_GOLDEN=all`).
 
 **The checks** (V1): the wide layout check (`npm run check:layout:wide`) has a baseline (`baseline-wide.json`, rewritten 2026-11-22 by the owner's decision) that accepts 1,147 findings in 8 rules, 0 under the 24px rule, all on Business System › Infrastructure, so it shows only new ones; two full runs now give the same list (the review of 2026-11-21, `../../archive/proposals/app-review-2026-11-21.md`, section 4, L1 and L3; what is left of it is in 5.6); the standard baseline (31 findings, all the 24px target size) is rewritten only by the owner's decision.
@@ -370,3 +372,20 @@ Each line points to the one place its design lives; the item leaves this list wh
 | The free-text character limits and one component per category | [Interface 3](../interface/03-free-text-categories.md) | Proposal | V1 |
 | The help texts' structure beyond the size budget | [Interface 10](../interface/10-help-texts-guide.md) | Built in part | V1 |
 | The library's sync of the app to the tables (step 7) | [Library 1](../library/01-library-system.md), section 7, and section 5.6 above | Not built | V1 **(owner decides)** |
+
+## 5.14 The phone in landscape (decided 2026-11-27, not built)
+
+The owner's decisions of 2026-11-27 (01:48 to 04:31 UTC+2) for a phone turned to landscape (844 x 390, an iPhone with its safe areas: 47px at each side, 21px at the foot), worked out on mock-ups (the project's Library: `phone-landscape-2x4`, `five-titles-12px`, `sideways-A-next-tile`, `segments-case1` to `segments-case3`, `segment-name-moving`, `next-segment-button-measured`, all 2026-11-27). Stage: Beta. When it is built, its rules move to AI 9, section 23 ("A phone in landscape"), and this section goes.
+
+- **No footer band.** The page rail stands at the right side, upright: "▲", the bullets, "▼" (NavArrow `vertical`); pressing an arrow or a bullet moves between the pages (01:51, 03:15).
+- **The tiles:** a page's master tiles in 2 rows of 4, two chapters side by side; no chapter frames, a hairline (the ink at 40%) between the chapters (02:09). Tile 138px, set by the height: 390 - 56 header - 21 home bar - 12 - 12 = 289, two rows and one 12px gap; 1px is left. No room is kept for a tile to grow: a phone has no hover (03:04).
+- **Tile titles: 12px**, 10px at each side (02:52: "Perfect the 12 px is done!"). Every Foundation master tile title stays whole, nothing is renamed. At 14px three cut a word (Communication & Voice, Registrations & Expenses, Organisation). The smallest text on a phone is 11px (Apple's 11pt, Material's 11sp).
+- **The header:** 56px; 12px between its items (04:20). The page's symbol and title start at the first tile column's left edge (03:56). A line in the header stands over the tiles' hairline: the page title at its left, the open Segment's name at its right, with no arrows (03:34). The saved tick stays, before the buttons (04:31). The buttons keep the side margin: the first button's right edge on the tiles' right edge would put the last 14px into the 47px safe area (811 against 797px), so they stay at the margin (04:03).
+- **A long Segment name** (the user names it) slides left now and then, its front hiding behind the line (04:14). To settle with the owner: slide once when the Segment opens and when pressed, and stay still under "reduce motion" (WCAG 2.2.2).
+- **Back** leaves the header and stands at the bottom left, its foot level with the foot of the last row of tiles, its left edge under the logo's (03:25, 03:39).
+- **The eighth place** (beside Sales Forecast on Foundation & Engagement; 03:39, 04:31): "+ Add Segment" always, the app's own button (`.strategy-add-button`), one tile wide, 44px high, at the place's foot; 12px above it, by the number of Segments:
+  1. One Segment: nothing.
+  2. Two Segments: a flat tile (no shadow, no inner light, a 1px outline in a darker tint of its colour; 03:46, 04:03) in the OTHER Segment's colour, 138 x 82px: its name as written, 12px semi-bold, centred, on two rows (cut with "..." after the second), and an arrow on the third (03:50). It works as a carousel: from the second Segment it leads back to the first.
+  3. Three or more: a flat card in the open Segment's colour, 138 x 82px: the label "SEGMENTS" at the top, under it the page arrows (NavArrow with `page-arrow`, the solid triangles the calendar's months use) either side of "1 of 3".
+- **To settle with the owner:** the arrow of case 2: the text "→" (04:03, "Bring back the previous arrow") or a drawn 24 x 12px arrow with the app's 2px line, the name 12px from the top and the arrow 12px from the foot (proposed 04:14); the other pages' eighth place and the dialogs in landscape; the upright phone's Back (option 3 of 01:54, a light row under the header) and its bullets (the owner's three rules of 01:38: a set space inside the page's border, spread evenly, a least gap to the arrows).
+- **Research behind it:** Apple's HIG and Material 3 type sizes and margins, safe areas, page dots in other apps: `phone-text-sizes-research-2026-11-27.md` in the project's Library.
