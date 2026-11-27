@@ -5,6 +5,8 @@
  *   src-tauri/icons/  32x32.png (the file drawn for 32px), 128x128.png, 128x128@2x.png, icon.png, icon.icns (from the 1024px file,
  *                     by `tauri icon`), icon.ico (the files drawn for 16 and 32px, with 48, 64 and 256px)
  *   public/           tiles-icon-32.png (the tab's PNG) and tiles-icon-180.png (Apple devices), from the 1024px file when missing
+ *                     tiles-icon-192.png and tiles-icon-512.png (the installable app's manifest, vite.config.ts), from the 1024px file when missing;
+ *                     tiles-icon-maskable-192.png and -512.png (Android's shaped icons: the nine tiles alone on the navy, #0f172a, the grid 48dp of 108dp), the same
  *
  * `tauri icon` also writes the Microsoft Store tiles (Square…Logo.png, StoreLogo.png), 64x64.png and the Android and iOS folders: the
  * app uses none of them (`tauri.conf.json` lists the five it uses), so they are deleted again. Every PNG keeps only the parts that draw
@@ -92,7 +94,7 @@ const slim = file => {
 for (const name of readdirSync(ICONS).filter(name => name.endsWith(".png"))) {
     slim(join(ICONS, name));
 }
-for (const file of ["public/tiles-icon-32.png", "public/tiles-icon-180.png"].filter(existsSync)) {
+for (const file of ["public/tiles-icon-32.png", "public/tiles-icon-180.png", "public/tiles-icon-192.png", "public/tiles-icon-512.png", "public/tiles-icon-maskable-192.png", "public/tiles-icon-maskable-512.png"].filter(existsSync)) {
     slim(file);
 }
 
