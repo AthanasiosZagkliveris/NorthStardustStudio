@@ -4,7 +4,6 @@ import { type TileLink, type ItemMark } from "./SectionTileTypes.ts";
 import { PAGE_STATUS_WORDS } from "../../../framework/engine/status/PageStatus";
 import "../../../styles/status-shape.css";
 import { incompleteTitle, TILE_DIVIDER, drawnTitle, plainTitle, brokenLines, boldWords, scaleOrigin } from "./SectionTileGeometry.tsx";
-import { resourceIconOutline } from "../../../data/resourceIcons.ts";
 
 /**
  * What a tile or a box shows: its title, centred, and -- while the section holds nothing yet --
@@ -17,15 +16,6 @@ import { resourceIconOutline } from "../../../data/resourceIcons.ts";
  */
 export function SymbolMark({ src, className }: { src: string; className: string }) {
     return <span className={"symbol-mark " + className} style={{ "--symbol": "url(\"" + src + "\")" } as React.CSSProperties} aria-hidden="true" />;
-}
-
-/**
- * A SYMBOL'S GLOW UNDER THE POINTER (owner, 2026-11-27 00:31 UTC+2: "add the glowing effect only. not the colour change"; 2026-11-26 23:56: "if it was glowing
- * outwards only, the tool's inner part tint should have stay the same to its idle state"): a solid copy of the symbol's outline, in its ink, glows, and the outline
- * itself is cut out of the glow (01-tiles-and-dialog.css), so the symbol is drawn as at rest and the glow shows only round it.
- */
-function SymbolGlow({ outline }: { outline: string }) {
-    return <span className="symbol-mark section-tile-list-glow" style={{ "--outline": "url(\"" + outline + "\")" } as React.CSSProperties} aria-hidden="true"><i /></span>;
 }
 
 export function TileFace({ title, empty, items, glyph = true, alerts, marks, icon, mark, symbol }: { title: string; empty?: boolean; items?: readonly string[]; glyph?: boolean; alerts?: readonly (readonly string[] | undefined)[]; marks?: readonly (ItemMark | undefined)[]; /** A symbol before the title, on its line. */ icon?: string; /** A symbol under the title's words, above its rule. */ mark?: string; /** A symbol that stands for the title where a dialog's titles do not fit (TileTitle, data-title-symbols): a Resource category's. */ symbol?: string }) {
@@ -798,7 +788,7 @@ export function TileList({
                 const symbol = marks?.[position]?.icon;
                 const status = marks?.[position]?.status;
                 const fallback = marks?.[position]?.symbol;
-                const drawn = <>{fallback && <SymbolMark src={fallback} className="section-tile-list-fallback" />}{fallback && resourceIconOutline(fallback) && <SymbolGlow outline={resourceIconOutline(fallback)!} />}{status && <span className="status-shape section-tile-list-shape" data-status={status} aria-hidden="true" />}{symbol && <SymbolMark src={symbol} className="section-tile-list-symbol" />}{brokenLines(item).map((part, at, parts) => <Fragment key={at}><span className="section-tile-list-line">{boldWords(part)}</span>{at < parts.length - 1 && " "}</Fragment>)}</>;
+                const drawn = <>{fallback && <SymbolMark src={fallback} className="section-tile-list-fallback" />}{status && <span className="status-shape section-tile-list-shape" data-status={status} aria-hidden="true" />}{symbol && <SymbolMark src={symbol} className="section-tile-list-symbol" />}{brokenLines(item).map((part, at, parts) => <Fragment key={at}><span className="section-tile-list-line">{boldWords(part)}</span>{at < parts.length - 1 && " "}</Fragment>)}</>;
                 return (
                     <li
                         key={position}

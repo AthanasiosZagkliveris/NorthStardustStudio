@@ -31,9 +31,12 @@
    never over a neighbour.) */
 :root:not([data-pointer-still]) .section-tile-slot:hover {
 
+    /* (Named, so a tip worked out as the tile starts growing knows the size it grows to: Tooltip.tsx, grownBox.) */
+    --tile-hover-scale: 1.04;
+
     z-index: 6;
 
-    transform: scale(1.04);
+    transform: scale(var(--tile-hover-scale));
 
 }
 
@@ -52,6 +55,8 @@
 /* THE DEFAULT PAGE AGAIN after a dialog or a floating card closes: the pointer may be resting on a tile, but no tile is grown until it moves
    (SectionTiles.tsx, settlePage). */
 [data-tiles-settled] .section-tile-slot:hover {
+
+    --tile-hover-scale: 1;
 
     transform: none;
 
