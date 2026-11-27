@@ -1325,6 +1325,20 @@ body:has(.org-calendar-panel-open) .workspace-footer .back-link{
 
 }
 
+/* (ON A PHONE, THE WHOLE WIDTH, as the Notes panel (notepad.css; owner, 2026-11-27 14:27 UTC+2, the Calendar on a phone): it kept 32px of the page beside it, the
+   Landing's arrows showing in the strip.) */
+@media (max-width: 600px){
+
+    .org-calendar-panel.org-calendar-side{
+
+        width:100vw;
+
+        border-right:0;
+
+    }
+
+}
+
 @keyframes org-calendar-slide-in{
 
     from{
