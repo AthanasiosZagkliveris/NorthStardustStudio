@@ -304,10 +304,15 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
     }
     // (Upright and wider than a phone: the Back at the layer's top, not in the band beside the arrow.)
     const topBack = typeof window !== "undefined" && railsInBand() && window.innerWidth > 600 && window.matchMedia?.("(orientation: portrait)").matches === true;
+    // (AN UPRIGHT PHONE: the layer's Back in a light row of its own at the layer's top, left (owner, 2026-11-27 01:54 UTC+2, option 3: "just to indicate you where
+    // the arrow should be"; 16:35: "Back arrow position", a card's Back squeezed against its ◁ in the footer band); back-button.css, .layer-top-back.)
+    const phoneBack = typeof window !== "undefined" && isPhone() && window.matchMedia?.("(orientation: portrait)").matches === true;
 
+    // (ONE CARD OR ONE PAGE HAS NO ARROWS (owner, 2026-11-27 16:38 UTC+2, the general rule after his Foundation page: a list of one has nowhere to go); its Back stays.)
+    const alone = !!step.items && step.items.length <= 1;
     return (
         <>
-            <NavArrow
+            {!alone && <NavArrow
                 // (Standing in the tab's list, the arrow takes the tab's edge colour as its fill, as it did before the list ran on round it; owner, 2026-11-10: "The
                 // carousel arrow in the card tag, fill colour used to be like its wire".)
                 className={"page-arrow carousel-arrow" + (slot && at.tab && at.side === "left" ? " carousel-arrow-on-tab" : "")}
@@ -317,8 +322,8 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
                 title={"Previous " + step.what + " (←)"}
                 style={{ left: at.left, top: arrowsTop, "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-edge": at.tab.edge } : {}) } as CSSProperties}
                 onClick={step.previous}
-            />
-            <NavArrow
+            />}
+            {!alone && <NavArrow
                 className={"page-arrow carousel-arrow" + (slot && at.tab && at.side === "right" ? " carousel-arrow-on-tab" : "")}
                 data-completed={completedLayer(target.current) ? "" : undefined}
                 direction="next"
@@ -326,7 +331,7 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
                 title={"Next " + step.what + " (→)"}
                 style={{ right: at.right, top: arrowsTop, "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-edge": at.tab.edge } : {}) } as CSSProperties}
                 onClick={step.next}
-            />
+            />}
             {step.items && step.items.length > 1 && step.go && (
                 // The rail under the arrows (the right one's): a bullet for each of the list, this one's lit; its name beside it where the window has the room for the named tab, else in a tooltip (`named`).
                 <nav
@@ -356,7 +361,7 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
                         ))}
                     </ol>
                     {/* The way back stands in the tab, after the last option (the dialog's own foot no longer has it while the tab does). */}
-                    {back && !topBack && (
+                    {back && !topBack && !phoneBack && (
                         <BackButton className="carousel-rail-back" style={slot && slot.index === itemCount && slot.extra > 0 ? { marginTop: 12 + slot.extra } : undefined} onClick={back} aria-label="Back" />
                     )}
                 </nav>
@@ -364,6 +369,7 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
             {/* (A TABLET IN PORTRAIT: the layer's Back at its top, left of it, as the page's (owner, 2026-11-25: "The back arrow should not be next to the
                 navigation arrow. Place it on the top part of the page to align to the top card's edge"; back-button.css, .page-top-back).) */}
             {back && topBack && target.current && createPortal(<BackButton className="back-link page-top-back" onClick={back} />, target.current)}
+            {back && phoneBack && target.current && createPortal(<BackButton className="back-link layer-top-back" onClick={back} />, target.current)}
         </>
     );
 }

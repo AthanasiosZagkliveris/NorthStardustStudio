@@ -166,3 +166,21 @@
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 13'%3E%3Cpath d='M.75.75 20.25.75 10.5 12.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
 
 }
+
+/* (A TITLE'S HELP ON A PHONE, WITHOUT A FRAME (owner, 2026-11-27 16:33 UTC+2: "Same here, remove the frame", the Foundation's description under its title): no edge,
+   no round corners, no shadow; it keeps the page's own ground so the page under it does not show through, as the Handbook's text stands on its page. A chapter's
+   help and a Capability's alike.) */
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px) {
+
+    :root .card-title-block > .card-title-help {
+
+        border-color: transparent;
+        border-radius: 0;
+
+        box-shadow: none;
+
+        background: var(--phone-ground-top, var(--bg-page));
+
+    }
+
+}

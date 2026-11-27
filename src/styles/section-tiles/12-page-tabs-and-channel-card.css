@@ -1355,3 +1355,24 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-dialog-foot:not(:
     }
 
 }
+
+/* (A LAYER'S BULLETS SPREAD EVENLY IN THE BAND (owner, 2026-11-27 16:35 UTC+2: "Bullets spread equally across the avaliable place"; his rules of 01:38: a set space
+   inside the page's border, spread evenly, a least gap to the arrows): from 24px after the ◁ to 24px before the ▷ (the arrows 48 to 72px in from the window's
+   sides), evenly, as the page's own bullets in the band.) */
+@media (max-width: 600px) and (orientation: portrait) {
+
+    :root .carousel-rail.carousel-rail-tab .bullet-rail-list.bullet-rail-list {
+
+        flex: none;
+
+        box-sizing: border-box;
+        width: calc(100vw - 192px);
+        max-width: none;
+
+        justify-content: space-evenly;
+
+        margin-inline: 0;
+
+    }
+
+}

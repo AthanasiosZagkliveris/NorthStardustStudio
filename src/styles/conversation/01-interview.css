@@ -727,13 +727,26 @@
 
     /* (ONE LINE (layout rules, section 4, "A phone's page title"): a name longer than the row ends in an ellipsis; the Business pages' names wrapped onto a
        second line at 390px -- the check round, 2026-11-27.) */
+    /* (The name's words are cut, not the title: an arrow or a note after the name -- a Capability's fold arrow -- stands whole, centred on the name's line;
+       clipping the whole title cut that arrow to a sliver -- owner, 2026-11-27 16:32 UTC+2, "Fix the folded arrow".) */
     .interview-header h1{
 
         font-size:var(--font-h2);
 
+        display:flex;
+        align-items:center;
+        gap:var(--gap-8);
+
         min-width:0;
 
         white-space:nowrap;
+
+    }
+
+    .interview-header h1 > :is(.interview-header-system, .interview-header-page-title, .interview-header-tab-name){
+
+        min-width:0;
+
         overflow:hidden;
         text-overflow:ellipsis;
 
