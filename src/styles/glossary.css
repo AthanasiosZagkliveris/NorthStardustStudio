@@ -761,3 +761,62 @@
     }
 
 }
+
+/* (THE WORKBOOK'S DOCUMENTS ON AN UPRIGHT PHONE (owner, 2026-11-27 19:09 UTC+2, points 7, 9, 10, 11 and 13): the tabs 12px under the title's rule; the document as
+   wide as the page's gutters allow (the panel's and the sheet's insets taken back to 12px); the tabs' row on the page's own ground, so no tint shows between them;
+   every tab on the screen, sharing the row, their words wrapping; the Canvas without its outer frame, its dividing lines kept.) */
+@media (max-width: 600px) and (orientation: portrait) {
+
+    .workbook .glossary-page {
+
+        row-gap: var(--gap-12);
+
+    }
+
+    :root .workbook .glossary-page > .workbook-panel.workbook-panel {
+
+        padding: 0;
+
+    }
+
+    .workbook .workbook-panel > .section-tile-dialog-body {
+
+        margin: 0;
+        padding: 0;
+
+    }
+
+    .workbook .business-documents-page {
+
+        padding: var(--gap-12);
+
+    }
+
+    .workbook .workbook-section .business-documents .tab-list {
+
+        background: var(--bg-page);
+
+    }
+
+    .workbook .business-documents .tab-list-tab {
+
+        flex: 1 1 0;
+        min-width: 0;
+
+        padding: 8px 6px;
+
+        font-size: var(--font-small);
+
+        overflow-wrap: anywhere;
+
+    }
+
+    .workbook .business-canvas {
+
+        padding: 0;
+
+        border-radius: 0;
+
+    }
+
+}
