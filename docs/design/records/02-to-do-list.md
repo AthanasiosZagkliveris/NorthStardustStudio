@@ -268,7 +268,7 @@ Stage **(owner decides)**.
 - **Desktop-only code:** one import (`@tauri-apps/plugin-opener` in `InfoNote`, with a web fallback already in place), plus the Tauri folder and two port settings in the build file. A web build is straightforward.
 - **Storage:** the Organisations are kept in this device's IndexedDB, behind one store interface (`IndexedDbStorage.ts`, `LocalOrganizationStore.ts`); the theme, the notes and the preferences stay in local storage. A server store fits behind the same interface. The two example organisations alone are about 600 KB.
 - **Calendar: decided, it exists in the new app.** The earlier Foundation App Plan listed it as staying behind. It reads card dates, so it depends on the card engine and travels with it; its sources (card dates, Operational Log, schedules) are kept.
-- **Decision:** the form of the new app is open (5.8, item 7).
+- **Decision (owner, 2026-11-27 17:32 UTC+2: "Go with B"):** the Beta and Version 1 are the **Foundation edition** of this one app, not a second folder: the build with `VITE_EDITION=foundation` shows the Foundation capability alone (Systems 1 to 4) and hides the others on every list, count and search; the data keeps every System's answers, so an Organisation made in the full app loses nothing. The full app (`npm run dev`, `npm run tauri dev`) keeps every capability. A split of this repository into `apps/foundation` and shared parts (AI 5, the folder plan) may follow after the Beta **(owner decides)**.
 - **X1, extraction readiness** (should, new): the shared parts (reading mode, notes, calendar, search, review, undo, help, export, preferences) import nothing from Systems 05 to 24; the operations and social-media branches in `Conversation` are removed; storage stays behind the store interface; the desktop opener is the only Tauri import.
 - **X2** (should, new): the examples are optional in the new app (they already load on demand: `ExampleOrganizations.ts`).
 
@@ -285,7 +285,7 @@ Still open (the requirement ids are those of 5.5):
 4. Which relationship-type definition (the six fields, C4) is accepted, and who writes it?
 5. Is a rough cost per customer by channel wanted at this stage (C14)?
 6. (Closed: the 768 px floor went with the 320 px minimum width of 2026-11-22.)
-7. Is the new app still a web app with accounts (as in the Foundation App Plan), and does it keep the Examples (5.7, X2)? **(owner decides)**, with the extraction. Where it runs is decided (section 5.15); the accounts and the Examples stay open.
+7. Is the new app still a web app with accounts (as in the Foundation App Plan), and does it keep the Examples (5.7, X2)? **(owner decides)**, with the extraction. Where it runs is decided (section 5.15), and its form: the Foundation edition of this app (5.7); the accounts and the Examples stay open.
 
 ## 5.9 Known open findings
 
@@ -393,5 +393,7 @@ The owner's decisions of 2026-11-27 (01:48 to 04:31 UTC+2) for a phone turned to
 
 The owner's decisions of 2026-11-27: every way a founder can get the app (14:35 UTC+2, "All!": the installable web app, the store apps, the desktop app); the order the web app, then Android, last the iPhone, with the work that serves several systems done once (15:00 UTC+2). What each system requires is Research 9; every requirement, grouped, and the work in batches 0 to 9 is the proposal `../../proposals/apps-on-every-system.md`. Stage: batches 0 to 5 Beta (the web app live, the iPhone through the Home Screen, Android on Google Play in closed test), batches 6 to 9 V1 (the Microsoft Store, the Tauri phone app, the App Store, the signed desktop installers). The owner's six answers of batch 0 (the proposal, section 7) come first.
 
+- **Batch 0, the owner's answers** (2026-11-27 17:03 UTC+2): the host is his own website's (Cloudflare Pages, next to northstardust.studio, at app.northstardust.studio); Android first as the packaged web app; personal developer accounts; the Microsoft Store, yes; the store name "Tiles by North Stardust"; no Mac or iPhone yet, so the App Store waits and the iPhone uses the Home Screen app.
+- **The host** (batch 3): the Cloudflare Pages project `tiles` builds `main` on every merge (`npm run build`, output `dist`, `NODE_VERSION` 22, `VITE_EDITION` foundation); its address tiles-4lg.pages.dev, then app.northstardust.studio.
 - **Testing on the owner's phone** (built): `npm run dev:network`, then `http://<the PC's address>:1420` on the phone, on the same Wi-Fi set to Private.
 

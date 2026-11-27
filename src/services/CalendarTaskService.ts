@@ -31,7 +31,7 @@
 import { StorageService } from "./StorageService";
 import { OrganizationService } from "./OrganizationService";
 import { NotepadService } from "./NotepadService";
-import { systems } from "../data/systems";
+import { editionSystems, systems } from "../data/systems";
 import { getCapabilityColor } from "../data/capabilities";
 import { AnswerType } from "../framework/enums/AnswerType.ts";
 import { capabilityCardDates, keyCardDates, legalEntityCardDates, type CardDate, type CardDateKind } from "../framework/engine/cards/CalendarCardDates.ts";
@@ -313,6 +313,11 @@ export function getCalendarTasks(organizationId: string): CalendarTask[] {
     const tasks: CalendarTask[] = [];
 
     for (const systemNumber of OrganizationService.listSystemNumbers(organizationId)) {
+
+        // (The dates of what this build shows, data/edition.ts.)
+        if (!editionSystems.some(candidate => candidate.number === systemNumber)) {
+            continue;
+        }
 
         const session = StorageService.loadInterview(organizationId, systemNumber);
 

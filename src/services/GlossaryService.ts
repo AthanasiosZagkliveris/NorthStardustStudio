@@ -1,4 +1,5 @@
-import { systems } from "../data/systems";
+// (The edition's list, data/edition.ts: the terms of what this build shows.)
+import { editionSystems as systems } from "../data/systems";
 import { APP_TERMS } from "../data/glossary";
 import { OrganizationService } from "./OrganizationService";
 

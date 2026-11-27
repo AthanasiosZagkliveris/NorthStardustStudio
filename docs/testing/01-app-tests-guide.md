@@ -17,7 +17,7 @@ Status: **reference**, written 2026-11-21, updated 2026-11-21. The app's tests: 
 
 ### Where they are and how they run
 
-The app has 2,321 tests in 206 files (2,319 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
+The app has 2,326 tests in 207 files (2,324 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
 
 They are written with Vitest and come in two kinds:
 
@@ -45,7 +45,7 @@ More than four tests in five check either the screens (991) or the business rule
 | --- | --- | --- | --- | --- |
 | Screens | 993 | 94 | `src/components/` | every card, tile, field, rail and dialog draws and behaves as specified |
 | Business rules | 905 | 70 | `src/framework/engine/` | the questions, choices, money, legal and channel logic gives the right answers |
-| Saved data and examples | 130 | 12 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
+| Saved data and examples | 133 | 13 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
 | Whole pages | 115 | 10 | `src/pages/` | each page opens, moves and exports as a whole |
 | Design system and docs | 117 | 19 | `src/library/`, `src/styles/`, `src/docs/`, `src/test/` | the look stays on the tokens; the docs name only what exists |
 | Content files | 63 | 1 | `src/framework/parser/` | the Systems' Markdown links resolve and their three files agree |
@@ -3117,7 +3117,14 @@ These files hold the interview's questions: which are asked, in what order, whic
 
 11 files, 128 tests. They check how an Organisation is saved, read back and moved from older saves, and that the two example organisations (Lumen & Loom Studio and Quillfield Automation LLC) are complete and read the way the app reads them.
 
-### src/data/ (2 files, 28 tests)
+### src/data/ (3 files, 31 tests)
+
+#### edition.test.ts (3)
+
+- **the edition (Records 2, 5.7)** (3)
+  - shows every capability in the full app
+  - shows the Foundation capability alone, Systems 1 to 4, in the Foundation edition
+  - keeps every System in the data list, so saved answers of any System stay readable
 
 #### resourceIcons.test.ts (2)
 

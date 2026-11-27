@@ -3,8 +3,9 @@ import type { NavigateFunction } from "react-router-dom";
 import FoldHead from "../controls/FoldHead";
 import TextLink from "../interview/fields/TextLink";
 import { fieldLocation } from "../interview/tiles/openField";
-import { capabilities } from "../../data/capabilities";
-import { systems } from "../../data/systems";
+// (The edition's lists, data/edition.ts.)
+import { editionCapabilities as capabilities } from "../../data/capabilities";
+import { editionSystems as systems } from "../../data/systems";
 import { nothingOpen, type ReviewGroup, type ReviewItem, type ReviewPlace } from "../../framework/engine/ReviewItems";
 import { OrganizationService } from "../../services/OrganizationService";
 

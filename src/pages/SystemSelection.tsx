@@ -3,8 +3,9 @@ import TextLink from "../components/interview/fields/TextLink.tsx";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { getCapabilityIcon } from "../data/capabilityIcons";
 
-import { capabilities, getCapabilityColor } from "../data/capabilities";
-import { systems } from "../data/systems";
+// (The edition's lists, data/edition.ts: the Foundation edition shows the Foundation capability alone.)
+import { editionCapabilities as capabilities, getCapabilityColor } from "../data/capabilities";
+import { editionSystems as systems } from "../data/systems";
 
 import { FrameworkSystem } from "../types/system";
 import { Capability } from "../types/capability";
