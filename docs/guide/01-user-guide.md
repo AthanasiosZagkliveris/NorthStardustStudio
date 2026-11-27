@@ -106,7 +106,7 @@ Open **Menu** and press **Search**, or press **Ctrl+K**, and type. The results c
 
 ### 4.4 Settings
 
-Open **Menu** and press **Settings** for the **Global Settings**: the rates and limits every calculated line uses. Change one and every figure that uses it follows.
+Open **Menu** and press **Settings**, or press **Ctrl+,**, for the **Global Settings**: the rates and limits every calculated line uses. Change one and every figure that uses it follows.
 
 - **Financial plan**: the plan's start (worked out from the Opening Date) and its length.
 - **Business stages**: the Opening Date as recorded, and how long each stage lasts: Planning, Launching, Managing, Growing.
@@ -133,6 +133,15 @@ Open **Menu** and press **Calendar**: the calendar of the open Organisation open
 1. Press a day to see what falls on it; press an item to open the page it comes from, or your note.
 2. The funnel chooses the period, the kinds of date, the cards they come from and how dates are written; each list starts with All, and a tick on one choice shows that one alone. **Other** sets a period of your own, from a start date to an end date. The funnel is filled only while something differs from its defaults. Your own Calendar, on the Organisations screen, offers Month, Today, This week, This month and Next 30 days, opens on **User** (your own notes), and chooses Calendars in place of the cards.
 3. To add a time or a few words to a date, point at it and press its note button; the app makes a note only when you ask for one. "Expand all" shows every note of the day.
+
+### 4.8 Keyboard shortcuts
+
+On a Mac, an iPad or an iPhone, press **⌘** where **Ctrl** is written. A button's tooltip names the key it answers to.
+- **Ctrl+K**: Search.
+- **Ctrl+,** (comma): Settings.
+- **Ctrl+Z**: undo a removal while its message shows.
+- **Escape**: go back, close what is open, or leave Focus.
+- **←** and **→**: the previous and the next page or card.
 
 ## 5. A good order of work
 

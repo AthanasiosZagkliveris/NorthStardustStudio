@@ -108,7 +108,7 @@ What every screen shares, from the shared components (1) to the smallest text: t
 | [design/interface/05-reactions.md](design/interface/05-reactions.md) | current design | How elements react to the pointer and the keyboard: the reactions by component. The check is in the layout rules; this is the lookup. | 2026-11-27 |
 | [design/interface/06-text-links.md](design/interface/06-text-links.md) | generated | The text link: look and behaviour, from the code and the walk of the app. | 2026-11-21 |
 | [design/interface/07-popups.md](design/interface/07-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-11-27 |
-| [design/interface/08-tooltips.md](design/interface/08-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-27 |
+| [design/interface/08-tooltips.md](design/interface/08-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-28 |
 | [design/interface/09-help-texts.md](design/interface/09-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-11-26 |
 | [design/interface/10-help-texts-guide.md](design/interface/10-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-21 |
 | [design/interface/11-symbols.md](design/interface/11-symbols.md) | current design | The 39 symbols of the Capabilities, the Systems and the Resources: grid, sizes and their three drawings, line, corners, tints, gaps, the rule that a symbol takes its card's hue, reading modes, each symbol's drawing by size, and the files the app reads. | 2026-11-27 |
@@ -162,7 +162,7 @@ What the app's tests check, file by file, and how they run.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [testing/01-app-tests-guide.md](testing/01-app-tests-guide.md) | reference | The app's tests: where they are, how they run (Vitest, the pre-commit hook, CI), and what every test file checks, in six groups (screens, business rules, saved data and examples, whole pages, design system and docs, content files). | 2026-11-27 |
+| [testing/01-app-tests-guide.md](testing/01-app-tests-guide.md) | reference | The app's tests: where they are, how they run (Vitest, the pre-commit hook, CI), and what every test file checks, in six groups (screens, business rules, saved data and examples, whole pages, design system and docs, content files). | 2026-11-28 |
 
 ## 11. Rules for the assistant (`ai/`)
 

@@ -87,6 +87,19 @@ export const APP_GUIDE: readonly HandbookPart[] = [
         ]
     },
     {
+        heading: "Keyboard shortcuts",
+        blocks: [
+            { text: "On a Mac, an iPad or an iPhone, press ⌘ where Ctrl is written. A button's tooltip names the key it answers to." },
+            { points: [
+                "Ctrl+K: Search.",
+                "Ctrl+, (comma): Settings.",
+                "Ctrl+Z: undo a removal while its message shows.",
+                "Escape: go back, close what is open, or leave Focus.",
+                "← and →: the previous and the next page or card."
+            ] }
+        ]
+    },
+    {
         heading: "Documents",
         blocks: [
             { text: "Your answers write the Business Plan, the Business Model Canvas, the Financial Forecast, the Funding Request and the Financial Plan. They are in the Workbook and are written again each time you open them, so a change to an answer shows at once. Each downloads as Markdown or PDF, and the Forecast as CSV too." }
@@ -139,7 +152,9 @@ export const SPECS_AND_LIMITATIONS: readonly HandbookPart[] = [
         blocks: [
             { points: [
                 "Works from a phone's width to a wide monitor; the pages stack in a narrow or tall window.",
-                "Built to WCAG 2.2 AA: every control can be reached with the keyboard, and text keeps its contrast."
+                "Built to WCAG 2.2 AA: every control can be reached with the keyboard, and text keeps its contrast.",
+                "Every shortcut pairs Ctrl or ⌘ with a key, so a single letter typed or spoken starts nothing by mistake.",
+                "On a Mac's web browser, ⌘, opens the browser's own settings; in the installed app it opens Settings."
             ] }
         ]
     },
