@@ -23,9 +23,13 @@
    Dialog
 ========================================================== */
 
+/* (EVERY SCREEN (owner, 2026-11-27 20:52 UTC+2: "Check the size of the text, and buttons, per device and screen size. Also the window seem kind large"):
+   460px, else the window's width less a 16px gutter each side (Interface 7, P6); the padding 28px, 20px on a phone (the end of this file).) */
 .confirmation-dialog {
 
-    width: 460px;
+    box-sizing: border-box;
+
+    width: min(460px, calc(100vw - 2 * var(--gap-16)));
 
     background: var(--bg-surface);
 
@@ -66,6 +70,8 @@
     text-align: center;
 
     font-size: var(--font-body);
+    /* (Line spacing 1.5 times the font size: WCAG 2.2, 1.4.8 and 1.4.12; owner, 20:52: "the text needs line spacing".) */
+    line-height: 1.5;
     font-weight: 500;
 
     color: var(--text-secondary);
@@ -88,11 +94,20 @@
 
 }
 
+/* (Two buttons share the row: each up to 200px (a short label on one line) and narrower together on a phone, at least 48px high (the 44px touch target and more), a long label on two lines.) */
 .confirmation-button {
 
-    width: 180px;
+    flex: 1 1 0;
 
-    height: 48px;
+    min-width: 0;
+
+    max-width: 200px;
+
+    min-height: 48px;
+
+    padding: 6px 12px;
+
+    line-height: 1.25;
 
     border: 2px solid var(--line-primary);
 
@@ -227,4 +242,28 @@
 .confirmation-button.danger:hover {
 
     box-shadow: inset 0 0 0 2px currentColor;
+}
+/* ==========================================================
+   A phone: less padding, the buttons stacked
+========================================================== */
+
+@media (max-width: 600px) {
+
+    .confirmation-dialog {
+        padding: 20px;
+    }
+
+    /* (On a phone the two buttons stand one above the other, full width, the action on top, as a phone's own alerts do: two side by side cut a label.) */
+    .confirmation-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: var(--gap-12);
+        margin-top: 20px;
+    }
+
+    .confirmation-button {
+        flex: none;
+        max-width: none;
+    }
+
 }

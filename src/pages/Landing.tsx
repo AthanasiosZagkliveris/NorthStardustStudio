@@ -532,7 +532,7 @@ export default function Landing() {
 
       {/* THE TERMS, AGREED ONCE (Research 11, section 3, change 2; owner, 2026-11-27 20:41 UTC+2: "Adjust the message to follow and use the apps standarts and
           components!"): the app's P6 confirmation (Interface 7: a question and two buttons, role alertdialog, closed only by a button), the remove dialog's parts:
-          its title, its question with the two pages as text links, "Read the Terms" (secondary) and "I agree" (primary). Pressing "I agree" is the agreement. */}
+          its title, its question with the two pages as text links, "Read Terms" (secondary) and "I agree" (primary). Pressing "I agree" is the agreement. */}
       {termsOpen && (
 
         <div className="confirmation-overlay">
@@ -540,11 +540,11 @@ export default function Landing() {
             <div className="confirmation-dialog" role="alertdialog" aria-modal="true" aria-labelledby="terms-title" aria-describedby="terms-question">
 
                 <h2 id="terms-title" className="confirmation-title">
-                    Welcome to Tiles
+                    Welcome to TILES
                 </h2>
 
                 <p id="terms-question" className="confirmation-question">
-                    Tiles is free during the Beta. To continue, confirm that you are 18 or over and agree to the{" "}
+                    TILES is free during the Beta. To continue, confirm that you are 18 or over and agree to the{" "}
                     <TextLink as="a" href={TERMS_URL} target="_blank" rel="noreferrer" onClick={(event) => { event.preventDefault(); openExternal(TERMS_URL); }}>Terms of Use</TextLink>
                     {" "}and the{" "}
                     <TextLink as="a" href={PRIVACY_URL} target="_blank" rel="noreferrer" onClick={(event) => { event.preventDefault(); openExternal(PRIVACY_URL); }}>Privacy Policy</TextLink>.
@@ -554,7 +554,7 @@ export default function Landing() {
 
                     <AddButton look="confirmation-button secondary"
                         onClick={() => openExternal(TERMS_URL)}>
-                        Read the Terms
+                        Read Terms
                     </AddButton>
 
                     <AddButton look="confirmation-button primary"

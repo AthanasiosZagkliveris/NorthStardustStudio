@@ -41,7 +41,7 @@ Everything in the app that appears over the page when something is pressed, poin
 | The Organisation's calendar | P5 | `OrganizationCalendarPanel` |
 | Generated card left without use: Continue / Cancel | P6 | `BusinessCapabilityEditor` (alertdialog) |
 | Removal, leave and delete confirmations | P6 | `.confirmation-dialog` (`system-confirmation.css`) |
-| The Terms of Use, agreed once on a device ("Read the Terms", "I agree") | P6 | `.confirmation-dialog` (`Landing.tsx`, `TermsService`) |
+| The Terms of Use, agreed once on a device ("Read Terms", "I agree") | P6 | `.confirmation-dialog` (`Landing.tsx`, `TermsService`) |
 | Undo toast | P6 | `UndoToast` |
 | Status lines (documents, a list's count) | P6 | `role="status"` lines |
 
@@ -68,7 +68,7 @@ Words: **below / above** (vertical, outside the control), **beside** (left or ri
 | P5 Layer: floating card | Content: one card or a pair, its rail and arrows | Over the OTHER half of the page than its tile (outwards from its tile), its top on the first row of tiles | Centred on that half | 1. the other half's nearest column; 2. below the header (the stack scrolls inside); 3. the window, centred | Covering its own tile's half; moving the page |
 | P5 Layer: side panel (Notes) | Content: a list | Overlay from the right edge, full height | The window's right edge | 1. its own width (`--notepad-width`); 2. the window's width minus 32px | Pushing the page |
 | P5 Layer: search | Content: a field and its results | Centred, overlay | The window's centre | 1. 640px; 2. the window's width | |
-| P6 Message: confirmation | Content: a question and two buttons | Centred over a shade | The window's centre | 460px, then the window's width minus the gutters | Anything but a button closing it |
+| P6 Message: confirmation | Content: a question and two buttons | Centred over a shade | The window's centre | 460px, then the window's width minus 16px each side; on a phone (up to 600px) 20px padding and the two buttons one above the other, full width, the action on top; the question's lines 1.5 apart | Anything but a button closing it |
 | P6 Message: toast | Content: one line and an action | The foot of the page, inside the window | The left gutter | Stacked, newest on top | Covering a field being written in |
 
 **The hierarchy of restrictions**, the same for every category, from the strongest:
