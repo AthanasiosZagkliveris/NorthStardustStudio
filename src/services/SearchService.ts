@@ -1,5 +1,6 @@
-import { capabilities } from "../data/capabilities";
-import { systems } from "../data/systems";
+// (The edition's lists, data/edition.ts: Search finds what this build shows.)
+import { editionCapabilities as capabilities } from "../data/capabilities";
+import { editionSystems as systems } from "../data/systems";
 import { answerTexts, entry, type SearchEntry } from "../framework/engine/Search";
 import { pageRailItems } from "../components/interview/rails/railItems";
 import { allPlaces } from "../components/notepad/notepadPlaces";

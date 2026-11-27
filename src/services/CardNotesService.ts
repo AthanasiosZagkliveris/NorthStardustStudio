@@ -1,4 +1,5 @@
-import { systems } from "../data/systems";
+// (The edition's list, data/edition.ts: the Card Notes of what this build shows.)
+import { editionSystems as systems } from "../data/systems";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
 import { BRAND_COLOUR_SLOTS, BRAND_TYPEFACE_SLOTS } from "../framework/engine/answers/AnswerUtils";
 import { OrganizationService } from "./OrganizationService";

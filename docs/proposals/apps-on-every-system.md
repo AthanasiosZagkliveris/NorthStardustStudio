@@ -184,6 +184,8 @@ In order. Each batch follows the owner's approach: in the project folder first, 
 
 ## 7. Decisions the owner makes
 
+Answered on 2026-11-27 (Records 2, section 5.15): 1, his website's host, Cloudflare Pages, at app.northstardust.studio; 2, the packaged web app first; 3, personal accounts; 4, no Mac yet; 5, yes; 6, "Tiles by North Stardust". And what the web and store version holds: the Foundation edition, the Foundation capability alone (Records 2, 5.7).
+
 1. **The host and the domain** for the web app (Batch 3).
 2. **Android route first:** the packaged web app (A1, as in the batches) or Tauri (A2).
 3. **Accounts as a person or as a company** (a company needs a D-U-N-S number, up to about 30 days).

@@ -10,7 +10,8 @@ import FocusModeButton from "../menu/FocusModeButton";
 import SearchButton from "../menu/SearchButton";
 import ToolsMenu from "../menu/ToolsMenu";
 import { useLocation, useNavigate } from "react-router-dom";
-import { systems } from "../../data/systems";
+// (The edition's list, data/edition.ts.)
+import { editionSystems as systems } from "../../data/systems";
 import { USER_CALENDAR_ID } from "../../services/UserCalendar";
 import { OrganizationService } from "../../services/OrganizationService";
 import UndoToast from "./UndoToast";

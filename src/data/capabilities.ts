@@ -1,4 +1,5 @@
 import { Capability } from "../types/capability";
+import { capabilityInEdition } from "./edition";
 
 export const capabilities: Capability[] = [
   {
@@ -32,6 +33,9 @@ export const capabilities: Capability[] = [
     color: "#531FAD",
   },
 ];
+
+/** The Capabilities this build shows (data/edition.ts). */
+export const editionCapabilities: Capability[] = capabilities.filter(capability => capabilityInEdition(capability.id));
 
 /**
  * Looks up a Capability's colour by id, with a

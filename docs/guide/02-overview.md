@@ -20,7 +20,7 @@ North Stardust interviews an early-stage founder -- on their own or in a small t
 | 3. Business | three pages: Foundation & Engagement, Infrastructure & Capability, Financials | segments, profiles, competitors, offerings, value propositions, channels, relationships, expected sales; founders' hours, resources, activities, partners and suppliers, capacity and delivery; revenue streams, costs, funding |
 | 4. Strategy | one page: Situation & Direction | the current situation, the SWOT, the strategic compass, the strategic period with its themes, goals, objectives, metrics and roadmap |
 
-The **Workbook** records what the answers work out: the Business Documents (Business Plan, Business Model Canvas), the Financial Documents (Financial Forecast, Funding Request, Financial Plan), the Review, the References, the Glossary and the Card Notes. The answers stay in the browser on the founder's device; there is no account or server yet. Desktop web, from a window 768px wide; WCAG 2.2 AA; UK English.
+The **Workbook** records what the answers work out: the Business Documents (Business Plan, Business Model Canvas), the Financial Documents (Financial Forecast, Funding Request, Financial Plan), the Review, the References, the Glossary and the Card Notes. The web and store version is the **Foundation edition**: these four Systems alone, the other capabilities hidden (Records 2, 5.7). The answers stay in the browser on the founder's device; there is no account or server yet. Desktop web, from a window 768px wide; WCAG 2.2 AA; UK English.
 
 ## 2. The guide
 
