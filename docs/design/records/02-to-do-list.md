@@ -27,6 +27,8 @@ The two stages as defined on 2026-11-27. An item marked **(owner decides)** is o
 
 **The phone in landscape** (Beta): decided on 2026-11-27, not built: section 5.14.
 
+**The app on every system** (decided 2026-11-27; Beta and V1): section 5.15.
+
 **The catalogue records** (V1; `03-catalogue-record.md` and the crawl behind it) still show Quillfield as an LLC (its "Form the LLC and get an EIN" activity); the next full crawl rewrites them. Quillfield is a sole proprietorship in the example now, and its figures moved with it (Funding Need $24,734, cash in hand $10,675, still short after the SBA loan's repayments $1,208; the golden files: `WRITE_GOLDEN=all`).
 
 **The checks** (V1): the wide layout check (`npm run check:layout:wide`) has a baseline (`baseline-wide.json`, rewritten 2026-11-22 by the owner's decision) that accepts 1,147 findings in 8 rules, 0 under the 24px rule, all on Business System › Infrastructure, so it shows only new ones; two full runs now give the same list (the review of 2026-11-21, `../../archive/proposals/app-review-2026-11-21.md`, section 4, L1 and L3; what is left of it is in 5.6); the standard baseline (31 findings, all the 24px target size) is rewritten only by the owner's decision.
@@ -283,7 +285,7 @@ Still open (the requirement ids are those of 5.5):
 4. Which relationship-type definition (the six fields, C4) is accepted, and who writes it?
 5. Is a rough cost per customer by channel wanted at this stage (C14)?
 6. (Closed: the 768 px floor went with the 320 px minimum width of 2026-11-22.)
-7. Is the new app still a web app with accounts (as in the Foundation App Plan), and does it keep the Examples (5.7, X2)? **(owner decides)**, with the extraction.
+7. Is the new app still a web app with accounts (as in the Foundation App Plan), and does it keep the Examples (5.7, X2)? **(owner decides)**, with the extraction. Where it runs is decided (section 5.15); the accounts and the Examples stay open.
 
 ## 5.9 Known open findings
 
@@ -389,3 +391,10 @@ The owner's decisions of 2026-11-27 (01:48 to 04:31 UTC+2) for a phone turned to
   3. Three or more: a flat card in the open Segment's colour, 138 x 82px: the label "SEGMENTS" at the top, under it the page arrows (NavArrow with `page-arrow`, the solid triangles the calendar's months use) either side of "1 of 3".
 - **To settle with the owner:** the arrow of case 2: the text "→" (04:03, "Bring back the previous arrow") or a drawn 24 x 12px arrow with the app's 2px line, the name 12px from the top and the arrow 12px from the foot (proposed 04:14); the other pages' eighth place and the dialogs in landscape; the upright phone's Back (option 3 of 01:54, a light row under the header) and its bullets (the owner's three rules of 01:38: a set space inside the page's border, spread evenly, a least gap to the arrows).
 - **Research behind it:** Apple's HIG and Material 3 type sizes and margins, safe areas, page dots in other apps: `phone-text-sizes-research-2026-11-27.md` in the project's Library.
+
+## 5.15 The app on every system (decided 2026-11-27, not built)
+
+The owner's decisions of 2026-11-27: every way a founder can get the app (14:35 UTC+2, "All!": the installable web app, the store apps, the desktop app); the order the web app, then Android, last the iPhone, with the work that serves several systems done once (15:00 UTC+2). What each system requires is Research 9; every requirement, grouped, and the work in batches 0 to 9 is the proposal `../../proposals/apps-on-every-system.md`. Stage: batches 0 to 5 Beta (the web app live, the iPhone through the Home Screen, Android on Google Play in closed test), batches 6 to 9 V1 (the Microsoft Store, the Tauri phone app, the App Store, the signed desktop installers). The owner's six answers of batch 0 (the proposal, section 7) come first.
+
+- **Testing on the owner's phone** (built): `npm run dev:network`, then `http://<the PC's address>:1420` on the phone, on the same Wi-Fi set to Private.
+

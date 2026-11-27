@@ -1,8 +1,8 @@
-# The research and the sources (Research 1 to 8)
+# The research and the sources (Research 1 to 9)
 
 Status: **index**, updated 2026-11-27. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
-The source register (1), the research behind the design (2), the lists and classifications (3), age limits (4), the owner's positioning data and its sources (5, 6), delivery and capacity (7) and the Beta questionnaire that asks the founders (8).
+The source register (1), the research behind the design (2), the lists and classifications (3), age limits (4), the owner's positioning data and its sources (5, 6), delivery and capacity (7), the Beta questionnaire that asks the founders (8) and the kinds of app and what each system requires (9).
 
 The standard for these documents is [the standard of the documents](../../standard.md); the contents of all the documents are [README.md](../../README.md) and the alphabetical index is [index.md](../../index.md).
 
@@ -16,3 +16,4 @@ The standard for these documents is [the standard of the documents](../../standa
 | [06-positioning-sources.md](06-positioning-sources.md) | research | The sources behind each positioning list of Research 5, what has none, and the pages checked. | 2026-11-21 |
 | [07-delivery-and-capacity-research.md](07-delivery-and-capacity-research.md) | proposal | Delivery and capacity: what the sources say, what the app asks today, what is missing, and seven additions in priority order; not built. | 2026-11-21 |
 | [08-beta-questionnaire.md](08-beta-questionnaire.md) | proposal | The Beta questionnaire: what the app would ask its Beta founders about the app, in sections, with the choices of each; nothing built. | 2026-11-21 |
+| [09-kinds-of-app-and-systems.md](09-kinds-of-app-and-systems.md) | research | The kinds of app (web, installable web, store-packaged, web view, native) and what each system and store requires of an app (Android, iPhone and iPad, Windows, macOS, Linux), matched to Tiles. | 2026-11-27 |
