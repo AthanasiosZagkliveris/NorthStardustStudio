@@ -8,7 +8,7 @@ import { masterSide, setTilesPage, setTilesPageWidth, fitHeading, unifyHeadings,
 import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext, StackUnderContext } from "./DialogLevels.tsx";
 import { TileFace, TileLinks, TilePlus, useTileAim } from "./TileParts.tsx";
 import { OPEN_EVENT, FloatingCards, TileDialog } from "./FloatingCards.tsx";
-import { isPhone, masterAcross, useMasterAcross, verticalAcross } from "../../../hooks/useVerticalLayout.ts";
+import { footerBandHeight, isPhone, masterAcross, useMasterAcross, verticalAcross } from "../../../hooks/useVerticalLayout.ts";
 
 export * from "./SectionTileTypes.ts";
 export * from "./SectionTileGeometry.tsx";
@@ -125,7 +125,7 @@ export default function SectionTiles({
             // (the first chapter SHOWN: a chapter hidden by the carousel stands at no place and has no width)
             const first = Array.from(box.closest(".conversation-card")?.querySelectorAll<HTMLElement>(".section-tiles-quad") ?? []).find(quad => quad.getClientRects().length > 0 && quad.clientWidth > 0) ?? box;
             const top = first.getBoundingClientRect().top + window.scrollY;
-            const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
+            const footer = footerBandHeight();
             // (the footer and its 12px, the card's 12px padding, the gap between the two rows)
             // (The Inventory and Completed row stands in the footer's band and takes no room above it, so the chapters and their tiles are the same size on every page of a window.)
             // (The grid keeps its 12px gap above the Inventory and Completed row, which has no height of its own: every page keeps it, so the tiles are one size on every page.)

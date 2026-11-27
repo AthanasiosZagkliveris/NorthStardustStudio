@@ -1126,6 +1126,21 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
     }
 
+    /* (AND IT TAKES NO ROOM (owner, 2026-11-28 01:11 UTC+2, phone round 5: "the 3rd time I have asked to remove the footing here ... a deeper bug in the root"): the
+       band's height is 0 there, so nothing reserves it -- the page's foot (below), a title's help, the tiles' side (footerBandHeight, useVerticalLayout) --; a
+       page ends 12px under its content.) */
+    body:not(:has(.bullet-rail-dot, .bullet-rail-item)) {
+
+        --band-height: 0px;
+
+    }
+
+    :root main.conversation-content {
+
+        padding-bottom: calc(var(--band-height, 64px) + var(--space-card));
+
+    }
+
 }
 
 /* (THE UPRIGHT PHONE'S BAND (owner, 2026-11-27 23:4x UTC+2, phone round 4, point 5: the Identity and Brand pages' two dots stood right of the middle, and the band

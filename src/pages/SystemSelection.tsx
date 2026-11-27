@@ -29,7 +29,7 @@ import BulletRail from "../components/interview/rails/BulletRail";
 import useRailTab from "../hooks/useRailTab.ts";
 import PageArrow from "../components/interview/fields/PageArrow";
 import { masterSide, setTilesPage, setTilesPageWidth } from "../components/interview/tiles/SectionTileGeometry.tsx";
-import { isPhone, masterAcross, ROW_OF_FOUR_QUERY, verticalAcross } from "../hooks/useVerticalLayout.ts";
+import { footerBandHeight, isPhone, masterAcross, ROW_OF_FOUR_QUERY, verticalAcross } from "../hooks/useVerticalLayout.ts";
 import { getSystemIcon } from "../data/systemIcons";
 import "../styles/status-shape.css";
 import "../styles/system-list.css";
@@ -278,7 +278,7 @@ export default function SystemSelection() {
             block.style.setProperty("--help-left", Math.round(frame.left - block.getBoundingClientRect().left) + "px");
             block.style.setProperty("--help-width", Math.round(frame.width) + "px");
             // (No taller than the room down to 12px over the footer: what is longer scrolls inside it.)
-            const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
+            const footer = footerBandHeight();
             block.style.setProperty("--help-height", Math.max(200, Math.round(window.innerHeight - footer - 12 - frame.top)) + "px");
         }
         box.querySelectorAll<HTMLElement>(".capability-system-slot").forEach(slot => {
@@ -317,7 +317,7 @@ export default function SystemSelection() {
             // (A PHONE TURNED TO LANDSCAPE has no footer band, its arrows at the window's corners: its two rows of tiles take the height down to the window's foot, as small
             // as 96px a side, so both rows stand on the screen -- owner, 2026-11-27 14:07 UTC+2, the Capabilities on a phone turned sideways: "Check the tiles' layout".)
             const sideways = typeof window.matchMedia === "function" && window.matchMedia(ROW_OF_FOUR_QUERY).matches;
-            const footer = sideways ? 0 : document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
+            const footer = sideways ? 0 : footerBandHeight();
             // (On a Capability's page, the frame's edge and padding (13px), its heading and the 12px under it come before the tiles.)
             const head = box.querySelector<HTMLElement>(".capability-systems-frame > .tiles-frame-head");
             const above = head ? 13 + head.offsetHeight + 12 : 0;

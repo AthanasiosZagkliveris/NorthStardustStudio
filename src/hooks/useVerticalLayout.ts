@@ -86,3 +86,23 @@ export const BAND_QUERY = VERTICAL_QUERY;
 export function railsInBand(): boolean {
     return typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia(BAND_QUERY).matches;
 }
+
+/**
+ * THE FOOTER BAND'S HEIGHT, WHERE IT IS DRAWN (owner, 2026-11-28 01:11 UTC+2, phone round 5: "I think it is the 3rd time I have asked to remove the footing here.
+ * Obvious, there is a deeper bug in the root"): the one measure every layout reserves at the window's foot. A band with nothing in it -- no bullets, no button,
+ * no Back -- is not drawn on a phone (bullet-rail.css), so it takes no room: 0. Before, each layout read the footer's box (64px or 48px) whether the band was
+ * drawn or not, and kept an empty strip under the page.
+ */
+export function footerBandHeight(): number {
+    if (typeof document === "undefined") {
+        return 0;
+    }
+    const footer = document.querySelector<HTMLElement>(".workspace-footer");
+    if (!footer || footer.offsetHeight === 0 || getComputedStyle(footer).display === "none") {
+        return 0;
+    }
+    const shown = (node: Element) => node instanceof HTMLElement && node.offsetWidth > 0 && node.offsetHeight > 0 && getComputedStyle(node).visibility !== "hidden";
+    const holds = [...footer.querySelectorAll("button, a, .section-tile")].some(shown)
+        || [...document.querySelectorAll(".bullet-rails .bullet-rail-dot, .bullet-rails .bullet-rail-item, .bullet-rails .page-arrow")].some(shown);
+    return holds ? footer.offsetHeight : 0;
+}

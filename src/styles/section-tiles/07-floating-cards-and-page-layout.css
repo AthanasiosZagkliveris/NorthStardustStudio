@@ -1805,7 +1805,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
        chapter's tiles -- the Offering's chapter on Infrastructure & Capability stood empty, owner, 2026-11-27 19:09 UTC+2, point 22.) */
     .conversation-card .business-foundation-input:has(.section-tiles-quad) ~ .business-foundation-input:has(.section-tiles-quad)::after,
     .conversation-card .field-page:has(.section-tiles-quad) ~ .field-page > .answer-columns > .business-foundation-input:has(.section-tiles-quad)::after,
-    .conversation-card .segment-chapter ~ .segment-chapter::after {
+    .conversation-card .segment-chapter:not([hidden]) ~ .segment-chapter:not([hidden])::after {
 
         content: "";
 
@@ -2277,6 +2277,51 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
         left: 50%;
 
         border-left: 1px solid color-mix(in srgb, var(--text-strong, currentColor) 40%, transparent);
+
+        pointer-events: none;
+
+    }
+
+}
+
+/* (THE UPRIGHT PHONE'S GAPS, ONE 12PX (owner, 2026-11-28 01:33 UTC+2, phone round 5, point 5: "title underline to first tile row ~26px; all other vertical gaps
+   ~12px"): the title's rule stands where a chapter's hairline stands, so the first chapter starts on it and its own 12px is the gap to its tiles -- as 12px
+   stands on either side of the hairline between two chapters; the card's 12px under the rule is not added to it.) */
+@media (max-width: 600px) and (orientation: portrait) {
+
+    .conversation-card:has(.section-tiles-quad, .capability-systems-frame) > .interview-header + * {
+
+        margin-top: calc(-1 * var(--gap-12));
+
+    }
+
+    /* (Point 7: a Segment's name 12px from the chapter's top and from its tiles -- its label arrow's 44px press area stands over that room, as a chapter's heading's does
+       (point 7 of round 4); half its 28px line less half the 44px, and the 4px the line keeps round its letters.) */
+    .conversation-card .segment-chapter .business-capability-section > .tiles-frame-head {
+
+        margin-block: calc(var(--font-h3) * 0.78 - 26px);
+
+    }
+
+    /* (Point 11: a hairline over the Inventory and Completed row too, 12px above and below it, as between two chapters.) */
+    .conversation-card .answer-columns.business-capability > .section-tiles-completed {
+
+        position: relative;
+
+        padding-top: var(--gap-12);
+
+    }
+
+    .conversation-card .answer-columns.business-capability > .section-tiles-completed::before {
+
+        content: "";
+
+        position: absolute;
+        top: 0;
+        left: -100vmax;
+        right: -100vmax;
+
+        border-top: 1px solid color-mix(in srgb, var(--text-strong, currentColor) 40%, transparent);
 
         pointer-events: none;
 
