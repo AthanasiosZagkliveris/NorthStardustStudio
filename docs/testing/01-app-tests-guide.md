@@ -17,7 +17,7 @@ Status: **reference**, written 2026-11-21, updated 2026-11-21. The app's tests: 
 
 ### Where they are and how they run
 
-The app has 2,349 tests in 211 files (2,347 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
+The app has 2,352 tests in 212 files (2,350 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
 
 They are written with Vitest and come in two kinds:
 
@@ -45,7 +45,7 @@ More than four tests in five check either the screens (994) or the business rule
 | --- | --- | --- | --- | --- |
 | Screens | 996 | 95 | `src/components/` | every card, tile, field, rail and dialog draws and behaves as specified |
 | Business rules | 905 | 70 | `src/framework/engine/` | the questions, choices, money, legal and channel logic gives the right answers |
-| Saved data and examples | 153 | 16 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
+| Saved data and examples | 156 | 17 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
 | Whole pages | 115 | 10 | `src/pages/` | each page opens, moves and exports as a whole |
 | Design system and docs | 117 | 19 | `src/library/`, `src/styles/`, `src/docs/`, `src/test/` | the look stays on the tokens; the docs name only what exists |
 | Content files | 63 | 1 | `src/framework/parser/` | the Systems' Markdown links resolve and their three files agree |
@@ -71,9 +71,9 @@ These run the app's logic without drawing anything, so they are fast and exact a
 - **Channels** (39) and **legal** (29): channel resources and fees; legal facts, starts, suggestions and the US states.
 - **Everything else in `framework/engine/`** (544): the Business Documents and forecast, demand against capacity, journey suggestions, search, statuses, card dates, the palette, labels with "&".
 
-### Saved data and examples: 143 tests
+### Saved data and examples: 146 tests
 
-- **Services** (105): saving and loading an Organisation, bringing old answers up to date, and the two example businesses (Quillfield and Lumen & Loom) checked for drift and completeness.
+- **Services** (108): saving and loading an Organisation, bringing old answers up to date, and the two example businesses (Quillfield and Lumen & Loom) checked for drift and completeness.
 - **Data** (33) and **hooks** (4): the glossary places and the shared hooks.
 
 ### Whole pages: 115 tests
@@ -3122,7 +3122,7 @@ These files hold the interview's questions: which are asked, in what order, whic
 
 ## Saved data and examples: every test
 
-13 files, 145 tests. They check how an Organisation is saved, read back and moved from older saves, and that the two example organisations (Lumen & Loom Studio and Quillfield Automation LLC) are complete and read the way the app reads them.
+14 files, 148 tests. They check how an Organisation is saved, read back and moved from older saves, and that the two example organisations (Lumen & Loom Studio and Quillfield Automation LLC) are complete and read the way the app reads them.
 
 ### src/data/ (4 files, 38 tests)
 
@@ -3190,7 +3190,7 @@ These files hold the interview's questions: which are asked, in what order, whic
   - keeps a renumbered run sequential when Enter inserts a new item in the middle
   - keeps the cursor at the end of a pasted numbered block whose renumbering adds a digit
 
-### src/services/ (11 files, 110 tests)
+### src/services/ (12 files, 113 tests)
 
 #### AppInstallService.test.ts (2)
 
@@ -3268,6 +3268,13 @@ These files hold the interview's questions: which are asked, in what order, whic
   - asks the web and store version until the founder agrees, then never again for the same Terms
   - asks again when the Terms change
   - never asks in the owner's full app
+
+#### TurnstileService.test.ts (3)
+
+- **the human check** (3)
+  - makes no check where the build has no site key
+  - asks Cloudflare for a fresh token as the answers go, and leaves no widget behind
+  - keeps the answers waiting when the check does not pass
 
 #### cardServices.test.ts (3)
 

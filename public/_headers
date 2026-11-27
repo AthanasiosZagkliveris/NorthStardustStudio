@@ -3,10 +3,11 @@
 #
 # The security policy (CSP): everything from the app itself. 'unsafe-inline' for styles only, because React sets a few
 # style attributes; images also from data: and blob: (an Organisation's uploaded logo, exports); the service worker
-# and the manifest from the app.
+# and the manifest from the app. Cloudflare Turnstile (the Beta questionnaire's human check, src/services/TurnstileService.ts)
+# loads its script and its frame from challenges.cloudflare.com.
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; frame-src https://challenges.cloudflare.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY

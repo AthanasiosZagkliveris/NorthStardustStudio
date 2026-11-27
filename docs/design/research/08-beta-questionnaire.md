@@ -88,10 +88,10 @@ The questions will change; the base makes that cheap: **every question is one en
 
 1. **Storage & databases › D1 › Create**: `tiles-beta`, in the EU location.
 2. **Turnstile › Add widget** for app.northstardust.studio: its site key (public, in the app) and secret key (a secret of the Pages project).
-3. **Workers & Pages › tiles › Settings › Bindings**: the D1 database as `BETA_DB`; **Variables and Secrets**: `TURNSTILE_SECRET`.
+3. **Workers & Pages › tiles › Settings › Bindings**: the D1 database as `BETA_DB`; **Variables and Secrets**: `TURNSTILE_SECRET` (the secret key) and `VITE_TURNSTILE_SITE_KEY` (the site key), always the two together.
 4. **Variables and Secrets**: `VITE_BETA` = `on` (Production), then a new deployment: the downloads wait for the questionnaire from then on.
 
-Built so far (2026-11-27): the list, the screen, the lock, the waiting and sending on the device (`services/BetaQuestionnaireService.ts`) and the receiver (`functions/api/beta.js`: one row per questionnaire in a table `answers`, made on its first use; the email kept only with its permission; a Turnstile token required once `TURNSTILE_SECRET` is set). Still to build: the Turnstile widget in the app (its site key, and `challenges.cloudflare.com` in the security policy), and the privacy policy's update.
+Built so far (2026-11-27): the list, the screen, the lock, the waiting and sending on the device (`services/BetaQuestionnaireService.ts`) and the receiver (`functions/api/beta.js`: one row per questionnaire in a table `answers`, made on its first use; the email kept only with its permission; a Turnstile token required once `TURNSTILE_SECRET` is set). The human check in the app (`services/TurnstileService.ts`): a fresh Turnstile token asked for as the answers go (a token lasts five minutes, so one never waits offline), the widget out of sight unless Cloudflare needs a press; `challenges.cloudflare.com` allowed in the security policy (`public/_headers`). Still to do: the privacy policy's update.
 
 ### 8.5 Build order
 

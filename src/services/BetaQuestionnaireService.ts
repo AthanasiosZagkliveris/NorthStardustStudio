@@ -9,6 +9,7 @@
 */
 
 import { BETA_QUESTIONNAIRE_ON } from "../data/edition";
+import { TurnstileService } from "./TurnstileService";
 import { BETA_QUESTIONNAIRE_VERSION, allBetaQuestions, isAnswered, type BetaAnswer, type BetaQuestion } from "../data/betaQuestionnaire";
 
 export const BETA_KEY = "northstardust-beta-questionnaire";
@@ -167,7 +168,9 @@ export const BetaQuestionnaireService = {
         }
         // (Only what the founder answered goes: the answers, the version and, with its permission, the email.)
         const body = { version: record.version, answers: record.answers, ...(record.answers["2"] === true && record.email ? { email: record.email.trim() } : {}) };
-        sending = fetch(BETA_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
+        // (The human check's token is asked for now, as the answers go: Turnstile, where this build has its site key.)
+        sending = TurnstileService.token()
+            .then(token => fetch(BETA_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(token ? { ...body, token } : body) }))
             .then(async response => {
                 if (!response.ok) {
                     return;
