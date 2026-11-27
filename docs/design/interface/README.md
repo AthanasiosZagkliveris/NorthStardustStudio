@@ -1,6 +1,6 @@
 # The interface (Interface 1 to 11)
 
-Status: **index**, updated 2026-11-26. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-11-27. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
 What every screen shares, from the shared components (1) to the smallest text: the text holders (2), the free texts (3), the Frequency options (4), the reactions (5), the text links (6), the pop-ups (7), the tooltips (8), the help texts (9), the guide to what an "i" says (10) and the symbols of the Capabilities and the Systems (11).
 
@@ -15,7 +15,7 @@ The standard for these documents is [the standard of the documents](../../standa
 | [05-reactions.md](05-reactions.md) | current design | How elements react to the pointer and the keyboard: the reactions by component. The check is in the layout rules; this is the lookup. | 2026-11-21 |
 | [06-text-links.md](06-text-links.md) | generated | The text link: look and behaviour, from the code and the walk of the app. | 2026-11-21 |
 | [07-popups.md](07-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-11-21 |
-| [08-tooltips.md](08-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-21 |
-| [09-help-texts.md](09-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-11-21 |
+| [08-tooltips.md](08-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-27 |
+| [09-help-texts.md](09-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-11-26 |
 | [10-help-texts-guide.md](10-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-21 |
 | [11-symbols.md](11-symbols.md) | current design | The 39 symbols of the Capabilities, the Systems and the Resources: grid, sizes and their three drawings, line, corners, tints, gaps, the rule that a symbol takes its card's hue, reading modes, each symbol's drawing by size, and the files the app reads. | 2026-11-26 |

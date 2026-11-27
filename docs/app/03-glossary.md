@@ -1,6 +1,6 @@
 # Glossary
 
-Status: **reference**, written 2026-08-02, updated 2026-11-20 (every term checked against its owner document and the code on 2026-11-02; the Glossary entry on 2026-11-09). Covers the framework, the app, the questionnaire and the first version, and the documents.
+Status: **reference**, written 2026-08-02, updated 2026-11-27 (every term checked against its owner document and the code on 2026-11-02; the Glossary entry on 2026-11-09; the reading mode and the Review, Calendar and Notes on 2026-11-27). Covers the framework, the app, the questionnaire and the first version, and the documents.
 
 One-line definitions, so that terminology is the same in every document and Skill; each term has one owner document, where the full explanation is. A name without a folder is a file in `docs/ai/`; "Questions 2" is the document numbered 28 in `docs/README.md`.
 
@@ -36,7 +36,7 @@ One-line definitions, so that terminology is the same in every document and Skil
 
 **Rail / page tab** — the bullets and page tags at the side of a page (Pages on the left, Sections on the right), and the tab that holds them with the Back button. *Owner: `09-layout-rules.md`.*
 
-**Reading mode** — light, sepia, dark or auto, chosen in the header. **Token** — a named colour or size in `src/styles/tokens/tokens.ts`, generated into the stylesheets; the colours are tokens per mode. *Owner: `09-layout-rules.md`, section 2.*
+**Reading mode** — light, sepia, dark or auto, chosen in the header's Menu, under Appearance. **Token** — a named colour or size in `src/styles/tokens/tokens.ts`, generated into the stylesheets; the colours are tokens per mode. *Owner: `09-layout-rules.md`, section 2.*
 
 **Shared component** — a control or part drawn once and used everywhere (`AddButton`, `RemoveButton`, `NavArrow`, `FoldArrow`, `RadioChoice`, `TextLink`, `OptionPicker` and the rest); a look is a token or a global rule, never one page's own. *Owner: Interface 1.*
 
@@ -54,7 +54,7 @@ One-line definitions, so that terminology is the same in every document and Skil
 
 **Harvard reference / citation** — how every source the app shows is written: in the text the author and year ("(Gupta et al., 2006)"), in an "i" note and on the References tab the full reference (author, year, title in italics, place and publisher or journal details, "Available at:" and "Accessed:"). *Owner: Research 1, 2.1; `Sources.ts`.*
 
-**Review / Calendar / Notes** — the header's Review (the open items of the organisation, with the key dates), the Calendar (every card date, in the left rail of System Selection) and Notes (the user's own notes, and every card's Notes text by page). *Owner: Foundation 1, C.2.*
+**Review / Calendar / Notes** — the Workbook's Review (the open items of the organisation, with the key dates), the Calendar (every card date, in the left rail of System Selection and from the header's Menu) and Notes (the user's own notes, from the header's Menu; every card's Notes text by page is the Workbook's Card Notes). *Owner: Foundation 1, C.2.*
 
 ## 3. The questionnaire and the first version
 
