@@ -91,5 +91,6 @@
     "vite": "^7.0.4",
     "vite-plugin-pwa": "^2.0.0",
     "vitest": "^4.1.10"
-  }
+  },
+  "license": "SEE LICENSE IN LICENSE"
 }

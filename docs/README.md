@@ -19,7 +19,7 @@ Status: **index**, updated 2026-11-27. One line per document: where it is, what 
 4. [The design of the Foundation (`design/foundation/`, Foundation 1 and 2)](#4-the-design-of-the-foundation-designfoundation-foundation-1-and-2)
 5. [The questions (`design/questions/`, Questions 1 to 21)](#5-the-questions-designquestions-questions-1-to-21)
 6. [The interface (`design/interface/`, Interface 1 to 11)](#6-the-interface-designinterface-interface-1-to-11)
-7. [The research and the sources (`design/research/`, Research 1 to 9)](#7-the-research-and-the-sources-designresearch-research-1-to-9)
+7. [The research and the sources (`design/research/`, Research 1 to 10)](#7-the-research-and-the-sources-designresearch-research-1-to-10)
 8. [The library (`design/library/`, Library 1 to 7)](#8-the-library-designlibrary-library-1-to-7)
 9. [The records (`design/records/`, Records 1 to 4)](#9-the-records-designrecords-records-1-to-4)
 10. [The tests](#10-the-tests-testing)
@@ -54,7 +54,7 @@ How a founder uses the app, step by step, and an overview of the app, its specif
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [guide/01-user-guide.md](guide/01-user-guide.md) | playbook | The user guide: how a founder uses the app step by step: the Organisations screen, the Foundation with its Identity and Business Systems, and the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar). | 2026-11-23 |
+| [guide/01-user-guide.md](guide/01-user-guide.md) | playbook | The user guide: how a founder uses the app step by step: the Organisations screen, the Foundation with its Identity and Business Systems, and the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar). | 2026-11-27 |
 | [guide/02-overview.md](guide/02-overview.md) | reference | The app: what it is, where its guide and specifications are, and how its answers connect. | 2026-11-27 |
 | [guide/03-future-features.md](guide/03-future-features.md) | proposal | Every idea for after Version 1: an AI Assistant, Team working mode, Voice mode, more languages and countries, the other features ranked and scored, what the first version leaves out, the Business System ideas for later, and the other proposals kept for later. | 2026-11-27 |
 
@@ -64,7 +64,7 @@ The single description of the Foundation capability (1) and its Part F, the card
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [design/foundation/01-current-design.md](design/foundation/01-current-design.md) | current design | The single description of what the Foundation capability is: what the app does, how it is organised, the interface elements, the cost model, the automatic rules, the help texts and the colour map. | 2026-11-22 |
+| [design/foundation/01-current-design.md](design/foundation/01-current-design.md) | current design | The single description of what the Foundation capability is: what the app does, how it is organised, the interface elements, the cost model, the automatic rules, the help texts and the colour map. | 2026-11-27 |
 | [design/foundation/02-card-structure.md](design/foundation/02-card-structure.md) | current design | Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it. | 2026-11-21 |
 
 ## 5. The questions (`design/questions/`, Questions 1 to 21)
@@ -113,9 +113,9 @@ What every screen shares, from the shared components (1) to the smallest text: t
 | [design/interface/10-help-texts-guide.md](design/interface/10-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-21 |
 | [design/interface/11-symbols.md](design/interface/11-symbols.md) | current design | The 39 symbols of the Capabilities, the Systems and the Resources: grid, sizes and their three drawings, line, corners, tints, gaps, the rule that a symbol takes its card's hue, reading modes, each symbol's drawing by size, and the files the app reads. | 2026-11-27 |
 
-## 7. The research and the sources (`design/research/`, Research 1 to 9)
+## 7. The research and the sources (`design/research/`, Research 1 to 10)
 
-The source register (1), the research behind the design (2), the lists and classifications (3), age limits (4), the owner's positioning data and its sources (5, 6), delivery and capacity (7), the Beta questionnaire that asks the founders (8) and the kinds of app and what each system requires (9).
+The source register (1), the research behind the design (2), the lists and classifications (3), age limits (4), the owner's positioning data and its sources (5, 6), delivery and capacity (7), the Beta questionnaire that asks the founders (8) the kinds of app and what each system requires (9) and protecting the app from copying (10).
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
@@ -128,6 +128,7 @@ The source register (1), the research behind the design (2), the lists and class
 | [design/research/07-delivery-and-capacity-research.md](design/research/07-delivery-and-capacity-research.md) | proposal | Delivery and capacity: what the sources say, what the app asks today, what is missing, and seven additions in priority order; not built. | 2026-11-21 |
 | [design/research/08-beta-questionnaire.md](design/research/08-beta-questionnaire.md) | proposal | The Beta questionnaire: what the app would ask its Beta founders about the app, in sections, with the choices of each; nothing built. | 2026-11-21 |
 | [design/research/09-kinds-of-app-and-systems.md](design/research/09-kinds-of-app-and-systems.md) | research | The kinds of app (web, installable web, store-packaged, web view, native) and what each system and store requires of an app (Android, iPhone and iPad, Windows, macOS, Linux), matched to Tiles. | 2026-11-27 |
+| [design/research/10-protecting-the-app.md](design/research/10-protecting-the-app.md) | research | Protecting the app from copying and digging: what a web app exposes, the ways to protect it (obfuscation, WebAssembly, integrity checks, a server, store integrity), the law (EU copyright, trade secrets), a recommendation in layers, and the GitHub check minutes. | 2026-11-27 |
 
 ## 8. The library (`design/library/`, Library 1 to 7)
 
@@ -188,7 +189,7 @@ The pages of the four Systems (Identity, Brand, Business, Strategy), the Invento
 | [specifications/01-identity-system/01-definition.md](specifications/01-identity-system/01-definition.md) | current design | 1. Identity System, 1. Definition: the master tile with its four tiles (Organisation, Early Positioning, Mission, Vision), its layout, reactions and readers, and the extra information that is neither built nor a future feature. | 2026-11-21 |
 | [specifications/02-brand-system/01-brand.md](specifications/02-brand-system/01-brand.md) | current design | 2. Brand System: the one page, its two chapters and their tiles, what each asks, reads and writes, and the rules it follows. | 2026-11-21 |
 | [specifications/03-business-system/README.md](specifications/03-business-system/README.md) | index | The Business System: its five sections on three pages, the file, editor and data module of each, and what crosses between the pages. | 2026-11-25 |
-| [specifications/03-business-system/01-foundation.md](specifications/03-business-system/01-foundation.md) | specification | Page 1, Foundation & Engagement, Section 1: the Foundation. | 2026-11-21 |
+| [specifications/03-business-system/01-foundation.md](specifications/03-business-system/01-foundation.md) | specification | Page 1, Foundation & Engagement, Section 1: the Foundation. | 2026-11-27 |
 | [specifications/03-business-system/02-channels.md](specifications/03-business-system/02-channels.md) | specification | Page 1, Foundation & Engagement, Section 2, part 1: the channels. | 2026-11-21 |
 | [specifications/03-business-system/03-customer-relationships.md](specifications/03-business-system/03-customer-relationships.md) | specification | Page 1, Foundation & Engagement, Section 2, part 2: customer relationships (section 18 holds a worked example and the column rules). | 2026-11-25 |
 | [specifications/03-business-system/04-infrastructure-and-capability.md](specifications/03-business-system/04-infrastructure-and-capability.md) | specification | Page 2, Section 3: Infrastructure & Capability. | 2026-11-25 |
