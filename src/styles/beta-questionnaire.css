@@ -1,0 +1,40 @@
+/* THE BETA QUESTIONNAIRE (BetaQuestionnaire.tsx, a section of the Workbook during the Beta): the Handbook's parts (a heading over its questions), each question
+   its words over its control, 8px apart, 16px between questions; a question still to give glows as a card's missing cell does (card-tile.css), its words in the danger ink. */
+.handbook-part.beta-questionnaire-part{
+
+    gap:var(--gap-16);
+
+}
+
+.beta-question,
+.beta-question-consent,
+.beta-question-ticks,
+.beta-questionnaire-foot{
+
+    display:flex;
+    flex-direction:column;
+    gap:var(--gap-8);
+
+}
+
+.beta-question-ends{
+
+    margin:0;
+
+    font-size:var(--font-small);
+    color:var(--text-muted);
+
+}
+
+.beta-questionnaire-send{
+
+    align-self:flex-start;
+
+}
+
+/* (A question still to give: its words in the danger ink too, so a choice or a rating, which has no box to glow, is marked as well.) */
+.beta-question.business-field-missing > .beta-question-words{
+
+    color:var(--text-danger);
+
+}
