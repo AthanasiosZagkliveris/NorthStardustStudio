@@ -491,7 +491,10 @@ export function TileList({
             const words = title.getBoundingClientRect();
             // (An Inventory or Completed rectangle has no rule: its words stand on the middle.)
             const line = slot.closest(".section-tiles-completed") ? (words.top + words.bottom) / 2 : words.bottom;
-            slot.style.setProperty("--title-centre", Math.round((box.top + box.bottom) / 2 - line) + "px");
+            // (NEVER ABOVE THE TILE'S TOP (owner, 2026-11-27 14:07 UTC+2, a phone turned sideways: "Check the tiles'layout"): a title taller than half the tile -- a
+            // Capability's name on two lines with its symbol, in a 131px tile -- stood half above it; its top stays 12px inside the tile, its rule as near the middle as
+            // that leaves.)
+            slot.style.setProperty("--title-centre", Math.round(Math.max((box.top + box.bottom) / 2 - line, box.top + 12 - words.top)) + "px");
         };
         // (ONE RULE FOR EVERY TILE OF A SCREEN (owner, 2026-11-24 10:12 UTC+2: "cannot have in the same screen size, some cells only with their titles, others with a
         // few symbols, and other with names. The rule should cover them all"): a tile short of room -- its title alone, or a grid of symbols missing rows -- says so,

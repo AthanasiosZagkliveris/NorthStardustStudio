@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, type ReactNode } from "react";
 
 import { verticalAcross } from "../../../hooks/useVerticalLayout.ts";
+import { usePhonePage } from "../../../hooks/usePhonePage.ts";
 
 import { getCapabilityColor } from "../../../data/capabilities";
 import { getSystemIcon } from "../../../data/systemIcons";
@@ -65,6 +66,9 @@ export default function InterviewHeader({
 }: InterviewHeaderProps) {
 
     const color = getCapabilityColor(capabilityId);
+
+    // (A phone's page: its ground in its chapters' colour, and a sideways swipe to the next or previous page -- usePhonePage.)
+    usePhonePage();
 
     // (THE PAGE TITLE ON ONE LINE (owner, 2026-11-23 21:05 UTC+2: "let's refine it adjusting the text size"): a page of tiles is as wide as its tiles, so a long title
     // -- "Business System — 1. Foundation & Engagement" -- may not fit its rule; on a wide screen it steps down, 2px at a time, to 24px at the least, until it stands on

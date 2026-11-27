@@ -889,6 +889,40 @@
 
 }
 
+/* (A PHONE TURNED TO LANDSCAPE draws a Capability's and a System's tile as upright (owner, 2026-11-27 14:07 UTC+2, his phone's Capabilities page: "Check the
+   tiles'layout"): its name and its 32px symbol above the rule, the rule low in the tile (its title row is most of a 116 to 131px tile), the list hidden. The tablet's
+   title row stood half above a 150px tile there. Three across stay.) */
+@media (orientation: landscape) and (max-height: 479px) {
+
+    .capability-tiles .section-tile-slot {
+
+        --tile-title-top: 0.84;
+
+    }
+
+    /* (The phone's tile titles in landscape, 12px (Records 2, 5.14; owner, 2026-11-27 02:52 UTC+2): COMMUNICATION and PERFORMANCE ran to the tile's edges.) */
+    .capability-tiles .section-tile-slot > .section-tile .section-tile-title {
+
+        font-size: 12px;
+
+    }
+
+    .section-tile-title-mark {
+
+        width: 32px;
+        height: 32px;
+
+    }
+
+    .capability-tiles .section-tile-list,
+    .capability-tiles .section-tile-links-layer {
+
+        display: none;
+
+    }
+
+}
+
 /* A SYMBOL BEFORE A LINE OF A TILE'S LIST, IN PLACE OF ITS BULLET (owner, 2026-11-22 21:10 UTC+2: "Add symbols to the systems too, in smaller size"): the
    line's height, smaller than the title's, 6px before its words. */
 .section-tile-list > li.section-tile-list-icon {
