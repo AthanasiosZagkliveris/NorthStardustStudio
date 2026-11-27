@@ -725,9 +725,17 @@
     }
 
 
+    /* (ONE LINE (layout rules, section 4, "A phone's page title"): a name longer than the row ends in an ellipsis; the Business pages' names wrapped onto a
+       second line at 390px -- the check round, 2026-11-27.) */
     .interview-header h1{
 
         font-size:var(--font-h2);
+
+        min-width:0;
+
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
 
     }
 
