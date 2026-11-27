@@ -17,7 +17,7 @@ Status: **reference**, written 2026-11-21, updated 2026-11-21. The app's tests: 
 
 ### Where they are and how they run
 
-The app has 2,329 tests in 208 files (2,327 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
+The app has 2,336 tests in 209 files (2,334 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
 
 They are written with Vitest and come in two kinds:
 
@@ -45,7 +45,7 @@ More than four tests in five check either the screens (991) or the business rule
 | --- | --- | --- | --- | --- |
 | Screens | 993 | 94 | `src/components/` | every card, tile, field, rail and dialog draws and behaves as specified |
 | Business rules | 905 | 70 | `src/framework/engine/` | the questions, choices, money, legal and channel logic gives the right answers |
-| Saved data and examples | 136 | 14 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
+| Saved data and examples | 143 | 15 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
 | Whole pages | 115 | 10 | `src/pages/` | each page opens, moves and exports as a whole |
 | Design system and docs | 117 | 19 | `src/library/`, `src/styles/`, `src/docs/`, `src/test/` | the look stays on the tokens; the docs name only what exists |
 | Content files | 63 | 1 | `src/framework/parser/` | the Systems' Markdown links resolve and their three files agree |
@@ -71,10 +71,10 @@ These run the app's logic without drawing anything, so they are fast and exact a
 - **Channels** (39) and **legal** (29): channel resources and fees; legal facts, starts, suggestions and the US states.
 - **Everything else in `framework/engine/`** (544): the Business Documents and forecast, demand against capacity, journey suggestions, search, statuses, card dates, the palette, labels with "&".
 
-### Saved data and examples: 126 tests
+### Saved data and examples: 133 tests
 
 - **Services** (95): saving and loading an Organisation, bringing old answers up to date, and the two example businesses (Quillfield and Lumen & Loom) checked for drift and completeness.
-- **Data** (26) and **hooks** (4): the glossary places and the shared hooks.
+- **Data** (33) and **hooks** (4): the glossary places and the shared hooks.
 
 ### Whole pages: 115 tests
 
@@ -3115,9 +3115,20 @@ These files hold the interview's questions: which are asked, in what order, whic
 
 ## Saved data and examples: every test
 
-11 files, 128 tests. They check how an Organisation is saved, read back and moved from older saves, and that the two example organisations (Lumen & Loom Studio and Quillfield Automation LLC) are complete and read the way the app reads them.
+12 files, 135 tests. They check how an Organisation is saved, read back and moved from older saves, and that the two example organisations (Lumen & Loom Studio and Quillfield Automation LLC) are complete and read the way the app reads them.
 
-### src/data/ (3 files, 31 tests)
+### src/data/ (4 files, 38 tests)
+
+#### betaQuestionnaire.test.ts (7)
+
+- **the Beta questionnaire** (7)
+  - numbers every question once
+  - asks questions 1 to 26 of Research 8 and the usability statements
+  - gives every choice question its options, and every scale its range
+  - requires every question but the contact consent
+  - starts with the consent and keeps every section filled
+  - counts an answer only when it fits its question
+  - scores the usability statements as published
 
 #### edition.test.ts (3)
 
