@@ -716,3 +716,22 @@ body:has(.app-brand-mark-end[data-square]) {
     --header-mark-room: calc(var(--add-button-height) + var(--gap-12));
 
 }
+
+/* (ON A PHONE THE LOGO STANDS ALONE (owner, 2026-11-27 23:57 UTC+2, phone round 4, point 13: "On mobile, hide the TILES word, next to logo"): upright and turned
+   to landscape, the word is not drawn; it is still read, so the logo keeps its name for a screen reader.) */
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px) {
+
+    .app-brand-name {
+
+        position: absolute;
+
+        width: 1px;
+        height: 1px;
+
+        overflow: hidden;
+
+        clip-path: inset(50%);
+
+    }
+
+}

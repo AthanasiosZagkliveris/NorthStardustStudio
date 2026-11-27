@@ -1083,7 +1083,7 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
        scrolls.) */
     .conversation-page[data-tiles-page] > .conversation-content {
 
-        padding-bottom: calc(64px + var(--space-card));
+        padding-bottom: calc(var(--band-height, 64px) + var(--space-card));
 
     }
 
@@ -1123,6 +1123,88 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
         border-color: transparent;
 
         box-shadow: none;
+
+    }
+
+}
+
+/* (THE UPRIGHT PHONE'S BAND (owner, 2026-11-27 23:4x UTC+2, phone round 4, point 5: the Identity and Brand pages' two dots stood right of the middle, and the band
+   was tall): 48px (--band-height), as the Workbook's and the Handbook's; the "‹" and "›" 48px in from the window's sides, as a layer's (12-page-tabs-and-channel-
+   card.css); the bullets of both rails spread evenly between them, 24px clear of each arrow -- each rail takes the share of the room its bullets hold (--rail-dots,
+   BulletRail) -- so the dots stand in the middle and every one as far from the next (his rules of 2026-11-27 01:38: a set space, spread evenly, a least gap).) */
+@media (max-width: 600px) and (orientation: portrait) {
+
+    :root {
+
+        --band-height: 48px;
+
+    }
+
+    .workspace-footer {
+
+        height: var(--band-height);
+
+    }
+
+    :root:root:root .bullet-rails {
+
+        height: var(--band-height);
+
+        padding-inline: calc(var(--gap-12) + 24px + var(--gap-12) + 24px + 24px);
+
+    }
+
+    :root .bullet-rails .bullet-rails-row {
+
+        position: static;
+
+        justify-content: stretch;
+
+        gap: 0;
+
+    }
+
+    :root:root .bullet-rails .bullet-rail.bullet-rail-left,
+    :root:root .bullet-rails .bullet-rail.bullet-rail-right {
+
+        position: static;
+
+        flex: var(--rail-dots, 0) 1 0;
+
+        min-width: 0;
+
+    }
+
+    :root:root .bullet-rails .bullet-rail .bullet-rail-list {
+
+        flex: 1 1 auto;
+
+        justify-content: space-evenly;
+
+        gap: 0;
+
+    }
+
+    :root:root .bullet-rails .bullet-rail-head {
+
+        position: absolute;
+        top: 0;
+        bottom: 0;
+
+        display: flex;
+        align-items: center;
+
+    }
+
+    .bullet-rails .bullet-rail-left .bullet-rail-head {
+
+        left: calc(var(--gap-12) + 24px + var(--gap-12));
+
+    }
+
+    .bullet-rails .bullet-rail-right .bullet-rail-head {
+
+        right: calc(var(--gap-12) + 24px + var(--gap-12));
 
     }
 

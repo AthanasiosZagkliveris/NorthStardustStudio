@@ -109,7 +109,8 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 const first = tiles.querySelector<HTMLElement>(".section-tile-slot")?.getBoundingClientRect();
                 const top = row.getBoundingClientRect().top;
                 tiles.style.transform = "translate(" + Math.round((columnsLeft[0] + columnsLeft[1] + pageSide) / 2 - (2 * side + gap) / 2 - (first?.left ?? columnsLeft[0])) + "px, " + Math.round(cardsBottom + 12 - top) + "px)";
-            } else if (!stacked && footerBox && tiles) {
+            } else if (!stacked && footerBox && footerBox.height > 0 && tiles) {
+                // (Only where the band is drawn: a phone turned sideways has none (Records 2, section 5.14), and the row follows the chapters there.)
                 // (In the footer's band they are rectangles of the band's buttons, "+ Add Segment"'s size: --add-button-height high, --band-button-width wide (owner,
                 // 2026-11-22 18:58 UTC+2; global.css).)
                 const buttonHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--add-button-height")) || 44;

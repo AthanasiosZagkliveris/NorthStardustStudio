@@ -1868,6 +1868,25 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
     }
 
+    /* (THE FIRST CHAPTER'S COLOUR UP TO THE TITLE'S RULE (owner, 2026-11-27 23:46 UTC+2, phone round 4, points 7 and 9: "a thin peach strip between the title
+       underline and the first chapter"): the 12px between the rule and the first chapter take the first chapter's colour, as the title's row does, never the last
+       chapter's under it; the top of the page is painted so, and every chapter draws its own ground over it.) */
+    main.conversation-content:has(.section-tiles-quad, .capability-systems-frame) {
+
+        background: linear-gradient(var(--phone-ground-top, var(--bg-page)), var(--phone-ground-top, var(--bg-page))) top / 100% 200px no-repeat;
+
+    }
+
+    /* (A CHAPTER'S HEADING 12PX FROM ITS EDGE AND ITS TILES (point 7: "big space around the chapter titles", Infrastructure & Capability): the heading's row is its
+       label arrow's 44px press area; its words stand 12px under the chapter's top and 12px over its tiles, as the tiles stand 12px from the chapter's edges on every
+       page.) */
+    .conversation-card .business-foundation-input:has(.section-tiles-quad) > .card-title-block {
+
+        /* (Half the words' line (--font-h2, 1.24 high) less half the 44px.) */
+        margin-block: calc(var(--font-h2) * 0.62 - 22px);
+
+    }
+
     .answer-columns.business-capability > .business-foundation-card,
     .page-group > .business-foundation-card,
     .segment-chapter,
@@ -1907,7 +1926,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
        point 17: "Stop at the end of the content".) */
     :root main.conversation-content[data-reserve] {
 
-        padding-bottom: calc(64px + var(--space-card));
+        padding-bottom: calc(var(--band-height, 64px) + var(--space-card));
 
     }
 
@@ -1965,6 +1984,299 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
         z-index: -1;
 
         background: var(--phone-ground-top, var(--bg-page));
+
+        pointer-events: none;
+
+    }
+
+}
+
+/* A PHONE TURNED SIDEWAYS (Records 2, section 5.14: the owner's decisions of 2026-11-27 01:48 to 04:31 UTC+2; built on his word of 23:54, "why the sideways follow
+   this layout", and 23:58, "fix everything that I have spotted"): a page's chapters side by side, each its 2 x 2 (SectionTiles: the side from the window's height),
+   a hairline upright between them; the page ends with its tiles, 12px under them; no footer band -- the page rail stands upright at the right, "▲", the bullets, "▼";
+   Back at the bottom left. */
+@media (orientation: landscape) and (max-height: 479px) {
+
+    /* (The chapters side by side: Identity's and Brand's pages of fields, Infrastructure & Capability's two cards, a Segment's two groups.) */
+    .conversation-card .page-group:not(.page-group-one-chapter):has(> .field-page + .field-page .section-tiles-quad) {
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        justify-content: center;
+
+    }
+
+    .conversation-card .answer-columns.business-capability:has(> .business-foundation-card + .business-foundation-card .section-tiles-quad) {
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        justify-content: center;
+
+    }
+
+    .conversation-card .answer-columns.business-capability > :not(.business-foundation-card) {
+
+        grid-column: 1 / -1;
+
+    }
+
+    /* (Over the stacked layout's placing of the two cards one under the other, above in this file, which weighs eight classes.) */
+    :root:root:root:root:root .conversation-card .answer-columns.business-capability > .business-foundation-card {
+
+        grid-column: auto;
+
+    }
+
+    .conversation-card .segment-chapter-groups {
+
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        justify-content: center;
+
+    }
+
+    /* (A Segment's two groups level, their tiles' tops on one line; the hairline between them from their top down, under the Segment's name.) */
+    :root:root:root .conversation-card .segment-chapter-groups > .business-foundation-input {
+
+        padding-top: 0;
+
+        border-top-width: 0;
+
+    }
+
+    :root:root .conversation-card .segment-chapter-groups > .business-foundation-input ~ .business-foundation-input::after {
+
+        top: 0;
+
+    }
+
+    /* (The hairline upright, the chapter's left edge, from the header to the window's foot; each chapter's ground runs out to its own side only.) */
+    .conversation-card .business-foundation-input:has(.section-tiles-quad) ~ .business-foundation-input:has(.section-tiles-quad)::after,
+    .conversation-card .field-page:has(.section-tiles-quad) ~ .field-page > .answer-columns > .business-foundation-input:has(.section-tiles-quad)::after {
+
+        top: -100vmax;
+        bottom: -100vmax;
+        left: -1px;
+        right: auto;
+
+        border-top: 0;
+        border-left: 1px solid color-mix(in srgb, var(--text-strong, currentColor) 40%, transparent);
+
+    }
+
+    .conversation-card .business-foundation-input:has(.section-tiles-quad)::before {
+
+        inset: -100vmax;
+
+    }
+
+    .conversation-card .business-foundation-input:has(.section-tiles-quad) ~ .business-foundation-input:has(.section-tiles-quad)::before,
+    .conversation-card .field-page:has(.section-tiles-quad) ~ .field-page > .answer-columns > .business-foundation-input:has(.section-tiles-quad)::before {
+
+        left: 0;
+
+    }
+
+    /* (A chapter's heading on one line over its 2 x 2, in the body's size, so two chapters side by side start their tiles on one line.) */
+    :root .conversation-card .business-foundation-input:has(.section-tiles-quad) .answer-column-label,
+    :root .conversation-card .business-foundation-input:has(.section-tiles-quad) .answer-column-label > * {
+
+        font-size: var(--font-body);
+
+    }
+
+    /* (Tile titles 12px, 10px clear of each side: every Foundation title stands whole in a 138px tile -- owner, 02:52: "Perfect the 12 px is done!".) */
+    .conversation-card .section-tiles-quad .section-tile .section-tile-title {
+
+        font-size: 12px;
+
+    }
+
+    .conversation-card .section-tiles-quad .section-tile {
+
+        padding-inline: 10px;
+
+    }
+
+    /* (No footer band: the page ends 12px under its tiles.) */
+    .workspace-footer {
+
+        display: none;
+
+    }
+
+    /* (The chapters start under the header and end at the window's foot: no room above or below them but their own 12px; the page's ground is the chapters'.) */
+    :root main.conversation-content:has(.section-tiles-quad, .capability-systems-frame) {
+
+        padding-top: var(--app-header-height, 56px);
+        padding-bottom: 0;
+
+        background: none;
+
+        /* (The chapters' grounds and the hairline run out to the page's edges and stop there: the page scrolls no further than its tiles.) */
+        overflow: clip;
+
+    }
+
+    .conversation-card .page-group,
+    .conversation-card .field-page {
+
+        margin-block: 0;
+
+    }
+
+    /* (THE PAGE RAIL UPRIGHT AT THE RIGHT (01:51, 03:15): from under the header to the window's foot, clear of the notch; "▲" the previous page, the bullets, "▼"
+       the next; the page arrows turned a quarter, so they point up and down.) */
+    :root:root:root .bullet-rails {
+
+        top: var(--app-header-height, 56px);
+        bottom: 0;
+        left: auto;
+        right: max(var(--gap-12), env(safe-area-inset-right, 0px));
+
+        width: 44px;
+        height: auto;
+        padding: var(--gap-12) 0;
+
+        flex-direction: column;
+        justify-content: center;
+
+        background: none;
+        box-shadow: none;
+
+    }
+
+    :root .bullet-rails .bullet-rails-row {
+
+        flex-direction: column;
+        justify-content: center;
+        gap: var(--gap-12);
+
+        height: auto;
+
+    }
+
+    :root:root .bullet-rails .bullet-rail.bullet-rail-left,
+    :root:root .bullet-rails .bullet-rail.bullet-rail-right {
+
+        flex-direction: column;
+
+    }
+
+    :root:root .bullet-rails .bullet-rail.bullet-rail-right {
+
+        flex-direction: column-reverse;
+
+    }
+
+    :root:root .bullet-rails .bullet-rail .bullet-rail-list {
+
+        visibility: visible;
+
+        flex-direction: column;
+
+    }
+
+    :root:root .bullet-rails .bullet-rail-head > .page-arrow {
+
+        position: relative;
+        inset: auto;
+
+        rotate: 90deg;
+
+    }
+
+    /* (Back at the bottom left, under the logo, level with the foot of the last row of tiles: 12px above the window's foot.) */
+    :root .interview-header .interview-header-back.back-link {
+
+        position: fixed;
+        top: auto;
+        bottom: calc(var(--gap-12) + env(safe-area-inset-bottom, 0px));
+        left: max(28px, env(safe-area-inset-left, 0px));
+        right: auto;
+
+        translate: none;
+
+    }
+
+    /* (Under an open side panel -- the Calendar, the Notes -- the panel's own arrow closes it; the page's Back waits behind it.) */
+    body:has(.notepad-panel, .org-calendar-panel-open) .interview-header .interview-header-back.back-link {
+
+        visibility: hidden;
+
+    }
+
+}
+
+/* (THE SEGMENT'S NAME IN THE HEADER, SIDEWAYS (Records 2, section 5.14; owner, 2026-11-27 03:25 and 03:34 UTC+2: the page title and the Segment's name side by side
+   in the header, the header's line over the tiles' hairline): the page's title from the first tile column to the hairline, the open Segment's name -- with its
+   label arrow where there are two Segments or more -- from the hairline to the header's buttons (their 240px), each 12px clear of the line; a long name ends in
+   "…".) */
+@media (orientation: landscape) and (max-height: 479px) {
+
+    :root:root body:has(.segment-chapter) .interview-header {
+
+        left: calc((100vw - var(--tiles-page-width, 100vw)) / 2);
+        right: calc(50% + var(--gap-12));
+
+        justify-content: flex-start;
+
+    }
+
+    :root:root .conversation-card .segment-chapter .business-capability-section > .tiles-frame-head {
+
+        position: fixed;
+        top: 0;
+        left: calc(50% + var(--gap-12));
+        right: 240px;
+        z-index: 50;
+
+        height: var(--app-header-height, 56px);
+        margin: 0;
+        padding: 0;
+
+        gap: var(--gap-8);
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        min-width: 0;
+
+    }
+
+    :root:root .conversation-card .segment-chapter .business-capability-section > .tiles-frame-head > .field-group-title {
+
+        display: flex;
+        align-items: center;
+
+        flex: 0 1 auto;
+        min-width: 0;
+        max-width: 100%;
+
+        justify-content: flex-start;
+
+    }
+
+    :root:root .conversation-card .segment-chapter .business-capability-section > .tiles-frame-head .business-foundation-frame-name {
+
+        min-width: 0;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+    }
+
+    /* (The line in the header, over the hairline between the Segment's groups.) */
+    body:has(.segment-chapter) .app-header::after {
+
+        content: "";
+
+        position: absolute;
+        top: var(--gap-12);
+        bottom: var(--gap-12);
+        left: 50%;
+
+        border-left: 1px solid color-mix(in srgb, var(--text-strong, currentColor) 40%, transparent);
 
         pointer-events: none;
 

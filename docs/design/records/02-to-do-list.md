@@ -25,7 +25,7 @@ The two stages as defined on 2026-11-27. An item marked **(owner decides)** is o
 
 **Not looked at in a browser**: the Process library and Operational log pages (not reachable in this version of the app); the tooltips of the Roadmap bars, the action symbols and the noted fields. The tests cover them.
 
-**The phone in landscape** (Beta): decided on 2026-11-27, not built: section 5.14.
+**The phone in landscape** (Beta): decided and built on 2026-11-27 (section 5.14; its rules in AI 9, section 4, "A phone in landscape"); open points there.
 
 **The app on every system** (decided 2026-11-27; Beta and V1): section 5.15.
 
@@ -375,7 +375,7 @@ Each line points to the one place its design lives; the item leaves this list wh
 | The help texts' structure beyond the size budget | [Interface 10](../interface/10-help-texts-guide.md) | Built in part | V1 |
 | The library's sync of the app to the tables (step 7) | [Library 1](../library/01-library-system.md), section 7, and section 5.6 above | Not built | V1 **(owner decides)** |
 
-## 5.14 The phone in landscape (decided 2026-11-27, not built)
+## 5.14 The phone in landscape (decided 2026-11-27, built 2026-11-27)
 
 The owner's decisions of 2026-11-27 (01:48 to 04:31 UTC+2) for a phone turned to landscape (844 x 390, an iPhone with its safe areas: 47px at each side, 21px at the foot), worked out on mock-ups (the project's Library: `phone-landscape-2x4`, `five-titles-12px`, `sideways-A-next-tile`, `segments-case1` to `segments-case3`, `segment-name-moving`, `next-segment-button-measured`, all 2026-11-27). Stage: Beta. When it is built, its rules move to AI 9, section 23 ("A phone in landscape"), and this section goes.
 
@@ -386,6 +386,7 @@ The owner's decisions of 2026-11-27 (01:48 to 04:31 UTC+2) for a phone turned to
 - **A long Segment name** (the user names it) slides left now and then, its front hiding behind the line (04:14). To settle with the owner: slide once when the Segment opens and when pressed, and stay still under "reduce motion" (WCAG 2.2.2).
 - **Back** leaves the header and stands at the bottom left, its foot level with the foot of the last row of tiles, its left edge under the logo's (03:25, 03:39).
 - **The eighth place** (beside Sales Forecast on Foundation & Engagement): the square "+ Add Segment" tile, as on a wider window (AI 9, section 9, "Add Card"). Owner, 2026-11-27 ("Now, what I did on the segment, apply it for the mobile"): this replaces the decisions of 03:39 to 04:31 (the wide "+ Add Segment" button, the other Segment's flat tile for two Segments, the SEGMENTS card with "1 of 3" for three or more). The Segments are chosen with the label arrow after the Segment's name, which drops their list (AI 9, section 6, "The label arrow"); there is no Segments rail on any window; the name is written in the Segment Description's name cell.
+- **Built (2026-11-27, phone round 4):** chapters side by side as 2 x 2s, the side set by the height; the page rail upright at the right; Back at the bottom left; no footer band; 12px tile titles; the Segment's name beside the page title in the header; Add Segment in the eighth place. Not built: the long Segment name's slide (it ends in "…"), the title's left edge on the first tile column on pages without Segments. The Inventory and Completed row stands under the chapters until the owner places it.
 - **To settle with the owner:** the other pages' eighth place and the dialogs in landscape; the upright phone's Back (option 3 of 01:54, a light row under the header) and its bullets (the owner's three rules of 01:38: a set space inside the page's border, spread evenly, a least gap to the arrows).
 - **Research behind it:** Apple's HIG and Material 3 type sizes and margins, safe areas, page dots in other apps: `phone-text-sizes-research-2026-11-27.md` in the project's Library.
 

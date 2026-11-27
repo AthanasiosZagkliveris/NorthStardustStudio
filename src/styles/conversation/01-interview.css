@@ -617,6 +617,19 @@
 
 }
 
+/* (THE SAME ROOM ABOVE AND BELOW IT ON A PHONE (owner, 2026-11-27 23:4x UTC+2, phone round 4, point 6): the page ends 12px above the footer's band, so the button
+   keeps 24px above it and 24px below -- its own 12px and the page's.) */
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px){
+
+    .intro-start{
+
+        margin-top:var(--gap-24);
+        margin-bottom:var(--space-card);
+
+    }
+
+}
+
 /* START INTERVIEW, ONE SHAPE: a cell whose left side keeps the app's
    corner radius and whose right side tapers to a point -- the whole
    arrow one button, one hover, one press. The shape is a clip; the

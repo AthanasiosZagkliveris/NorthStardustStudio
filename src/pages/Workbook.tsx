@@ -18,7 +18,7 @@ import BusinessDocumentsView from "../components/workbook/BusinessDocumentsView"
 import BetaQuestionnaire from "../components/workbook/BetaQuestionnaire";
 import { BETA_QUESTIONNAIRE_ON } from "../data/edition";
 import { workHue } from "../framework/engine/WorkColours";
-import ResponsibilityFilter from "../components/interview/fields/ResponsibilityFilter";
+import ResponsibilityFilter, { FilterInline } from "../components/interview/fields/ResponsibilityFilter";
 import WorkbookTools, { WorkbookToolsSlot } from "../components/workbook/WorkbookTools";
 import workbookIcon from "../assets/workbook-icon.svg";
 import GlossaryList, { YOUR_TERMS_HUE, anchorOf, letterOf, letterRanges, toggled } from "../components/workbook/GlossaryList";
@@ -327,7 +327,7 @@ export default function Workbook() {
     const tools = phoneUpright ? (
         <div className="workbook-tools workbook-tools-phone">
             <FunnelButton ref={toolsButton} aria-label="Text size and filters" aria-expanded={toolsOpen} title="Text size and filters" onClick={() => setToolsOpen(open => !open)} />
-            <div className="workbook-tools-panel" ref={toolsPanel} hidden={!toolsOpen}>
+            <div className="workbook-tools-panel" ref={toolsPanel} hidden={!toolsOpen} style={{ "--strategy-theme-hue": WORKBOOK_HUE } as CSSProperties}>
                 {textSizes}
                 <div className="workbook-tools-slot" ref={setToolsSlot} />
             </div>
@@ -354,6 +354,7 @@ export default function Workbook() {
                 <InterviewHeader systemName={landing ? "Handbook" : "Workbook"} tabName={tabs[at]?.label} icon={workbookIcon} actions={phoneUpright ? tools : undefined} />
 
                 <WorkbookToolsSlot.Provider value={toolsSlot}>
+                <FilterInline.Provider value={phoneUpright}>
 
                 <CardShell ref={panel} className="section-tile-dialog workbook-panel" data-carousel="" style={{ "--strategy-theme-hue": WORKBOOK_HUE, ...(panelHeight === null ? {} : { height: panelHeight }) } as CSSProperties}>
 
@@ -450,6 +451,7 @@ export default function Workbook() {
 
                 </CardShell>
 
+                </FilterInline.Provider>
                 </WorkbookToolsSlot.Provider>
 
             </main>

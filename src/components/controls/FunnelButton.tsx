@@ -1,4 +1,8 @@
 import { ButtonHTMLAttributes, forwardRef } from "react";
+// (Its look travels with it: the "+" family's box (section-tiles.css) and the funnel's own lines (conversation.css). Without them the Calendar opened from the
+// Organisations screen drew the browser's own grey button -- owner, 2026-11-27 22:39 UTC+2, phone round 4, point 1.)
+import "../../styles/section-tiles.css";
+import "../../styles/conversation.css";
 
 /**
  * THE FUNNEL BUTTON: the one button that opens a filter or a sort (a founder's Responsibilities, the card notes, the Inventory's filters and orders, a section's sort). It is a "+"-family

@@ -734,9 +734,15 @@
 
         border: 1px solid var(--line-rule);
         border-radius: var(--radius-md);
-
-        background: var(--bg-surface);
         box-shadow: var(--shadow-menu);
+
+    }
+
+    /* (IN THE PAGE'S CARDS' COLOUR (owner, 2026-11-27 22:42 UTC+2, phone round 4, point 4: "Make sure drop down cards to match with the cards colour"): the
+       panel on the light step of the card's own hue, as the rows of the Workbook's lists it opens over.) */
+    .workbook .workbook-tools-panel {
+
+        background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) 35%, var(--bg-surface));
 
     }
 
