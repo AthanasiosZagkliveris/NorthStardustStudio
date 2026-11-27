@@ -52,6 +52,7 @@ The Inventory's filter and sort window (a P2 panel) opens outward from its dialo
 - It is a layer over the page and never moves what is under it; a P1 to P4 pop-up is cut by nothing but the window.
 - Escape closes an open P1 to P4 first, then every P5 layer at once (`CLOSE_TILES_EVENT`; 2026-11-19 reconciliation); a press outside closes a P1 to P4 and a floating card; a dialog also closes by Back (a floating card has no Back).
 - A P2 and a P5 hold the keyboard while open, and give it back to what opened them.
+- A P6 confirmation holds the keyboard too: Tab and Shift+Tab go round its own buttons and fields, it takes the focus as it opens (its autoFocus button keeps it), and gives it back as it closes; one rule for every `.confirmation-dialog` (`components/shell/confirmationFocus.ts`, 2026-11-27).
 - What is inside follows the reactions: a cell glows under the pointer and rings when focused (`05-reactions.md`, R1, R2), a button is a header-tool button or a "+" family button, a Back is **the Back button** (`BackButton`, one component and one look everywhere).
 
 ## 4. Where each category appears: placement and the order of fallbacks
