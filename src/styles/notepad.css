@@ -625,3 +625,21 @@ html.notepad-picking [data-pick-hover] {
     justify-self: end;
 
 }
+
+/* (THE PANEL'S HEAD ON A PHONE TURNED SIDEWAYS (owner, 2026-11-27 23:5x UTC+2, phone round 4, point 12: the Calendar's title band far too tall): its title with
+   12px above and below, the fold arrow's 44px press area standing over that room rather than widening it -- the Calendar's and the Notes' heads alike.) */
+@media (orientation: landscape) and (max-height: 479px) {
+
+    .notepad-head {
+
+        padding-block: var(--gap-12);
+
+    }
+
+    .notepad-head > .page-arrow {
+
+        margin-block: calc(var(--font-h3) * 0.62 - 22px);
+
+    }
+
+}

@@ -109,7 +109,11 @@ export default function SectionTiles({
     const bigRows = 2;
     // (In the vertical layout from 880px wide, the master tiles stand in one row of four: masterAcross, layout rules section 23.)
     const across = useMasterAcross();
-    const rowOfFour = big && across === 4;
+    // (A PHONE TURNED SIDEWAYS (Records 2, section 5.14; owner, 2026-11-27 02:09 to 04:31 UTC+2, and 23:54: "why the sideways follow this layout"): each chapter
+    // its 2 x 2, two chapters side by side -- the page's master tiles in 2 rows of 4 --, the side set by the window's height: what the header, the 12px above and
+    // below and the 12px between the rows leave, halved.)
+    const sideways = across === 4;
+    const rowOfFour = big && across === 4 && !sideways;
     useLayoutEffect(() => {
         const box = quadBox.current;
         if (!box || !big) {
@@ -135,7 +139,7 @@ export default function SectionTiles({
             const hug = chapterOf(box);
             let side: number;
             if (vertical) {
-                const row = masterAcross();
+                const row = sideways ? 2 : masterAcross();
                 // (A tablet's tiles never outgrow a laptop's: 260px at the most in the stacked layout -- owner, 2026-11-23 23:21 UTC+2, the responsive layout
                 // approved, section 4.3.)
                 const cap = Math.min(parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--quad-cap")) || 330, 260);
@@ -154,9 +158,21 @@ export default function SectionTiles({
                 // (The room is the window's -- 1400px at most, its gutters taken off --, never the page's own width, which follows the chapter here too.)
                 const gutterValue = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-gutter"));
                 const room = Math.min(1400, document.documentElement.clientWidth - 2 * (Number.isFinite(gutterValue) ? gutterValue : 16));
-                const extra = hug && box.getBoundingClientRect().width > 0 ? hug.getBoundingClientRect().width - box.getBoundingClientRect().width : 26;
+                // (A frame that holds two groups -- a Segment's chapter -- is measured round one of them: its part, never the whole frame, or each fit widened the next.)
+                const pairFrame = sideways && hug !== null && hug.querySelectorAll(".section-tiles-quad").length > 1;
+                const holder = pairFrame ? box.closest<HTMLElement>(".business-foundation-input") ?? box.parentElement : hug;
+                const extra = holder && box.getBoundingClientRect().width > 0 ? holder.getBoundingClientRect().width - box.getBoundingClientRect().width : 26;
                 const fill = Math.floor(((room > 0 ? room - extra : box.clientWidth) - (row - 1) * 12) / row);
                 side = Math.max(isPhone() ? fill : Math.min(fill, cap), 72);
+                // (Sideways: by the height under the tiles' top, never wider than half the room each chapter has.)
+                const chapters = sideways ? Math.min(2, Array.from(box.closest(".conversation-card")?.querySelectorAll<HTMLElement>(".section-tiles-quad") ?? []).filter(quad => quad.getClientRects().length > 0).length || 1) : 1;
+                if (sideways) {
+                    // (From where the first chapter's tiles start -- under the header, or under a heading the chapter keeps, a Segment's name -- to 12px above the
+                    // window's foot, the 12px between the rows taken off.)
+                    const high = Math.floor((window.innerHeight - top - 12 - 12 - 1) / 2);
+                    const wide = Math.floor(((room - extra * chapters) / chapters - 12) / 2);
+                    side = Math.max(Math.min(high, wide), 72);
+                }
                 // (The chapter and the page keep the width's side: the smaller tiles below stand centred in it, the chapter's title on its line.)
                 const span = side;
                 // (ONE SIDE ON EVERY PAGE OF A PHONE TOO (owner, 2026-11-27 14:24 UTC+2: "Why tiles have different size per page?"; layout rules, section 23,
@@ -164,11 +180,11 @@ export default function SectionTiles({
                 // tiles shrunk to fit them (115px on Infrastructure & Capability beside the other pages' 160px); it now scrolls to its second chapter.)
                 // (THE PAGE AS WIDE AS ITS CHAPTER ON A TABLET OR A PHONE TOO (owner, 2026-11-24 00:56 UTC+2, his lines at the chapter's edges: "The arrows should start
                 // exactly after the page limits"): the title's rule and the footer's arrows take the chapter's edges.)
-                setTilesPageWidth(box.closest<HTMLElement>(".conversation-page"), row * span + (row - 1) * 12 + extra);
+                setTilesPageWidth(box.closest<HTMLElement>(".conversation-page"), chapters * (row * span + (row - 1) * 12 + extra));
                 box.style.setProperty("--quad-across", String(row));
                 if (hug && box.getBoundingClientRect().width > 0) {
                     // (A width of its own: centred by its auto margins, a frame would otherwise shrink round tiles that measure their frame, to nothing.)
-                    hug.style.setProperty("width", Math.ceil(row * span + (row - 1) * 12 + extra) + "px", "important");
+                    hug.style.setProperty("width", Math.ceil((pairFrame ? chapters : 1) * (row * span + (row - 1) * 12 + extra)) + "px", "important");
                     hug.style.maxWidth = "100%";
                     hug.style.marginInline = "auto";
                 }
