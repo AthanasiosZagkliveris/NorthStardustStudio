@@ -1,6 +1,6 @@
 # 8. Beta questionnaire: what the app asks its Beta founders
 
-Status: **proposal**, written 2026-11-21. The questions North Stardust would ask its Beta founders about the app, in sections, with the choices of each; nothing built and nothing collected. Asked by the owner on 2026-11-21 00:56 UTC+2: "Create a questionnaire proposal for the app to the users as part of the Beta version".
+Status: **proposal**, written 2026-11-21, updated 2026-11-27 (section 8: the base to build, Batch 4a). The questions North Stardust would ask its Beta founders about the app, in sections, with the choices of each; nothing built and nothing collected. Asked by the owner on 2026-11-21 00:56 UTC+2: "Create a questionnaire proposal for the app to the users as part of the Beta version".
 
 **Who answers:** Beta founders (early-stage, solo or a small team) after they have used the app for at least one System, and again after they have exported a document. **How long:** about 10 minutes; every question optional except the consent. **How:** a short form linked from the Workbook (a later build), or a hosted form; answers are anonymous unless the person chooses to leave an email. **Wording:** UK English, affirmative, one question at a time, choices first and a short text box where a choice cannot say it.
 
@@ -54,6 +54,48 @@ The ten statements of the System Usability Scale (Brooke, 1996), each 1 Strongly
 24. Would you pay for North Stardust? (one choice: Yes, monthly / Yes, once / Only for some features / No)
 25. How likely are you to recommend North Stardust to another founder? (0–10)
 26. Anything else you would like to tell us? (short text)
+
+## 8. The base, as it will be built (Batch 4a; owner, 2026-11-27 21:45 UTC+2: "Beta questionnaire will change, but you can start and build a base")
+
+The questions will change; the base makes that cheap: **every question is one entry in one list**, and the screen, the checks and the sending are built from the list.
+
+### 8.1 The list (`src/data/betaQuestionnaire.ts`)
+
+- A **version** (sent with the answers, so a changed questionnaire never mixes with an older one) and **sections** in order, each with its questions.
+- A question: its **number** (1 to 26 as above, permanent, as the question codes), its **words**, its **kind** and, where it has them, its **options**:
+  - `consent`: a tick (question 1 required; question 2 optional, with its email box);
+  - `single`: one choice (the app's `FittingRadioChoice`);
+  - `multi`: ticks, with an optional most (`max: 3` for question 22) (`TickField`);
+  - `scale`: 1 to 5, or 0 to 10 (`RatingScale`), its two ends named;
+  - `sus`: the ten System Usability Scale statements, one `RatingScaleGroup`;
+  - `text`: a short answer (`TextField`).
+- **When** it is asked: always, for each System the founder used (questions 11 to 14), or once a document was opened (questions 15 to 18). The founder's own Organisations answer these conditions; nothing is asked twice.
+- **Required:** every question (owner, 2026-11-27 20:06 UTC+2: "every question should be answered"), **except** question 2, the permission to contact and its email: consent to contact must be freely given (GDPR, Research 11, section 1), so it stays a choice.
+
+### 8.2 Where it opens
+
+- The **Workbook's Business Documents and Financial Documents** show every document as today; their **download buttons** (PDF, CSV) read "Answer the Beta questionnaire to download" until it is sent, and open it. Organisation **Export** on the Organisations screen stays open (owner, 2026-11-27).
+- The questionnaire is a **P5 layer** (Interface 7): the app's dialog with a rail of its sections and the carousel arrows, the standard parts only; answers save as they are given, so it can be left and resumed.
+- Only in the **Foundation edition during the Beta** (`data/edition.ts`: a `BETA` switch, turned off for Version 1); the owner's full app never locks.
+
+### 8.3 Sending, offline first
+
+- **Send** is pressed once every required answer is given. Online: the answers go to `POST /api/beta` on app.northstardust.studio (a Cloudflare Pages Function in the repository's `functions/`), checked by Cloudflare Turnstile, kept in a D1 database. The reply's receipt unlocks the downloads **on this device**, kept with the questionnaire's version.
+- Offline: "Saved. It will be sent when you are back online"; the app sends it on its own when the connection returns (the `online` event, and at the next start), then unlocks.
+- Nothing else leaves the device: not the Organisations, not the documents. The privacy policy's Tiles section is updated before the Beta opens: what is sent, why, how long it is kept, the right to delete it.
+
+### 8.4 What the owner sets up in Cloudflare (once, about 10 minutes, when the receiver is built)
+
+1. **Storage & databases › D1 › Create**: `tiles-beta`, in the EU location.
+2. **Turnstile › Add widget** for app.northstardust.studio: its site key (public, in the app) and secret key (a secret of the Pages project).
+3. **Workers & Pages › tiles › Settings › Bindings**: the D1 database as `BETA_DB`; **Variables and Secrets**: `TURNSTILE_SECRET`.
+
+### 8.5 Build order
+
+1. The list and its tests (every id unique; every required question has its kind's answer shape).
+2. The screen from the standard parts; the answers saved on the device.
+3. The lock on the download buttons, and the unlock.
+4. The receiver, the offline queue, the privacy update; then the owner's Cloudflare steps and a live test.
 
 ## How the answers are used
 

@@ -1,6 +1,6 @@
 # 2. To-do list: the Beta and Version 1
 
-Status: **living list**, written 2026-10-14 (as "What has not been done yet"), updated 2026-11-27 (the to-do list; every idea for after Version 1 moved to Guide 3; owner, 2026-11-27 03:27 UTC+2: "lets divide them into 2 docs 1. future features will have ideas for features after version 1 (still working to complete the Beta). 2. To do list, are any features or changes for the Beta or Version 1"). The one list of the work still to do for the **Beta** and **Version 1**, each item marked with its stage. Every idea for after Version 1 is Guide 3 (`../../guide/03-future-features.md`). Sections 5.1 to 5.11 hold the open work, 5.12 counts every planned connection between answers ("Read by (not built yet)"), and 5.13 points to the work whose design lives in another document. Remove an item when it is done and record it in the log (`01-log.md`); an item moves to Guide 3, or comes from it, only by the owner's word. Everything here is a plan or a proposal unless it says "decided".
+Status: **living list**, written 2026-10-14 (as "What has not been done yet"), updated 2026-11-27 (the to-do list; every idea for after Version 1 moved to Guide 3; owner, 2026-11-27 03:27 UTC+2: "lets divide them into 2 docs 1. future features will have ideas for features after version 1 (still working to complete the Beta). 2. To do list, are any features or changes for the Beta or Version 1"). The one list of the work still to do for the **Beta** and **Version 1**, each item marked with its stage. Every idea for after Version 1 is Guide 3 (`../../guide/03-future-features.md`). Sections 5.1 to 5.11 hold the open work, 5.12 counts every planned connection between answers ("Read by (not built yet)"), 5.13 points to the work whose design lives in another document, and 5.16 holds the steps only the owner can take. Remove an item when it is done and record it in the log (`01-log.md`); an item moves to Guide 3, or comes from it, only by the owner's word. Everything here is a plan or a proposal unless it says "decided".
 
 ## The two stages
 
@@ -397,3 +397,18 @@ The owner's decisions of 2026-11-27: every way a founder can get the app (14:35 
 - **The host** (batch 3): the Cloudflare Pages project `tiles` builds `main` on every merge (`npm run build`, output `dist`, `NODE_VERSION` 22, `VITE_EDITION` foundation); live at app.northstardust.studio since 2026-11-27 (tiles-4lg.pages.dev); its security headers and caching in `public/_headers` (the same style as the website's). Still to do: the privacy page (batch 4).
 - **Testing on the owner's phone** (built): `npm run dev:network`, then `http://<the PC's address>:1420` on the phone, on the same Wi-Fi set to Private.
 
+
+## 5.16 For the owner: reminders
+
+The steps only the owner can take, kept here until done (owner, 2026-11-27 21:51 UTC+2: "Regarding the 2 steps sign in, remind me for later. Add a section at the end of the to do document"). Remove an item when it is done and record it in the log.
+
+- **Two-step sign-in** on the accounts that hold the app, its site and its code (Research 10, section 4, layer 3), each about 5 minutes with the phone:
+  - **GitHub:** Settings › Password and authentication › Enable two-factor authentication (or add a passkey); then the repository's Settings › Code security: secret scanning and Dependabot alerts on.
+  - **Cloudflare:** My Profile › Authentication › Two-Factor Authentication.
+  - **Google (the Gmail address of the stores and the contact):** myaccount.google.com › Security › 2-Step Verification.
+  - Later, the store accounts as they are opened: Google Play Console, the Microsoft Store (Partner Center).
+- **Cloudflare, for the Beta questionnaire** (Research 8, section 8.4): the D1 database `tiles-beta` (EU), the Turnstile widget for app.northstardust.studio, the binding `BETA_DB` and the secret `TURNSTILE_SECRET`; the exact steps when the receiver is built.
+- **Cloudflare previews behind a login** (Research 10): Workers & Pages › tiles › Settings › General › Enable access policy.
+- **Store accounts** when the store batches start: Google Play Console ($25 once, a personal account) and the Microsoft Store developer account (free).
+- **A lawyer's reading** of the Terms of Use before Version 1 (Research 11).
+- **The repository's visibility:** public by the owner's choice (2026-11-27); private when he decides (Research 10, section 5).
