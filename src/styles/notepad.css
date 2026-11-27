@@ -44,6 +44,20 @@
 
 }
 
+/* (ON A PHONE, THE WHOLE WIDTH (layout rules, section 4, "A phone": a phone's layers stand alone under the header; owner, 2026-11-27 14:27 UTC+2, the Calendar on
+   a phone): it kept 32px of the page beside it, the Landing's arrows showing in the strip.) */
+@media (max-width: 600px) {
+
+    .notepad-panel {
+
+        width: 100vw;
+
+        border-left: 0;
+
+    }
+
+}
+
 @keyframes notepad-slide-in {
 
     from {

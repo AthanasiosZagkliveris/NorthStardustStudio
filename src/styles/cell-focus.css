@@ -238,6 +238,15 @@ label:has(> .brand-tick-box) :is(span, strong, em) {
     font-weight: 400;
 }
 
+/* ONE ROW FOR A TICK AND ITS WORDS (owner, 2026-11-27 14:27 UTC+2, the Calendar's funnel on a phone: "there is alignment problem to many parts and pages"): the tick
+   centred on its words' line, 8px before them -- the Calendars' ticks stood over their words' baseline, touching them. Zero weight (:where), so a place that lays its
+   row out itself keeps its own.) */
+:where(label.tick-field) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-8);
+}
+
 /* The Legal Entity cards (floating or in their dialog) have the label colour of the Legal Entity section's own frames. */
 .legal-entity-card {
     --label-color: hsl(var(--legal-label-hue, 172) var(--theme-text-ink));
