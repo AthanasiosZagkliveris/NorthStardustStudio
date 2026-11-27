@@ -9,15 +9,15 @@ Status: **living list**, written 2026-10-14 (as "What has not been done yet"), u
 | **Beta** | The version the first founders use and answer the Beta questionnaire about (Research 8). | What a Beta founder would meet as missing or wrong: a page that asks without its record, a figure that is wrong, a document that does not export, data that is not safe, and the Beta questionnaire itself. |
 | **V1** | The first published version (Questions 4 holds what it contains). | The Beta, and what the first version still leaves open: the Review's checks and the other planned reads, accessibility (WCAG 2.2 AA), the help texts, the clean-up and speed, and the owner's open decisions. |
 
-These two definitions are proposed (2026-11-27) for the owner to confirm; an item marked **(?)** is one whose stage, or whether it belongs before or after Version 1, is the owner's to decide.
+The two stages as defined on 2026-11-27. An item marked **(owner decides)** is one whose stage, or whether it comes before or after Version 1, the owner settles when he reviews the list (owner, 2026-11-27 03:46 UTC+2: "Whatever you are not sure, place it in the to do list, I will check it anyways, and I can decide that time").
 
 ## Open now
 
 **The questionnaire build** (Beta; the planned reads V1): built are the Segment card's questions (Questions 12), the Profile card's questions A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 (Questions 13), and the Organisation and Positioning tiles (Questions 7 and 8). Not built: the Profile's A4 (kind of business) and A6 (specialised needs), the proposed Profiles by age term (the B2B ones by buying role and the end user's part of a Proxy or Dual-Intent Profile are built, Questions 13, section 2), and every read of the Segment's and Profile's answers listed as "Read by (not built yet)" in Questions 12 and 13 (section 5.12). What else is left of the first version is Questions 4; where each tile stands is Questions 1, section 11. The help texts follow Interface 10 (a proposal: only its size budget is built).
 
-**The road**: the Tile System is built but for the items of 5.3 (Beta); the clean-up and optimisation (5.6) are V1. Batches D and E and the extraction moved after Version 1 (Guide 3, section 10) on 2026-11-27, for the owner to confirm **(?)**.
+**The road**: the Tile System is built but for the items of 5.3 (Beta); the clean-up and optimisation (5.6) are V1. Batches D and E (5.4) and the extraction (5.7) **(owner decides)**: Beta, V1 or after.
 
-**On hold (owner, 2026-11-09; V1 if taken up) (?)**: P2, the Profile's Needs before its Motivations; P4, the Segment's Box 4 (Purchasing Power & Behaviour) split in two; a full third example Organisation. None is built; each waits for the owner's word.
+**On hold (owner, 2026-11-09; V1 if taken up; owner decides)**: P2, the Profile's Needs before its Motivations; P4, the Segment's Box 4 (Purchasing Power & Behaviour) split in two; a full third example Organisation. None is built; each waits for the owner's word.
 
 **Waiting for the owner**: the generated cards' inputs beyond "adding, not removing"; the open decisions of 5.8; the sizes and gaps that are not on a step (5.6).
 
@@ -37,13 +37,13 @@ These two definitions are proposed (2026-11-27) for the owner to confirm; an ite
 |---|---|---|
 | 1 | Light clean-up: one rulebook, baseline triage, current page names, a wider layout check; the drafts converted; asset library, first half | Done and merged (log, 2026-10-14 to 2026-10-22) |
 | 2 | **Finish the Tile System** on the places that are not tiles yet (5.3) | Mostly done (2026-11-12 to 2026-11-20): every chapter is drawn as tiles; what is left is 5.3 |
-| 3 | **Batches D and E** | Moved after Version 1 (Guide 3, section 10.1), 2026-11-27 **(?)** |
+| 3 | **Batches D and E** (5.4) | Open **(owner decides)** |
 | 4 | **Full clean-up and optimisation** of the completed Foundation (5.6), plus the second half of the asset library (merge duplicates, fold the rules into the contracts) | V1. Partly done: the CSS clean-up, the token source, the shared components and the lints are built; the unused-code pass is done (2026-11-21); the load and run measurements of 5.6 are not |
-| 5 | **Extraction** into the new app | Moved after Version 1 (Guide 3, section 10.2), 2026-11-27 **(?)** |
+| 5 | **Extraction** into the new app (5.7) | Open **(owner decides)** |
 
 ## 5.2 The task plan F to K: what is not done
 
-The plan of 33 tasks is locked ([the log's archive, 4.5](../../archive/log/log-archive-2026-07-to-10.md#45-the-task-plan-f-to-k-as-locked-on-2026-10-09)). F, G, H, I and J are committed; the engine files of I (Global Settings, cost nature, calculated lines, funds) are not individually re-verified, and the owner's one visual pass of J is not recorded. **Not done:** K1, VAT as a pass-through, import VAT included, rates in Global Settings (**V1 (?)**: a VAT-registered founder's figures need it). K2, actuals (plan against actual), is after Version 1: Guide 3, section 10.
+The plan of 33 tasks is locked ([the log's archive, 4.5](../../archive/log/log-archive-2026-07-to-10.md#45-the-task-plan-f-to-k-as-locked-on-2026-10-09)). F, G, H, I and J are committed; the engine files of I (Global Settings, cost nature, calculated lines, funds) are not individually re-verified, and the owner's one visual pass of J is not recorded. **Not done:** K1, VAT as a pass-through, import VAT included, rates in Global Settings (V1 **(owner decides)**: a VAT-registered founder's figures need it). K2, actuals (plan against actual), is after Version 1: Guide 3, section 10.
 
 
 ## 5.3 Finish the Tile System
@@ -58,11 +58,27 @@ Every chapter is drawn as tiles; the page Financials is one chapter, Financial F
 
 ## 5.4 Workspace batches D and E
 
-Moved to Guide 3, section 10.1, on 2026-11-27, with their state against the code: they are features for after Version 1 **(?)**. The briefs stay in `docs/proposals/`.
+The briefs (`docs/proposals/workspace-d-duplicate-scenarios-compare.md` and `workspace-e-founder-helpers.md`; nothing of either is built) say D and E wait until the structure is stable; it is. Stage **(owner decides)**: the road of 2026-10-14 put them after the Tile System and before the extraction. What they ask for is checked below against the code.
+
+**Already built** (the briefs asked to reuse them): `FieldKey`, `openField`, the field status line (with the unused "Changed in … · Reset" parts), the Workbook (its Review and its Glossary), the Notepad (the Notes tool), the undo toast, search, and `Sources.ts`. **Absent:** `planOutcomes`, scenarios, duplicate organisation and card, the Compare route, the lender check, the One-Pager.
+
+| Item | State | Outdated in the brief | Effort |
+|---|---|---|---|
+| `planOutcomes` (one function for all outcome figures) | Absent | Must be extracted from `planCase`, `stressTest` and the forecast | M |
+| D1 Duplicate organisation | Absent | "Annotations are copied": annotations no longer exist; notes live in the Notepad, per person, outside the organisation | S |
+| D2 Duplicate a card | Absent | The card kinds are now the cost-model cards; generated cards must not be duplicated; offering links and shares kept or cleared by rule | L |
+| D3 Scenarios | Absent | The scenario-able inputs table no longer matches; Global Settings are saved with each organisation; `withWhatIf` only scales revenue, so a layer that applies overrides to the whole document is needed | L (largest) |
+| D4 Compare | Absent | Needs `planOutcomes` and a route; runway, funding gap, yearly profit and repayments must be added | M |
+| E1 What would it take? | Partly exists: `whatItWouldTake` (`engine/financial/whatItWouldTake.ts`, percent levers for a cash shortfall) is tested, but no screen shows it today | The brief asks for "break even by month X", amounts per offering and "Try this" (needs D3) | M |
+| E2 Lender-ready check | Absent | The Review page has changed; the ten rules must be re-checked against the new data; each needs a Source | M |
+| E3 One-Pager and elevator pitch | Absent | Re-read segment, offering and founder data through `readFoundation`; one-page fit needs a measurement test | M |
+| E4 Glossary hints | Absent | About 40 terms, each with a checked reference; conflicts with the global tooltip rules | M |
+
+Suggested order: `planOutcomes`, then D1 and D3, then D4 and D2; E1 after D3; E2, E3 and E4 in parallel. One commit per item; the owner tries each batch once. References for E2 and E4 follow the source rule (Research 1).
 
 ## 5.5 Business System requirements (proposal)
 
-From the analysis in Research 2, R10. Must (M) is the Beta, should (S) Version 1; the could (C) and new ideas with no place before Version 1 (A6, F4, F5, C5, C9, C10, C15, I3, I5, I8) moved to Guide 3, section 9, on 2026-11-27, and X1 and X2 (the extraction) to Guide 3, section 10.2; A1 (the 320px minimum width) is done (2026-11-22). Each requirement has an id, a priority (**M** must, **S** should, **C** could) and a state (**Gap** missing today, **Fix** exists but is wrong or unused, **New** a new idea, **Decision** waits for the owner). The findings table is Research 2, R10.1.
+From the analysis in Research 2, R10. Must (M) is the Beta, should (S) Version 1; the could (C) and new ideas with no place before Version 1 (A6, F4, F5, C5, C9, C10, C15, I3, I5, I8) moved to Guide 3, section 9, on 2026-11-27, X1 and X2 are with the extraction (5.7); A1 (the 320px minimum width, 2026-11-22) and A2 (one set of breakpoints: the screen tiers of the responsive layout, 2026-11-23, AI 9, section 4) are done. Each requirement has an id, a priority (**M** must, **S** should, **C** could) and a state (**Gap** missing today, **Fix** exists but is wrong or unused, **New** a new idea, **Decision** waits for the owner). The findings table is Research 2, R10.1.
 
 ### 5.5.0 Starting points
 
@@ -83,13 +99,12 @@ From the analysis in Research 2, R10. Must (M) is the Beta, should (S) Version 1
 | **5. Helps** (instructions, resources, pre-filled data; Note and Calendar; messages, errors, reminders, limits; smart navigation) | InfoNote, Notepad, Calendar, Search, rails, arrows, Undo | A6, E4 (Glossary), C5 (proposals) |
 | **6. Generates and exports Business Documents** | Business Plan, Canvas, Forecast; PDF and Markdown | E3 (One-Pager) |
 
-Ordering of work: the **Tile System** first (built, but for 5.3), then the full clean-up and optimisation (V1); Batches D and E and the extraction come after Version 1 (Guide 3, section 10) **(?)**.
+Ordering of work: the **Tile System** first (built, but for 5.3), then the full clean-up and optimisation (V1); Batches D and E and the extraction **(owner decides)**.
 
 ### 5.5.2 App-wide requirements
 
 | Id | Requirement | P | State | Stage |
 |---|---|---|---|---|
-| A2 | Screen classes Tablet / Laptop / Desktop on width **and** height; one set of breakpoints (768, 1200, heights 900 and 1250) shared by all stylesheets and by the layout check. | M | Fix | V1 **(?)**: check against the tiers built 2026-11-23 (AI 9, section 4); likely done |
 | A3 | WCAG 2.2 AA is the acceptance level, tested in all four reading modes (light, sepia, dark, auto). | M | Gap | V1 |
 | A4 | Every setting that belongs to a business lives with the data it governs; Global Settings keeps only per-user and per-device preferences (section 5.5.6). | S | Fix | V1 |
 | A5 | Completeness: each page names which answers are required, in one place, and the page status uses that list. Goals and targets are optional but nudged. | S | Gap | V1 |
@@ -232,15 +247,26 @@ The plans of 2026-10-14 for the clean-up round, the library automation and its s
 
   **Later.** Once an asset has replaced the old one (phase 3), the app is built from the library for that asset, and the sync then finds the asset where the library put it.
 
-- The values of old 5.14 that are not on a step (gaps of 10, 14, 18, 20px and others; corners of 1, 2, 3, 7, 10, 12px; three window and container boundaries drawn twice) wait for the owner: each joins a step, becomes a step, or stays a literal in the lint's baseline. The decided breakpoint set (768, 1200, heights 900 and 1250) is not yet used by any query.
+- The values of old 5.14 that are not on a step (gaps of 10, 14, 18, 20px and others; corners of 1, 2, 3, 7, 10, 12px; three window and container boundaries drawn twice) wait for the owner: each joins a step, becomes a step, or stays a literal in the lint's baseline.
 - The library: asset by asset, each with its contract, gallery entry and page code changed to use it (step 5), the style-reading tests converted as each asset gets its contract, then the page check last (step 6) with its baseline rewritten; the sync (`01-library-system.md`, step 7).
 - Optimisation, measured before and after: load (`Conversation`, `Landing` and the registry chunks; the two examples already load on demand; every editor is in one chunk), run (the biggest editors re-render on every key: profile first, memoise only where the profile shows it), code (files over 2,000 lines such as `FinancialModel.ts`, `AnswerBusinessCapability.ts` and `Conversation.tsx`; duplicated helpers; the non-tile paths under `asTiles` in four editors (5.3); the Operations and social-media branches in `Conversation`). The old figures (a bundle of 662 KB, 1.07 MB of CSS, 1,355 tests) are of 2026-10-14 and must be measured again. Bundle-size limits have no official value: the limit is a choice to make after the first measurement. Target for interaction: "good" Interaction to Next Paint is 200 ms or less (web.dev).
-- **What is left of the review of 2026-11-21** (`../../archive/proposals/app-review-2026-11-21.md`, archived 2026-11-27; its ids): R1, the 37 merged branches deleted and GitHub's "Automatically delete head branches" turned on (the owner said yes; waits for the PC); S2, the editors split by page with `lazy()` (only before a hosted web version) **(?)**; S4, the `!important` rules brought down one sheet at a time; C1, the ten files over 1,200 lines split by topic, one per pull request; C2, the old non-tile layout under `asTiles` (5.3); C4, the tool majors (Vite 8, Vitest 5, TypeScript 7, `@vitejs/plugin-react` 6, `jsdom` 31) on their own branch, and the two Tauri packages; L1, the wide check's findings fixed by rule at the shared component, the 24 px target first; L3, the wide check made to find the same things twice, then its baseline rewritten; D1, the layout rules (AI 9) split by subject.
+- **What is left of the review of 2026-11-21** (`../../archive/proposals/app-review-2026-11-21.md`, archived 2026-11-27; its ids): R1, the 37 merged branches deleted and GitHub's "Automatically delete head branches" turned on (the owner said yes; waits for the PC); S2, the editors split by page with `lazy()` (only before a hosted web version) **(owner decides)**; S4, the `!important` rules brought down one sheet at a time; C1, the ten files over 1,200 lines split by topic, one per pull request; C2, the old non-tile layout under `asTiles` (5.3); C4, the tool majors (Vite 8, Vitest 5, TypeScript 7, `@vitejs/plugin-react` 6, `jsdom` 31) on their own branch, and the two Tauri packages; L1, the wide check's findings fixed by rule at the shared component, the 24 px target first; L3, the wide check made to find the same things twice, then its baseline rewritten; D1, the layout rules (AI 9) split by subject.
 
 
-## 5.7 Extraction into the new app
+## 5.7 Extraction into the new app: what the audit found
 
-Moved to Guide 3, section 10.2, on 2026-11-27, with what the audit found and the open decision on the new app's form: after Version 1 **(?)**.
+Stage **(owner decides)**.
+
+- **No Foundation folder exists.** Systems 01–24 are rows in `src/data/systems.ts`; the interview code is shared and the business editors are wired in as answer types. The cut is by feature, not by folder. Foundation-only Markdown content (Systems 01 to 04: Answer, Questions and Help files) is about 10 KB of 131 KB.
+- **To keep** (shared parts): reading mode (`ThemeService`, colours), focus mode, notes (Notepad), calendar, search, review, undo, help notes, export and documents, preferences, storage behind its interface.
+- **To leave behind:** Systems 05–24 content and menu rows, `CapabilityGenerator`, the operations and social-media branches in `Conversation`, and any editor only they use (Process Library, Operational Log, Roles & Responsibilities).
+- **Not to leave behind:** Financial Foundation, Sustainability and the financial model. They are the Business System's Sections 4 and 5, drawn on its page Financials. (The raw audit listed them as "likely other systems"; that is wrong.)
+- **Desktop-only code:** one import (`@tauri-apps/plugin-opener` in `InfoNote`, with a web fallback already in place), plus the Tauri folder and two port settings in the build file. A web build is straightforward.
+- **Storage:** the Organisations are kept in this device's IndexedDB, behind one store interface (`IndexedDbStorage.ts`, `LocalOrganizationStore.ts`); the theme, the notes and the preferences stay in local storage. A server store fits behind the same interface. The two example organisations alone are about 600 KB.
+- **Calendar: decided, it exists in the new app.** The earlier Foundation App Plan listed it as staying behind. It reads card dates, so it depends on the card engine and travels with it; its sources (card dates, Operational Log, schedules) are kept.
+- **Decision:** the form of the new app is open (5.8, item 7).
+- **X1, extraction readiness** (should, new): the shared parts (reading mode, notes, calendar, search, review, undo, help, export, preferences) import nothing from Systems 05 to 24; the operations and social-media branches in `Conversation` are removed; storage stays behind the store interface; the desktop opener is the only Tauri import.
+- **X2** (should, new): the examples are optional in the new app (they already load on demand: `ExampleOrganizations.ts`).
 
 
 ## 5.8 Open decisions
@@ -254,7 +280,8 @@ Still open (the requirement ids are those of 5.5):
 3. T7 "Travel and van hire": move to Vehicles, or split into trips and van hire (C13)?
 4. Which relationship-type definition (the six fields, C4) is accepted, and who writes it?
 5. Is a rough cost per customer by channel wanted at this stage (C14)?
-(Items 6 and 7 left on 2026-11-27: the 768 px floor went with the 320 px minimum width of 2026-11-22; the new app's form moved with the extraction to Guide 3, section 10.2.)
+6. (Closed: the 768 px floor went with the 320 px minimum width of 2026-11-22.)
+7. Is the new app still a web app with accounts (as in the Foundation App Plan), and does it keep the Examples (5.7, X2)? **(owner decides)**, with the extraction.
 
 ## 5.9 Known open findings
 
@@ -337,9 +364,9 @@ Each line points to the one place its design lives; the item leaves this list wh
 | The Financials still to build (Offering Economics card, RV1, O19, K15 as a record, FN1, nested sub tiles, the Cash Timeline) | [Questions 20](../questions/20-financials-and-inventory.md), sections 1 and 14, and section 5.3 above | Not built | Beta |
 | The Beta questionnaire for the app's first founders | [Research 8](../research/08-beta-questionnaire.md) | Proposal, nothing built | Beta |
 | The open points of the first version, and the research still to do | [Questions 4](../questions/04-specs-and-limitations.md), sections 9 and 12 | Open | V1 |
-| Delivery and capacity additions not yet on the cards | [Research 7](../research/07-delivery-and-capacity-research.md) and [Questions 19](../questions/19-capacity-and-delivery.md) (its status names the built parts) | Built in part | V1 **(?)** |
+| Delivery and capacity additions not yet on the cards | [Research 7](../research/07-delivery-and-capacity-research.md) and [Questions 19](../questions/19-capacity-and-delivery.md) (its status names the built parts) | Built in part | V1 **(owner decides)** |
 | The Strategy's Current Situation lines (the market, the competition, the capacity check) | [Questions 21](../questions/21-strategy.md), section 10 (from section 2.3) | Not built | V1 |
-| The phases of the questionnaire still open (Direction, Ambassador, the Journey rebuild, Initiatives and Activities) | [Questions 1](../questions/01-questionnaire-plan.md), section 10 | Built in part | V1 **(?)** |
+| The phases of the questionnaire still open (Direction, Ambassador, the Journey rebuild, Initiatives and Activities) | [Questions 1](../questions/01-questionnaire-plan.md), section 10 | Built in part | V1 **(owner decides)** |
 | The free-text character limits and one component per category | [Interface 3](../interface/03-free-text-categories.md) | Proposal | V1 |
 | The help texts' structure beyond the size budget | [Interface 10](../interface/10-help-texts-guide.md) | Built in part | V1 |
-| The library's sync of the app to the tables (step 7) | [Library 1](../library/01-library-system.md), section 7, and section 5.6 above | Not built | V1 **(?)** |
+| The library's sync of the app to the tables (step 7) | [Library 1](../library/01-library-system.md), section 7, and section 5.6 above | Not built | V1 **(owner decides)** |

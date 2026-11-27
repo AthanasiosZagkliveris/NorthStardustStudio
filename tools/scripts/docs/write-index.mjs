@@ -18,7 +18,7 @@ const APP = [
 const GUIDE = [
   ["docs/guide/01-user-guide.md", "playbook", "The user guide: how a founder uses the app step by step: the Organisations screen, the Foundation with its Identity and Business Systems, and the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar).", true],
   ["docs/guide/02-overview.md", "reference", "The app: what it is, where its guide and specifications are, and how its answers connect.", true],
-  ["docs/guide/03-future-features.md", "proposal", "Every idea for after Version 1: an AI Assistant, Team working mode, Voice mode, more languages and countries, the other features ranked and scored, what the first version leaves out, the Business System ideas for later, Workspace D and E, the extraction.", true]
+  ["docs/guide/03-future-features.md", "proposal", "Every idea for after Version 1: an AI Assistant, Team working mode, Voice mode, more languages and countries, the other features ranked and scored, what the first version leaves out, the Business System ideas for later, and the other proposals kept for later.", true]
 ];
 const TESTING = [
   ["docs/testing/01-app-tests-guide.md", "reference", "The app's tests: where they are, how they run (Vitest, the pre-commit hook, CI), and what every test file checks, in six groups (screens, business rules, saved data and examples, whole pages, design system and docs, content files).", false]

@@ -117,7 +117,7 @@ A proposal from online research (official, university and standards sources; sec
 | 1 | **Backup, export and import (JSON project file)** | Browsers can delete an origin's stored data when storage runs low; persistence must be requested and may be refused. | [31] | **Built**: Export and Import of an Organisation as a JSON file on the Landing page |
 | 2 | **Persistent-storage request and storage warning** | `navigator.storage.persist()` lowers the risk of the browser deleting data; the browser decides whether to grant it. | [31] | **Built**: the Organisations are kept in IndexedDB and persistence is asked for at start (`IndexedDbStorage.keep`, `main.tsx`); when the browser refuses, the Landing page asks the founder to Export each Organisation (the desktop app keeps its data in its own folder, so it never shows there) |
 | 3 | **Lender-ready exports (Start Up Loans format: plan, 12-month cash flow, survival budget)** | Start Up Loans applicants must send a 12-month cash flow forecast and a personal survival budget. | [14] | Built in part: the personal survival budget (Questions 20, section 13) and the Financial Documents in the Workbook; no export in the Start Up Loans format |
-| 4 | **Scenario planning (base, low, high) on the Financial Forecast** | Planning works best combined with learning and revision; competitors offer "what-if" scenarios. | [2][32] | Not built (Workspace D3, section 10.1) |
+| 4 | **Scenario planning (base, low, high) on the Financial Forecast** | Planning works best combined with learning and revision; competitors offer "what-if" scenarios. | [2][32] | Not built (Workspace D3, Records 2, 5.4) |
 | 5 | **Progress dashboard and plan-versus-actual review** | Regular revision is where planning pays off; LivePlan ties dashboards to actuals. | [2][4] | Not built (K2, section 10) |
 | 6 | **Data privacy controls (what is stored, clear all, redact for sharing)** | UK GDPR expects data protection by design; personal data in plans includes founders' finances. | [9] | Not built |
 | 7 | **Machine-readable export (CSV/JSON) of all answers** | The ICO names CSV, JSON and XML as suitable structured, machine-readable formats for portability. | [33] | Built in part: the JSON export of an Organisation and the forecast as CSV |
@@ -128,7 +128,7 @@ A proposal from online research (official, university and standards sources; sec
 | 12 | **Reminders and calendar export (.ics) for roadmap and tax dates** | MTD quarterly updates have fixed deadlines (first one due 7 August 2026). | [26] | Not built |
 | 13 | **Onboarding tour and sample project** | 53% of UK businesses with no employees used digital tools to run the business in 2024. Many solo founders are still new to such tools. | [37] | Built in part: the two example Organisations; no tour |
 | 14 | **Tablet layout (768px and up, touch targets)** | WCAG 2.2 2.5.8 Target Size (Minimum) sets 24 by 24 CSS pixels for pointer targets. | [19] | Built in part: minimum width 768, the chapters stack below 1200 (AI 9, the layout rules); the touch targets are not checked |
-| 15 | **What It Would Take on the Financials** (the smallest single change that keeps the cash at zero or above: more sales, a higher price, lower costs, a later start) | Founders without sales need to know what has to change before they borrow; a lever per answer turns a shortfall into a decision. | [2][14] | Built in the engine, tested, no screen shows it (`engine/financial/whatItWouldTake.ts`; section 10.1, E1) |
+| 15 | **What It Would Take on the Financials** (the smallest single change that keeps the cash at zero or above: more sales, a higher price, lower costs, a later start) | Founders without sales need to know what has to change before they borrow; a lever per answer turns a shortfall into a decision. | [2][14] | Built in the engine, tested, no screen shows it (`engine/financial/whatItWouldTake.ts`; Records 2, 5.4, E1) |
 | 16 | **Loan repayment notes** (why each loan's repayments are, or are not yet, counted in the forecast, from its status) | Start Up Loans and lenders read the repayments in the 12-month cash flow; a requested loan that is counted overstates the cash. | [14] | Built (2026-11-27, owner, 03:16 UTC+2: "Yes do as you suggest"): the Loan Repayments under the Cash-Flow Forecast of the Workbook's Financial Forecast (Workbook, Financial Forecast) |
 
 | 17 | **Capability Generator** (a page that drafts an Organisation's capabilities from its answers) | Moved off the Landing page to the future features by the owner (2026-11-22 18:58 UTC+2: "Move the Capability generator to future features"): its page (`/generator`) stays in the code, unlinked, until it is built. | owner | Not built: unlinked |
@@ -144,7 +144,7 @@ A proposal from online research (official, university and standards sources; sec
 
 ## 7. The future features scored, 1 to 10 (2026-11-21)
 
-Asked by the owner on 2026-11-21 23:53 UTC+2: "Evaluate the future features, in a scale from 1-10 according importance, popularity, and effort to be build." Every feature of 1 to 5 and of the Workspace briefs (section 10.1) that is not built. The scores are a judgement from the evidence and sources of 1 to 5, not a measurement: the Beta questionnaire (Research 8) is the way to measure popularity with real founders.
+Asked by the owner on 2026-11-21 23:53 UTC+2: "Evaluate the future features, in a scale from 1-10 according importance, popularity, and effort to be build." Every feature of 1 to 5 and of the Workspace briefs (Records 2, 5.4) that is not built. The scores are a judgement from the evidence and sources of 1 to 5, not a measurement: the Beta questionnaire (Research 8) is the way to measure popularity with real founders.
 
 - **Importance**: what it is worth to an early-stage founder who may not have sold anything yet (10 = the plan is wrong or lost without it).
 - **Popularity**: how often comparable tools offer it and founders ask for it (10 = every comparable tool has it).
@@ -271,49 +271,12 @@ The requirements of Records 2, section 5.5, that are **could** (C) or new ideas 
 
 | What | Where its design lives | State |
 |---|---|---|
-| **Workspace D**: duplicate an Organisation (D1) or a card (D2), scenarios (D3), Compare (D4), with `planOutcomes` | [the brief](../proposals/workspace-d-duplicate-scenarios-compare.md); its state against the code, 10.1 below | Not built |
-| **Workspace E**: What would it take (E1; the engine's `whatItWouldTake` is built and tested, no screen shows it), the lender-ready check (E2), the One-Pager (E3), glossary hints (E4) | [the brief](../proposals/workspace-e-founder-helpers.md); 10.1 below | Not built |
 | **K2, actuals**: the Repair Record draws on the Contingency Fund; plan against actual | The task plan's K2 ([the log's archive, 4.5](../archive/log/log-archive-2026-07-to-10.md#45-the-task-plan-f-to-k-as-locked-on-2026-10-09)); section 5, row 5 | Not built |
-| **The extraction into a new app** (the Foundation alone, a web app, perhaps with accounts) | 10.2 below | Open: the form of the new app is the owner's decision |
 | **Shared Workspace**: working together without a server | [archive/proposals/shared-workspace.md](../archive/proposals/shared-workspace.md); the Team working mode, section 2 | Not built |
 | **Card links by group**: which partner and supplier groups each resource group could link to, and which partners, suppliers and resources each activity group could | [archive/proposals/card-links.md](../archive/proposals/card-links.md) | Not built |
 | **A Customer Segment built by selection** | [archive/proposals/segment-by-selection-proposal.md](../archive/proposals/segment-by-selection-proposal.md) | Not built |
 | **Lists and classifications for more countries** | [Research 3](../design/research/03-lists-and-classifications.md); section 8.1, items 2 to 4 | Not built |
 
-### 10.1 Workspace D and E against the code
-
-The briefs (`../proposals/workspace-d-duplicate-scenarios-compare.md` and `workspace-e-founder-helpers.md`; nothing of either is built; moved from Records 2, 5.4, on 2026-11-27) say D and E wait until the structure is stable; it is; the road of 2026-10-14 put them after the Tile System and before the extraction, and on 2026-11-27 they were moved here, after Version 1, for the owner to confirm. What they ask for is checked below against the code.
-
-**Already built** (the briefs asked to reuse them): `FieldKey`, `openField`, the field status line (with the unused "Changed in … · Reset" parts), the Workbook (its Review and its Glossary), the Notepad (the Notes tool), the undo toast, search, and `Sources.ts`. **Absent:** `planOutcomes`, scenarios, duplicate organisation and card, the Compare route, the lender check, the One-Pager.
-
-| Item | State | Outdated in the brief | Effort |
-|---|---|---|---|
-| `planOutcomes` (one function for all outcome figures) | Absent | Must be extracted from `planCase`, `stressTest` and the forecast | M |
-| D1 Duplicate organisation | Absent | "Annotations are copied": annotations no longer exist; notes live in the Notepad, per person, outside the organisation | S |
-| D2 Duplicate a card | Absent | The card kinds are now the cost-model cards; generated cards must not be duplicated; offering links and shares kept or cleared by rule | L |
-| D3 Scenarios | Absent | The scenario-able inputs table no longer matches; Global Settings are saved with each organisation; `withWhatIf` only scales revenue, so a layer that applies overrides to the whole document is needed | L (largest) |
-| D4 Compare | Absent | Needs `planOutcomes` and a route; runway, funding gap, yearly profit and repayments must be added | M |
-| E1 What would it take? | Partly exists: `whatItWouldTake` (`engine/financial/whatItWouldTake.ts`, percent levers for a cash shortfall) is tested, but no screen shows it today | The brief asks for "break even by month X", amounts per offering and "Try this" (needs D3) | M |
-| E2 Lender-ready check | Absent | The Review page has changed; the ten rules must be re-checked against the new data; each needs a Source | M |
-| E3 One-Pager and elevator pitch | Absent | Re-read segment, offering and founder data through `readFoundation`; one-page fit needs a measurement test | M |
-| E4 Glossary hints | Absent | About 40 terms, each with a checked reference; conflicts with the global tooltip rules | M |
-
-Suggested order: `planOutcomes`, then D1 and D3, then D4 and D2; E1 after D3; E2, E3 and E4 in parallel. One commit per item; the owner tries each batch once. References for E2 and E4 follow the source rule (Research 1).
-
-### 10.2 The extraction into a new app: what the audit found
-
-(Moved from Records 2, 5.7, on 2026-11-27.)
-
-- **No Foundation folder exists.** Systems 01–24 are rows in `src/data/systems.ts`; the interview code is shared and the business editors are wired in as answer types. The cut is by feature, not by folder. Foundation-only Markdown content (Systems 01 to 04: Answer, Questions and Help files) is about 10 KB of 131 KB.
-- **To keep** (shared parts): reading mode (`ThemeService`, colours), focus mode, notes (Notepad), calendar, search, review, undo, help notes, export and documents, preferences, storage behind its interface.
-- **To leave behind:** Systems 05–24 content and menu rows, `CapabilityGenerator`, the operations and social-media branches in `Conversation`, and any editor only they use (Process Library, Operational Log, Roles & Responsibilities).
-- **Not to leave behind:** Financial Foundation, Sustainability and the financial model. They are the Business System's Sections 4 and 5, drawn on its page Financials. (The raw audit listed them as "likely other systems"; that is wrong.)
-- **Desktop-only code:** one import (`@tauri-apps/plugin-opener` in `InfoNote`, with a web fallback already in place), plus the Tauri folder and two port settings in the build file. A web build is straightforward.
-- **Storage:** the Organisations are kept in this device's IndexedDB, behind one store interface (`IndexedDbStorage.ts`, `LocalOrganizationStore.ts`); the theme, the notes and the preferences stay in local storage. A server store fits behind the same interface. The two example organisations alone are about 600 KB.
-- **Calendar: decided, it exists in the new app.** The earlier Foundation App Plan listed it as staying behind. It reads card dates, so it depends on the card engine and travels with it; its sources (card dates, Operational Log, schedules) are kept.
-- **Decision (open):** is the new app still a web app with accounts (as in the Foundation App Plan), and does it keep the Examples (X2)?
-- **X1, extraction readiness** (was Records 2, 5.5.2; should, new): the shared parts (reading mode, notes, calendar, search, review, undo, help, export, preferences) import nothing from Systems 05 to 24; the operations and social-media branches in `Conversation` are removed; storage stays behind the store interface; the desktop opener is the only Tauri import.
-- **X2** (was Records 2, 5.5.2; should, new): the examples are optional in the new app (they already load on demand: `ExampleOrganizations.ts`).
 
 ## 11. Sources
 
