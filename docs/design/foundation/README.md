@@ -1,6 +1,6 @@
 # The design of the Foundation (Foundation 1, 2)
 
-Status: **index**, updated 2026-11-26. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-11-27. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
 The single description of the Foundation capability (1) and its Part F, the card structure (2), from which the structure tables and the catalogue record are generated.
 

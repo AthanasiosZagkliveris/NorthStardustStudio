@@ -1,6 +1,6 @@
 # The documents of NorthStardustStudio
 
-Status: **index**, updated 2026-11-26. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
+Status: **index**, updated 2026-11-27. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
 
 ## How the documents are kept
 
@@ -55,7 +55,7 @@ How a founder uses the app, step by step, and an overview of the app, its specif
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
 | [guide/01-user-guide.md](guide/01-user-guide.md) | playbook | The user guide: how a founder uses the app step by step: the Organisations screen, the Foundation with its Identity and Business Systems, and the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar). | 2026-11-23 |
-| [guide/02-overview-and-future-features.md](guide/02-overview-and-future-features.md) | reference | The app: what it is, where its guide and specifications are, how its answers connect, and its future features (an AI Assistant, Team working mode, Voice mode, more languages and countries), from online research. | 2026-11-25 |
+| [guide/02-overview-and-future-features.md](guide/02-overview-and-future-features.md) | reference | The app: what it is, where its guide and specifications are, how its answers connect, and its future features (an AI Assistant, Team working mode, Voice mode, more languages and countries), from online research. | 2026-11-27 |
 
 ## 4. The design of the Foundation (`design/foundation/`, Foundation 1 and 2)
 
@@ -76,11 +76,11 @@ How the questions work, then one document for each tile in the order the app sho
 | [design/questions/02-questionnaire-specification.md](design/questions/02-questionnaire-specification.md) | proposal | The questionnaire specification: every question, option and rule for the Identity, Segment, Profile, Competitor, Offering and Engagement cards, the connections and the evidence. | 2026-11-21 |
 | [design/questions/03-question-guide.md](design/questions/03-question-guide.md) | proposal | The question guide: the flow of the questions as trees, the key branches and how a question earns its place. | 2026-11-21 |
 | [design/questions/04-specs-and-limitations.md](design/questions/04-specs-and-limitations.md) | specification | The first published version (language, countries, legal forms, market structure, relationships, buyer and user, ages; it governs the other questionnaire documents, sections 1 to 9) and everything left for later (sections 10 to 15: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age rules, research to do). | 2026-11-21 |
-| [design/questions/05-auto-filled-answers.md](design/questions/05-auto-filled-answers.md) | reference | Auto-filled answers: every answer the app drafts, starts, offers or works out from an earlier one (about 120): the field, the kind, its sources, the code and the document that describes it. | 2026-11-25 |
+| [design/questions/05-auto-filled-answers.md](design/questions/05-auto-filled-answers.md) | reference | Auto-filled answers: every answer the app drafts, starts, offers or works out from an earlier one (about 120): the field, the kind, its sources, the code and the document that describes it. | 2026-11-26 |
 | [design/questions/06-questions-register.md](design/questions/06-questions-register.md) | generated | The questions register: every question of the Foundation's cards by card and position, with its permanent code, saved id, control, limit, when it is asked, its start, options and "i", and the retired codes; generated from the code. | 2026-11-22 |
 | [design/questions/07-organisation-tile.md](design/questions/07-organisation-tile.md) | specification | The Organisation tile's fields as built: control, when asked, options, the help and the connections. | 2026-11-25 |
 | [design/questions/08-positioning-tile.md](design/questions/08-positioning-tile.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-21 |
-| [design/questions/09-purpose-and-beliefs.md](design/questions/09-purpose-and-beliefs.md) | specification | Purpose & Beliefs: the Identity System's Mission, Vision, Values, Principles, Philosophy and Manifesto as three pair tiles, each text with its guiding questions, control, length, "i" and connections (codes PB1 to PB6), built with the owner's decisions (section 6). | 2026-11-21 |
+| [design/questions/09-purpose-and-beliefs.md](design/questions/09-purpose-and-beliefs.md) | specification | Purpose & Beliefs: the Identity System's Mission, Vision, Values, Principles, Philosophy and Manifesto as three pair tiles, each text with its guiding questions, control, length, "i" and connections (codes PB1 to PB6), built with the owner's decisions (section 6). | 2026-11-26 |
 | [design/questions/10-legal-starts.md](design/questions/10-legal-starts.md) | proposal | Legal starts: the registrations, taxes and legal expenses the Legal Entity can start from Definition and the Business pages, by country, each with its official source; the eight decisions; stages 1 to 4 built (section 6). | 2026-11-21 |
 | [design/questions/11-ambassador.md](design/questions/11-ambassador.md) | specification | The Ambassador: the Brand System's four tiles with their choices BA1 to BA4 and BA6 to BA9, the drafts and the Style suggestions; built in part (the Style suggestions are still to build). | 2026-11-21 |
 | [design/questions/12-segment-questions.md](design/questions/12-segment-questions.md) | specification | The Segment card's questions as built: every question and option in order, when it is asked, what its help says and what it comes from and is read by. | 2026-11-21 |
@@ -107,8 +107,8 @@ What every screen shares, from the shared components (1) to the smallest text: t
 | [design/interface/05-reactions.md](design/interface/05-reactions.md) | current design | How elements react to the pointer and the keyboard: the reactions by component. The check is in the layout rules; this is the lookup. | 2026-11-21 |
 | [design/interface/06-text-links.md](design/interface/06-text-links.md) | generated | The text link: look and behaviour, from the code and the walk of the app. | 2026-11-21 |
 | [design/interface/07-popups.md](design/interface/07-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-11-21 |
-| [design/interface/08-tooltips.md](design/interface/08-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-21 |
-| [design/interface/09-help-texts.md](design/interface/09-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-11-21 |
+| [design/interface/08-tooltips.md](design/interface/08-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-27 |
+| [design/interface/09-help-texts.md](design/interface/09-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-11-26 |
 | [design/interface/10-help-texts-guide.md](design/interface/10-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-21 |
 | [design/interface/11-symbols.md](design/interface/11-symbols.md) | current design | The 39 symbols of the Capabilities, the Systems and the Resources: grid, sizes and their three drawings, line, corners, tints, gaps, the rule that a symbol takes its card's hue, reading modes, each symbol's drawing by size, and the files the app reads. | 2026-11-26 |
 
@@ -147,8 +147,8 @@ The log of every change (1), what has not been done (2), and the generated catal
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [design/records/01-log.md](design/records/01-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-11-26 |
-| [design/records/02-not-done-yet.md](design/records/02-not-done-yet.md) | living list | What has not been done: the road, the plans, the requirements still open, the open decisions and the open points of the reviews. | 2026-11-25 |
+| [design/records/01-log.md](design/records/01-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-11-27 |
+| [design/records/02-not-done-yet.md](design/records/02-not-done-yet.md) | living list | What has not been done: the road, the plans, the requirements still open, the open decisions and the open points of the reviews. | 2026-11-26 |
 | [design/records/03-catalogue-record.md](design/records/03-catalogue-record.md) | generated | The catalogue record of the app's pages, tiles, cards and controls, from the card scan and the probes. | 2026-11-21 |
 | [design/records/04-structure-tables.md](design/records/04-structure-tables.md) | generated | The structure tables of the app (pages, chapters, tiles, views, components, fields, card kinds), from the catalogue. | 2026-11-21 |
 
@@ -173,7 +173,7 @@ Standing rules, references and playbooks for an AI assistant working on the proj
 | [ai/06-framework-conventions-and-patterns.md](ai/06-framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-11-21 |
 | [ai/02-review.md](ai/02-review.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured and the report (sections 1 to 12), and the checklist to tick before saying done (section 13). | 2026-11-21 |
 | [ai/04-code-map.md](ai/04-code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-22 |
-| [ai/09-layout-rules.md](ai/09-layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-26 |
+| [ai/09-layout-rules.md](ai/09-layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-27 |
 | [ai/08-card-kinds.md](ai/08-card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-11-21 |
 | [ai/05-folder-plan.md](ai/05-folder-plan.md) | reference | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder (it was document 25; the number is retired). | 2026-11-21 |
 

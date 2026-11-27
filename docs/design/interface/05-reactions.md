@@ -1,6 +1,6 @@
 # 5. The reactions
 
-Status: **current design**, written 2026-10-17, updated 2026-11-10. The kinds of reaction (R1 to R15), and which component takes which.
+Status: **current design**, written 2026-10-17, updated 2026-11-27. The kinds of reaction (R1 to R16), and which component takes which.
 
 What the app does when a part of it is pointed at, pressed, focused, ticked, opened or switched off: the kinds of reaction, and which fields and components take which. Written from the stylesheets. The rulebook (`docs/ai/09-layout-rules.md`, section 6, "Interactions: one set of reactions per kind") holds the same rules as the table the automatic layout check runs against, and fails a kind that does not react as its row says; this document is the lookup: the kinds, and which component takes which.
 
@@ -23,6 +23,7 @@ What the app does when a part of it is pointed at, pressed, focused, ticked, ope
 | R13 | **Close** (a card that pops up) | A click anywhere outside it, and Escape, close it. | Calendars, the colour picker, a dropdown's list, the funnel, notes, the tile views. |
 | R14 | **Press** (a control held down) | Every button, tab, menu item, summary and link darkens a little more (`filter: brightness(0.93)`, `cell-focus.css`); a field has its ring. | One rule for every control. |
 | R15 | **Landing** (where a link leads) | The part a link leads to is brought into view and framed: a 4px line in the links' blue of the reading mode, the box's 8px corners and a soft glow, held about a second and a half, then fading (`.jump-highlight`, `land` in `jumpTo.ts`). A part a Note's link leads to is lit in the Notes' orange instead (`is-noted-hot`). | Search, the Review, the Glossary's "In the app", the Card Notes, the competitors under a Differentiation, a reference in an "i"; the frame stands over the lines beside it. |
+| R16 | **Symbol tile** (a tile's symbol) | The symbol grows 10% and stands on a tile of its own, 2px larger all round, in the card's ink, the symbol inverted on it in the surface colour; its tooltip 6px above that tile, on its left edge (Interface 8). | The Capability, System and Resource symbols on tiles. The layout rules own it (section 4, "Larger symbols where a tile has the room"). |
 
 ## 2. By component
 
@@ -44,6 +45,7 @@ What the app does when a part of it is pointed at, pressed, focused, ticked, ope
 | "i" (info) | stroke and letter in the tint | filled with the tint, letter in the ground | the same | its note opens (R13) | n/a |
 | Funnel (founder's Responsibilities) | R4 at rest | R4 filled | outline | filled while it leaves something out; its list opens (R13) | n/a |
 | Link symbol | a drawn chain in the card's tone | R9 | R9 | - | n/a |
+| Symbol on a tile (Capability, System, Resource) | in the card's hue, sized by its room | R16 | - | - | n/a |
 | Text link | R5 at rest: blue, regular, no underline | R5 and R6 | R5 and outline | - | grey |
 | Fold arrow (card, 36px) | the ground and the card-line edge | its ground | focus ring | open or closed (information, help and links start closed; content starts open) | n/a |
 | Label arrow (beside a label) | the outline triangle | the triangle fills | the same | open or closed (information, help and links start closed; content starts open) | n/a |

@@ -1,6 +1,6 @@
 # 11. The symbols of the Capabilities, the Systems and the Resources
 
-Status: **current design**, written 2026-11-26, updated 2026-11-26. The 39 symbols of the app (6 Capabilities, 24 Systems, 9 Resource categories): how they are drawn, their sizes, lines, corners, tints, gaps and colours, the drawing each one uses at each size, and the files the app reads. Sections 1 to 10 hold for all 39; section 11 adds what is particular to the Resources. The names follow the owner's renaming of 2026-11-26 (Value Delivery, Information, Organisation, Communication, Performance; Product, Data, Analytics); the file names stay as they were.
+Status: **current design**, written 2026-11-26, updated 2026-11-27 (the sizes by room and the hover tile, 1 and 11.1). The 39 symbols of the app (6 Capabilities, 24 Systems, 9 Resource categories): how they are drawn, their sizes, lines, corners, tints, gaps and colours, the drawing each one uses at each size, and the files the app reads. Sections 1 to 10 hold for all 39; section 11 adds what is particular to the Resources. The names follow the owner's renaming of 2026-11-26 (Value Delivery, Information, Organisation, Communication, Performance; Product, Data, Analytics); the file names stay as they were.
 
 Related: Interface 1 (shared components), layout-rules (`ai/09-layout-rules.md`, sections 8 and 9: the symbol under a tile's title), Records 1 (the log).
 
@@ -17,11 +17,13 @@ The app shows a symbol in four places:
 | Place | Size | Class |
 |---|---|---|
 | A Capability's or a System's tile, under its title | 44px (`--add-button-height`); 32px on a phone | `section-tile-title-mark` |
-| A Capability's page and the System list on it | 44px; 32px on a phone | `section-tile-title-symbol` |
+| A Capability's page and the System list on it | 44px, then 66, 84 or 120px as the room under its list allows; 32px on a phone | `section-tile-title-symbol` |
 | The header of a System's page, before its title | 36px | `interview-header-icon` |
 | A Capability's description window | 48px | `capability-description-icon` |
 
 A symbol stands beside words that already name it, so it is decorative for a screen reader: hidden on a tile (`aria-hidden`, section 8.1), `alt=""` in a header (WCAG 2.2, 1.1.1).
+
+Under the pointer a tile's symbol grows 10% and stands on a tile of its own, 2px larger all round, in the card's ink, the symbol inverted on it; its tooltip stands 6px above that tile, on its left edge. The layout rules own the hover tile (`ai/09-layout-rules.md`, section 4, "Larger symbols where a tile has the room"), Interface 8 the tip.
 
 ## 2. The grid
 
@@ -202,7 +204,7 @@ They show in the two Resources sections, **Infrastructure's** and the **Offering
 
 | Place | Size | Class |
 |---|---|---|
-| A Resources tile too small to list its categories: a 3 x 3 grid of symbols, each named in its tooltip | 24px; 32px where three rows fit | `section-tile-list-fallback` |
+| A Resources tile too small to list its categories: a 3 x 3 grid of symbols, each named in its tooltip | Sized by the room at rest: 24px, then 32, 36 or 48px as the tile grows (layout rules, section 4) | `section-tile-list-fallback` |
 | The Resources dialog where its titles do not fit three across: the symbol under or in place of the title | 48px (`--title-symbol-size`); smaller where the tile leaves less room | `section-tile-title-symbol` |
 
 A symbol stands for words that are kept for assistive technology (the line's words stay in the list, the title's in its tooltip), so the picture itself is hidden from a screen reader (`aria-hidden`; WCAG 2.2, 1.1.1).
