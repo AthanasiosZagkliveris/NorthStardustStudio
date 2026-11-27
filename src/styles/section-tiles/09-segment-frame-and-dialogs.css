@@ -1129,6 +1129,13 @@
 
     }
 
+    /* (A Segment with no x -- one the app made -- keeps no x's room, so its name and the Segments' arrow stand whole: owner, 2026-11-27, "apply it for the mobile".) */
+    .business-foundation-frame-head:not(:has(> .strategy-box-remove)) {
+
+        padding-right: var(--gap-4);
+
+    }
+
     /* (Its name one step down the scale, the section heading's size, as a phone's other headings stand.) */
     :root .business-foundation-frame-head .field-group-title.business-foundation-frame-title {
 

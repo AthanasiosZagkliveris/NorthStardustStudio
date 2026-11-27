@@ -1348,8 +1348,6 @@ export default function Conversation() {
     // (A page of one Segment at a time: the Segment shown, by its id in both answers -- the chosen one while it is there, else the first.)
     const pageSegments = pageGroup?.oneSegmentAtATime ? asBusinessFoundationValue(businessFoundationValue).segments : [];
     const pageSegmentIds = pageSegments.map(segment => segment.id);
-    // (Each Segment by its name, numbered by its order where there are several, as its frames were: "1. London Homemakers"; "Segment" until it has a name.)
-    const segmentRailItems = pageSegments.map((segment, at) => ({ id: segment.id, label: (pageSegments.length > 1 ? (at + 1) + ". " : "") + (segment.name.trim() || "Segment") }));
     const segmentPage: SegmentPage | null = pageSegmentIds.length > 0
         ? { segmentId: chosenSegment && pageSegmentIds.includes(chosenSegment) ? chosenSegment : pageSegmentIds[0], select: setChosenSegment, companionTiles }
         : null;
@@ -1570,19 +1568,15 @@ export default function Conversation() {
                                 />
                             )}
                         />
-                        {/* THE SEGMENT RAIL (owner, 2026-11-19, relayed: "the Segments go in the right-hand page rail"): on a page of one Segment at a time the
-                            page's right-hand rail -- empty on a page drawn as tiles (layout rules section 13) -- lists the Segments, each by its id, the one shown
-                            lit; a bullet shows its Segment. The same rail, slot and geometry (section 10, "The page's rails too"). */}
+                        {/* (NO SEGMENT RAIL (owner, 2026-11-27: "now that there is this drop down option, remove the rail tag for the segments"): a Segment is chosen
+                            from the list its chapter title's arrow drops (BusinessFoundationEditor, SegmentHead); the right-hand rail of a page of one Segment at a
+                            time is empty, as on every page drawn as tiles (layout rules section 13).) */}
                         <BulletRail
                             side="right"
-                            label={segmentPage ? "Segments" : "Sections"}
-                            items={segmentPage ? segmentRailItems : railSections}
-                            activeId={segmentPage ? segmentPage.segmentId : activeRailSection}
+                            label="Sections"
+                            items={segmentPage ? [] : railSections}
+                            activeId={activeRailSection}
                             onSelect={id => {
-                                if (segmentPage) {
-                                    segmentPage.select(id);
-                                    return;
-                                }
                                 // Pinned first, so the jump's own scroll keeps it.
                                 selectRailSection(id);
                                 scrollToRailSection(id);
