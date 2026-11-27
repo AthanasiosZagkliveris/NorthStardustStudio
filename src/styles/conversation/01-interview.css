@@ -727,6 +727,43 @@
 
     }
 
+    /* (THE TITLE ROW'S GAPS ON A PHONE (owner, 2026-11-27 19:09 UTC+2, phone round 3, point 24: "◀, icon, then a big gap before the title"): 12px between the
+       Back arrow, the page's symbol and the title, as the Workbook's row and a phone in landscape have (app-header.css); the Back's box as wide as its drawn
+       arrow (12px grown 1.85 times), so the 12px counts from what is seen; the symbol without its 36px column, which lines it up with a rail beside the page.) */
+    .interview-header-title-row{
+
+        column-gap:var(--gap-12);
+
+    }
+
+    .interview-header-title-row > .interview-header-back.back-link{
+
+        min-width:calc(12px * 1.85);
+
+    }
+
+    .interview-header-title-row > .interview-header-icon{
+
+        margin-inline:0;
+
+    }
+
+    /* (THE HEADER TO THE TITLE, ONE GAP ON EVERY PAGE (point 19): the button beside a title -- the Workbook's and the Handbook's funnel, 32px -- stands over the
+       row's height, never taller than the title's line, so the capitals stand 24px under the header on every page.) */
+    .interview-header-title-row > .workbook-tools{
+
+        margin-block:-4px;
+
+    }
+
+    /* (WHAT SCROLLS IS CUT AT THE RULE (point 14, "cut right at the title's underline"): the title's band ends at its rule; the 12px under it is the page's own.) */
+    .interview-header{
+
+        margin-bottom:0;
+        padding-bottom:0;
+
+    }
+
 
     /* (ONE LINE (layout rules, section 4, "A phone's page title"): a name longer than the row ends in an ellipsis; the Business pages' names wrapped onto a
        second line at 390px -- the check round, 2026-11-27.) */

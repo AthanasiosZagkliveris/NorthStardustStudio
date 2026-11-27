@@ -56,12 +56,27 @@ export function usePhonePage(): void {
         query.addEventListener?.("change", later);
         paint();
 
-        // THE SWIPE: a finger that moves sideways at least 60px, twice as far as it moves up or down, on the page itself (not in a dialog, a card, a field or
-        // anything that scrolls sideways), presses the page arrow on that side: to the left, the next page; to the right, the previous one.
+        // THE SWIPE: a finger that moves sideways at least 60px, twice as far as it moves up or down, presses the arrow on that side: to the left, the next page; to
+        // the right, the previous one. On a layer with its own arrows -- a dialog's, a card's, the Workbook's and the Handbook's tabs -- its arrows, the topmost
+        // layer's; on a page, the page's (owner, 2026-11-27 19:09 UTC+2, phone round 3, point 3: "drag a finger left/right/up/down to scroll or change pages,
+        // wherever possible"). Up and down the page scrolls as it always does. A swipe that starts in a field, an open list, or anything that scrolls sideways
+        // itself (a wide table, the band's dots) is that thing's own.
+        // (Only where the finger is on what is wider than its scroller -- a table wider than the document -- not anywhere in a document that holds one.)
+        const scrollsSideways = (from: Element | null) => {
+            let widest = 0;
+            for (let node = from; node && node !== document.body; node = node.parentElement) {
+                if (node.scrollWidth > node.clientWidth + 1 && widest > node.clientWidth + 1 && /(auto|scroll)/.test(getComputedStyle(node).overflowX)) {
+                    return true;
+                }
+                widest = Math.max(widest, node.getBoundingClientRect().width);
+            }
+            return false;
+        };
+        const shown = (button: HTMLButtonElement) => button.offsetWidth > 0 && !button.disabled && getComputedStyle(button).visibility !== "hidden";
         let start: { x: number; y: number } | null = null;
         const onStart = (event: TouchEvent) => {
             const target = event.target as Element | null;
-            const inside = target?.closest?.("input, textarea, select, [contenteditable], .section-tile-dialog, .floating-card-host, .popup-panel, [data-scroll-x]");
+            const inside = target?.closest?.("input, textarea, select, [contenteditable], .popup-panel, [data-scroll-x]") || scrollsSideways(target);
             start = !query.matches || event.touches.length !== 1 || inside ? null : { x: event.touches[0].clientX, y: event.touches[0].clientY };
         };
         const onEnd = (event: TouchEvent) => {
@@ -71,17 +86,83 @@ export function usePhonePage(): void {
             const dx = event.changedTouches[0].clientX - start.x;
             const dy = event.changedTouches[0].clientY - start.y;
             start = null;
-            if (Math.abs(dx) < 60 || Math.abs(dx) < 2 * Math.abs(dy) || document.querySelector(".section-tile-dialog, .floating-card-host")) {
+            if (Math.abs(dx) < 60 || Math.abs(dx) < 2 * Math.abs(dy)) {
                 return;
             }
             const direction = dx < 0 ? "next" : "previous";
-            const arrow = [...document.querySelectorAll<HTMLButtonElement>(`.page-arrow[data-direction="${direction}"]:not(.carousel-arrow)`)].find(button => button.offsetWidth > 0 && !button.disabled);
+            // (A layer's arrows first, the topmost -- the last drawn -- of them; with none, the page's.)
+            const layer = [...document.querySelectorAll<HTMLButtonElement>(`.page-arrow.carousel-arrow[data-direction="${direction}"]`)].filter(shown);
+            const page = [...document.querySelectorAll<HTMLButtonElement>(`.page-arrow[data-direction="${direction}"]:not(.carousel-arrow)`)].filter(shown);
+            const covered = document.querySelector(".section-tile-dialog, .floating-card-host") !== null;
+            const arrow = layer.length > 0 ? layer[layer.length - 1] : covered ? undefined : page[0];
             arrow?.click();
         };
         document.addEventListener("touchstart", onStart, { passive: true });
         document.addEventListener("touchend", onEnd, { passive: true });
 
+        // THE SCROLL MARKER (owner, 2026-11-27 19:09 UTC+2, phone round 3, point 12: "Long pages get a scroll position marker on the right side, so the user sees
+        // how long the text is and where they are"): a phone draws its own scrollbar only while the finger moves; a page or a layer more than a screen and a fifth
+        // long keeps a thin marker at the window's right edge, between the title's rule and the footer's band, as long as the part on screen and where it stands.
+        const marker = document.createElement("div");
+        marker.className = "phone-scroll-marker";
+        marker.setAttribute("aria-hidden", "true");
+        const thumb = document.createElement("div");
+        thumb.className = "phone-scroll-marker-thumb";
+        marker.appendChild(thumb);
+        document.body.appendChild(marker);
+        let scroller: Element = document.scrollingElement ?? document.documentElement;
+        const place = () => {
+            const long = query.matches && scroller.isConnected && scroller.scrollHeight > scroller.clientHeight * 1.2;
+            marker.hidden = !long;
+            if (!long) {
+                return;
+            }
+            const page = scroller === document.scrollingElement;
+            const box = page ? { top: 0, bottom: window.innerHeight } : scroller.getBoundingClientRect();
+            const rule = document.querySelector(".interview-divider")?.getBoundingClientRect().bottom ?? 0;
+            const band = [...document.querySelectorAll(".workspace-footer, .carousel-rail")].map(node => node.getBoundingClientRect()).filter(edge => edge.height > 0).reduce((top, edge) => Math.min(top, edge.top), window.innerHeight);
+            const top = Math.max(box.top, rule) + 4;
+            const bottom = Math.min(box.bottom, band) - 4;
+            const track = Math.max(0, bottom - top);
+            const size = Math.max(24, track * scroller.clientHeight / scroller.scrollHeight);
+            const travel = scroller.scrollHeight - scroller.clientHeight;
+            marker.style.top = top + "px";
+            marker.style.height = track + "px";
+            thumb.style.height = size + "px";
+            thumb.style.transform = `translateY(${travel > 0 ? (track - size) * scroller.scrollTop / travel : 0}px)`;
+        };
+        // (The marker follows what last scrolled: the page, or a layer's own body -- the Handbook's, a dialog's.)
+        const onScroll = (event: Event) => {
+            const target = event.target;
+            scroller = target instanceof Element && target.scrollHeight > target.clientHeight + 1 ? target : document.scrollingElement ?? document.documentElement;
+            place();
+        };
+        const replace = () => {
+            if (!scroller.isConnected || scroller.getBoundingClientRect().height === 0) {
+                scroller = document.scrollingElement ?? document.documentElement;
+            }
+            const layer = [...document.querySelectorAll(".section-tile-dialog-body")].filter(body => body.getBoundingClientRect().height > 0 && body.scrollHeight > body.clientHeight + 1).pop();
+            if (layer) {
+                scroller = layer;
+            }
+            place();
+        };
+        let markerFrame = 0;
+        const markerWatcher = typeof MutationObserver === "undefined" ? null : new MutationObserver(() => {
+            cancelAnimationFrame(markerFrame);
+            markerFrame = requestAnimationFrame(replace);
+        });
+        markerWatcher?.observe(document.body, { childList: true, subtree: true });
+        document.addEventListener("scroll", onScroll, { passive: true, capture: true });
+        window.addEventListener("resize", replace);
+        replace();
+
         return () => {
+            markerWatcher?.disconnect();
+            cancelAnimationFrame(markerFrame);
+            document.removeEventListener("scroll", onScroll, { capture: true });
+            window.removeEventListener("resize", replace);
+            marker.remove();
             cancelAnimationFrame(frame);
             watcher?.disconnect();
             query.removeEventListener?.("change", later);

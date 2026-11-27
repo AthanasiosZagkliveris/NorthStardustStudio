@@ -767,9 +767,11 @@
    every tab on the screen, sharing the row, their words wrapping; the Canvas without its outer frame, its dividing lines kept.) */
 @media (max-width: 600px) and (orientation: portrait) {
 
+    /* (The 12px under the rule is the scrolling body's own, so what scrolls is cut at the rule itself -- owner, 2026-11-27 19:09 UTC+2, point 14: "cut right at
+       the title's underline".) */
     .workbook .glossary-page {
 
-        row-gap: var(--gap-12);
+        row-gap: 0;
 
     }
 
@@ -782,7 +784,7 @@
     .workbook .workbook-panel > .section-tile-dialog-body {
 
         margin: 0;
-        padding: 0;
+        padding: var(--gap-12) 0 0;
 
     }
 

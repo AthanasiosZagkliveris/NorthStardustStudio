@@ -151,6 +151,15 @@
 
 }
 
+/* (Its middle is the rectangle's by the grid alone: the master tiles' measured offset (--title-centre, TileParts; its rule's :has() weighs six classes), taken
+   while the tile was still a square, pushed the words to its foot and cut them -- owner, 2026-11-27 19:09 UTC+2, phone round 3, point 23: "INVENTORY and
+   COMPLETED ... clipped".) */
+:root .section-tiles-completed[data-squeezed] .section-tile-slot > .section-tile .section-tile-title.section-tile-title {
+
+    translate: none;
+
+}
+
 .business-capability-resource-costs,
 .business-capability-resource-costs > .business-capability-cost-line {
 

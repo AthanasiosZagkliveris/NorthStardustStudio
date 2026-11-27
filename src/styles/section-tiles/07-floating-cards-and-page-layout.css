@@ -1799,11 +1799,25 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     }
 
     /* (A DIVIDING LINE BETWEEN CHAPTERS (owner, 2026-11-26 20:26 UTC+2, his drawing: "Dividing line"): each chapter after the first opens with a hairline from
-       the window's side to side, in the ink's 40%, the colour of a tile title's rule.) */
-    .conversation-card .business-foundation-input:has(.section-tiles-quad) ~ .business-foundation-input:has(.section-tiles-quad)::before,
-    .conversation-card .segment-chapter ~ .segment-chapter::before {
+       the window's side to side, in the ink's 40%, the colour of a tile title's rule. A page whose chapters stand in pages of fields one after another -- Identity,
+       Brand -- draws it too, whether the colours differ or not: owner, 2026-11-27 19:09 UTC+2, phone round 3, points 16 and 20.) */
+    /* (Its own layer, ::after, over the chapter's tiles' ground: drawn on the ground's layer (::before) and lifted over it, the ground came with it and covered the
+       chapter's tiles -- the Offering's chapter on Infrastructure & Capability stood empty, owner, 2026-11-27 19:09 UTC+2, point 22.) */
+    .conversation-card .business-foundation-input:has(.section-tiles-quad) ~ .business-foundation-input:has(.section-tiles-quad)::after,
+    .conversation-card .field-page:has(.section-tiles-quad) ~ .field-page > .answer-columns > .business-foundation-input:has(.section-tiles-quad)::after,
+    .conversation-card .segment-chapter ~ .segment-chapter::after {
+
+        content: "";
+
+        position: absolute;
+        top: -1px;
+        left: -100vmax;
+        right: -100vmax;
+        z-index: 1;
 
         border-top: 1px solid color-mix(in srgb, var(--text-strong, currentColor) 40%, transparent);
+
+        pointer-events: none;
 
     }
 
@@ -1879,17 +1893,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
     }
 
-    /* (THE DIVIDING LINE ON TOP OF THE CHAPTERS' COLOURS (owner, 2026-11-27 14:23 UTC+2: "Check ... Hairline"): with the chapters' grounds edge to edge, the
-       line stood behind the next chapter's ground, two stubs in the gutters; it is drawn over it, side to side.) */
-    .conversation-card .business-foundation-input:has(.section-tiles-quad) ~ .business-foundation-input:has(.section-tiles-quad)::before,
-    .conversation-card .segment-chapter ~ .segment-chapter::before {
-
-        z-index: 1;
-
-        pointer-events: none;
-
-    }
-
     /* (A TILE'S PICTURE ONLY WHERE IT FITS (owner, 2026-11-27 14:17 UTC+2: "Check if the colour, images, logo, in tiles input could fit properly, otherwise hide
        them, and present only the titles"): on a phone the Brand tiles' colours, typefaces, icon and images stood over their titles (160px tiles upright, 171px turned),
        so a master tile there shows its title alone; its dialog shows the rest.) */
@@ -1899,12 +1902,44 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
     }
 
-    /* (The quarter of the window a long page may be scrolled past its end (useScrollRules) is not kept on a phone's page of tiles: the band's height and 12px.) */
-    main.conversation-content[data-reserve]:has(.section-tiles-quad, .capability-systems-frame) {
+    /* (The quarter of the window a long page may be scrolled past its end (useScrollRules) is not kept on a phone's page: the band's height and 12px. First a page
+       of tiles; then every page -- a System's Introduction scrolled its Start Interview button to the window's top, owner, 2026-11-27 19:09 UTC+2, phone round 3,
+       point 17: "Stop at the end of the content".) */
+    :root main.conversation-content[data-reserve] {
 
         padding-bottom: calc(64px + var(--space-card));
 
     }
+
+}
+
+/* (THE SCROLL MARKER (usePhonePage; owner, 2026-11-27 19:09 UTC+2, phone round 3, point 12): 3px at the window's right edge, 2px in, between the title's rule and
+   the footer's band; its thumb in the ink's 40%, the colour of the chapters' hairline, the track unseen. It takes no press.) */
+.phone-scroll-marker {
+
+    position: fixed;
+    right: 2px;
+    z-index: 40;
+
+    width: 3px;
+
+    pointer-events: none;
+
+}
+
+.phone-scroll-marker[hidden] {
+
+    display: none;
+
+}
+
+.phone-scroll-marker-thumb {
+
+    width: 100%;
+
+    border-radius: var(--radius-sm);
+
+    background: color-mix(in srgb, var(--text-strong, currentColor) 40%, transparent);
 
 }
 

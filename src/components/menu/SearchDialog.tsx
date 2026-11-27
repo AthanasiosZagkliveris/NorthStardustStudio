@@ -171,7 +171,7 @@ export default function SearchDialog({
                     aria-controls={listId}
                     aria-autocomplete="list"
                     aria-activedescendant={flat.length > 0 ? listId + "-" + active : undefined}
-                    placeholder="Search pages, fields, the glossary and your answers"
+                    placeholder="Search pages, answers and terms"
                     autoComplete="off"
                     spellCheck={false}
                     value={query}
