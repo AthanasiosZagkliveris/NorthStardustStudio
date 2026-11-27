@@ -2205,3 +2205,81 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     }
 
 }
+
+/* (THE SEGMENT'S NAME IN THE HEADER, SIDEWAYS (Records 2, section 5.14; owner, 2026-11-27 03:25 and 03:34 UTC+2: the page title and the Segment's name side by side
+   in the header, the header's line over the tiles' hairline): the page's title from the first tile column to the hairline, the open Segment's name -- with its
+   label arrow where there are two Segments or more -- from the hairline to the header's buttons (their 240px), each 12px clear of the line; a long name ends in
+   "…".) */
+@media (orientation: landscape) and (max-height: 479px) {
+
+    :root:root body:has(.segment-chapter) .interview-header {
+
+        left: calc((100vw - var(--tiles-page-width, 100vw)) / 2);
+        right: calc(50% + var(--gap-12));
+
+        justify-content: flex-start;
+
+    }
+
+    :root:root .conversation-card .segment-chapter .business-capability-section > .tiles-frame-head {
+
+        position: fixed;
+        top: 0;
+        left: calc(50% + var(--gap-12));
+        right: 240px;
+        z-index: 50;
+
+        height: var(--app-header-height, 56px);
+        margin: 0;
+        padding: 0;
+
+        gap: var(--gap-8);
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        min-width: 0;
+
+    }
+
+    :root:root .conversation-card .segment-chapter .business-capability-section > .tiles-frame-head > .field-group-title {
+
+        display: flex;
+        align-items: center;
+
+        flex: 0 1 auto;
+        min-width: 0;
+        max-width: 100%;
+
+        justify-content: flex-start;
+
+    }
+
+    :root:root .conversation-card .segment-chapter .business-capability-section > .tiles-frame-head .business-foundation-frame-name {
+
+        min-width: 0;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+    }
+
+    /* (The line in the header, over the hairline between the Segment's groups.) */
+    body:has(.segment-chapter) .app-header::after {
+
+        content: "";
+
+        position: absolute;
+        top: var(--gap-12);
+        bottom: var(--gap-12);
+        left: 50%;
+
+        border-left: 1px solid color-mix(in srgb, var(--text-strong, currentColor) 40%, transparent);
+
+        pointer-events: none;
+
+    }
+
+}
