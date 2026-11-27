@@ -3,7 +3,7 @@
 import { type ExportContent } from "../export/ExportContentBuilder.ts";
 import { financialForecast, forecastView, splitMonthlyTableByYear, type ForecastPeriod } from "../financial/FinancialForecast.ts";
 import { list, paragraph } from "../export/ExportRenderers.ts";
-import { planYears, moneyFormatter } from "../financial/FinancialModel.ts";
+import { planYears, moneyFormatter, allFunding, loanRepaymentNotes } from "../financial/FinancialModel.ts";
 import { brandPictures, coverLines, readFoundation, section, type FoundationSessions } from "./reading.ts";
 import { forecastTableBlocks } from "./plan.ts";
 
@@ -25,7 +25,10 @@ export function businessForecast(sessions: FoundationSessions) {
         runwayMonths: f.position.runwayMonths,
         revenueTimeline: f.outlook.revenueTimeline,
         breakEvenMonth: f.outlook.breakEvenMonth,
-        exhaustionMonth: f.outlook.exhaustionMonth
+        exhaustionMonth: f.outlook.exhaustionMonth,
+        // (THE LOAN REPAYMENTS UNDER THE CASH-FLOW FORECAST (owner, 2026-11-27 03:16 UTC+2; Guide 2, 5.5, row 16): each loan, its status and whether its
+        // repayments are counted, then the rule. Empty where no loan is recorded.)
+        loanNotes: loanRepaymentNotes(allFunding(f.financial, f.legalEntity), f.financial.planStart, f.format)
     };
 }
 
@@ -40,6 +43,7 @@ export function businessForecastContent(
     const forecast = financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format, f.calculated);
     const view = forecastView(forecast, period, untilYear);
     const whole = moneyFormatter(f.currency, { wholeOnly: true });
+    const loanNotes = loanRepaymentNotes(allFunding(f.financial, f.legalEntity), f.financial.planStart, f.format);
     // A monthly or quarterly forecast beyond one plan year is too wide
     // for one page -- every month or quarter of every year, side by
     // side -- so it is one table per plan year here, each with its own
@@ -64,7 +68,8 @@ export function businessForecastContent(
                 ...(entry.note ? paragraph(entry.note) : []),
                 ...forecastTableBlocks(entry, whole, f.currency)
             ])),
-            section(tables.length + 1, "Notes", list(forecast.notes))
+            ...(loanNotes.length > 0 ? [section(tables.length + 1, "Loan Repayments", list(loanNotes))] : []),
+            section(tables.length + (loanNotes.length > 0 ? 2 : 1), "Notes", list(forecast.notes))
         ]
     };
 }

@@ -4,7 +4,6 @@ import logo from "../../assets/tiles-logo.svg";
 
 import { lazy, Suspense, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import AddButton from "../controls/AddButton.tsx";
 import SaveStatus from "./SaveStatus";
 import { WorkbookButton } from "../notepad/WorkbookButton";
 import FocusModeButton from "../menu/FocusModeButton";
@@ -39,15 +38,11 @@ interface AppHeaderProps {
     organizationName?: string;
     /** An interview page: the Focus tool (FocusModeButton) is offered. */
     focusable?: boolean;
-    /** The landing page: a Reload tool beside the theme switch (the app's view is drawn again; the data is kept: it is on disk). */
-    reloadable?: boolean;
     /** The landing page: the Workbook is offered with the review of every Organization (none is open), the Glossary and the References. */
     totalReview?: boolean;
-    /** Called before the reload (the Landing page refreshes the saved examples from the current example files). */
-    onReload?: () => void | Promise<unknown>;
 }
 
-export default function AppHeader({ organizationName, focusable = false, reloadable = false, totalReview = false, onReload }: AppHeaderProps) {
+export default function AppHeader({ organizationName, focusable = false, totalReview = false }: AppHeaderProps) {
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -96,16 +91,6 @@ export default function AppHeader({ organizationName, focusable = false, reloada
                 the reading mode alone where no Organisation is open. */}
             <ToolsMenu organizationOpen={!!organizationName} focusable={!!organizationName && focusable} userCalendar={!organizationName && totalReview} />
 
-            {reloadable && (
-                <AddButton className="header-tool app-reload"
-                    aria-label="Reload the app and refresh the examples"
-                    onClick={async () => { await onReload?.(); window.location.reload(); }}>
-                    <svg className="header-tool-icon" viewBox="2 2 16 16" aria-hidden="true">
-                        <path d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="header-tool-word">Reload</span>
-                </AddButton>
-            )}
 
             {/* Focus mode, on an interview page: the page's look and its Exit focus button (turned on from the Tools menu). */}
             {organizationName && focusable && <FocusModeButton />}

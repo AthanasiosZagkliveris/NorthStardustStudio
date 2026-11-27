@@ -374,8 +374,8 @@ const REPAYMENT_EVERY: Record<PeriodFrequency, { adjective: string; unit: string
 /** The line under every loan's own, in the Loan Repayments note. */
 export const LOAN_REPAYMENTS_RULE =
     "Only loans that are Approved / Agreed, Received / Available or Completed / Closed are repaid in this table. " +
-    "A pending loan's repayments are counted only with the funding being sought: in Financial Position below, " +
-    "and in the Stress Test on Financials.";
+    "A pending loan's repayments are counted only with the funding being sought: in the Funding Request " +
+    "and in the Financial Plan's Stress Test.";
 
 /**
  * THE LOAN REPAYMENTS COLUMN, EXPLAINED FROM THE DATA: each loan, its

@@ -127,6 +127,14 @@ describe("Quillfield: an unresolved funding gap", () => {
         expect(loan.schedule.totalInterest).toBeCloseTo(1921.64, 1);
     });
 
+    test("the Financial Forecast says, under the Cash-Flow Forecast, whether each loan's repayments are counted", () => {
+        const notes = businessForecast(quillSessions).loanNotes;
+        expect(notes.some(note => note.startsWith("SBA Microloan ("))).toBe(true);
+        expect(notes[notes.length - 1]).toMatch(/^Only loans that are Approved/);
+        const exported = businessForecastContent(quillSessions, "annual", 1);
+        expect(exported.sections.map(entry => entry.title)).toContain("Loan Repayments");
+    });
+
     test("the gap is found: $10,700 in hand against $26,681", () => {
         expect(f.position.availableNow).toBeCloseTo(10700, 6);
         expect(f.position.gap).toBeCloseTo(15981.44, 1);
@@ -527,7 +535,7 @@ describe("Quillfield: the documents tie together", () => {
             "Profit Kept in the Business: Year 1", "Profit Kept in the Business: Year 2", "Profit Kept in the Business: Year 3",
             "Balance Sheet: Year 1", "Balance Sheet: Year 2", "Balance Sheet: Year 3",
             "Cash-Flow Forecast: Year 1", "Cash-Flow Forecast: Year 2", "Cash-Flow Forecast: Year 3",
-            "Notes"
+            "Loan Repayments", "Notes"
         ]);
         // Every split table's own table block has one column per month
         // plus its year subtotal (the Balance Sheet's Year 1 also
@@ -541,14 +549,14 @@ describe("Quillfield: the documents tie together", () => {
         // A single plan year is already narrow enough: left as one table.
         const oneYear = businessForecastContent(all, "monthly", 1);
         expect(oneYear.sections.map(entry => entry.title)).toEqual([
-            "Profit & Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast", "Notes"
+            "Profit & Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast", "Loan Repayments", "Notes"
         ]);
 
         // The annual view is narrow regardless of plan length: never split.
         const annual = businessForecastContent(all, "annual", 3);
         expect(annual.landscape).toBe(true);
         expect(annual.sections.map(entry => entry.title)).toEqual([
-            "Profit & Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast", "Notes"
+            "Profit & Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast", "Loan Repayments", "Notes"
         ]);
     });
 

@@ -1,6 +1,6 @@
 # 11. The symbols of the Capabilities, the Systems and the Resources
 
-Status: **current design**, written 2026-11-26, updated 2026-11-27 (the sizes by room and the hover tile, 1 and 11.1). The 39 symbols of the app (6 Capabilities, 24 Systems, 9 Resource categories): how they are drawn, their sizes, lines, corners, tints, gaps and colours, the drawing each one uses at each size, and the files the app reads. Sections 1 to 10 hold for all 39; section 11 adds what is particular to the Resources. The names follow the owner's renaming of 2026-11-26 (Value Delivery, Information, Organisation, Communication, Performance; Product, Data, Analytics); the file names stay as they were.
+Status: **current design**, written 2026-11-26, updated 2026-11-27 (the sizes by room and the hover tile, 1 and 11.1; the file names, 9). The 39 symbols of the app (6 Capabilities, 24 Systems, 9 Resource categories): how they are drawn, their sizes, lines, corners, tints, gaps and colours, the drawing each one uses at each size, and the files the app reads. Sections 1 to 10 hold for all 39; section 11 adds what is particular to the Resources. The names follow the owner's renaming of 2026-11-26 (Value Delivery, Information, Organisation, Communication, Performance; Product, Data, Analytics), and so do the eight file names (2026-11-27; the download set of 10.2 keeps the old names until it is written out again).
 
 Related: Interface 1 (shared components), layout-rules (`ai/09-layout-rules.md`, sections 8 and 9: the symbol under a tile's title), Records 1 (the log).
 
@@ -136,25 +136,25 @@ The drawing each symbol uses, by size. The pictures are in the PDF and the revie
 | Symbol | Family | Drawing | By size | File |
 |---|---|---|---|---|
 | Foundation | Capability | Pyramid of tiles | Up to 24px: a stepped plinth of three solid courses. 36-48px: three outlined bars widening to the ground, one line apart, darker lower down. From 66px: six equal square tiles, 3-2-1, the writing line as the gap, tinted from the base up. | `01-foundation.svg` |
-| Value Delivery | Capability | Gem | Up to 24px: the whole gem tinted, no crown line. From 36px: the cut facets, the crown light, the lower part darker. | `02-deliver-value.svg` |
-| Information | Capability | Open folder | The open folder, every corner soft; its label line from 32px. | `03-manage-information.svg` |
-| Organisation | Capability | Organisation chart | Clear top box over light-tinted teams; rounded reporting lines; two teams small and medium, three large. | `04-manage-the-organization.svg` |
-| Communication | Capability | Two speech bubbles | One line of space between the bubbles at every size; the eyes of the first bubble from 32px. | `05-communicate.svg` |
-| Performance | Capability | Rising trend | The area under the line fills from 32px. | `06-measure-and-improve.svg` |
+| Value Delivery | Capability | Gem | Up to 24px: the whole gem tinted, no crown line. From 36px: the cut facets, the crown light, the lower part darker. | `02-value-delivery.svg` |
+| Information | Capability | Open folder | The open folder, every corner soft; its label line from 32px. | `03-information.svg` |
+| Organisation | Capability | Organisation chart | Clear top box over light-tinted teams; rounded reporting lines; two teams small and medium, three large. | `04-organisation.svg` |
+| Communication | Capability | Two speech bubbles | One line of space between the bubbles at every size; the eyes of the first bubble from 32px. | `05-communication.svg` |
+| Performance | Capability | Rising trend | The area under the line fills from 32px. | `06-performance.svg` |
 | Identity | System of Foundation | Person in a frame | Up to 36px: the person alone. From 48px: the person in a light-tinted frame, the head clear. | `01-identity.svg` |
 | Brand | System of Foundation | Tag with a star | The tag with a crisp solid star and a hole (no hole at 20px). | `02-brand.svg` |
 | Business | System of Foundation | Briefcase | The briefcase: light-tinted body; from 36px the band, with the part below it darker; the clasp at large sizes. | `03-business.svg` |
 | Strategy | System of Foundation | Compass | Up to 24px: the needle alone, half solid. From 36px: ring, four indicators and the needle at the writing line. | `04-strategy.svg` |
 | Client | System of Value Delivery | Client with a star | Up to 36px: the star alone, light tint. From 48px: the person, head clear, with a smaller light-tinted star. | `05-client.svg` |
 | Project | System of Value Delivery | Checklist on a clipboard | Up to 24px: a solid box with the tick cut through. From 36px: a clear clipboard with an outlined, light-tinted handle, one tick and an open circle; two ticks from 66px. | `06-project.svg` |
-| Product | System of Value Delivery | Box | The cube with softly rounded outer corners. | `07-product-development.svg` |
+| Product | System of Value Delivery | Box | The cube with softly rounded outer corners. | `07-product.svg` |
 | Operations | System of Value Delivery | Process loop | Up to 24px: the six-tooth gear of Human Resources (Lucide's settings gear) in outline, light tint, a clear centre. From 36px: a clear first step and a tinted second step with arrows; a done tick at large sizes. | `08-operations.svg` |
 | Innovation | System of Value Delivery | Light bulb | Up to 24px: one base line. 36-48px: two lines. From 66px: a tinted cap and five rays. The glass is clear. | `09-innovation.svg` |
 | Documentation | System of Information | Page with a fold | The shared folded page. 20-24px: clear page, solid fold. From 36px: light page, darker fold, two writing lines. | `10-documentation.svg` |
 | Research | System of Information | Magnifier on a page | Up to 24px: the magnifier alone, tinted glass. From 36px: light page, darker fold, a fully clear lens; a tick in it at large sizes. | `11-research.svg` |
 | Knowledge | System of Information | Open book | The open book: tinted cover behind clear pages. | `12-knowledge.svg` |
 | Asset | System of Information | Labelled box | The archive box with its label. | `13-asset.svg` |
-| Data | System of Information | Database with a shield | Clear top, light-tinted cylinder, cut one line clear of the darker shield. | `14-data-governance.svg` |
+| Data | System of Information | Database with a shield | Clear top, light-tinted cylinder, cut one line clear of the darker shield. | `14-data.svg` |
 | Governance | System of Organisation | Columns | Roof, columns and base; three columns small, four from 32px, a step under them at large sizes. | `15-governance.svg` |
 | People | System of Organisation | A pair | Up to 24px: a big and a small solid person, the one behind cut one line clear. From 36px: a pair, the one behind smaller with a lighter line; its body light-tinted at 84px and up. | `16-people.svg` |
 | Finance | System of Organisation | Dollar in a circle | Up to 24px: the dollar alone. From 36px: the dollar in a clear circle. | `17-finance.svg` |
@@ -162,7 +162,7 @@ The drawing each symbol uses, by size. The pictures are in the PDF and the revie
 | Publishing | System of Communication | Newspaper | Up to 36px: a megaphone. From 48px: the newspaper, its picture darker, the folded page light. | `19-publishing.svg` |
 | Website | System of Communication | Window with @ | Up to 36px: the @ alone, clear. 48px: the window with a small clear @. From 66px: text lines beside the @. Light title band. | `20-website.svg` |
 | Social Media | System of Communication | Bubble with a heart | 20-24px: a solid heart. 36px: the heart, darker tint. From 48px: a clear bubble with the darker heart. | `21-social-media.svg` |
-| Analytics | System of Performance | Rising bars | Three equal columns at every size: the short bar solid, the middle darker, the tall one light; a base line at large sizes. | `22-metric-and-reporting.svg` |
+| Analytics | System of Performance | Rising bars | Three equal columns at every size: the short bar solid, the middle darker, the tall one light; a base line at large sizes. | `22-analytics.svg` |
 | Quality | System of Performance | Shield, then medal | Up to 24px: a solid shield with the tick cut through. 36px: tinted shield. From 48px: a clear round medal, its darker ribbons joined to it. | `23-quality.svg` |
 | Improvement | System of Performance | Improvement cycle | 20px: a solid up arrow. 24-36px: one turning arrow with a tick. From 48px: two arrows around a rising arrow. | `24-improvement.svg` |
 

@@ -124,7 +124,7 @@ body {
      One hard-coded copy: AXIS_TICK_FONT in FinancialParts.tsx measures
      chart tick labels on a canvas at --font-small's 14px, so a change
      to --font-small has to be made there as well. */
-  /* ONE FLUID SCALE, IN rem (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved: docs/proposals/responsive-layout-2026-11-23.md, sections 4.2
+  /* ONE FLUID SCALE, IN rem (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved: docs/archive/proposals/responsive-layout-2026-11-23.md, sections 4.2
      and 7): each step moves smoothly with the window -- the headings from the phone's size at 360px to the monitor's at 1440px, the body from 16px on a laptop
      to 18px on a monitor, the small step from 13px on a phone or tablet to 14px from 900px --, written in rem so both the page's zoom and the user's own font
      size scale them (WCAG 1.4.4). h1 24 -> 36, h2 20 -> 28, h3 18 -> 24, body 16 -> 18, small 13 -> 14. */

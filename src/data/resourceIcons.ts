@@ -1,5 +1,5 @@
 /**
- * THE RESOURCES' SYMBOLS (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved: docs/proposals/responsive-layout-2026-11-23.md, section 4.4): one
+ * THE RESOURCES' SYMBOLS (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved: docs/archive/proposals/responsive-layout-2026-11-23.md, section 4.4): one
  * symbol for each of the nine Resource categories (approved 2026-11-26; Interface 11, section 11): one adaptive SVG each, its eight drawings (20 to 120px)
  * chosen inside the file by the size it is shown at. A Resources tile too small to list its categories shows these instead (TileList, data-symbols), and its
  * dialog where the titles do not fit, each named in its tooltip; drawn by SymbolMark in their card's hue (Interface 11, section 8.1), in Infrastructure and the Offering alike.

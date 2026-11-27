@@ -309,6 +309,15 @@ export default function BusinessDocumentsView({ organizationId, group = "busines
                                     month by month, then with the expected revenue; each once.) */}
                                 {table.title === "Cash-Flow Forecast" && (
                                     <>
+                                        {/* (THE LOAN REPAYMENTS, where a loan is recorded (owner, 2026-11-27 03:16 UTC+2): each loan and whether its repayments are counted.) */}
+                                        {loaded.forecast.loanNotes.length > 0 && (
+                                            <>
+                                                <p className="business-forecast-caption">Loan Repayments</p>
+                                                <ul className="business-forecast-notes business-hanging-list">
+                                                    {loaded.forecast.loanNotes.map(note => <li key={note}>{note}</li>)}
+                                                </ul>
+                                            </>
+                                        )}
                                         <p className="business-forecast-caption">Funding Timeline</p>
                                         <CashTimelineChart timeline={loaded.forecast.timeline} format={loaded.forecast.format} markers={loaded.forecast.runwayMonths !== null ? [{ month: loaded.forecast.runwayMonths + 1, label: "Funds run out", tone: "risk" }] : []} />
                                         <p className="business-forecast-caption">Revenue-Adjusted Financial Position</p>

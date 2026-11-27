@@ -1,6 +1,6 @@
 # The Workbook — the page and its sections
 
-Status: **current design**, written 2026-11-20, updated 2026-11-21 (its sections, one file each until 2026-11-21, are below). The Workbook is one page of the app drawn as a dialog (layout rules, section 7, "The Workbook"): the title "Workbook" over its rule, one framed panel with the carousel arrows and a tab of bullets, a section a bullet. It opens from the header's **Workbook** button on every page with an Organisation open, and from the Landing page, where it covers every Organisation (`src/pages/Workbook.tsx`).
+Status: **current design**, written 2026-11-20, updated 2026-11-27 (the Loan Repayments under the Cash-Flow Forecast; its sections, one file each until 2026-11-21, are below). The Workbook is one page of the app drawn as a dialog (layout rules, section 7, "The Workbook"): the title "Workbook" over its rule, one framed panel with the carousel arrows and a tab of bullets, a section a bullet. It opens from the header's **Workbook** button on every page with an Organisation open, and from the Landing page, where it covers every Organisation (`src/pages/Workbook.tsx`).
 
 Each file here describes the app as it is; where it and the code differ, both are mended in one commit with a row in the log (`design/records/01-log.md`). The documents' contents are the engine's (`src/framework/engine/businessDocuments/`); their rules are Questions 20, section 14, for the financial ones, and the Business System's specifications for what each page feeds them.
 
@@ -66,7 +66,7 @@ The same panel, title, "i", text sizes, Export and tabs as Business Documents (`
 
 ### Financial Forecast
 
-`businessForecastContent` (`businessDocuments/forecast.ts`) at the period chosen above it: **Annually** (the default), **Quarterly** or **Monthly**. Its tables, each in the shared `ForecastTable` (its caption kept in view while a monthly table scrolls sideways): the Profit & Loss, the Profit Kept in the Business (the owner's drawings where the legal form takes them), the Balance Sheet, the Cash-Flow Forecast, then **two charts under the Cash-Flow Forecast**: the **Funding Timeline** and the **Revenue-Adjusted Financial Position** (`CashTimelineChart`), each once; then the Notes. The figures: the one forecast (`FinancialForecast.ts`), the same the Business Plan's summary and the golden file read.
+`businessForecastContent` (`businessDocuments/forecast.ts`) at the period chosen above it: **Annually** (the default), **Quarterly** or **Monthly**. Its tables, each in the shared `ForecastTable` (its caption kept in view while a monthly table scrolls sideways): the Profit & Loss, the Profit Kept in the Business (the owner's drawings where the legal form takes them), the Balance Sheet, the Cash-Flow Forecast, then, where a loan is recorded, the **Loan Repayments** under it (each loan, its status and whether its repayments are counted in the table, then the rule that decides it: `loanRepaymentNotes`, `engine/financial/position.ts`; owner, 2026-11-27 03:16 UTC+2), then **two charts under the Cash-Flow Forecast**: the **Funding Timeline** and the **Revenue-Adjusted Financial Position** (`CashTimelineChart`), each once; then the Notes. The figures: the one forecast (`FinancialForecast.ts`), the same the Business Plan's summary and the golden file read.
 
 ### Funding Request
 

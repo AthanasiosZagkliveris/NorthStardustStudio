@@ -44,9 +44,9 @@ How the app is entered, its Systems and pages, the places in it, and the terms.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [app/01-contents.md](app/01-contents.md) | contents | The contents of the app: how it is entered, the Systems and pages, where the figures and dates come from, where things are in the code. | 2026-11-26 |
-| [app/02-index.md](app/02-index.md) | index | An alphabetical index of the places in the app (pages, tiles, cards, the header): where each is, and which document describes it. | 2026-11-26 |
-| [app/03-glossary.md](app/03-glossary.md) | reference | One line per term: the framework, the app, the business stage, positioning, buyer and user, the question ids, the documents. | 2026-11-26 |
+| [app/01-contents.md](app/01-contents.md) | contents | The contents of the app: how it is entered, the Systems and pages, where the figures and dates come from, where things are in the code. | 2026-11-27 |
+| [app/02-index.md](app/02-index.md) | index | An alphabetical index of the places in the app (pages, tiles, cards, the header): where each is, and which document describes it. | 2026-11-27 |
+| [app/03-glossary.md](app/03-glossary.md) | reference | One line per term: the framework, the app, the business stage, positioning, buyer and user, the question ids, the documents. | 2026-11-27 |
 
 ## 3. The user guide (`guide/`)
 
@@ -104,13 +104,13 @@ What every screen shares, from the shared components (1) to the smallest text: t
 | [design/interface/02-text-holders.md](design/interface/02-text-holders.md) | generated | The text holders: sizes, style classes and rules. | 2026-11-21 |
 | [design/interface/03-free-text-categories.md](design/interface/03-free-text-categories.md) | current design | Free texts in four categories: the categories, the owner's decisions, the proposed limits and what is still to build. | 2026-11-21 |
 | [design/interface/04-frequency-options.md](design/interface/04-frequency-options.md) | generated | The Frequency options by group, compared with the code. | 2026-11-21 |
-| [design/interface/05-reactions.md](design/interface/05-reactions.md) | current design | How elements react to the pointer and the keyboard: the reactions by component. The check is in the layout rules; this is the lookup. | 2026-11-21 |
+| [design/interface/05-reactions.md](design/interface/05-reactions.md) | current design | How elements react to the pointer and the keyboard: the reactions by component. The check is in the layout rules; this is the lookup. | 2026-11-27 |
 | [design/interface/06-text-links.md](design/interface/06-text-links.md) | generated | The text link: look and behaviour, from the code and the walk of the app. | 2026-11-21 |
 | [design/interface/07-popups.md](design/interface/07-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-11-21 |
 | [design/interface/08-tooltips.md](design/interface/08-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-27 |
 | [design/interface/09-help-texts.md](design/interface/09-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-11-26 |
 | [design/interface/10-help-texts-guide.md](design/interface/10-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-21 |
-| [design/interface/11-symbols.md](design/interface/11-symbols.md) | current design | The 39 symbols of the Capabilities, the Systems and the Resources: grid, sizes and their three drawings, line, corners, tints, gaps, the rule that a symbol takes its card's hue, reading modes, each symbol's drawing by size, and the files the app reads. | 2026-11-26 |
+| [design/interface/11-symbols.md](design/interface/11-symbols.md) | current design | The 39 symbols of the Capabilities, the Systems and the Resources: grid, sizes and their three drawings, line, corners, tints, gaps, the rule that a symbol takes its card's hue, reading modes, each symbol's drawing by size, and the files the app reads. | 2026-11-27 |
 
 ## 7. The research and the sources (`design/research/`, Research 1 to 8)
 
@@ -227,6 +227,7 @@ Documents that are finished or replaced; each is kept for its information.
 | [archive/proposals/competitor-and-value-proposition-2026-11-03.md](archive/proposals/competitor-and-value-proposition-2026-11-03.md) | archive | The Competitor card and the Value Proposition tile as proposed on 2026-11-03; what is built is Questions 14 and 15. | 2026-11-21 |
 | [archive/proposals/segment-questions-g-list-2026-10-23.md](archive/proposals/segment-questions-g-list-2026-10-23.md) | archive | The Segment card's earlier design (the G-list of 2026-10-23, ids G1 to G25); the questions as built are Questions 12. | 2026-11-21 |
 | [archive/proposals/segment-by-selection-proposal.md](archive/proposals/segment-by-selection-proposal.md) | archive | Proposal: building a Customer Segment by selection (not built). | 2026-11-21 |
+| [archive/proposals/responsive-layout-2026-11-23.md](archive/proposals/responsive-layout-2026-11-23.md) | archive | The responsive layout as proposed on 2026-11-23 (four tiers from monitor to phone); approved and built the same night, its rules are AI 9, sections 4 and 23. | 2026-11-27 |
 | [archive/proposals/shared-workspace.md](archive/proposals/shared-workspace.md) | archive | Proposal: Shared Workspace, working together without a server (not built). | 2026-11-21 |
 
 **The old numbers.** Until 2026-11-21 the design documents had one sequence (1 to 55); 12, 25 and 40 had been retired. What each old number is now:

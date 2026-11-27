@@ -67,7 +67,7 @@ async function probe(where, name, selector) {
 // Landing: the Refresh control
 await page.goto(base + "/");
 await wait(1000);
-await probe("Landing", "Refresh control", ".app-reload");
+await probe("Landing", "Refresh control", "[aria-label=\"Reload the app and refresh the examples\"]");
 
 // The system header: icon, title, page title
 await open("Strategy System", "Strategy System");

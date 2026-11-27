@@ -1,8 +1,9 @@
 import { workspacesOf } from "../answers/AnswerUtils.ts";
 import { describe, expect, test } from "vitest";
 import { asBusinessCapabilityValue, asLegalEntityValue } from "../answers/AnswerUtils.ts";
-import { asFinancialFoundationValue, FUNDING_CATEGORIES, asFinancialSustainabilityValue, consolidateCosts, costSchedule, createFundingSource, createOwnCost, createRevenueStream, fundingNeeds, planMonthLabel, financialPosition, fundingStanding, hasLoans, loanRepaymentNotes, loanSchedule, LOAN_REPAYMENTS_RULE, streamRevenue, streamVolumes, sustainability, withWhatIf, type CostSources, type FinancialFoundationValue } from "./FinancialModel.ts";
+import { asFinancialFoundationValue, FUNDING_CATEGORIES, asFinancialSustainabilityValue, consolidateCosts, costSchedule, createFundingSource, createRevenueStream, fundingNeeds, planMonthLabel, financialPosition, fundingStanding, hasLoans, loanRepaymentNotes, loanSchedule, LOAN_REPAYMENTS_RULE, streamRevenue, streamVolumes, sustainability, withWhatIf, type CostSources, type FinancialFoundationValue } from "./FinancialModel.ts";
 import lumenText from "../../../data/examples/lumen-and-loom-studio.json?raw";
+import { createOwnCost } from "../../../test/financialTestUtils.ts";
 
 const START = { month: "01", year: "2027" };
 
@@ -563,8 +564,8 @@ describe("the Loan Repayments note", () => {
 
     test("the rule names where a pending loan's repayments are counted", () => {
         expect(LOAN_REPAYMENTS_RULE).toContain("Approved / Agreed, Received / Available or Completed / Closed");
-        expect(LOAN_REPAYMENTS_RULE).toContain("Financial Position");
-        expect(LOAN_REPAYMENTS_RULE).toContain("Stress Test on Financials");
+        expect(LOAN_REPAYMENTS_RULE).toContain("Funding Request");
+        expect(LOAN_REPAYMENTS_RULE).toContain("Financial Plan's Stress Test");
     });
 });
 

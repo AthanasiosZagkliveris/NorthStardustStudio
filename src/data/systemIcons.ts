@@ -4,7 +4,7 @@
  *
  * Icons live in assets/system-icons, one SVG per
  * System, named "<number>-<name>.svg" (e.g.
- * "07-product-development.svg"). The leading
+ * "07-product.svg"). The leading
  * number is all that's needed to match an icon to
  * a System -- the rest of the filename is just for
  * humans browsing the folder.

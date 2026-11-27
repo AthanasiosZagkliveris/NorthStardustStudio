@@ -1,6 +1,6 @@
 # Responsive layout: one plan from monitor to phone
 
-Status: **proposal**, written 2026-11-23, updated the same day (23:20 UTC+2) with three adjustments from a review the owner passed on (section 7). The owner approved it at 23:21 UTC+2 ("go"); it was built the same night, and its rules are in AI 9, section 4. The owner asked: "Get an app developer and designer role. Do online research … Visit the folder of my website … Visit real life popular websites and apps … Check the existing layout of the app in all these different sizes … Review your proposal … come back with a solid well structured, in details proposal." Once approved, its rules move into AI 9 (the layout rules, section 4 "The page's sizes" and section 23 "The vertical layout") and this proposal is archived.
+Status: **archive** (moved from `proposals/` on 2026-11-27: built), written 2026-11-23, updated the same day (23:20 UTC+2) with three adjustments from a review the owner passed on (section 7). The owner approved it at 23:21 UTC+2 ("go"); it was built the same night, and its rules are in AI 9, section 4. The owner asked: "Get an app developer and designer role. Do online research … Visit the folder of my website … Visit real life popular websites and apps … Check the existing layout of the app in all these different sizes … Review your proposal … come back with a solid well structured, in details proposal." Once approved, its rules move into AI 9 (the layout rules, section 4 "The page's sizes" and section 23 "The vertical layout") and this proposal is archived.
 
 **Contents**
 
