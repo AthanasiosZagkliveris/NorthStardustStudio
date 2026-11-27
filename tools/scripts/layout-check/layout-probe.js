@@ -2052,6 +2052,19 @@
                     }
                 }
             }
+            // ONE RIGHT EDGE FOR THE WIDE FIELDS OF A CARD'S STACKED COLUMNS (owner, 2026-11-27 15:43 UTC+2, the Organisation on a phone: its first fields ended
+            // 12px short of the Legal Form's): where the Organisation's or the Positioning's columns stand one under the other, every field as wide as most of the
+            // column ends on one line.
+            for (const grid of document.querySelectorAll(".legal-entity-grid-organization.legal-entity-audience")) {
+                if (!visible(grid) || getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/).length !== 1) {
+                    continue;
+                }
+                const width = rect(grid).width;
+                const rights = [...grid.querySelectorAll("input.interview-input:not([type=checkbox]):not([type=radio]), textarea.interview-input, .option-picker")].filter(visible).map(rect).filter(box => box.width > width * 0.6).map(box => Math.round(box.right));
+                if (rights.length > 1 && Math.max(...rights) - Math.min(...rights) > tolerance + 1) {
+                    fail("the wide fields of stacked columns end on one right edge", grid, { rights: [...new Set(rights)] });
+                }
+            }
             for (const group of document.querySelectorAll(".section-tiles")) {
                 const boxes = [...group.querySelectorAll(":scope > .section-tile, :scope > .section-tile-slot > .section-tile")].filter(visible).map(rect);
                 const rows = rules.rowsOf(boxes, 2).map(row => row.sort((one, other) => one.left - other.left));
