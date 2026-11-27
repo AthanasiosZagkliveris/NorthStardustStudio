@@ -704,3 +704,60 @@
     }
 
 }
+
+/* (THE PAGE'S BUTTONS IN ONE PANEL ON AN UPRIGHT PHONE (owner, 2026-11-27 19:09 UTC+2): the funnel beside the title opens it under the title row, at the right, over
+   the page: the text size on its first line, the page's own buttons (its filter, its download) under it; the surface's ground, the menus' shadow, 12px inside.) */
+@media (max-width: 600px) and (orientation: portrait) {
+
+    .workbook .interview-header .workbook-tools-phone {
+
+        position: relative;
+
+    }
+
+    .workbook .workbook-tools-panel {
+
+        position: absolute;
+        top: calc(100% + var(--gap-8));
+        right: 0;
+
+        z-index: 60;
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: var(--gap-12);
+
+        box-sizing: border-box;
+        max-width: calc(100vw - 32px);
+        padding: var(--gap-12);
+
+        border: 1px solid var(--line-rule);
+        border-radius: var(--radius-md);
+
+        background: var(--bg-surface);
+        box-shadow: var(--shadow-menu);
+
+    }
+
+    .workbook .workbook-tools-panel[hidden] {
+
+        display: none;
+
+    }
+
+    .workbook .workbook-tools-slot:empty {
+
+        display: none;
+
+    }
+
+    .workbook .workbook-tools-slot {
+
+        display: flex;
+        align-items: center;
+        gap: var(--gap-8);
+
+    }
+
+}

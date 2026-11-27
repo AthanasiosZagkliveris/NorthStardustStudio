@@ -705,7 +705,10 @@
        the top part of the page"; AppFooter).) */
     .interview-header-title-row > .interview-header-back.back-link{
 
-        position:static;
+        /* (In the row's flow, and the containing box of its own 44px press area: static, that area took the whole title row -- a press on the title, its arrow or
+           the Workbook's buttons went Back; found 2026-11-27.) */
+        position:relative;
+        inset:auto;
 
         order:-1;
 

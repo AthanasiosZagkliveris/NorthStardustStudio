@@ -1915,8 +1915,23 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     .interview-header {
 
         background: var(--phone-ground-top, var(--bg-page));
-        box-shadow: 0 0 0 100vmax var(--phone-ground-top, var(--bg-page));
-        clip-path: inset(0 -100vmax);
+
+    }
+
+    /* (Drawn by a layer under the row, not a clip: the clip that held a spread shadow to the row's height also cut what drops from it -- the Workbook's panel, the
+       Review's filter -- owner, 2026-11-27 19:09 UTC+2, "the filter card hidden under the title row".) */
+    .interview-header::before {
+
+        content: "";
+
+        position: absolute;
+        /* (Out to the window's sides: the page's 16px gutters, never wider -- a wider layer widened the page and pushed the fixed header's buttons and band away.) */
+        inset: 0 calc(-1 * var(--rail-gutter, 16px));
+        z-index: -1;
+
+        background: var(--phone-ground-top, var(--bg-page));
+
+        pointer-events: none;
 
     }
 
