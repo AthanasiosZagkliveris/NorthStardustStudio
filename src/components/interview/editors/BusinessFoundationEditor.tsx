@@ -207,7 +207,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                 <NameCell
                                     editing
                                     ariaLabel={"Segment " + (index + 1) + " name"}
-                                    placeholder="Segment name"
+                                    placeholder="Name the group of customers this Segment serves"
                                     disabled={disabled}
                                     value={segment.name}
                                     onChange={(name) => updateSegment(index, { name })}
