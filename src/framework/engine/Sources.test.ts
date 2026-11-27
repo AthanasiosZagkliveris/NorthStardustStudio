@@ -14,6 +14,7 @@ import { harvardCitation, harvardDate, harvardParts, harvardReference, hostOf, i
 const NOT_REFERENCES: { prefix: string; reason: string }[] = [
     { prefix: "http://www.w3.org/2000/svg", reason: "the SVG XML namespace, not a link" },
     { prefix: "http://localhost", reason: "the local dev server" },
+    { prefix: "https://northstardust.studio/", reason: "the owner's own Terms of Use and Privacy Policy (TermsService.ts), not a reference" },
     { prefix: "https://example.com/", reason: "reserved example domain (RFC 2606): tests prove it is rejected" }
 ];
 

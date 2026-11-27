@@ -19,7 +19,7 @@ Status: **index**, updated 2026-11-27. One line per document: where it is, what 
 4. [The design of the Foundation (`design/foundation/`, Foundation 1 and 2)](#4-the-design-of-the-foundation-designfoundation-foundation-1-and-2)
 5. [The questions (`design/questions/`, Questions 1 to 21)](#5-the-questions-designquestions-questions-1-to-21)
 6. [The interface (`design/interface/`, Interface 1 to 11)](#6-the-interface-designinterface-interface-1-to-11)
-7. [The research and the sources (`design/research/`, Research 1 to 10)](#7-the-research-and-the-sources-designresearch-research-1-to-10)
+7. [The research and the sources (`design/research/`, Research 1 to 11)](#7-the-research-and-the-sources-designresearch-research-1-to-11)
 8. [The library (`design/library/`, Library 1 to 7)](#8-the-library-designlibrary-library-1-to-7)
 9. [The records (`design/records/`, Records 1 to 4)](#9-the-records-designrecords-records-1-to-4)
 10. [The tests](#10-the-tests-testing)
@@ -113,9 +113,9 @@ What every screen shares, from the shared components (1) to the smallest text: t
 | [design/interface/10-help-texts-guide.md](design/interface/10-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-21 |
 | [design/interface/11-symbols.md](design/interface/11-symbols.md) | current design | The 39 symbols of the Capabilities, the Systems and the Resources: grid, sizes and their three drawings, line, corners, tints, gaps, the rule that a symbol takes its card's hue, reading modes, each symbol's drawing by size, and the files the app reads. | 2026-11-27 |
 
-## 7. The research and the sources (`design/research/`, Research 1 to 10)
+## 7. The research and the sources (`design/research/`, Research 1 to 11)
 
-The source register (1), the research behind the design (2), the lists and classifications (3), age limits (4), the owner's positioning data and its sources (5, 6), delivery and capacity (7), the Beta questionnaire that asks the founders (8) the kinds of app and what each system requires (9) and protecting the app from copying (10).
+The source register (1), the research behind the design (2), the lists and classifications (3), age limits (4), the owner's positioning data and its sources (5, 6), delivery and capacity (7), the Beta questionnaire that asks the founders (8) the kinds of app and what each system requires (9) protecting the app from copying (10) and the Terms of Use (11).
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
@@ -129,6 +129,7 @@ The source register (1), the research behind the design (2), the lists and class
 | [design/research/08-beta-questionnaire.md](design/research/08-beta-questionnaire.md) | proposal | The Beta questionnaire: what the app would ask its Beta founders about the app, in sections, with the choices of each; nothing built. | 2026-11-21 |
 | [design/research/09-kinds-of-app-and-systems.md](design/research/09-kinds-of-app-and-systems.md) | research | The kinds of app (web, installable web, store-packaged, web view, native) and what each system and store requires of an app (Android, iPhone and iPad, Windows, macOS, Linux), matched to Tiles. | 2026-11-27 |
 | [design/research/10-protecting-the-app.md](design/research/10-protecting-the-app.md) | research | Protecting the app from copying and digging: what a web app exposes, the ways to protect it (obfuscation, WebAssembly, integrity checks, a server, store integrity), the law (EU copyright, trade secrets), a recommendation in layers, and the GitHub check minutes. | 2026-11-27 |
+| [design/research/11-terms-of-use-law-and-practice.md](design/research/11-terms-of-use-law-and-practice.md) | research | The Terms of Use: what the law of Greece and the EU and of the six countries requires of them, what similar business-plan apps put in theirs, and the changes this made to the Terms. | 2026-11-27 |
 
 ## 8. The library (`design/library/`, Library 1 to 7)
 
