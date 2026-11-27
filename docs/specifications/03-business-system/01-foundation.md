@@ -10,7 +10,7 @@ Status: **specification**, written 2026-09-27, updated 2026-11-21. The text from
 
 ## As built
 
-The four columns below are four **tiles**, drawn two by two in one frame for each Customer Segment (the frame's title is the Segment's name, typed there; a Segment is added with "+ Add Segment"):
+The four columns below are four **tiles**, drawn two by two in one frame for each Customer Segment (the frame's title is the Segment's name, written in the Segment Description's name cell; a Segment is added with the Add Card tile in the chapter's eighth place):
 
 | Requirement column | Tile in the app | What it opens |
 |---|---|---|

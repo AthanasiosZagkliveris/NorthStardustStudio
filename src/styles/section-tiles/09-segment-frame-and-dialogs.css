@@ -201,25 +201,27 @@
 
 }
 
-.business-foundation-frame-name:hover,
-.business-foundation-frame-name:focus {
+/* (The name is shown, not typed, since 2026-11-27: it is written in the Segment Description's name cell, .segment-name-cell below.) */
 
-    border-bottom-color: currentColor;
+/* THE SEGMENTS' ARROW after the name (two Segments or more): the shared label arrow, on the title's line (layout rules, section 6, "The label arrow"). */
+.business-foundation-frame-title > .segment-chapter-arrow {
 
-    outline: none;
+    display: inline-flex;
+    align-self: center;
 
 }
 
-/* Typed in, it shows the ring every text holder shows. */
-.business-foundation-frame-name:focus {
-    border-bottom-color: transparent;
-    border-radius: var(--radius-md);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
+/* Its dropdown card is placed by PopupPanel (fixed, against the arrow): the sort menu's own right edge is not its. */
+.strategy-sort-menu.segment-chapter-menu {
+
+    right: auto;
+
 }
 
-.business-foundation-frame-name::placeholder {
+/* THE SEGMENT'S NAME CELL under the Segment Description's title: the card's width less its side margins (the dialog's own), a field gap above the first band. */
+.segment-name-cell {
 
-    color: var(--text-muted);
+    padding-bottom: var(--space-field);
 
 }
 
@@ -254,7 +256,8 @@
        heading does (layout rules section 13); a name longer than the head is cut by the ellipsis.) */
     flex: 0 1 auto;
 
-    field-sizing: content;
+    /* (The height the name had as a text box, so the heading stands where it stood.) */
+    line-height: normal;
 
     overflow: hidden;
     white-space: nowrap;
