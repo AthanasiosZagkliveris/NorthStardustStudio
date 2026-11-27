@@ -628,3 +628,79 @@
     }
 
 }
+
+/* THE HANDBOOK AND THE WORKBOOK ON AN UPRIGHT PHONE (owner, 2026-11-27 14:34 and 14:35 UTC+2: "keep only their icons on the title. Instead of their text titles, place
+   the page title ... Place also the filter button next to the title, and include also the text size"; "there is no need for a frame"): the title row shows the symbol,
+   the open page's name (the heading keeps "Handbook" or "Workbook" for a screen reader) and the page's buttons (Workbook.tsx); the panel has no heading row and no
+   frame, its text on the page's ground. Sideways and on larger screens nothing changes. */
+@media (max-width: 600px) and (orientation: portrait) {
+
+    .workbook .interview-header h1:has(.interview-header-tab-name) .interview-header-system {
+
+        display: none;
+
+    }
+
+    .workbook .interview-header .interview-header-tab-name {
+
+        display: inline;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+    }
+
+    .workbook .interview-header .workbook-tools {
+
+        display: flex;
+        align-items: center;
+        gap: var(--gap-8);
+
+        flex: none;
+
+    }
+
+    .workbook .workbook-head {
+
+        display: none;
+
+    }
+
+    /* (The row's room for the page's name: its items 12px apart, the symbol without its own margins, the text-size choices close.) */
+    .workbook .interview-header-title-row {
+
+        column-gap: var(--gap-12);
+
+    }
+
+    .workbook .interview-header-title-row > h1 {
+
+        flex: 1 1 auto;
+
+        min-width: 0;
+
+    }
+
+    .workbook .interview-header-title-row > .interview-header-icon {
+
+        margin-inline: 0;
+
+    }
+
+    .workbook .interview-header .capability-overview-sizes {
+
+        gap: var(--gap-4);
+
+    }
+
+    :root .workbook .glossary-page > .workbook-panel.workbook-panel {
+
+        border-color: transparent;
+        border-radius: 0;
+
+        background: transparent;
+        box-shadow: none;
+
+    }
+
+}
