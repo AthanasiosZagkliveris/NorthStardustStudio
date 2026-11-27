@@ -2055,6 +2055,18 @@
             for (const group of document.querySelectorAll(".section-tiles")) {
                 const boxes = [...group.querySelectorAll(":scope > .section-tile, :scope > .section-tile-slot > .section-tile")].filter(visible).map(rect);
                 const rows = rules.rowsOf(boxes, 2).map(row => row.sort((one, other) => one.left - other.left));
+                // (THE INVENTORY AND COMPLETED ROW (owner, 2026-11-27 13:46 UTC+2): each under one of the two middle columns of the page's tiles, its edges on
+                // theirs, so their gap is those columns' -- the cards' gap where the chapters stand side by side -- and not the tiles' 12px.)
+                if (group.closest(".section-tiles-completed")) {
+                    const page = [...document.querySelectorAll(".answer-columns.business-capability .section-tile-slot > .section-tile")].filter(visible).map(rect);
+                    const columns = [...new Map(page.map(box => [Math.round(box.left), box])).values()].sort((one, other) => one.left - other.left);
+                    const middle = Math.max(0, Math.floor(columns.length / 2) - 1);
+                    const pair = rows[0] ?? [];
+                    if (columns.length >= 2 && pair.length === 2 && pair.some((box, index) => !rules.near(box.left, columns[middle + index].left, tolerance + 1) || !rules.near(box.right, columns[middle + index].right, tolerance + 1))) {
+                        fail("Inventory and Completed stand under the two middle columns of tiles, their edges on theirs", group, { pair: pair.map(box => [box.left, box.right]), columns: columns.slice(middle, middle + 2).map(box => [box.left, box.right]) });
+                    }
+                    continue;
+                }
                 rows.forEach((row, at) => {
                     for (let index = 1; index < row.length; index++) {
                         if (!rules.near(row[index].left - row[index - 1].right, spec.fieldGap, tolerance)) {
