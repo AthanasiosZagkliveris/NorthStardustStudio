@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { CSSProperties, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import type { RailItem } from "./railItems";
 import { PAGE_STATUS_WORDS } from "../../../framework/engine/status/PageStatus";
@@ -161,7 +161,7 @@ export default function BulletRail({
     }
 
     return (
-        <nav ref={nav} className={"bullet-rail bullet-rail-" + side} aria-label={label}>
+        <nav ref={nav} className={"bullet-rail bullet-rail-" + side} aria-label={label} style={{ "--rail-dots": items.length } as CSSProperties /* (how many bullets it holds: on an upright phone each rail takes that share of the band, so every bullet stands as far from the next) */}>
 
             {head}
 

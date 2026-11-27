@@ -96,7 +96,7 @@
         min-height:0;
 
         /* The fixed footer (64px) and a 12px gap above it. */
-        padding-bottom:calc(64px + var(--space-card));
+        padding-bottom:calc(var(--band-height, 64px) + var(--space-card));
 
     }
 
@@ -629,6 +629,17 @@
     border-radius:var(--radius-lg);
     background:var(--plus-ground);
     box-shadow:var(--box-inset), var(--shadow-menu);
+    white-space:nowrap;
+}
+
+/* (THE CHOICES WITHOUT THEIR FUNNEL (FilterInline): standing in another funnel's panel, its ticks one under the other, the panel's 8px apart; owner, 2026-11-27 22:39
+   UTC+2, phone round 4, point 3.) */
+.responsibility-filter-inline{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:var(--gap-8);
+    margin-left:0;
     white-space:nowrap;
 }
 

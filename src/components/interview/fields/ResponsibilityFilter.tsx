@@ -1,4 +1,4 @@
-import { useRef, useState, useLayoutEffect } from "react";
+import { createContext, useContext, useRef, useState, useLayoutEffect } from "react";
 
 import { usePopupDismiss } from "../../controls/PopupPanel.tsx";
 import TickField from "../../controls/TickField.tsx";
@@ -9,6 +9,13 @@ import FunnelButton from "../../controls/FunnelButton.tsx";
 
 /** What a founder's Responsibilities can be told apart by: where they stand (Infrastructure, Offerings) and what they are (Activities, Partners & Suppliers, Legal). */
 export const RESPONSIBILITY_FILTER_OPTIONS = ["Infrastructure", "Offerings", "Activities", "Partners & Suppliers", "Legal"] as const;
+
+/**
+ * THE FILTER'S CHOICES WITHOUT THEIR OWN FUNNEL (owner, 2026-11-27 22:39 UTC+2, phone round 4, point 3: on the Review, one filter button whose card holds the text
+ * size and the Review's filters): where a page's buttons already stand in one funnel's panel -- the Workbook's and the Handbook's on an upright phone -- a filter
+ * shows its ticks there directly, under the text size.
+ */
+export const FilterInline = createContext(false);
 
 /**
  * THE FUNNEL: a box button in the "+"'s style (the card's tone, filled under the pointer) at the right of the Responsibilities row. It opens a short list of
@@ -41,6 +48,7 @@ export default function ResponsibilityFilter({
     label: string;
 }) {
 
+    const inline = useContext(FilterInline);
     const [open, setOpen] = useState(false);
     const [unfolded, setUnfolded] = useState<ReadonlySet<string>>(new Set());
     const box = useRef<HTMLDivElement | null>(null);
@@ -72,19 +80,8 @@ export default function ResponsibilityFilter({
         return () => observer.disconnect();
     });
 
-    return (
-        <div className="responsibility-filter" ref={box}>
-
-            <FunnelButton
-                aria-label={label}
-                aria-expanded={open}
-                aria-haspopup="true"
-                active={off.size > 0}
-                onClick={() => setOpen(current => !current)}
-            />
-
-            {open && (
-                <div className="responsibility-filter-panel" role="group" aria-label={label}>
+    const choices = (
+        <>
                     {groups
                         // (The Inventory's folded categories: its MenuHead, its tick list, BusinessTicks; owner, 2026-11-10.)
                         ? <div className="capability-overview-menu">{groups.filter(group => group.options.length > 0).map(group => {
@@ -145,6 +142,31 @@ export default function ResponsibilityFilter({
                                 </TickField>
                             ))
                         ])}
+        </>
+    );
+
+    if (inline) {
+        return (
+            <div className="responsibility-filter responsibility-filter-inline" role="group" aria-label={label}>
+                {choices}
+            </div>
+        );
+    }
+
+    return (
+        <div className="responsibility-filter" ref={box}>
+
+            <FunnelButton
+                aria-label={label}
+                aria-expanded={open}
+                aria-haspopup="true"
+                active={off.size > 0}
+                onClick={() => setOpen(current => !current)}
+            />
+
+            {open && (
+                <div className="responsibility-filter-panel" role="group" aria-label={label}>
+                    {choices}
                 </div>
             )}
 

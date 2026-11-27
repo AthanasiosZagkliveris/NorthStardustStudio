@@ -1868,6 +1868,25 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
     }
 
+    /* (THE FIRST CHAPTER'S COLOUR UP TO THE TITLE'S RULE (owner, 2026-11-27 23:46 UTC+2, phone round 4, points 7 and 9: "a thin peach strip between the title
+       underline and the first chapter"): the 12px between the rule and the first chapter take the first chapter's colour, as the title's row does, never the last
+       chapter's under it; the top of the page is painted so, and every chapter draws its own ground over it.) */
+    main.conversation-content:has(.section-tiles-quad, .capability-systems-frame) {
+
+        background: linear-gradient(var(--phone-ground-top, var(--bg-page)), var(--phone-ground-top, var(--bg-page))) top / 100% 200px no-repeat;
+
+    }
+
+    /* (A CHAPTER'S HEADING 12PX FROM ITS EDGE AND ITS TILES (point 7: "big space around the chapter titles", Infrastructure & Capability): the heading's row is its
+       label arrow's 44px press area; its words stand 12px under the chapter's top and 12px over its tiles, as the tiles stand 12px from the chapter's edges on every
+       page.) */
+    .conversation-card .business-foundation-input:has(.section-tiles-quad) > .card-title-block {
+
+        /* (Half the words' line (--font-h2, 1.24 high) less half the 44px.) */
+        margin-block: calc(var(--font-h2) * 0.62 - 22px);
+
+    }
+
     .answer-columns.business-capability > .business-foundation-card,
     .page-group > .business-foundation-card,
     .segment-chapter,
@@ -1907,7 +1926,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
        point 17: "Stop at the end of the content".) */
     :root main.conversation-content[data-reserve] {
 
-        padding-bottom: calc(64px + var(--space-card));
+        padding-bottom: calc(var(--band-height, 64px) + var(--space-card));
 
     }
 
