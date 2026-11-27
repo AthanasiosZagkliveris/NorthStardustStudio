@@ -28,7 +28,7 @@ import BulletRail from "../components/interview/rails/BulletRail";
 import useRailTab from "../hooks/useRailTab.ts";
 import PageArrow from "../components/interview/fields/PageArrow";
 import { masterSide, setTilesPage, setTilesPageWidth } from "../components/interview/tiles/SectionTileGeometry.tsx";
-import { isPhone, masterAcross, verticalAcross } from "../hooks/useVerticalLayout.ts";
+import { isPhone, masterAcross, ROW_OF_FOUR_QUERY, verticalAcross } from "../hooks/useVerticalLayout.ts";
 import { getSystemIcon } from "../data/systemIcons";
 import "../styles/status-shape.css";
 import "../styles/system-list.css";
@@ -308,11 +308,14 @@ export default function SystemSelection() {
                 return;
             }
             const top = box.getBoundingClientRect().top + window.scrollY;
-            const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
+            // (A PHONE TURNED TO LANDSCAPE has no footer band, its arrows at the window's corners: its two rows of tiles take the height down to the window's foot, as small
+            // as 96px a side, so both rows stand on the screen -- owner, 2026-11-27 14:07 UTC+2, the Capabilities on a phone turned sideways: "Check the tiles' layout".)
+            const sideways = typeof window.matchMedia === "function" && window.matchMedia(ROW_OF_FOUR_QUERY).matches;
+            const footer = sideways ? 0 : document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
             // (On a Capability's page, the frame's edge and padding (13px), its heading and the 12px under it come before the tiles.)
             const head = box.querySelector<HTMLElement>(".capability-systems-frame > .tiles-frame-head");
             const above = head ? 13 + head.offsetHeight + 12 : 0;
-            const tall = Math.max(150, Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - 12 - above) / 2));
+            const tall = Math.max(sideways ? 96 : 150, Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - 12 - above) / 2));
             // (A CAPABILITY'S SYSTEMS AS A CHAPTER (owner, 2026-11-23 17:52 UTC+2: "Align them to the left"; "Fix the size of the tiles and the 'chapter' frame, to
             // hug the tiles"): two across stand in half the page, as a chapter does (half the page less 6px), three across in the whole; the tiles as large as
             // that room and the window's height allow, the frame round them.)
@@ -351,6 +354,15 @@ export default function SystemSelection() {
                 return;
             }
             setTilesPage(document.querySelector<HTMLElement>(".conversation-page"), null);
+            // (ON A PHONE, THE PAGES' MASTER TILES' SIDE (owner, 2026-11-27 14:24 UTC+2: "Why tiles have different size per page?"): two across in the window's width
+            // less its gutters and a chapter's inset (13px a side), 12px apart -- 160px at 390px, as every page's -- where the window's height gave the six
+            // Capabilities 173px.)
+            if (isPhone()) {
+                const gutterValue = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-gutter"));
+                const width = document.documentElement.clientWidth - 2 * (Number.isFinite(gutterValue) ? gutterValue : 16);
+                setTileSide(Math.floor((width - 2 * 13 - 12) / 2));
+                return;
+            }
             setTileSide(tall);
         };
         fit();

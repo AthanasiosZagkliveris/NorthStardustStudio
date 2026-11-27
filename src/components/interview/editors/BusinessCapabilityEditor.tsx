@@ -145,7 +145,7 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 side = Math.round(Math.max(SQUEEZED_ROW_MIN, Math.min(215, room)));
             }
             // (ONE MASTER TILE WIDE (owner, 2026-11-25: "the Inventory and Completed tile's width should be related to the master tiles
-            // width, and be aligned underneath them"): each as wide as a master tile, 12px apart as the tiles are, the first under the first chapter's first tile;
+            // width, and be aligned underneath them"): each as wide as a master tile, under the two middle columns of tiles above;
             // the row keeps its height and its place in the band or under the cards.)
             const firstTile = pageTiles[0]?.getBoundingClientRect();
             const secondTile = firstTile ? pageTiles.map(tile => tile.getBoundingClientRect()).find(box => Math.abs(box.top - firstTile.top) < 2 && box.left > firstTile.right) : undefined;
@@ -153,7 +153,11 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 const width = Math.round(firstTile.width);
                 row.style.setProperty("--completed-width", width + "px");
                 tiles.style.gridTemplateColumns = "repeat(2, " + width + "px)";
-                tiles.style.columnGap = Math.round(secondTile.left - firstTile.right) + "px";
+                // (UNDER THE TWO MIDDLE COLUMNS OF TILES (owner, 2026-11-27 13:46 UTC+2, his screenshot of Infrastructure & Capability: "move the inventory and Completed a bit at
+                // the sides to align with th master tiles above them"): the pair's gap is the gap between those two columns -- across the two chapters where they stand side
+                // by side, 12px inside one chapter -- so Inventory's edges are the tiles' above it and Completed's too. It was the 12px of one chapter's tiles, so
+                // the pair stood inward of the columns above it.)
+                tiles.style.columnGap = Math.round(columnsLeft.length >= 2 ? columnsLeft[1] - columnsLeft[0] - firstTile.width : secondTile.left - firstTile.right) + "px";
                 const lift = /translate\([^,]+,\s*(-?[\d.]+)px\)/.exec(tiles.style.transform)?.[1] ?? "0";
                 tiles.style.transform = "translate(0px, " + lift + "px)";
                 // (CENTRED UNDER THE CHAPTERS (owner, 2026-11-26: "Correct idea, but place them in the centre"): the pair's middle on the middle of the cards above.)

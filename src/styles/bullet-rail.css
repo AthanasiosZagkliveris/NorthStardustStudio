@@ -1104,7 +1104,7 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
    does, so its chapter takes the page's edges; side by side its two columns already stand on them.) */
 @media (max-width: 900px), (orientation: portrait), (max-height: 639px) {
 
-    .conversation-page[data-tiles-page] .conversation-card > .field-page > .answer-columns:not(.column-tiles-page) {
+    .conversation-page[data-tiles-page] .conversation-card > .field-page > .answer-columns {
 
         margin-inline: -13px;
 
