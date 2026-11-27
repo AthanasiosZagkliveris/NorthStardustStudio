@@ -18,7 +18,7 @@ The first screen lists your Organisations: each business you plan is one Organis
 
 1. **Write your name** in the box at the top: the app's user, whoever founds or owns the Organisations (it fills in no founder).
 2. **Press "+ Add"** and type the Organisation's name in the new row. Press a row to select it; the selected Organisation is the one you work on.
-3. **Press the arrow beside a row** to open that Organisation's Capabilities.
+3. **Press the arrow beside a row** to open that Organisation's Capabilities; in the web and store version, which holds the Foundation alone, it opens the Foundation page, and Back returns here.
 4. **Keep a copy**: "Export" saves the selected Organisation as a file; "Import" opens such a file, here or on another device. The x inside a row removes that Organisation, after you confirm.
 5. **Your Calendar**: Menu > Calendar opens your own calendar, your general notes to begin with; tick an Organisation, or All, under Calendars to lay its dates over yours. A date of an Organisation opens it on the page the date comes from.
 6. **Install the app** (in a browser): where the browser offers it, a line under the list reads "Install Tiles as an app": press **Install** for its own icon and window, and it opens with no connection. On an iPhone or iPad, press Share, then **Add to Home Screen**. Each installed copy keeps its own Organisations: Export and Import move one between them.

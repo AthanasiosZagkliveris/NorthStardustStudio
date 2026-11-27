@@ -91,8 +91,13 @@ export default function SystemSelection() {
     // that Capability instead of making the user pick it again.
     // (THE CAPABILITY'S OWN PAGE (owner, 2026-11-22 21:09 UTC+2: "When you click on a Capability, It should open a page (Title with proper size, capitals, symbols.).
     // Its help text should be the previous one"): the Capability shown, or none (the Capabilities); Back from a System brings its Capability's page back.)
+    // (ONE CAPABILITY, ITS PAGE AT ONCE (owner, 2026-11-27 18:22 UTC+2: "there is no reason to present the Capabilities page, the app could start direct to the
+    // Foundation"): where the edition shows a single Capability (data/edition.ts, the Foundation edition), the Capabilities are never shown: the page opens on it,
+    // and Back and Escape go to the Organisations; its rail and arrows, which lead to the other Capabilities, are left out.)
+    const onlyCapability = capabilities.length === 1 ? capabilities[0].id : null;
+
     const [shownCapability, setActiveCapability] =
-        useState<string | null>(() => location.state?.capability ?? null);
+        useState<string | null>(() => location.state?.capability ?? onlyCapability);
     const shownCapabilityRef = useRef(shownCapability);
     shownCapabilityRef.current = shownCapability;
 
@@ -231,7 +236,7 @@ export default function SystemSelection() {
             }
 
             // (A Capability's page goes back to the Capabilities first.)
-            if (shownCapabilityRef.current) {
+            if (shownCapabilityRef.current && !onlyCapability) {
                 setActiveCapability(null);
                 return;
             }
@@ -654,7 +659,7 @@ export default function SystemSelection() {
             {/* THE CAPABILITIES' ARROWS AND RAIL (owner, 2026-11-23 15:32 UTC+2: "Add Navigation Arrows and rail system (to visit and read the other capabilities"):
                 on a Capability's page, the page rail at the left lists the six, this one lit, each with its own page; the arrows go to the one before and the one after,
                 as a System's pages do (layout rules section 10, the page's rails). */}
-            {shown && (() => {
+            {shown && !onlyCapability && (() => {
                 const at = capabilities.indexOf(shown);
                 // (THE ARROWS GO ROUND (owner, 2026-11-23 17:28 UTC+2: "Their navigation arrows should work as carousel, after the first it should move to the last").)
                 const before = capabilities[(at + capabilities.length - 1) % capabilities.length];
@@ -684,7 +689,7 @@ export default function SystemSelection() {
             })()}
 
             <AppFooter
-                onBack={() => shown ? setActiveCapability(null) : navigate("/")}
+                onBack={() => shown && !onlyCapability ? setActiveCapability(null) : navigate("/")}
             />
 
             <CapabilityDescriptionDialog
