@@ -500,9 +500,13 @@ describe("BusinessFoundationEditor's Segment title (layout rules, section 9, \"T
             segments: [{ ...createBusinessCustomerSegment([]), name: long }, createBusinessCustomerSegment([])]
         }} />);
 
-        const name = screen.getByRole("textbox", { name: "Segment 1 name" });
-        expect(name.getAttribute("title")).toBe(long);
-        expect(screen.getByRole("textbox", { name: "Segment 2 name" }).hasAttribute("title")).toBe(false);
+        // (Shown, not typed, since 2026-11-27: the name is written in the Segment Description's name cell.)
+        const [first, second] = [...document.querySelectorAll(".business-foundation-frame-name")];
+        expect(first.tagName).toBe("SPAN");
+        expect(first.textContent).toBe(long);
+        expect(first.getAttribute("title")).toBe(long);
+        expect(second.hasAttribute("title")).toBe(false);
+        expect(screen.queryByRole("textbox", { name: "Segment 1 name" })).toBeNull();
 
         const css = stylesheet("section-tiles/09-segment-frame-and-dialogs.css");
         expect(css).toContain(".business-foundation-frame-head { padding-inline: calc(4px + var(--size-box-button) + var(--gap-12)); }");

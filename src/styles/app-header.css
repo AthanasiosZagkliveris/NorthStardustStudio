@@ -673,8 +673,45 @@ body:has(.section-tile-overlay) .app-header {
 
 }
 
+/* (IN FRONT OF THE ORGANISATION'S NAME WHILE THE NAME IS SHOWN (owner, 2026-11-27): the mark, then the name 12px after it, the pair centred as the name was; the
+   right end's mark stands only where the name gives way (a phone, and the windows that put the page's title in the header).) */
+.app-brand-mark-end[data-square] {
+
+    display: none;
+
+}
+
+.app-brand-mark-lead[data-square] {
+
+    margin-left: 0;
+
+}
+
+.app-brand-mark-lead + .app-header-organization-name {
+
+    margin-left: var(--gap-12);
+    padding-left: 0;
+
+}
+
+@media (max-width: 600px), (min-width: 601px) and (max-height: 700px), (min-width: 601px) and (max-width: 1100px), (min-width: 601px) and (pointer: coarse) {
+
+    .app-brand-mark-lead[data-square] {
+
+        display: none;
+
+    }
+
+    .app-brand-mark-end[data-square] {
+
+        display: block;
+
+    }
+
+}
+
 /* (The page title in the header keeps clear of it: its room at the right grows by the mark and its gap.) */
-body:has(.app-brand-mark[data-square]) {
+body:has(.app-brand-mark-end[data-square]) {
 
     --header-mark-room: calc(var(--add-button-height) + var(--gap-12));
 

@@ -22,7 +22,7 @@ function brandMarkOf(organizationId: string): string | null {
     return (brandMarkFile(inventory.icon) ?? brandMarkFile(inventory.logo))?.dataUrl ?? null;
 }
 
-export default function BrandMark({ organizationId, organizationName }: { organizationId: string; organizationName: string }) {
+export default function BrandMark({ organizationId, organizationName, lead = false }: { organizationId: string; organizationName: string; /** In front of the Organisation's name, where the name is shown (owner, 2026-11-27); else at the header's right end. */ lead?: boolean }) {
 
     const src = useMemo(() => brandMarkOf(organizationId), [organizationId]);
     // (Square: its sides within a tenth of each other, measured once the picture is loaded.)
@@ -34,7 +34,7 @@ export default function BrandMark({ organizationId, organizationName }: { organi
 
     return (
         <img
-            className="app-brand-mark"
+            className={"app-brand-mark" + (lead ? " app-brand-mark-lead" : " app-brand-mark-end")}
             src={src}
             alt={organizationName}
             title={organizationName}

@@ -76,6 +76,9 @@ export default function AppHeader({ organizationName, focusable = false, totalRe
                 the centre"): the name on the header's middle, the saved signal after it (app-header.css).) */}
             {organizationName && (
                 <div className="app-header-centre">
+                {/* (THE ORGANISATION'S MARK IN FRONT OF ITS NAME (owner, 2026-11-27: "when the organisation's name and its logo icon, are displayed on the header, then
+                    place the icon in front of the name"): shown while the name is; where the name gives way the mark keeps the header's right end, below.) */}
+                {organizationId && <Suspense fallback={null}><BrandMark lead organizationId={organizationId} organizationName={organizationName} /></Suspense>}
                 <h1 className="app-header-organization-name" title={organizationName}>
                     {organizationName}
                 </h1>
