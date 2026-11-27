@@ -1,4 +1,4 @@
-import { systems } from "../../data/systems";
+import { editionSystems, systems } from "../../data/systems";
 import { groupOf, isCompanion, primaryOf } from "../../framework/engine/PageGroups";
 import { land } from "../interview/tiles/jumpTo";
 import { HIDDEN_SEGMENT_ATTRIBUTE, revealSegmentOf } from "../interview/tiles/segmentPage";
@@ -38,7 +38,8 @@ export function allPlaces(organizationId: string): Place[] {
         }
     };
 
-    const ordered = [...systems].sort((one, other) =>
+    // (The places of what this build shows, data/edition.ts; a note's link to any System stays valid.)
+    const ordered = [...editionSystems].sort((one, other) =>
         Number(!FOUNDATION.has(one.number)) - Number(!FOUNDATION.has(other.number)) || one.number - other.number);
 
     for (const system of ordered) {

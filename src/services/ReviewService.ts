@@ -1,5 +1,6 @@
-import { capabilities } from "../data/capabilities";
-import { systems } from "../data/systems";
+// (The edition's lists, data/edition.ts: the Review checks what this build shows.)
+import { editionCapabilities as capabilities } from "../data/capabilities";
+import { editionSystems as systems } from "../data/systems";
 import { reviewItems, type ReviewItem } from "../framework/engine/ReviewItems";
 import { OrganizationService } from "./OrganizationService";
 import { sharedValueResolver } from "./ProgressService";

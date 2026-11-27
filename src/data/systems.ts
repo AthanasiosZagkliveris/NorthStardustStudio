@@ -1,4 +1,5 @@
 import { FrameworkSystem } from "../types/system";
+import { capabilityInEdition } from "./edition";
 
 export const systems: FrameworkSystem[] = [
   {
@@ -175,3 +176,6 @@ export const systems: FrameworkSystem[] = [
     frameworkScope: "",
   },
 ];
+
+/** The Systems this build shows (data/edition.ts): every list the founder sees. A lookup of saved answers uses `systems`. */
+export const editionSystems: FrameworkSystem[] = systems.filter(system => capabilityInEdition(system.capability));
