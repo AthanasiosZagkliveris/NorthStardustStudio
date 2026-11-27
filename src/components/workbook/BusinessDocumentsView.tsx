@@ -1,5 +1,6 @@
 import TabList from "../controls/TabList.tsx";
-import { useMemo, useRef, useState, Fragment } from "react";
+import { useEffect, useMemo, useRef, useState, Fragment } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import AddButton from "../controls/AddButton.tsx";
 import MenuOption from "../controls/MenuOption.tsx";
 import { usePopupDismiss } from "../controls/PopupPanel.tsx";
@@ -33,6 +34,7 @@ import { contentSectionsHtml, documentMetaHtml } from "../../framework/engine/ex
 import { OrganizationService } from "../../services/OrganizationService";
 import { asGlobalSettings } from "../../framework/engine/GlobalSettings";
 import { StorageService } from "../../services/StorageService.ts";
+import { BetaQuestionnaireService } from "../../services/BetaQuestionnaireService.ts";
 import { systems } from "../../data/systems.ts";
 
 import "../../styles/business-documents.css";
@@ -162,6 +164,23 @@ export default function BusinessDocumentsView({ organizationId, group = "busines
 
     }, [organizationId]);
 
+    // THE BETA (Research 8, section 8.2): the documents read as always; a download waits for the Beta questionnaire, which asks about the Systems answered
+    // in and the documents seen. (Outside the Beta every download is open.)
+    const navigate = useNavigate();
+    const location = useLocation();
+    useEffect(() => {
+        if (loaded) {
+            BetaQuestionnaireService.noteUse({ systems: FOUNDATION.filter(system => loaded.sessions[system.id as "identity"]).map(system => system.title.replace(/ System$/, "")), documentsOpened: true });
+        }
+    }, [loaded]);
+    const whenOpen = (run: () => void) => () => {
+        if (BetaQuestionnaireService.downloadsOpen()) {
+            run();
+            return;
+        }
+        navigate(location.pathname, { state: { ...(location.state as object | null ?? {}), tab: "beta" } });
+    };
+
     if (!loaded) {
         return null;
     }
@@ -221,9 +240,9 @@ export default function BusinessDocumentsView({ organizationId, group = "busines
                         what={TAB_NAME(documentId)}
                         disabled={!anySession}
                         options={[
-                            ...(documentId === "forecast" ? [{ label: "CSV", run: exportCsv }] : []),
-                            { label: "Markdown", run: () => anySession && reviewManager.exportMarkdown(anySession, "Foundation", exported()) },
-                            { label: "PDF", run: () => anySession && reviewManager.exportPdf(anySession, "Foundation", exported()) }
+                            ...(documentId === "forecast" ? [{ label: "CSV", run: whenOpen(exportCsv) }] : []),
+                            { label: "Markdown", run: whenOpen(() => anySession && reviewManager.exportMarkdown(anySession, "Foundation", exported())) },
+                            { label: "PDF", run: whenOpen(() => anySession && reviewManager.exportPdf(anySession, "Foundation", exported())) }
                         ]}
                     />
                 </WorkbookTools>

@@ -29,3 +29,16 @@ export const EDITION: Edition = readEdition();
 export function capabilityInEdition(capabilityId: string, edition: Edition = EDITION): boolean {
     return edition === "full" || FOUNDATION_EDITION_CAPABILITIES.has(capabilityId);
 }
+
+/*
+    THE BETA (Research 8, section 8.2): in the Foundation edition, while the Beta runs, the Business and Financial Documents
+    download once the Beta questionnaire is sent. Built with VITE_BETA=on beside VITE_EDITION=foundation, set in the Cloudflare
+    Pages project once its receiver is ready (Research 8, section 8.4); left off, nothing is locked. Off for Version 1.
+*/
+function readBeta(): boolean {
+    const env = (import.meta as { env?: Record<string, string | undefined> }).env;
+    return env?.VITE_BETA === "on";
+}
+
+/** Whether the document downloads wait for the Beta questionnaire (the Foundation edition, during the Beta). */
+export const BETA_QUESTIONNAIRE_ON: boolean = EDITION === "foundation" && readBeta();

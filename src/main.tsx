@@ -29,6 +29,7 @@ import { installConfirmationFocus } from "./components/shell/confirmationFocus.t
 import { ErrorBoundary } from "./components/shell/ErrorBoundary";
 import { ThemeService } from "./services/ThemeService";
 import { AppInstallService } from "./services/AppInstallService";
+import { BetaQuestionnaireService } from "./services/BetaQuestionnaireService";
 import { IndexedDbStorage } from "./services/IndexedDbStorage";
 import { keepOrganizationsIn } from "./services/OrganizationService";
 
@@ -36,6 +37,8 @@ import { keepOrganizationsIn } from "./services/OrganizationService";
 // follows the system's setting while the app is open.
 ThemeService.start();
 AppInstallService.start();
+// (Beta answers waiting to be sent go now, and whenever the device is back online.)
+BetaQuestionnaireService.start();
 installTextLinkMarquee();
 installFocusClearOfStickyTitle();
 installConfirmationFocus();

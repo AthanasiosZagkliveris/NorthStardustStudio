@@ -407,7 +407,7 @@ The steps only the owner can take, kept here until done (owner, 2026-11-27 21:51
   - **Cloudflare:** My Profile › Authentication › Two-Factor Authentication.
   - **Google (the Gmail address of the stores and the contact):** myaccount.google.com › Security › 2-Step Verification.
   - Later, the store accounts as they are opened: Google Play Console, the Microsoft Store (Partner Center).
-- **Cloudflare, for the Beta questionnaire** (Research 8, section 8.4): the D1 database `tiles-beta` (EU), the Turnstile widget for app.northstardust.studio, the binding `BETA_DB` and the secret `TURNSTILE_SECRET`; the exact steps when the receiver is built.
+- **Cloudflare, for the Beta questionnaire** (Research 8, section 8.4): the D1 database `tiles-beta` (EU), the Turnstile widget for app.northstardust.studio, the binding `BETA_DB`, and `VITE_BETA` = `on`: the four steps are in Research 8, section 8.4 (the receiver is built). The Turnstile secret `TURNSTILE_SECRET` and its site key `VITE_TURNSTILE_SITE_KEY` are set together (Research 8, 8.4, step 3).
 - **Cloudflare previews behind a login** (Research 10): Workers & Pages › tiles › Settings › General › Enable access policy.
 - **Store accounts** when the store batches start: Google Play Console ($25 once, a personal account) and the Microsoft Store developer account (free).
 - **A lawyer's reading** of the Terms of Use before Version 1 (Research 11).

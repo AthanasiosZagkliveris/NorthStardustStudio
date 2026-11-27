@@ -15,6 +15,8 @@ import { DialogHeading } from "../components/interview/tiles/SectionTiles";
 import { setTilesPage, setTilesPageWidth, widestPage } from "../components/interview/tiles/SectionTileGeometry";
 import { PHONE_QUERY } from "../hooks/useVerticalLayout";
 import BusinessDocumentsView from "../components/workbook/BusinessDocumentsView";
+import BetaQuestionnaire from "../components/workbook/BetaQuestionnaire";
+import { BETA_QUESTIONNAIRE_ON } from "../data/edition";
 import { workHue } from "../framework/engine/WorkColours";
 import ResponsibilityFilter from "../components/interview/fields/ResponsibilityFilter";
 import WorkbookTools, { WorkbookToolsSlot } from "../components/workbook/WorkbookTools";
@@ -51,7 +53,7 @@ export type WorkbookTab = NonNullable<WorkbookState["tab"]>;
 /** The Workbook's colour: the work done in it is reviewing (WorkColours.ts; docs/design/foundation/01-current-design.md, part I). */
 const WORKBOOK_HUE = workHue("review");
 
-const TAB_LABELS: Record<WorkbookTab, string> = { "card-notes": "Card Notes", review: "Review", glossary: "Glossary", references: "References", documents: "Business Documents", "financial-documents": "Financial Documents", guide: "App Guide", specs: "Specs & Limitations", future: "Future Features" };
+const TAB_LABELS: Record<WorkbookTab, string> = { "card-notes": "Card Notes", review: "Review", glossary: "Glossary", references: "References", documents: "Business Documents", "financial-documents": "Financial Documents", beta: "Beta Questionnaire", guide: "App Guide", specs: "Specs & Limitations", future: "Future Features" };
 
 /** The Handbook's own sections (src/data/handbook.ts): written to the app's user. */
 const HANDBOOK_TEXT: Partial<Record<WorkbookTab, readonly HandbookPart[]>> = { guide: APP_GUIDE, specs: SPECS_AND_LIMITATIONS, future: FUTURE_FEATURES };
@@ -124,7 +126,7 @@ export default function Workbook() {
     // Reading): the Business Documents (the body), the Review (what to look at again), the References, the Glossary, and the Card Notes (the working notes,
     // an appendix).
     // (THE TOTAL REVIEW IN THE HANDBOOK (owner, 2026-11-22 20:35 UTC+2: "Create a total review"): every Organisation's review, after the app's own sections.)
-    const tabs = useMemo(() => (landing ? ["guide", "specs", "future", "review", "glossary", "references"] as const : ["documents", "financial-documents", "review", "glossary", "card-notes"] as const)
+    const tabs = useMemo(() => (landing ? ["guide", "specs", "future", "review", "glossary", "references"] as const : ["documents", "financial-documents", ...(BETA_QUESTIONNAIRE_ON ? ["beta"] as const : []), "review", "glossary", "card-notes"] as const)
         .map(id => ({ id: id as WorkbookTab, label: TAB_LABELS[id] })), [landing]);
     const first = (wanted?: WorkbookTab): WorkbookTab => wanted && tabs.some(entry => entry.id === wanted) ? wanted : tabs[0].id;
     const [tab, setTab] = useState<WorkbookTab>(() => first(state.tab));
@@ -441,6 +443,7 @@ export default function Workbook() {
 
                 {tab === "documents" && organizationId && <BusinessDocumentsView organizationId={organizationId} />}
                 {tab === "financial-documents" && organizationId && <BusinessDocumentsView key={state.document ?? "financial"} organizationId={organizationId} group="financial" start={state.document} />}
+                {tab === "beta" && <BetaQuestionnaire onDocuments={() => show("documents")} />}
 
                 </div>
                 </div>

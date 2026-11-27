@@ -6,7 +6,7 @@ import { useLocation, useNavigate, type NavigateFunction } from "react-router-do
 
 /** Where the Workbook page is opened with: its tab, the total review (the Landing page's), a term, and where to go back to. */
 export interface WorkbookState {
-    tab?: "card-notes" | "review" | "glossary" | "references" | "documents" | "financial-documents" | "guide" | "specs" | "future";
+    tab?: "card-notes" | "review" | "glossary" | "references" | "documents" | "financial-documents" | "beta" | "guide" | "specs" | "future";
     /** A Financial Document's tab to open on (a link made to a record moved there: Questions 20, section 14). */
     document?: "forecast" | "funding" | "financial-plan";
     total?: boolean;
