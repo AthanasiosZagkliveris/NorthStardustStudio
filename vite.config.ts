@@ -35,6 +35,9 @@ export default defineConfig(async () => ({
           { src: "/tiles-icon-192.png", sizes: "192x192", type: "image/png" },
           { src: "/tiles-icon-512.png", sizes: "512x512", type: "image/png" },
           { src: "/tiles-icon.svg", sizes: "any", type: "image/svg+xml" },
+          // (Android's launcher cuts every icon to its own shape: these keep the logo inside the middle 80% on the logo's navy, owner, 2026-11-27 15:45 UTC+2: "The Tiles icon needs adjustment".)
+          { src: "/tiles-icon-maskable-192.png", sizes: "192x192", type: "image/png", purpose: "maskable" },
+          { src: "/tiles-icon-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
         ],
       },
       workbox: {
