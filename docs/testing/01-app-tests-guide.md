@@ -17,7 +17,7 @@ Status: **reference**, written 2026-11-21, updated 2026-11-28. The app's tests: 
 
 ### Where they are and how they run
 
-The app has 2,352 tests in 212 files (2,350 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the speed round of 2026-11-28. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
+The app has 2,357 tests in 213 files (2,355 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the speed round of 2026-11-28. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
 
 They are written with Vitest and come in two kinds:
 
@@ -39,7 +39,7 @@ Measured on 2026-11-22 with `npx vitest run --coverage` (`@vitest/coverage-v8`, 
 
 ### The six groups
 
-More than four tests in five check either the screens (997) or the business rules behind them (905).
+More than four tests in five check either the screens (1,002) or the business rules behind them (905).
 
 | Group | Tests | Files | Where | What it protects |
 | --- | --- | --- | --- | --- |
@@ -52,7 +52,7 @@ More than four tests in five check either the screens (997) or the business rule
 
 ### What each group checks
 
-### Screens: 997 tests
+### Screens: 1,002 tests
 
 These draw a part of the app and use it as a founder would: open a tile, tick a box, add a card, fold a band. Each test checks one rule from the specifications or the layout rules.
 
@@ -118,7 +118,7 @@ The lists come from the full run of 21 November 2026, on the Finance link fix, n
 
 ## Screens: every test
 
-95 files, 997 tests. Each one draws a part of a screen (a card, an editor, a field, a tile, a rail, the Menu or the Notes) in a test browser, then presses, types and reads it as a person would. The largest folders are the editors (one per page of the interview) and the tiles.
+96 files, 1,002 tests. Each one draws a part of a screen (a card, an editor, a field, a tile, a rail, the Menu or the Notes) in a test browser, then presses, types and reads it as a person would. The largest folders are the editors (one per page of the interview) and the tiles.
 
 ### src/components/calendar/ (1 file, 3 tests)
 
@@ -129,7 +129,16 @@ The lists come from the full run of 21 November 2026, on the Finance link fix, n
   - closes on Escape, and the key goes no further: the page never takes it as Back (the Notes panel's own Escape, useEscapeCloses)
   - closes on a press outside it
 
-### src/components/controls/ (3 files, 18 tests)
+### src/components/controls/ (4 files, 23 tests)
+
+#### keys.test.tsx (5)
+
+- **the shortcut keys (Interface 8, section 5)** (5)
+  - says Ctrl on Windows and ⌘ on an Apple device
+  - answers to Ctrl or ⌘ with the key, and to no other modifier
+  - says a key in a tooltip as 'or press'
+  - gives a control with words of its own a tip for the key it answers to
+  - gives no tip where the words already show the key
 
 #### RatingScale.test.tsx (7)
 

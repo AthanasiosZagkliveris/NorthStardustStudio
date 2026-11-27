@@ -44,13 +44,16 @@ const isCut = (element: HTMLElement) => [element, ...element.querySelectorAll<HT
  * THE WORDS OF A TOOLTIP: what a click does, said the same way everywhere ("Click to remove Offering 2", "Click to learn about Revenue", "Click to search, or press Ctrl+K"). A control's
  * accessible name or title is written as a name ("Remove Offering 2", "Revenue: what this means"); this turns it into the sentence a tooltip says. A name that is already a sentence ("Click to ...") stays.
  */
+/** A name that ends with the key its control answers to, in brackets: "Search (Ctrl+K)", "Undo (⌘Z)", "Back (Escape)", "Next page (→)". */
+const KEYED = /^(.*?)\s*\((Ctrl\+[^\s)]+|⌘[^\s)]+|Escape|Esc|Enter|[←→↑↓])\)$/;
+
 export function tipWords(text: string): string {
     const clean = text.trim();
     if (/^click to /i.test(clean)) {
         return clean;
     }
-    // A key in brackets at the end ("(Ctrl+K)", "(Escape)", "(←)"): said as "or press ...".
-    const keyed = /^(.*?)\s*\((Ctrl\+\w+|Escape|Esc|Enter|[←→↑↓])\)$/.exec(clean);
+    // A key in brackets at the end ("(Ctrl+K)", "(⌘K)", "(Escape)", "(←)"): said as "or press ...".
+    const keyed = KEYED.exec(clean);
     if (keyed) {
         return tipWords(keyed[1]) + ", or press " + keyed[2];
     }
@@ -64,6 +67,7 @@ export function tipWords(text: string): string {
         [/^sort (.+)$/i, m => "Click to filter and sort " + m[1]],
         [/^search$/i, () => "Click to search"],
         [/^back$/i, () => "Click to go back"],
+        [/^undo$/i, () => "Click to undo"],
         [/^(low to high|high to low)$/i, m => "Click to order the costs from " + m[1].toLowerCase()],
         // The + of Partners & Suppliers adds either.
         [/^add partner to partners & suppliers$/i, () => "Click to add a Partner or Supplier"],
@@ -106,6 +110,11 @@ export function tipOf(element: HTMLElement): string | null {
         const part = Array.from(element.querySelectorAll<HTMLElement>("[data-tip], [title]")).find(node => isCut(node));
         const whole = part?.getAttribute("data-tip") ?? part?.getAttribute("title");
         return whole ? tipWords(whole) : null;
+    }
+    // 4. The key it answers to, where its words do not show the key ("Undo (Ctrl+Z)", "Back (Escape)", "Exit focus (Escape)").
+    const key = KEYED.exec(given.trim())?.[2];
+    if (key && !words.includes(key)) {
+        return tipWords(given);
     }
     // 5. Never what it already shows.
     const own = new Set(plain([words, name ?? ""].join(" ")).split(" "));

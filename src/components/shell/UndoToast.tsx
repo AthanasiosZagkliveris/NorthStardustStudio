@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import AddButton from "../controls/AddButton.tsx";
+import { isShortcut, keyLabel, keyShortcuts } from "../controls/keys.ts";
 import { UndoService } from "../../services/UndoService";
 
 import "../../styles/undo-toast.css";
@@ -54,8 +55,7 @@ export default function UndoToast() {
             return;
         }
         function onKeyDown(event: KeyboardEvent) {
-            if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey &&
-                event.key.toLowerCase() === "z" && !inTextField(event.target)) {
+            if (isShortcut(event, "z") && !inTextField(event.target)) {
                 event.preventDefault();
                 UndoService.undo();
             }
@@ -83,6 +83,8 @@ export default function UndoToast() {
                 >
                     <span className="undo-toast-message">{offer.message}</span>
                     <AddButton look="undo-toast-button"
+                        title={"Undo (" + keyLabel("z") + ")"}
+                        aria-keyshortcuts={keyShortcuts("z")}
                         onClick={() => {
                             setHovered(false);
                             setFocused(false);
