@@ -27,12 +27,14 @@ import { installTextLinkMarquee } from "./components/interview/fields/textLinks.
 import { installFocusClearOfStickyTitle } from "./components/interview/stickyFocus.ts";
 import { ErrorBoundary } from "./components/shell/ErrorBoundary";
 import { ThemeService } from "./services/ThemeService";
+import { AppInstallService } from "./services/AppInstallService";
 import { IndexedDbStorage } from "./services/IndexedDbStorage";
 import { keepOrganizationsIn } from "./services/OrganizationService";
 
 // The theme is already on <html> (public/theme-init.js, loaded by index.html); from here Auto also
 // follows the system's setting while the app is open.
 ThemeService.start();
+AppInstallService.start();
 installTextLinkMarquee();
 installFocusClearOfStickyTitle();
 

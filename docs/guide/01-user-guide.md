@@ -21,6 +21,8 @@ The first screen lists your Organisations: each business you plan is one Organis
 3. **Press the arrow beside a row** to open that Organisation's Capabilities.
 4. **Keep a copy**: "Export" saves the selected Organisation as a file; "Import" opens such a file, here or on another device. The x inside a row removes that Organisation, after you confirm.
 5. **Your Calendar**: Menu > Calendar opens your own calendar, your general notes to begin with; tick an Organisation, or All, under Calendars to lay its dates over yours. A date of an Organisation opens it on the page the date comes from.
+6. **Install the app** (in a browser): where the browser offers it, a line under the list reads "Install Tiles as an app": press **Install** for its own icon and window, and it opens with no connection. On an iPhone or iPad, press Share, then **Add to Home Screen**. Each installed copy keeps its own Organisations: Export and Import move one between them.
+7. **A new version**: when one is ready, a line under the list says so; press **Reload** to use it.
 
 Two examples come with the app, Lumen & Loom Studio and Quillfield Automation: open them to see a finished Foundation. The **Reload** button beside the reading mode reloads the app and refreshes the examples.
 
