@@ -411,4 +411,5 @@ The steps only the owner can take, kept here until done (owner, 2026-11-27 21:51
 - **Cloudflare previews behind a login** (Research 10): Workers & Pages › tiles › Settings › General › Enable access policy.
 - **Store accounts** when the store batches start: Google Play Console ($25 once, a personal account) and the Microsoft Store developer account (free).
 - **A lawyer's reading** of the Terms of Use before Version 1 (Research 11).
+- **How long to keep the Beta questionnaire's answers** (owner, 2026-11-27 23:42 UTC+2: "Place it in the last section of the to do document"): the privacy policy draft (the website, branch `draft/privacy-beta-questionnaire`, not published) says until 24 months after the Beta ends; the owner chooses the period before the draft is published.
 - **The repository's visibility:** public by the owner's choice (2026-11-27); private when he decides (Research 10, section 5).

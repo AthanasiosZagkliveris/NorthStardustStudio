@@ -17,7 +17,7 @@ Status: **reference**, written 2026-11-21, updated 2026-11-21. The app's tests: 
 
 ### Where they are and how they run
 
-The app has 2,352 tests in 212 files (2,350 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
+The app has 2,355 tests in 213 files (2,353 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
 
 They are written with Vitest and come in two kinds:
 
@@ -39,11 +39,11 @@ Measured on 2026-11-22 with `npx vitest run --coverage` (`@vitest/coverage-v8`, 
 
 ### The six groups
 
-More than four tests in five check either the screens (994) or the business rules behind them (905).
+More than four tests in five check either the screens (997) or the business rules behind them (905).
 
 | Group | Tests | Files | Where | What it protects |
 | --- | --- | --- | --- | --- |
-| Screens | 996 | 95 | `src/components/` | every card, tile, field, rail and dialog draws and behaves as specified |
+| Screens | 999 | 96 | `src/components/` | every card, tile, field, rail and dialog draws and behaves as specified |
 | Business rules | 905 | 70 | `src/framework/engine/` | the questions, choices, money, legal and channel logic gives the right answers |
 | Saved data and examples | 156 | 17 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
 | Whole pages | 115 | 10 | `src/pages/` | each page opens, moves and exports as a whole |
@@ -52,7 +52,7 @@ More than four tests in five check either the screens (994) or the business rule
 
 ### What each group checks
 
-### Screens: 994 tests
+### Screens: 997 tests
 
 These draw a part of the app and use it as a founder would: open a tile, tick a box, add a card, fold a band. Each test checks one rule from the specifications or the layout rules.
 
@@ -118,7 +118,7 @@ The lists come from the full run of 21 November 2026, on the Finance link fix, n
 
 ## Screens: every test
 
-94 files, 994 tests. Each one draws a part of a screen (a card, an editor, a field, a tile, a rail, the Menu or the Notes) in a test browser, then presses, types and reads it as a person would. The largest folders are the editors (one per page of the interview) and the tiles.
+95 files, 997 tests. Each one draws a part of a screen (a card, an editor, a field, a tile, a rail, the Menu or the Notes) in a test browser, then presses, types and reads it as a person would. The largest folders are the editors (one per page of the interview) and the tiles.
 
 ### src/components/calendar/ (1 file, 3 tests)
 
@@ -1688,7 +1688,7 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - names the Business System's joined pages from either of their sections, each at its place among the rail's pages
   - names the Identity System's one page from any of its sections, as the Brand System's is named
 
-### src/components/shell/ (2 files, 11 tests): the header's save signal and the undo toast
+### src/components/shell/ (3 files, 14 tests): the header's save signal, the undo toast and the keyboard in a confirmation
 
 #### SaveStatus.test.tsx (3)
 
@@ -1709,6 +1709,13 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - offers it only for a marked removal of something written, and puts it back into the page as it is then
   - offers nothing for an empty row removed
   - marks every × named Remove on the page, and Delete on a movable box
+
+#### confirmationFocus.test.ts (3)
+
+- **an open confirmation** (3)
+  - takes the focus, keeps Tab going round its buttons, and gives the focus back when it closes
+  - keeps the button that asked for the focus first
+  - leaves Tab alone while no confirmation is open
 
 ### src/components/systems/ (2 files, 5 tests)
 

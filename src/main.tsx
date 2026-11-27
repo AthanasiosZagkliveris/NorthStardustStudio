@@ -25,6 +25,7 @@ import "./styles/cell-focus.css";
 import "./styles/back-button.css";
 import { installTextLinkMarquee } from "./components/interview/fields/textLinks.ts";
 import { installFocusClearOfStickyTitle } from "./components/interview/stickyFocus.ts";
+import { installConfirmationFocus } from "./components/shell/confirmationFocus.ts";
 import { ErrorBoundary } from "./components/shell/ErrorBoundary";
 import { ThemeService } from "./services/ThemeService";
 import { AppInstallService } from "./services/AppInstallService";
@@ -40,6 +41,7 @@ AppInstallService.start();
 BetaQuestionnaireService.start();
 installTextLinkMarquee();
 installFocusClearOfStickyTitle();
+installConfirmationFocus();
 
 // THE ORGANIZATIONS live in IndexedDB (IndexedDbStorage.ts): opened, read into memory and, the first time, moved in from
 // localStorage, before the app draws, so every read after it sees them. Where IndexedDB cannot open, the app stays on localStorage.
