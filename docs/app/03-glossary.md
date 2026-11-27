@@ -112,7 +112,7 @@ Questions 2 is the questionnaire specification, Questions 4 the first version an
 | Proxy archetype, Dual-Intent archetype | The default intent of a B2B relationship; the relationship only suggests the buyer's category, the buyer's own answer governs | Research 5, 10.6 |
 | Purpose | Why the offering is bought; 12 in the collection; a question in the first version | Research 5, 7; Questions 4, section 5 |
 | Household plan | An offering priced for a household, checked against a single-user option (a future Review check) | Questions 4, item 19 |
-| Accessibility and caregiving tags | Questions saved as Profile tags (permanent, temporary or situational need; who is cared for and in what role); future | Research 5, 3 and 4; Questions 4, items 15 and 16 |
+| Accessibility and caregiving tags | Questions saved as Profile tags (permanent, temporary or situational need; who is cared for and in what role); future | Research 5, 3 and 4; Guide 3, section 8.2, items 15 and 16 |
 
 ### Question ids and rules
 
@@ -156,6 +156,6 @@ Questions 2 is the questionnaire specification, Questions 4 the first version an
 
 **Skill** — a packaged set of instructions (a `SKILL.md`) that an assistant uses for one kind of task; it owns behaviour, facts stay in a reference. *Owner: `01-ai-collaboration-rules.md`.*
 
-**Outstanding Finding** — a real, confirmed problem found by a diagnostic and not fixed in that turn, recorded so it is not lost. *Owner: Records 2, section 5.9 (`design/records/02-not-done-yet.md`).*
+**Outstanding Finding** — a real, confirmed problem found by a diagnostic and not fixed in that turn, recorded so it is not lost. *Owner: Records 2, section 5.9 (`design/records/02-to-do-list.md`).*
 
 **Log** — `design/records/01-log.md`: every change, newest row on top, and nowhere else. **Generated document** — written by a script, never edited by hand (`docs/README.md` says which). **Kinds** of document (rules, reference, current design, living list, proposal, specification, playbook, archive) — defined in `docs/README.md`.

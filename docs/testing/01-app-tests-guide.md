@@ -35,7 +35,7 @@ How to run them:
 
 ### How much of the code the tests reach
 
-Measured on 2026-11-22 with `npx vitest run --coverage` (`@vitest/coverage-v8`, installed only for the run): 79.0% of the lines of `src/`, 72.7% of the branches, 77.8% of the functions. The parts the tests reach least are the answers of Systems 05 to 24 (the checklist and card lists, the Process Library), the export (`AnswerExport.ts` 25%, `ExportFlow.tsx` 45%), `CalendarTaskService.ts` (27%), `jumpTo.ts` (28%) and `Landing.tsx` (35%); the review of 2026-11-21 (`docs/proposals/app-review-2026-11-21.md`, T3) says which to test.
+Measured on 2026-11-22 with `npx vitest run --coverage` (`@vitest/coverage-v8`, installed only for the run): 79.0% of the lines of `src/`, 72.7% of the branches, 77.8% of the functions. The parts the tests reach least are the answers of Systems 05 to 24 (the checklist and card lists, the Process Library), the export (`AnswerExport.ts` 25%, `ExportFlow.tsx` 45%), `CalendarTaskService.ts` (27%), `jumpTo.ts` (28%) and `Landing.tsx` (35%); the review of 2026-11-21 (`docs/archive/proposals/app-review-2026-11-21.md`, T3) says which to test.
 
 ### The six groups
 

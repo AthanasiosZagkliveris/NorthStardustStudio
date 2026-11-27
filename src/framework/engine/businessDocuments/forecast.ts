@@ -26,7 +26,7 @@ export function businessForecast(sessions: FoundationSessions) {
         revenueTimeline: f.outlook.revenueTimeline,
         breakEvenMonth: f.outlook.breakEvenMonth,
         exhaustionMonth: f.outlook.exhaustionMonth,
-        // (THE LOAN REPAYMENTS UNDER THE CASH-FLOW FORECAST (owner, 2026-11-27 03:16 UTC+2; Guide 2, 5.5, row 16): each loan, its status and whether its
+        // (THE LOAN REPAYMENTS UNDER THE CASH-FLOW FORECAST (owner, 2026-11-27 03:16 UTC+2; Guide 3, section 5, row 16): each loan, its status and whether its
         // repayments are counted, then the rule. Empty where no loan is recorded.)
         loanNotes: loanRepaymentNotes(allFunding(f.financial, f.legalEntity), f.financial.planStart, f.format)
     };

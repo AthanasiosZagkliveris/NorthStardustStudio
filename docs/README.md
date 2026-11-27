@@ -9,7 +9,7 @@ Status: **index**, updated 2026-11-27. One line per document: where it is, what 
 - **The standard**: every document follows [standard.md](standard.md) (numbering, the head, the kinds, how a document is written); `npm run docs:standard` checks it, and each chapter folder has a README written from the same data.
 - **Where the code and a document disagree, the latest dated decision wins** ([standard.md](standard.md), section 3); names of files and functions follow the code. The checks that keep them honest: `npm run docs:check` (generated sections), `npm run tables:check`, `npm run library:check`, and the document-reference test (five documents name only properties, classes and files the code has).
 - **This index is written by `npm run docs:index`** (the lists are in `tools/scripts/docs/write-index.mjs`; a new document is added there). Do not edit it by hand.
-- **Who reads what**: an assistant starts with `ai/README.md`; the owner starts with `app/01-contents.md` (the map), `design/records/02-not-done-yet.md` (what is open) and `design/records/01-log.md` (what changed).
+- **Who reads what**: an assistant starts with `ai/README.md`; the owner starts with `app/01-contents.md` (the map), `design/records/02-to-do-list.md` (the to-do list), `guide/03-future-features.md` (the ideas for after Version 1) and `design/records/01-log.md` (what changed).
 
 ## Contents
 
@@ -55,7 +55,8 @@ How a founder uses the app, step by step, and an overview of the app, its specif
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
 | [guide/01-user-guide.md](guide/01-user-guide.md) | playbook | The user guide: how a founder uses the app step by step: the Organisations screen, the Foundation with its Identity and Business Systems, and the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar). | 2026-11-23 |
-| [guide/02-overview-and-future-features.md](guide/02-overview-and-future-features.md) | reference | The app: what it is, where its guide and specifications are, how its answers connect, and its future features (an AI Assistant, Team working mode, Voice mode, more languages and countries), from online research. | 2026-11-27 |
+| [guide/02-overview.md](guide/02-overview.md) | reference | The app: what it is, where its guide and specifications are, and how its answers connect. | 2026-11-27 |
+| [guide/03-future-features.md](guide/03-future-features.md) | proposal | Every idea for after Version 1: an AI Assistant, Team working mode, Voice mode, more languages and countries, the other features ranked and scored, what the first version leaves out, the Business System ideas for later, Workspace D and E, the extraction. | 2026-11-27 |
 
 ## 4. The design of the Foundation (`design/foundation/`, Foundation 1 and 2)
 
@@ -91,7 +92,7 @@ How the questions work, then one document for each tile in the order the app sho
 | [design/questions/17-customer-engagement.md](design/questions/17-customer-engagement.md) | specification | Customer Engagement as the Engagement subchapter of each Segment's chapter, its Master Tiles, the Offering's four faces and the journey rebuild; built in part (the journey rebuild is still to build). | 2026-11-25 |
 | [design/questions/18-channel-fees-and-sales-forecast.md](design/questions/18-channel-fees-and-sales-forecast.md) | specification | Channel fees on Customer Engagement (the read-only Fees on a subchannel, the UK rows) and what Sales Forecast adds (Tried it, the time to buy, the market-size check); built. | 2026-11-21 |
 | [design/questions/19-capacity-and-delivery.md](design/questions/19-capacity-and-delivery.md) | specification | Capacity & Delivery: the Delivery tile renamed, Research 7's seven additions on the Delivery card (DV1 to DV13), the dialog and Sustainability's check, the Lumen Workshops through the Online Store, and the decisions; built in part (Sustainability's check, section 5, is still to build). | 2026-11-21 |
-| [design/questions/20-financials-and-inventory.md](design/questions/20-financials-and-inventory.md) | specification | The page Financials as one chapter of Master Tiles, the Offering Economics card, the questions RV1 and FN1, and the Inventory's changes IN1 to IN5; built in part (the questions and the Offering Economics card are still to build). | 2026-11-22 |
+| [design/questions/20-financials-and-inventory.md](design/questions/20-financials-and-inventory.md) | specification | The page Financials as one chapter of Master Tiles, the Offering Economics card, the questions RV1 and FN1, and the Inventory's changes IN1 to IN5; built in part (the questions and the Offering Economics card are still to build). | 2026-11-27 |
 | [design/questions/21-strategy.md](design/questions/21-strategy.md) | specification | Strategy: SW1, the SWOT suggestions, SC1 to SC3 and the Compass draft, Themes, Goals and Metrics linked to the plan; built in part (SW1, SC1 to SC3 and the Compass draft). | 2026-11-22 |
 
 ## 6. The interface (`design/interface/`, Interface 1 to 11)
@@ -148,7 +149,7 @@ The log of every change (1), what has not been done (2), and the generated catal
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
 | [design/records/01-log.md](design/records/01-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-11-27 |
-| [design/records/02-not-done-yet.md](design/records/02-not-done-yet.md) | living list | What has not been done: the road, the plans, the requirements still open, the open decisions and the open points of the reviews. | 2026-11-26 |
+| [design/records/02-to-do-list.md](design/records/02-to-do-list.md) | living list | The to-do list: the work for the Beta and Version 1, each item with its stage: the road, the requirements still open, the open decisions and the open points of the reviews. | 2026-11-27 |
 | [design/records/03-catalogue-record.md](design/records/03-catalogue-record.md) | generated | The catalogue record of the app's pages, tiles, cards and controls, from the card scan and the probes. | 2026-11-21 |
 | [design/records/04-structure-tables.md](design/records/04-structure-tables.md) | generated | The structure tables of the app (pages, chapters, tiles, views, components, fields, card kinds), from the catalogue. | 2026-11-21 |
 
@@ -194,7 +195,7 @@ The pages of the four Systems (Identity, Brand, Business, Strategy), the Invento
 | [specifications/03-business-system/06-costs-funding-and-position.md](specifications/03-business-system/06-costs-funding-and-position.md) | specification | Section 5: Costs, Funding & Position, drawn on the page Financials. | 2026-11-21 |
 | [specifications/05-inventory/README.md](specifications/05-inventory/README.md) | current design | The Inventory: the help tile of Infrastructure & Capability that holds every card of the page, as tiles or a table, under one funnel. | 2026-11-21 |
 | [specifications/04-strategy-system/01-situation-and-direction.md](specifications/04-strategy-system/01-situation-and-direction.md) | current design | 4. Strategy System, Situation & Direction: the four Master Tiles, the cards of the Strategic Period, what the page reads and writes, and the rules it follows. | 2026-11-21 |
-| [specifications/06-workbook/README.md](specifications/06-workbook/README.md) | current design | The Workbook: the page drawn as a dialog, and each of its sections: Business Documents, Financial Documents, Review, References and Glossary, Card Notes. | 2026-11-25 |
+| [specifications/06-workbook/README.md](specifications/06-workbook/README.md) | current design | The Workbook: the page drawn as a dialog, and each of its sections: Business Documents, Financial Documents, Review, References and Glossary, Card Notes. | 2026-11-27 |
 | [specifications/07-settings/README.md](specifications/07-settings/README.md) | specification | Settings: the Global Settings screen (how it is drawn and the rule each part follows), the reading mode (Appearance) and Focus, all three in the header's Menu. | 2026-11-21 |
 
 ## 13. The proposals (`proposals/`)
@@ -205,7 +206,6 @@ Plans that are still open and not started; each leaves for the archive when it i
 |---|---|---|---|
 | [proposals/workspace-d-duplicate-scenarios-compare.md](proposals/workspace-d-duplicate-scenarios-compare.md) | proposal | Workspace features D, not started: duplicate an Organisation or a card, financial scenarios, compare. | 2026-11-21 |
 | [proposals/workspace-e-founder-helpers.md](proposals/workspace-e-founder-helpers.md) | proposal | Workspace features E, not started: helpers for founders (what would it take, the lender-ready check, the one-pager, glossary hints). | 2026-11-21 |
-| [proposals/app-review-2026-11-21.md](proposals/app-review-2026-11-21.md) | proposal | The whole app reviewed on 2026-11-21 (repository, speed, code, checks, tests, documents): 21 measured items and an order; the owner picks. | 2026-11-22 |
 
 ## 14. The archive (`archive/`)
 
@@ -228,6 +228,7 @@ Documents that are finished or replaced; each is kept for its information.
 | [archive/proposals/segment-questions-g-list-2026-10-23.md](archive/proposals/segment-questions-g-list-2026-10-23.md) | archive | The Segment card's earlier design (the G-list of 2026-10-23, ids G1 to G25); the questions as built are Questions 12. | 2026-11-21 |
 | [archive/proposals/segment-by-selection-proposal.md](archive/proposals/segment-by-selection-proposal.md) | archive | Proposal: building a Customer Segment by selection (not built). | 2026-11-21 |
 | [archive/proposals/responsive-layout-2026-11-23.md](archive/proposals/responsive-layout-2026-11-23.md) | archive | The responsive layout as proposed on 2026-11-23 (four tiers from monitor to phone); approved and built the same night, its rules are AI 9, sections 4 and 23. | 2026-11-27 |
+| [archive/proposals/app-review-2026-11-21.md](archive/proposals/app-review-2026-11-21.md) | archive | The whole app reviewed on 2026-11-21: 21 measured items; what is left of it is Records 2, 5.6. | 2026-11-27 |
 | [archive/proposals/shared-workspace.md](archive/proposals/shared-workspace.md) | archive | Proposal: Shared Workspace, working together without a server (not built). | 2026-11-21 |
 
 **The old numbers.** Until 2026-11-21 the design documents had one sequence (1 to 55); 12, 25 and 40 had been retired. What each old number is now:
@@ -238,7 +239,7 @@ Documents that are finished or replaced; each is kept for its information.
 | 2 | [design/research/01-references.md](design/research/01-references.md) |
 | 3 | [design/research/02-research.md](design/research/02-research.md) |
 | 4 | [design/records/01-log.md](design/records/01-log.md) |
-| 5 | [design/records/02-not-done-yet.md](design/records/02-not-done-yet.md) |
+| 5 | [design/records/02-to-do-list.md](design/records/02-to-do-list.md) |
 | 6 | [design/records/03-catalogue-record.md](design/records/03-catalogue-record.md) |
 | 7 | [design/records/04-structure-tables.md](design/records/04-structure-tables.md) |
 | 8 | [design/library/01-library-system.md](design/library/01-library-system.md) |

@@ -6,7 +6,7 @@ Standing rules for any AI assistant working on this project. They come from expl
 
 ## Always
 
-- **Commit finished, verified work; do not push without the owner's yes.** A change that is only in the working tree has no history and can be lost by an unrelated git operation (a checkout, a stash, a discard). So a turn that changes project files ends with the change committed (only what was changed), or with a plain statement that it is not yet committed. Pushing, merging and tagging wait for the owner. What is open before the next release is in `../design/records/02-not-done-yet.md`.
+- **Commit finished, verified work; do not push without the owner's yes.** A change that is only in the working tree has no history and can be lost by an unrelated git operation (a checkout, a stash, a discard). So a turn that changes project files ends with the change committed (only what was changed), or with a plain statement that it is not yet committed. Pushing, merging and tagging wait for the owner. What is open before the next release is in `../design/records/02-to-do-list.md`.
 - **Update the documents with the change**: the log row (`../design/records/01-log.md`, the only place a change is written), the rule or the shared-component state where one changed, the examples (`src/data/examples/`; the playbook says how to rewrite them) when the interface changed, then `npm run docs:index`. Documents are Markdown; PDFs are exports only and are not kept in the project.
 - **Verify before saying done** (`03-toolchain-and-verification-playbook.md`, `02-review.md`, section 13). Say what was looked at and what was not.
 
@@ -22,7 +22,7 @@ Standing rules for any AI assistant working on this project. They come from expl
 
 - **Ask, do not guess, where the decision is expensive to reverse or ambiguous by nature**: a structural choice with more than one reasonable reading, a priority between two pending pieces of work. Offer a few concrete options, not an open question.
 - **Do not ask where the decision is cheap to reverse or one option is clearly better**: which of two assertions to trust when one rests on a stale assumption. Resolve it, note the reason, go on.
-- **Record the resolution** in the document that already owns the area (a pattern in the conventions reference, a triaged failure in the playbook, an unfixed problem in Records 2, section 5.9 (`../design/records/02-not-done-yet.md`), a decision in the log). There is no separate decision file: the knowledge sits next to its subject.
+- **Record the resolution** in the document that already owns the area (a pattern in the conventions reference, a triaged failure in the playbook, an unfixed problem in Records 2, section 5.9 (`../design/records/02-to-do-list.md`), a decision in the log). There is no separate decision file: the knowledge sits next to its subject.
 
 ## On scope
 

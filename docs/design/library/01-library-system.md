@@ -63,7 +63,7 @@ The owner's decision: **the app changes the table.** The table follows the app i
 
 **The two logs.** The **library log** states every change to the assets of the library (section 5). The **app structure log** records every change of the tables, that is, of the structure of the app (what stands where).
 
-**The sync between the app and the tables is not built** (step 7 of section 7): what it would do, how it would tell the three cases apart and what it would read are proposals, kept in `docs/design/records/02-not-done-yet.md`, section 5.6.
+**The sync between the app and the tables is not built** (step 7 of section 7): what it would do, how it would tell the three cases apart and what it would read are proposals, kept in `docs/design/records/02-to-do-list.md`, section 5.6.
 
 **Checker (built).** `npm run library:check` holds a snapshot of the last logged state of the library and the tables, lists every difference, classifies it, and fails when a change has no log entry. `npm run library:log` writes the entries (Library 6 and 7) and stores the state.
 

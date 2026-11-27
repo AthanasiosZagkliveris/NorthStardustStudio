@@ -1,5 +1,5 @@
 /**
- * The catalogue's tables, built from their sources (docs/design/records/02-not-done-yet.md, the owner's
+ * The catalogue's tables, built from their sources (docs/design/records/02-to-do-list.md, the owner's
  * plan of 2026-10-15: one internal table of every component, reaction, size,
  * colour, field and type, per card, tile, page and system, to find the
  * similarities, the differences and the gaps before the library is built).
