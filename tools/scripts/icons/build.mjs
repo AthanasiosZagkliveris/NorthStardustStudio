@@ -6,7 +6,7 @@
  *                     by `tauri icon`), icon.ico (the files drawn for 16 and 32px, with 48, 64 and 256px)
  *   public/           tiles-icon-32.png (the tab's PNG) and tiles-icon-180.png (Apple devices), from the 1024px file when missing
  *                     tiles-icon-192.png and tiles-icon-512.png (the installable app's manifest, vite.config.ts), from the 1024px file when missing;
- *                     tiles-icon-maskable-192.png and -512.png (Android's shaped icons: the 1024px file at 66% on its navy, #0f172a), the same
+ *                     tiles-icon-maskable-192.png and -512.png (Android's shaped icons: the 1024px file at 53% on its navy, #0f172a, its grid 48dp of 108dp), the same
  *
  * `tauri icon` also writes the Microsoft Store tiles (Square…Logo.png, StoreLogo.png), 64x64.png and the Android and iOS folders: the
  * app uses none of them (`tauri.conf.json` lists the five it uses), so they are deleted again. Every PNG keeps only the parts that draw
