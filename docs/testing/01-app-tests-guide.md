@@ -17,7 +17,7 @@ Status: **reference**, written 2026-11-21, updated 2026-11-21. The app's tests: 
 
 ### Where they are and how they run
 
-The app has 2,336 tests in 209 files (2,334 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
+The app has 2,349 tests in 211 files (2,347 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
 
 They are written with Vitest and come in two kinds:
 
@@ -39,20 +39,20 @@ Measured on 2026-11-22 with `npx vitest run --coverage` (`@vitest/coverage-v8`, 
 
 ### The six groups
 
-More than four tests in five check either the screens (991) or the business rules behind them (905).
+More than four tests in five check either the screens (994) or the business rules behind them (905).
 
 | Group | Tests | Files | Where | What it protects |
 | --- | --- | --- | --- | --- |
-| Screens | 993 | 94 | `src/components/` | every card, tile, field, rail and dialog draws and behaves as specified |
+| Screens | 996 | 95 | `src/components/` | every card, tile, field, rail and dialog draws and behaves as specified |
 | Business rules | 905 | 70 | `src/framework/engine/` | the questions, choices, money, legal and channel logic gives the right answers |
-| Saved data and examples | 143 | 15 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
+| Saved data and examples | 153 | 16 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
 | Whole pages | 115 | 10 | `src/pages/` | each page opens, moves and exports as a whole |
 | Design system and docs | 117 | 19 | `src/library/`, `src/styles/`, `src/docs/`, `src/test/` | the look stays on the tokens; the docs name only what exists |
 | Content files | 63 | 1 | `src/framework/parser/` | the Systems' Markdown links resolve and their three files agree |
 
 ### What each group checks
 
-### Screens: 991 tests
+### Screens: 994 tests
 
 These draw a part of the app and use it as a founder would: open a tile, tick a box, add a card, fold a band. Each test checks one rule from the specifications or the layout rules.
 
@@ -71,9 +71,9 @@ These run the app's logic without drawing anything, so they are fast and exact a
 - **Channels** (39) and **legal** (29): channel resources and fees; legal facts, starts, suggestions and the US states.
 - **Everything else in `framework/engine/`** (544): the Business Documents and forecast, demand against capacity, journey suggestions, search, statuses, card dates, the palette, labels with "&".
 
-### Saved data and examples: 133 tests
+### Saved data and examples: 143 tests
 
-- **Services** (95): saving and loading an Organisation, bringing old answers up to date, and the two example businesses (Quillfield and Lumen & Loom) checked for drift and completeness.
+- **Services** (105): saving and loading an Organisation, bringing old answers up to date, and the two example businesses (Quillfield and Lumen & Loom) checked for drift and completeness.
 - **Data** (33) and **hooks** (4): the glossary places and the shared hooks.
 
 ### Whole pages: 115 tests
@@ -118,7 +118,7 @@ The lists come from the full run of 21 November 2026, on the Finance link fix, n
 
 ## Screens: every test
 
-93 files, 991 tests. Each one draws a part of a screen (a card, an editor, a field, a tile, a rail, the Menu or the Notes) in a test browser, then presses, types and reads it as a person would. The largest folders are the editors (one per page of the interview) and the tiles.
+94 files, 994 tests. Each one draws a part of a screen (a card, an editor, a field, a tile, a rail, the Menu or the Notes) in a test browser, then presses, types and reads it as a person would. The largest folders are the editors (one per page of the interview) and the tiles.
 
 ### src/components/calendar/ (1 file, 3 tests)
 
@@ -1726,7 +1726,14 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
 - **the progress line** (1)
   - is hidden for now by ONE switch (SHOW\_PROGRESS\_LINE), which draws nothing, not even a gap
 
-### src/components/workbook/ (1 file, 3 tests): the Workbook's Financial Documents
+### src/components/workbook/ (2 files, 6 tests): the Beta questionnaire and the Workbook's Financial Documents
+
+#### BetaQuestionnaire.test.tsx (3)
+
+- **the Beta questionnaire** (3)
+  - opens from a document's download until it is sent, asking about each System answered in
+  - marks the answers still to give when Send is pressed early
+  - thanks the founder once sent, and opens the downloads
 
 #### FinancialDocuments.test.tsx (3)
 
@@ -3115,7 +3122,7 @@ These files hold the interview's questions: which are asked, in what order, whic
 
 ## Saved data and examples: every test
 
-12 files, 135 tests. They check how an Organisation is saved, read back and moved from older saves, and that the two example organisations (Lumen & Loom Studio and Quillfield Automation LLC) are complete and read the way the app reads them.
+13 files, 145 tests. They check how an Organisation is saved, read back and moved from older saves, and that the two example organisations (Lumen & Loom Studio and Quillfield Automation LLC) are complete and read the way the app reads them.
 
 ### src/data/ (4 files, 38 tests)
 
@@ -3183,13 +3190,28 @@ These files hold the interview's questions: which are asked, in what order, whic
   - keeps a renumbered run sequential when Enter inserts a new item in the middle
   - keeps the cursor at the end of a pasted numbered block whose renumbering adds a digit
 
-### src/services/ (10 files, 100 tests)
+### src/services/ (11 files, 110 tests)
 
 #### AppInstallService.test.ts (2)
 
 - **AppInstallService** (2)
   - offers Install once the browser fires its install prompt, and opens the browser's dialog
   - reloads the page when no new version waits
+
+#### BetaQuestionnaireService.test.ts (10)
+
+- **the Beta questionnaire's answers** (7)
+  - keeps every download open outside the Beta
+  - asks each System's questions for every System answered in, and the documents' once one is opened
+  - sends only once every required answer is given, and asks for the email once contact is allowed
+  - keeps the answers waiting offline, and sends them when back online
+  - keeps the answers waiting when the receiver does not take them
+  - counts as sent only with the receiver's receipt
+  - starts again for a questionnaire of another version
+- **the Beta questionnaire's receiver** (3)
+  - keeps a questionnaire and replies with its receipt, the email only with its permission
+  - refuses what is not a questionnaire, and waits while the database is not set up
+  - asks for the human check once its secret is set
 
 #### GlossaryService.test.ts (3)
 

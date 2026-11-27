@@ -74,9 +74,9 @@ The questions will change; the base makes that cheap: **every question is one en
 
 ### 8.2 Where it opens
 
-- The **Workbook's Business Documents and Financial Documents** show every document as today; their **download buttons** (PDF, CSV) read "Answer the Beta questionnaire to download" until it is sent, and open it. Organisation **Export** on the Organisations screen stays open (owner, 2026-11-27).
-- The questionnaire is a **P5 layer** (Interface 7): the app's dialog with a rail of its sections and the carousel arrows, the standard parts only; answers save as they are given, so it can be left and resumed.
-- Only in the **Foundation edition during the Beta** (`data/edition.ts`: a `BETA` switch, turned off for Version 1); the owner's full app never locks.
+- The **Workbook's Business Documents and Financial Documents** show every document as today, with their Export button as today; until the questionnaire is sent, a format chosen in Export (PDF, Markdown, CSV) opens the questionnaire. Organisation **Export** on the Organisations screen stays open (owner, 2026-11-27).
+- The questionnaire is **a section of the Workbook**, "Beta Questionnaire", after the Financial Documents (built so on 2026-11-27: the Workbook already is the app's dialog with its carousel arrows and its tab of bullets, so the questionnaire needs no new layer): its sections as the Handbook's parts, each question its words over the app's own control, a question still to give marked as a card's missing cell is (`components/workbook/BetaQuestionnaire.tsx`); answers save as they are given, so it can be left and resumed.
+- Only in the **Foundation edition during the Beta**: `data/edition.ts` `BETA_QUESTIONNAIRE_ON`, on with `VITE_BETA=on` beside `VITE_EDITION=foundation` in the Cloudflare Pages project, set once the receiver is ready (8.4, step 4); left off, nothing is locked, and it is off for Version 1. The owner's full app never locks.
 
 ### 8.3 Sending, offline first
 
@@ -89,6 +89,9 @@ The questions will change; the base makes that cheap: **every question is one en
 1. **Storage & databases › D1 › Create**: `tiles-beta`, in the EU location.
 2. **Turnstile › Add widget** for app.northstardust.studio: its site key (public, in the app) and secret key (a secret of the Pages project).
 3. **Workers & Pages › tiles › Settings › Bindings**: the D1 database as `BETA_DB`; **Variables and Secrets**: `TURNSTILE_SECRET`.
+4. **Variables and Secrets**: `VITE_BETA` = `on` (Production), then a new deployment: the downloads wait for the questionnaire from then on.
+
+Built so far (2026-11-27): the list, the screen, the lock, the waiting and sending on the device (`services/BetaQuestionnaireService.ts`) and the receiver (`functions/api/beta.js`: one row per questionnaire in a table `answers`, made on its first use; the email kept only with its permission; a Turnstile token required once `TURNSTILE_SECRET` is set). Still to build: the Turnstile widget in the app (its site key, and `challenges.cloudflare.com` in the security policy), and the privacy policy's update.
 
 ### 8.5 Build order
 
