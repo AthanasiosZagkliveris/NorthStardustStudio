@@ -14,7 +14,7 @@ The app helps you write down the decisions your business runs on: who you are, w
 
 ## 2. The Organisations screen
 
-The first screen lists your Organisations: each business you plan is one Organisation.
+The first screen lists your Organisations: each business you plan is one Organisation. The first time you open Tiles on a device (the web and store version), it asks you to agree to the [Terms of Use](https://northstardust.studio/terms) and the [Privacy Policy](https://northstardust.studio/privacy); the line at the foot of the screen links to both.
 
 1. **Write your name** in the box at the top: the app's user, whoever founds or owns the Organisations (it fills in no founder).
 2. **Press "+ Add"** and type the Organisation's name in the new row. Press a row to select it; the selected Organisation is the one you work on.

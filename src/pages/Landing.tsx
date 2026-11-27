@@ -19,6 +19,9 @@ import { PreferencesService } from "../services/PreferencesService.ts";
 import { IndexedDbStorage } from "../services/IndexedDbStorage.ts";
 import { refreshExampleOrganizations } from "../services/ExampleOrganizations.ts";
 import { AppInstallService } from "../services/AppInstallService.ts";
+import { TermsService, TERMS_URL, PRIVACY_URL } from "../services/TermsService.ts";
+import { openExternal } from "../components/references/HarvardReference.tsx";
+import TickField from "../components/controls/TickField.tsx";
 
 import "../styles/global.css";
 import "../styles/landing.css";
@@ -157,6 +160,10 @@ export default function Landing() {
         void IndexedDbStorage.keep().then(kept => { if (live) setStorageAtRisk(!kept); });
         return () => { live = false; };
     }, []);
+
+    // The Terms of Use, agreed once on a device (TermsService; the user guide, section 2).
+    const [termsOpen, setTermsOpen] = useState(() => TermsService.mustAsk());
+    const [termsTicked, setTermsTicked] = useState(false);
 
     // Install and a new version (AppInstallService; the user guide, section 2, items 6 and 7).
     const app = useSyncExternalStore(AppInstallService.subscribe, AppInstallService.state);
@@ -513,8 +520,55 @@ export default function Landing() {
             </p>
         )}
 
+        {/* (THE COPYRIGHT AND THE TWO LEGAL PAGES (owner, 2026-11-27 20:20 UTC+2: "In the app - yes do"): the notes' own line, its links the app's text links,
+            opening the pages on the website.) */}
+        <p className="organization-hint">
+            © 2026 North Stardust ·{" "}
+            <TextLink as="a" href={TERMS_URL} target="_blank" rel="noreferrer" onClick={(event) => { event.preventDefault(); openExternal(TERMS_URL); }}>Terms</TextLink>
+            {" "}·{" "}
+            <TextLink as="a" href={PRIVACY_URL} target="_blank" rel="noreferrer" onClick={(event) => { event.preventDefault(); openExternal(PRIVACY_URL); }}>Privacy</TextLink>
+        </p>
+
       </section>
 
+
+      {/* THE TERMS, AGREED ONCE (Research 11, section 3, change 2): the app's confirmation dialog; it closes only by agreeing. */}
+      {termsOpen && (
+
+        <div className="confirmation-overlay">
+
+            <div className="confirmation-dialog" role="dialog" aria-modal="true" aria-labelledby="terms-title">
+
+                <h2 id="terms-title" className="confirmation-title">
+                    Welcome to Tiles
+                </h2>
+
+                <p className="confirmation-question">
+                    Tiles is free during the Beta. Please read the{" "}
+                    <TextLink as="a" href={TERMS_URL} target="_blank" rel="noreferrer" onClick={(event) => { event.preventDefault(); openExternal(TERMS_URL); }}>Terms of Use</TextLink>
+                    {" "}and the{" "}
+                    <TextLink as="a" href={PRIVACY_URL} target="_blank" rel="noreferrer" onClick={(event) => { event.preventDefault(); openExternal(PRIVACY_URL); }}>Privacy Policy</TextLink>.
+                </p>
+
+                <TickField checked={termsTicked} onChange={event => setTermsTicked(event.target.checked)}>
+                    I am 18 or over, and I agree to the Terms of Use and the Privacy Policy.
+                </TickField>
+
+                <div className="confirmation-actions">
+
+                    <AddButton look="confirmation-button primary"
+                        disabled={!termsTicked}
+                        onClick={() => { TermsService.agree(); setTermsOpen(false); }}>
+                        Continue
+                    </AddButton>
+
+                </div>
+
+            </div>
+
+        </div>
+
+      )}
 
       {pendingRemoveId && (
 
