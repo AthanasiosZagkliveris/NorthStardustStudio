@@ -10,7 +10,8 @@ import { titledLines } from "../tiles/SectionTileGeometry.tsx";
 import SectionTiles, { DialogHeading, useTitleSlide, type SectionTile, type TileAdd } from "../tiles/SectionTiles.tsx";
 import { AddTile } from "../tiles/SectionView.tsx";
 import FoldArrow from "../fields/FoldArrow.tsx";
-import PopupPanel from "../../controls/PopupPanel.tsx";
+import { usePopupDismiss } from "../../controls/PopupPanel.tsx";
+import "../../../styles/title-arrow.css";
 import MenuOption from "../../controls/MenuOption.tsx";
 import { BUSINESS_FOUNDATION_SUBSECTIONS, BusinessCustomerSegmentValue, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessCustomerSegment, createBusinessOffering, segmentHue } from "../../../framework/engine/answers/AnswerUtils.ts";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
@@ -255,24 +256,20 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                     {foundation.segments.map((segment, index) => {
                         /* The Segment's head: its number and its name, written right there, centred, in capitals, as a chapter's heading; the x of a Segment the user
                            added in the top-right corner -- one the app made from the Identity System's answers has none, read from madeBy by its id (owner, 2026-11-19). */
+                        // (SHOWN, NOT TYPED (owner, 2026-11-27): the name is written in the Segment Description's name cell; with two Segments or more the label arrow
+                        // after it drops the Segments' list, as a chapter title of Infrastructure & Capability drops its help. Layout rules, sections 6 and 13.)
                         const head = (
-                            <div className="business-engagement-section-head tiles-frame-head business-foundation-frame-head">
-                                <span className="field-group-title business-foundation-subhead business-foundation-frame-title">
-                                    {foundation.segments.length > 1 && <span className="business-foundation-frame-number">{(index + 1) + "."}</span>}
-                                    {/* (SHOWN, NOT TYPED (owner, 2026-11-27): the name is written in the Segment Description's name cell; with two Segments or more the label
-                                        arrow after it drops the Segments' list. Layout rules, sections 6 and 13.) */}
-                                    <SegmentTitle
-                                        name={segment.name}
-                                        segments={segmentPage && foundation.segments.length > 1 ? foundation.segments.map((entry, at) => ({ id: entry.id, label: (at + 1) + ". " + (entry.name.trim() || "Segment") })) : []}
-                                        shown={segment.id}
-                                        onSelect={(id) => segmentPage?.select(id)}
-                                    />
-                                </span>
-                                {!segmentMadeByIdentity(segment) && remove(
+                            <SegmentHead
+                                number={foundation.segments.length > 1 ? index + 1 : undefined}
+                                name={segment.name}
+                                segments={segmentPage && foundation.segments.length > 1 ? foundation.segments.map((entry, at) => ({ id: entry.id, label: (at + 1) + ". " + (entry.name.trim() || "Segment") })) : []}
+                                shown={segment.id}
+                                onSelect={(id) => segmentPage?.select(id)}
+                                remove={!segmentMadeByIdentity(segment) && remove(
                                     "Segment " + (index + 1),
                                     () => update({ segments: foundation.segments.filter((_candidate, position) => position !== index) })
                                 )}
-                            </div>
+                            />
                         );
                         /* FOUNDATION & ENGAGEMENT (owner, 2026-11-19 13:40 and 13:46: "The chapter should be 2 rows of 4 columns, with a dividing vertical line in the middle, that
                            would separate the foundation and the engagement", "Use the divide line as a border for the chapters. So to avoid changing the layout of the dialogue and
@@ -602,33 +599,42 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
 }
 
 /**
- * A SEGMENT'S CHAPTER TITLE: its name, shown (it is written in the Segment Description's name cell), as every tile title is (layout rules, section 9, "Tile title"):
- * one line, cut by an ellipsis before the x, sliding to its end under the pointer (`useTitleSlide`), the full name its tooltip. With two Segments or more, the label
- * arrow after it drops the one dropdown card listing them; a press shows that Segment (layout rules, section 6, "The label arrow").
+ * A SEGMENT'S CHAPTER HEAD: its number and its name, shown (it is written in the Segment Description's name cell), as every tile title is (layout rules, section 9,
+ * "Tile title"): one line, cut by an ellipsis before the x, sliding to its end under the pointer (`useTitleSlide`), the full name its tooltip. With two Segments or
+ * more, the label arrow after it drops the Segments' list in the drop-down of a chapter title (`.card-title-block > .card-title-help`, as CardTitleHelp's on
+ * Infrastructure & Capability: under the title, in the chapter's hue); a press shows that Segment. It closes on the arrow, Escape or a press outside it (layout
+ * rules, section 6, "The label arrow").
  */
-function SegmentTitle({ name, segments, shown, onSelect }: { name: string; segments: readonly { id: string; label: string }[]; shown: string; onSelect: (id: string) => void }) {
+function SegmentHead({ number, name, segments, shown, onSelect, remove }: { number?: number; name: string; segments: readonly { id: string; label: string }[]; shown: string; onSelect: (id: string) => void; remove: ReactNode }) {
+    const block = useRef<HTMLDivElement | null>(null);
     const title = useRef<HTMLSpanElement | null>(null);
-    const arrow = useRef<HTMLSpanElement | null>(null);
     const [open, setOpen] = useState(false);
     useTitleSlide(title);
+    usePopupDismiss(open, [block], (reason) => {
+        setOpen(false);
+        if (reason === "escape") {
+            block.current?.querySelector<HTMLElement>(".label-arrow")?.focus({ preventScroll: true });
+        }
+    });
     const menuId = "segment-menu-" + shown;
+    const listed = segments.length > 1;
     return (
-        <>
-            <span ref={title} className="business-foundation-frame-name" title={name.trim() || undefined}>{name.trim() || "Segment"}</span>
-            {segments.length > 1 && (
-                <span ref={arrow} className="segment-chapter-arrow">
-                    <FoldArrow variant="label" open={open} controls={menuId} name={(open ? "Hide" : "Show") + " the Segments"} onToggle={() => setOpen(current => !current)} />
-                </span>
-            )}
-            <PopupPanel open={open && segments.length > 1} onClose={() => setOpen(false)} anchorRef={arrow} below role="menu" className="strategy-sort-menu segment-chapter-menu" ariaLabel="Segments">
-                <div id={menuId}>
+        <div ref={block} className="business-engagement-section-head tiles-frame-head business-foundation-frame-head card-title-block">
+            <span className="field-group-title business-foundation-subhead business-foundation-frame-title">
+                {number !== undefined && <span className="business-foundation-frame-number">{number + "."}</span>}
+                <span ref={title} className="business-foundation-frame-name" title={name.trim() || undefined}>{name.trim() || "Segment"}</span>
+                {listed && <FoldArrow variant="label" open={open} controls={menuId} name={(open ? "Hide" : "Show") + " the Segments"} onToggle={() => setOpen(current => !current)} />}
+            </span>
+            {remove}
+            {listed && open && (
+                <div className="answer-column-questions card-title-help segment-chapter-menu" id={menuId} role="menu" aria-label="Segments">
                     {segments.map(segment => (
                         <MenuOption key={segment.id} marked chosen={segment.id === shown} onClick={() => { setOpen(false); onSelect(segment.id); }}>
                             {segment.label}
                         </MenuOption>
                     ))}
                 </div>
-            </PopupPanel>
-        </>
+            )}
+        </div>
     );
 }

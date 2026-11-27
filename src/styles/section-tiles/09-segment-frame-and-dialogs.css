@@ -203,18 +203,11 @@
 
 /* (The name is shown, not typed, since 2026-11-27: it is written in the Segment Description's name cell, .segment-name-cell below.) */
 
-/* THE SEGMENTS' ARROW after the name (two Segments or more): the shared label arrow, on the title's line (layout rules, section 6, "The label arrow"). */
-.business-foundation-frame-title > .segment-chapter-arrow {
+/* THE SEGMENTS' ARROW after the name (two Segments or more): the shared label arrow, on the title's line (layout rules, section 6, "The label arrow"); its list is
+   the drop-down of a chapter title (.card-title-help: title-arrow.css and the Infrastructure & Capability rules), its rows the menu's (MenuOption). */
+.business-foundation-frame-title > .label-arrow {
 
-    display: inline-flex;
     align-self: center;
-
-}
-
-/* Its dropdown card is placed by PopupPanel (fixed, against the arrow): the sort menu's own right edge is not its. */
-.strategy-sort-menu.segment-chapter-menu {
-
-    right: auto;
 
 }
 
