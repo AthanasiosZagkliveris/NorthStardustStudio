@@ -146,7 +146,9 @@
 
     }
 
-    .legal-entity-grid-organization.legal-entity-audience > .legal-entity-field:first-child{
+    /* (As specific as the rule it undoes (:not(:only-child)): with one fewer the first column kept its 12px before the divider when the columns stack, so the
+       Organisation's first fields ended 12px short of the Legal Form's on a phone -- owner, 2026-11-27 15:43 UTC+2, "show me".) */
+    .legal-entity-grid-organization.legal-entity-audience > .legal-entity-field:first-child:not(:only-child){
 
         padding-right:0;
 
