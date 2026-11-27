@@ -354,6 +354,15 @@ export default function SystemSelection() {
                 return;
             }
             setTilesPage(document.querySelector<HTMLElement>(".conversation-page"), null);
+            // (ON A PHONE, THE PAGES' MASTER TILES' SIDE (owner, 2026-11-27 14:24 UTC+2: "Why tiles have different size per page?"): two across in the window's width
+            // less its gutters and a chapter's inset (13px a side), 12px apart -- 160px at 390px, as every page's -- where the window's height gave the six
+            // Capabilities 173px.)
+            if (isPhone()) {
+                const gutterValue = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-gutter"));
+                const width = document.documentElement.clientWidth - 2 * (Number.isFinite(gutterValue) ? gutterValue : 16);
+                setTileSide(Math.floor((width - 2 * 13 - 12) / 2));
+                return;
+            }
             setTileSide(tall);
         };
         fit();
