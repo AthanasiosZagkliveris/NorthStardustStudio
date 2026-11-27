@@ -65,7 +65,7 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Financial Documents | Workbook › Financial Documents: Financial Forecast (with the Funding Timeline and the Revenue-Adjusted Financial Position), Funding Request, Financial Plan | Questions 20, section 14 |
+| Financial Documents | Workbook › Financial Documents: Financial Forecast (with the Loan Repayments where a loan is recorded, the Funding Timeline and the Revenue-Adjusted Financial Position), Funding Request, Financial Plan | Questions 20, section 14 |
 | Financial Foundation | Business › 3 Financials, the page's one chapter | Sections 4 and 5; its tiles: Questions 20, section 14 |
 | Financial Position | Workbook › Financial Documents › Funding Request (the need, what is available, the gap) and Financial Forecast (the Revenue-Adjusted Financial Position) | Section 5; Questions 20, section 14 |
 | Focus (reading aid) | Header › Menu › Focus, on a System's pages | `01-contents.md` |

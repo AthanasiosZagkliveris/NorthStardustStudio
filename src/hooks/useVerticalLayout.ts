@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
  * (the one query in 07-floating-cards-and-page-layout.css, the same words here), and a dialog's tiles and boxes stand two a row there, one a row on a phone (Android's
  * compact window class, 600px and under).
  */
-// (THE TIERS (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved: docs/proposals/responsive-layout-2026-11-23.md, sections 4.1 and 4.5): the chapters
+// (THE TIERS (owner, 2026-11-23 23:21 UTC+2, the responsive layout approved: docs/archive/proposals/responsive-layout-2026-11-23.md, sections 4.1 and 4.5): the chapters
 // stand side by side only in a landscape window 900px wide or more and 640px tall or more; a narrower, portrait or shorter window stacks them.)
 export const VERTICAL_QUERY = "(max-width: 900px), (orientation: portrait), (max-height: 639px)";
 export const PHONE_QUERY = "(max-width: 600px)";
@@ -14,7 +14,7 @@ export const PHONE_QUERY = "(max-width: 600px)";
  * 880px wide or more (a small laptop, a landscape or a large portrait tablet) has room for the four master tiles of a chapter side by side at a good size.
  */
 // (Since 2026-11-23 23:21 UTC+2: only a phone turned to landscape -- under 480px tall -- lays a chapter's four tiles in one row, so a chapter fits one screen height
-// (docs/proposals/responsive-layout-2026-11-23.md, section 4.5); a tablet keeps two a row.)
+// (docs/archive/proposals/responsive-layout-2026-11-23.md, section 4.5); a tablet keeps two a row.)
 export const ROW_OF_FOUR_QUERY = "(orientation: landscape) and (max-height: 479px)";
 
 /** How many master tiles stand in a row: 4 in the vertical layout from 880px wide, else 2 (the 2 x 2). */

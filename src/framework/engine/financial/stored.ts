@@ -229,24 +229,6 @@ export interface FinancialFoundationValue {
 
 export const EMPTY_MONTH: StrategyMonthValue = { month: "", year: "" };
 
-export function createOwnCost(group: CostGroup | "" = ""): OwnCostValue {
-    return {
-        id: randomId("cost"),
-        name: "",
-        amount: "",
-        frequency: "",
-        frequencyOther: "",
-        description: "",
-        group,
-        behaviour: "",
-        offeringId: "",
-        month: { ...EMPTY_MONTH },
-        fixedPart: "",
-        variablePerUnit: "",
-        asset: ""
-    };
-}
-
 export function createMilestone() {
     return { id: randomId("milestone"), amount: "", month: { ...EMPTY_MONTH }, condition: "" };
 }

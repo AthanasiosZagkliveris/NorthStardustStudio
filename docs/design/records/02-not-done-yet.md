@@ -384,4 +384,4 @@ Each line points to the one place its design lives; the item is removed here whe
 | The help texts' structure beyond the size budget | [Interface 10](../interface/10-help-texts-guide.md) | Built in part |
 | The library's sync of the app to the tables (step 7) | [Library 1](../library/01-library-system.md), section 7, and section 5.6 above | Not built |
 | Lists and classifications for more countries | [Research 3](../research/03-lists-and-classifications.md) (Questions 4 governs) | Future feature |
-| What It Would Take (E1) and the loan repayment notes, built in the engine for a later screen | [Guide 2, section 5.5](../../guide/02-overview-and-future-features.md#55-other-features-ranked-by-value-for-an-early-stage-founder), rows 15 and 16 | Tested, no screen shows them |
+| What It Would Take (E1), built in the engine for a later screen | [Guide 2, section 5.5](../../guide/02-overview-and-future-features.md#55-other-features-ranked-by-value-for-an-early-stage-founder), row 15 | Tested, no screen shows it |

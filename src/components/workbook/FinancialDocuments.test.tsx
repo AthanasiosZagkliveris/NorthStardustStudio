@@ -40,8 +40,8 @@ describe("the Workbook's Financial Documents", () => {
         openOn({ tab: "financial-documents" });
         expect(tab("Financial Forecast").getAttribute("aria-selected")).toBe("true");
         const captions = [...documents().querySelectorAll(".business-forecast-caption")].map(node => node.textContent);
-        // Its tables, the Cash-Flow Forecast's two charts under it, each once.
-        expect(captions).toEqual(["Profit & Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast", "Funding Timeline", "Revenue-Adjusted Financial Position"]);
+        // Its tables, the Loan Repayments and the Cash-Flow Forecast's two charts under it, each once.
+        expect(captions).toEqual(["Profit & Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast", "Loan Repayments", "Funding Timeline", "Revenue-Adjusted Financial Position"]);
 
         act(() => { fireEvent.click(tab("Funding Request")); });
         expect(tab("Funding Request").getAttribute("aria-selected")).toBe("true");

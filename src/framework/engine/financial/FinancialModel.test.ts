@@ -1,7 +1,8 @@
 import { workspacesOf } from "../answers/AnswerUtils.ts";
 import { describe, expect, test } from "vitest";
 import { asBusinessCapabilityValue, asLegalEntityValue, brandInventorySectionsEmpty, strategyFoundationSectionsEmpty, legalEntitySectionsEmpty, legalEntityTotalCapital, legalEntityTotalOwnership, resourceUnitCount, titleWithPeriod } from "../answers/AnswerUtils.ts";
-import { asFinancialFoundationValue, breakEvenInputs, consolidateCosts, costSchedule, createFundingSource, createOwnCost, createRevenueStream, financialPlanPeriod, offeringCosts, financialPosition, similarCostNames, fundingStanding, loanSchedule, monthlyPrice, numberAsText, parsePercent, parseAmount, planMonth, streamVolumes, type CostSources, type FinancialFoundationValue } from "./FinancialModel.ts";
+import { asFinancialFoundationValue, breakEvenInputs, consolidateCosts, costSchedule, createFundingSource, createRevenueStream, financialPlanPeriod, offeringCosts, financialPosition, similarCostNames, fundingStanding, loanSchedule, monthlyPrice, numberAsText, parsePercent, parseAmount, planMonth, streamVolumes, type CostSources, type FinancialFoundationValue } from "./FinancialModel.ts";
+import { createOwnCost } from "../../../test/financialTestUtils.ts";
 
 const START = { month: "01", year: "2027" };
 

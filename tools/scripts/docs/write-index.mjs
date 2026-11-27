@@ -183,6 +183,7 @@ const ARCHIVE = [
   ["docs/archive/proposals/competitor-and-value-proposition-2026-11-03.md", "docs/archive/proposals/competitor-and-value-proposition-2026-11-03.md", "archive", "The Competitor card and the Value Proposition tile as proposed on 2026-11-03; what is built is Questions 14 and 15."],
   ["docs/archive/proposals/segment-questions-g-list-2026-10-23.md", "docs/archive/proposals/segment-questions-g-list-2026-10-23.md", "archive", "The Segment card's earlier design (the G-list of 2026-10-23, ids G1 to G25); the questions as built are Questions 12."],
   ["docs/archive/proposals/segment-by-selection-proposal.md", "docs/archive/proposals/segment-by-selection-proposal.md", "archive", "Proposal: building a Customer Segment by selection (not built)."],
+  ["docs/archive/proposals/responsive-layout-2026-11-23.md", "docs/archive/proposals/responsive-layout-2026-11-23.md", "archive", "The responsive layout as proposed on 2026-11-23 (four tiers from monitor to phone); approved and built the same night, its rules are AI 9, sections 4 and 23."],
   ["docs/archive/proposals/shared-workspace.md", "docs/archive/proposals/shared-workspace.md", "archive", "Proposal: Shared Workspace, working together without a server (not built)."]
 ];
 

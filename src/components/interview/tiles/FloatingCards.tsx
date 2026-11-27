@@ -508,7 +508,7 @@ export function TileDialog({
     const host = useRef<HTMLDivElement | null>(null);
     useLayoutEffect(() => {
         const inerted: Element[] = [];
-        // (The app header -- the reading version, Notes, Search, Review, Reload -- stays live: a box around it is entered, and only what is beside it made inert.)
+        // (The app header -- its Menu and the Workbook -- stays live: a box around it is entered, and only what is beside it made inert.)
         const header = document.querySelector(".app-header");
         const quiet = (parent: Element) => {
             for (const child of Array.from(parent.children)) {

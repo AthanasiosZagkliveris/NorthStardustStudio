@@ -1,6 +1,6 @@
 # Overview of the app: its guide, its specifications and its future features
 
-Status: **reference**, written 2026-11-21, updated 2026-11-21 (part 5 is a proposal). Parts 1 to 4 describe the app as it is and point to the one document that owns each fact; part 5 proposes its future features (an AI Assistant, Team working mode, Voice mode, more languages and countries), from online research, nothing of it built; part 6 lists the sources. Asked by the owner on 2026-11-21 00:56 UTC+2: "create a new document with the app's guide and specs and its future features … Do online research and check what extra features the app needs now, or it could have in the future".
+Status: **reference**, written 2026-11-21, updated 2026-11-27 (part 5 is a proposal; row 16 of 5.5 built on 2026-11-27). Parts 1 to 4 describe the app as it is and point to the one document that owns each fact; part 5 proposes its future features (an AI Assistant, Team working mode, Voice mode, more languages and countries), from online research, nothing of it built; part 6 lists the sources. Asked by the owner on 2026-11-21 00:56 UTC+2: "create a new document with the app's guide and specs and its future features … Do online research and check what extra features the app needs now, or it could have in the future".
 
 ## Contents
 
@@ -161,7 +161,7 @@ A proposal from online research (official, university and standards sources; par
 | 13 | **Onboarding tour and sample project** | 53% of UK businesses with no employees used digital tools to run the business in 2024. Many solo founders are still new to such tools. | [37] | Built in part: the two example Organisations; no tour |
 | 14 | **Tablet layout (768px and up, touch targets)** | WCAG 2.2 2.5.8 Target Size (Minimum) sets 24 by 24 CSS pixels for pointer targets. | [19] | Built in part: minimum width 768, the chapters stack below 1200 (AI 9, the layout rules); the touch targets are not checked |
 | 15 | **What It Would Take on the Financials** (the smallest single change that keeps the cash at zero or above: more sales, a higher price, lower costs, a later start) | Founders without sales need to know what has to change before they borrow; a lever per answer turns a shortfall into a decision. | [2][14] | Built in the engine, tested, no screen shows it (`engine/financial/whatItWouldTake.ts`; Records 2, 5.4, E1) |
-| 16 | **Loan repayment notes** (why each loan's repayments are, or are not yet, counted in the forecast, from its status) | Start Up Loans and lenders read the repayments in the 12-month cash flow; a requested loan that is counted overstates the cash. | [14] | Built in the engine, tested, no screen shows it (`loanRepaymentNotes` in `engine/financial/position.ts`) |
+| 16 | **Loan repayment notes** (why each loan's repayments are, or are not yet, counted in the forecast, from its status) | Start Up Loans and lenders read the repayments in the 12-month cash flow; a requested loan that is counted overstates the cash. | [14] | Built (2026-11-27, owner, 03:16 UTC+2: "Yes do as you suggest"): the Loan Repayments under the Cash-Flow Forecast of the Workbook's Financial Forecast (Workbook, Financial Forecast) |
 
 | 17 | **Capability Generator** (a page that drafts an Organisation's capabilities from its answers) | Moved off the Landing page to the future features by the owner (2026-11-22 18:58 UTC+2: "Move the Capability generator to future features"): its page (`/generator`) stays in the code, unlinked, until it is built. | owner | Not built: unlinked |
 | 18 | **One warm and one cool chapter on Infrastructure & Capability** (Infrastructure and Offering's Capability each in a palette hue of its own, one warm, one cool; only the hue changes, the app's saturation and lightness stay) | Today both are warm (rose 335, terracotta 14: `stableCardHue`, Palette.ts) and look alike. Pictured 2026-11-27 in light, sepia and dark, every pair above 3:1 for symbols and 8:1 for titles: 1 lavender 262 with terracotta 14; 2 sky 200 with terracotta 14 (recommended: almost opposite on the wheel); 3 rose 335 with periwinkle 228. Kept as an idea by the owner (2026-11-27 00:10 UTC+2: "I will keep it as it it for now. But place it to future features as an idea"). | owner | Not built: today's hues kept |
@@ -199,7 +199,7 @@ Asked by the owner on 2026-11-21 23:53 UTC+2: "Evaluate the future features, in 
 | 12 | #5 Dashboard and plan against actual (K2) | 7 | 8 | 7 | 8 |
 | 13 | #6 Privacy controls (clear all, redact for sharing) | 6 | 5 | 3 | 8 |
 | 14 | #8 Templates and examples by industry | 6 | 8 | 6 | 8 |
-| 15 | #16 Loan repayment notes on the Financials | 6 | 3 | 1 | 8 |
+| 15 | #16 Loan repayment notes on the Financials (built 2026-11-27) | 6 | 3 | 1 | 8 |
 | 16 | Workspace E4: glossary hints | 5 | 6 | 4 | 7 |
 | 17 | #12 Reminders and `.ics` export | 4 | 5 | 2 | 7 |
 | 18 | Voice: Label-in-Name audit, operating-system dictation (5.3, Now) | 5 | 3 | 2 | 6 |
