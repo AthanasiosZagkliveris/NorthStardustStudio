@@ -294,7 +294,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                                 {/* (A SEGMENT IS ADDED IN THE EIGHTH PLACE (owner, 2026-11-27: "make it a square like + Add card"): the shared Add Card ends the Engagement grid, beside
                                                     Sales Forecast. Layout rules, section 9, "Add Card".) */}
                                                 {chapter("engagement-segment-" + segment.id, "Channels & Journey, Customer's Relationship, Sales Forecast", segmentPage.companionTiles.get(segment.id), undefined, (
-                                                    <AddTile label="Segment" disabled={disabled} across={2} onAdd={addSegment} />
+                                                    <AddTile label="Segment" words="Add Segment" disabled={disabled} across={2} onAdd={addSegment} />
                                                 ))}
                                             </div>
                                         </div>
