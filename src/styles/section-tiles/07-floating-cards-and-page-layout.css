@@ -1840,3 +1840,84 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     }
 
 }
+
+/* A PHONE'S PAGE OF CHAPTERS (owner, 2026-11-27 14:09 to 14:14 UTC+2: "On mobile version, should not exist any chapter frame"; "remove the system title"; "Use the
+   chapter's colour as background colour for each page"; "The page should scroll up till the end of the chapter, not further down"), upright and turned to landscape:
+   no chapter is a frame -- no edge, no round corners, no heading (a Segment keeps its name, the one way to tell its chapters apart) -- and the chapters' colours are the
+   page's ground, edge to edge: the first chapter's behind the page's title, the last one's under the last chapter (usePhonePage sets the two colours); the page ends
+   with its last chapter, the footer's band under it, and scrolls no further. */
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px) {
+
+    body:has(.conversation-page) {
+
+        background: var(--phone-ground-foot, var(--bg-page));
+
+    }
+
+    .answer-columns.business-capability > .business-foundation-card,
+    .page-group > .business-foundation-card,
+    .segment-chapter,
+    .capability-systems-frame {
+
+        border-color: transparent;
+        border-radius: 0;
+        box-shadow: none;
+
+    }
+
+    .page-group {
+
+        gap: 0;
+
+    }
+
+    .answer-columns.business-capability .tiles-frame-head:not(.business-foundation-frame-head),
+    .answer-columns.business-capability .business-capability-heading-spacer,
+    .capability-systems-frame > .tiles-frame-head {
+
+        display: none;
+
+    }
+
+    /* (THE DIVIDING LINE ON TOP OF THE CHAPTERS' COLOURS (owner, 2026-11-27 14:23 UTC+2: "Check ... Hairline"): with the chapters' grounds edge to edge, the
+       line stood behind the next chapter's ground, two stubs in the gutters; it is drawn over it, side to side.) */
+    .conversation-card .business-foundation-input:has(.section-tiles-quad) ~ .business-foundation-input:has(.section-tiles-quad)::before,
+    .conversation-card .segment-chapter ~ .segment-chapter::before {
+
+        z-index: 1;
+
+        pointer-events: none;
+
+    }
+
+    /* (A TILE'S PICTURE ONLY WHERE IT FITS (owner, 2026-11-27 14:17 UTC+2: "Check if the colour, images, logo, in tiles input could fit properly, otherwise hide
+       them, and present only the titles"): on a phone the Brand tiles' colours, typefaces, icon and images stood over their titles (160px tiles upright, 171px turned),
+       so a master tile there shows its title alone; its dialog shows the rest.) */
+    .answer-columns.business-capability .section-tiles-quad .section-tile-picture {
+
+        display: none;
+
+    }
+
+    /* (The quarter of the window a long page may be scrolled past its end (useScrollRules) is not kept on a phone's page of tiles: the band's height and 12px.) */
+    main.conversation-content[data-reserve]:has(.section-tiles-quad, .capability-systems-frame) {
+
+        padding-bottom: calc(64px + var(--space-card));
+
+    }
+
+}
+
+/* (UPRIGHT, the page's title stands in its own row under the header: that row runs to the window's sides in the first chapter's colour, past the 16px gutters.
+   Turned to landscape the title stands in the header itself, which keeps its own ground.) */
+@media (max-width: 600px) {
+
+    .interview-header {
+
+        background: var(--phone-ground-top, var(--bg-page));
+        box-shadow: 0 0 0 100vmax var(--phone-ground-top, var(--bg-page));
+        clip-path: inset(0 -100vmax);
+
+    }
+
+}

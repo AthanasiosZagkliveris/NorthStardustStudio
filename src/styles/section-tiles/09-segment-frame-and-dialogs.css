@@ -165,10 +165,12 @@
 
 }
 
+/* (Its number, name and the Segments' arrow on one middle line (owner, 2026-11-27 14:23 UTC+2: "Check 1. Title's and arrow alignment"): on the letters' baseline
+   the 44px arrow stood about 7px under the capitals.) */
 .business-foundation-frame-head .business-foundation-frame-title {
 
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: center;
 
     gap: 0.4em;
