@@ -1,5 +1,6 @@
 import PressRow from "../components/controls/PressRow.tsx";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import TextLink from "../components/interview/fields/TextLink.tsx";
 import CellRemoveButton from "../components/controls/CellRemoveButton.tsx";
 import NavArrow from "../components/controls/NavArrow.tsx";
 import AddButton from "../components/controls/AddButton.tsx";
@@ -17,6 +18,7 @@ import {
 import { PreferencesService } from "../services/PreferencesService.ts";
 import { IndexedDbStorage } from "../services/IndexedDbStorage.ts";
 import { refreshExampleOrganizations } from "../services/ExampleOrganizations.ts";
+import { AppInstallService } from "../services/AppInstallService.ts";
 
 import "../styles/global.css";
 import "../styles/landing.css";
@@ -155,6 +157,9 @@ export default function Landing() {
         void IndexedDbStorage.keep().then(kept => { if (live) setStorageAtRisk(!kept); });
         return () => { live = false; };
     }, []);
+
+    // Install and a new version (AppInstallService; the user guide, section 2, items 6 and 7).
+    const app = useSyncExternalStore(AppInstallService.subscribe, AppInstallService.state);
 
     /**
      * Adds an Organization from a JSON file -- one saved from another
@@ -446,7 +451,7 @@ export default function Landing() {
                 example Organisations of this list, then reloads the app.) */}
             <AddButton
                 aria-label="Reload the app and refresh the examples"
-                onClick={async () => { await refreshExampleOrganizations(); window.location.reload(); }}>
+                onClick={async () => { await refreshExampleOrganizations(); await AppInstallService.reload(); }}>
                 <svg className="organization-action-icon" viewBox="2 2 16 16" aria-hidden="true"><path d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 <span className="organization-action-word">Reload</span>
             </AddButton>
@@ -475,6 +480,24 @@ export default function Landing() {
         {storageAtRisk && organizations.length > 0 && (
             <p className="organization-hint">
                 Export each Organisation to keep a copy: this browser may clear its stored data when space runs low.
+            </p>
+        )}
+
+        {app.updateReady && (
+            <p className="organization-hint" role="status">
+                A new version of Tiles is ready: press Reload to use it.
+            </p>
+        )}
+
+        {app.canInstall && (
+            <p className="organization-hint">
+                Install Tiles as an app: its own icon and window, and it opens with no connection. <TextLink onClick={() => void AppInstallService.install()}>Install</TextLink>
+            </p>
+        )}
+
+        {!app.canInstall && app.appleShare && (
+            <p className="organization-hint">
+                Install Tiles as an app: press Share, then Add to Home Screen.
             </p>
         )}
 
