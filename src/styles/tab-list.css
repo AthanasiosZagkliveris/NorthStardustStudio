@@ -54,3 +54,22 @@
     outline-offset: 2px;
 
 }
+
+/* (ON AN UPRIGHT PHONE EVERY TAB ON THE SCREEN (owner, 2026-11-27 19:09 UTC+2, phone round 3, point 13: "Keep all tabs on screen"): the tabs share the row
+   equally, their words in the small size, wrapping where they must -- the Workbook's three financial documents ran off a 390px screen.) */
+@media (max-width: 600px) and (orientation: portrait) {
+
+    .tab-list-tab {
+
+        flex: 1 1 0;
+        min-width: 0;
+
+        padding: 8px 6px;
+
+        font-size: var(--font-small);
+
+        overflow-wrap: anywhere;
+
+    }
+
+}

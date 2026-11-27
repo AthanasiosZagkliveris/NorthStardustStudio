@@ -235,6 +235,10 @@ button.card-tile-symbol[aria-pressed="true"] {
     width: max(calc(var(--section-tile-size) / 2), var(--add-card-room));
     height: max(calc(var(--section-tile-size) / 2), var(--add-card-room));
 
+    /* (Never narrower than its longest word with its 12px each side: on a phone half a 160px tile is 80px, and "SEGMENT" in its spaced capitals ran past the dashed
+       edge -- owner, 2026-11-27 19:09 UTC+2, phone round 3, point 21: "the dashed + ADD SEGMENT box is too small, and its text spills".) */
+    min-width: min-content;
+
 }
 
 .add-card-tile {

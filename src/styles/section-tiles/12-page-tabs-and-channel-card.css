@@ -1332,9 +1332,11 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-dialog-foot:not(:
 
     }
 
+    /* (THE BAND IS SYMMETRIC (owner, 2026-11-27 19:09 UTC+2, phone round 3, point 2: the Handbook's dots stood left of the middle): the "›" mirrors the "‹", 48px
+       in from the window's side, so the dots stand in the middle between two arrows the same distance from either edge.) */
     .page-arrow.carousel-arrow[data-direction="next"] {
 
-        right: var(--gap-12) !important;
+        right: calc(var(--gap-12) + 24px + var(--gap-12)) !important;
 
     }
 
@@ -1351,6 +1353,25 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-dialog-foot:not(:
     .workbook .page-arrow.carousel-arrow.carousel-arrow {
 
         z-index: 32;
+
+    }
+
+}
+
+/* (THE WORKBOOK'S AND THE HANDBOOK'S BAND IS SLIMMER ON A PHONE (owner, 2026-11-27 19:09 UTC+2, phone round 3, point 2): 48px, its arrows' 44px press area and
+   the dots in its middle; the pages' bands keep their 64px, where Back and the page's own buttons stand.) */
+@media (max-width: 600px) {
+
+    body:has(.workbook) .workspace-footer,
+    .workbook .carousel-rail.carousel-rail.carousel-rail {
+
+        height: 48px;
+
+    }
+
+    .workbook .page-arrow.carousel-arrow.carousel-arrow {
+
+        bottom: 2px;
 
     }
 

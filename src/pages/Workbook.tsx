@@ -7,6 +7,8 @@ import InterviewHeader from "../components/interview/editors/InterviewHeader";
 import CardShell from "../components/interview/cards/CardShell";
 import { CarouselArrows } from "../components/interview/tiles/CarouselArrows";
 import RadioChoice from "../components/controls/RadioChoice";
+import FunnelButton from "../components/controls/FunnelButton";
+import { usePopupDismiss } from "../components/controls/PopupPanel";
 import { TABLE_SIZES } from "../components/interview/tiles/CapabilityOverview";
 import "../styles/capability-overview.css";
 import { DialogHeading } from "../components/interview/tiles/SectionTiles";
@@ -224,6 +226,10 @@ export default function Workbook() {
     }, [tab]);
     // (The row of the title holds the section's buttons at its right end: WorkbookTools.)
     const [toolsSlot, setToolsSlot] = useState<HTMLElement | null>(null);
+    const [toolsOpen, setToolsOpen] = useState(false);
+    const toolsButton = useRef<HTMLButtonElement | null>(null);
+    const toolsPanel = useRef<HTMLDivElement | null>(null);
+    usePopupDismiss(toolsOpen, [toolsButton, toolsPanel], () => setToolsOpen(false));
     // (AN UPRIGHT PHONE (owner, 2026-11-27 14:34 UTC+2: "On the Handbook/Workbook, keep only their icons on the title. Instead of their text titles, place the page
     // title ... Place also the filter button next to the title, and include also the text size ... These changes, only for the upright mobile version"; 14:35: "there
     // is no need for a frame"): the page's title row holds the Handbook's or Workbook's symbol, the open page's name and the page's buttons (the text size, the
@@ -303,16 +309,30 @@ export default function Workbook() {
     };
 
     // (The page's buttons: in the panel's head, or in the page's title row on an upright phone.)
-    const tools = (
+    const textSizes = (
+        <RadioChoice
+            className="capability-overview-sizes"
+            label="Text size"
+            group="workbook-text-size"
+            options={TABLE_SIZES.map((size, at) => ({ id: size.id, label: <span className="capability-overview-size-aa" data-size={size.id}>Aa</span>, name: ["Smaller text", "Standard text", "Larger text"][at] }))}
+            value={textSize}
+            onChange={setTextSize}
+        />
+    );
+    // (ON AN UPRIGHT PHONE, ONE BUTTON BESIDE THE TITLE (owner, 2026-11-27 19:09 UTC+2, his list: "put a filter button next to the title and put the text size inside
+    // it", the Handbook's and the Workbook's titles cut by the three "Aa"): the shared funnel opens a panel under the title row with the text size and the page's own
+    // buttons (its filter, its download), so the title keeps the row.)
+    const tools = phoneUpright ? (
+        <div className="workbook-tools workbook-tools-phone">
+            <FunnelButton ref={toolsButton} aria-label="Text size and filters" aria-expanded={toolsOpen} title="Text size and filters" onClick={() => setToolsOpen(open => !open)} />
+            <div className="workbook-tools-panel" ref={toolsPanel} hidden={!toolsOpen}>
+                {textSizes}
+                <div className="workbook-tools-slot" ref={setToolsSlot} />
+            </div>
+        </div>
+    ) : (
         <div className="workbook-tools" ref={setToolsSlot}>
-            <RadioChoice
-                className="capability-overview-sizes"
-                label="Text size"
-                group="workbook-text-size"
-                options={TABLE_SIZES.map((size, at) => ({ id: size.id, label: <span className="capability-overview-size-aa" data-size={size.id}>Aa</span>, name: ["Smaller text", "Standard text", "Larger text"][at] }))}
-                value={textSize}
-                onChange={setTextSize}
-            />
+            {textSizes}
         </div>
     );
 
