@@ -180,7 +180,7 @@ In order. Each batch follows the owner's approach: in the project folder first, 
 | **9** | Desktop installers | G9.1 Windows signing, G9.2 macOS notarization (uses Batch 8's account), G9.3 Linux packages | D1 | a code-signing certificate | medium |
 | **Always** | Layout and accessibility | G1.1 the phone in landscape (Records 2, 5.14), G1.3 WCAG 2.2 AA; they run beside every batch | all | reviews | ongoing |
 
-**Stages:** Batches 0 to 5 are the **Beta** (the web app live, the iPhone through the Home Screen, Android on Google Play in closed test). Batches 6 to 9 are **Version 1** (the App Store, the Tauri Android app, the signed desktop installers).
+**Stages (re-scoped 2026-11-27, Records 2, 5.15):** the Beta and Version 1 are the same app in the same places: the web (with the iPhone through Safari's Add to Home Screen), Google Play (Batch 5) and the Microsoft Store (Batch 6). Two batches are added before the stores: **3b, protection** (Research 10: the LICENSE, built; Terms of Use; the in-app copyright line) and **4a, the Beta questionnaire with the download lock**. Batches 7 to 9 (the Tauri phone app, the App Store, the signed desktop installers) wait until after Version 1 and an income: no Apple purchase before then.
 
 ## 7. Decisions the owner makes
 
