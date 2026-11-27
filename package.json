@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:network": "vite --host",
     "build": "tsc && vite build",
     "prepare": "git config core.hooksPath .githooks",
     "preview": "vite preview",
