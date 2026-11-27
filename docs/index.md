@@ -56,7 +56,7 @@ Status: **index**, updated 2026-11-27, written by `npm run docs:index` (the subj
 - **Free texts**: [Interface 3](design/interface/03-free-text-categories.md); [Interface 2 (text holders)](design/interface/02-text-holders.md)
 - **Frequency options**: [Interface 4](design/interface/04-frequency-options.md)
 - **Future features**: [Questions 4](design/questions/04-specs-and-limitations.md)
-- **Future features (AI Assistant, Team mode, Voice, more languages)**: [guide/overview-and-future-features section 5](guide/02-overview-and-future-features.md)
+- **Future features (after Version 1)**: [Guide 3](guide/03-future-features.md)
 ## G
 
 - **Glossary**: [app/glossary](app/03-glossary.md)
@@ -77,9 +77,6 @@ Status: **index**, updated 2026-11-27, written by `npm run docs:index` (the subj
 ## M
 
 - **Market structure (single- and multi-sided)**: [Questions 8 section 4 (was Questions 2, 8.2)](design/questions/08-positioning-tile.md); [Questions 4 (multi-sided is future)](design/questions/04-specs-and-limitations.md)
-## N
-
-- **Not done yet**: [Records 2](design/records/02-not-done-yet.md)
 ## O
 
 - **Offering card**: [Questions 16 (built in part)](design/questions/16-offering-questions.md); [Questions 2 section 6.8](design/questions/02-questionnaire-specification.md)
@@ -119,6 +116,7 @@ Status: **index**, updated 2026-11-27, written by `npm run docs:index` (the subj
 - **Text links**: [Interface 6](design/interface/06-text-links.md)
 - **Tile and card pattern**: [layout-rules sections 6, 8 to 10](ai/09-layout-rules.md)
 - **Tile documents (the form and the list)**: [Questions 1 section 11](design/questions/01-questionnaire-plan.md)
+- **To-do list (Beta and Version 1)**: [Records 2](design/records/02-to-do-list.md)
 - **Tooltips**: [Interface 8](design/interface/08-tooltips.md)
 ## U
 

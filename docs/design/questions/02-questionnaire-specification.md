@@ -277,7 +277,7 @@ The five boxes and what they ask:
 
 A **user** part (a life stage, then the questions that follow from the Positioning relationship) is asked when a relationship chosen in Positioning has a Proxy or Dual-Intent buyer. The kind of a Segment (people or businesses) and the two Segments made where Positioning chose both are in Questions 12. The code is `src/framework/engine/choices/SegmentQuestions.ts`; the card reads Identity through `segmentContext` (`src/framework/engine/SegmentContext.ts`).
 
-**Not built yet (the reads).** The answers are saved and shown in the Segment's documents (the Market document and the export); little else reads them. The reads that are planned are listed under each question in Questions 12 and in Questions 4, section 15.
+**Not built yet (the reads).** The answers are saved and shown in the Segment's documents (the Market document and the export); little else reads them. The reads that are planned are listed under each question in Questions 12 and in Guide 3, section 8.3.
 
 ### 6.4 Profile card (cards nested in the same tile): a typical person, asked specifically
 

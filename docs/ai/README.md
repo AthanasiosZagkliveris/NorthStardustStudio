@@ -7,7 +7,7 @@ This folder is NorthStardustStudio's shared knowledge for AI assistants (Claude,
 Elsewhere in `docs/`:
 - `../README.md`: the contents of every document of the project (design, specifications, archive), with its kind and date; `../index.md`: the alphabetical index of the subjects. Both are written by `npm run docs:index`.
 - `../app/01-contents.md`: the contents of the app (how it is entered, the Systems and pages, the places in the code); `../app/02-index.md`: an alphabetical list of its places; `../app/03-glossary.md`: one line per term (framework, app, questionnaire, documents), with a pointer to the document that explains it. Start there to find your way into the product.
-- `../design/records/01-log.md`: every change, newest on top, and the only place a change is written; `../design/records/02-not-done-yet.md`: what is still open.
+- `../design/records/01-log.md`: every change, newest on top, and the only place a change is written; `../design/records/02-to-do-list.md`: what is still open.
 - `../archive/`: proposals that were written and not built, and finished plans; nothing there is a rule.
 
 Documents cite one another by number ("Interface 1" is `../design/interface/01-shared-components.md`); the number is in the file name, whatever the folder.
@@ -23,7 +23,7 @@ Documents cite one another by number ("Interface 1" is `../design/interface/01-s
 | Write or edit a System's content (the Markdown under `src/assets`) | `07-framework-dsl-grammar.md` | `06-framework-conventions-and-patterns.md` |
 | Change the framework's code (parser, model, engine, export, notes) | `06-framework-conventions-and-patterns.md` | `04-code-map.md` |
 | Find where something is in `src` | `04-code-map.md` | `../app/01-contents.md`, `05-folder-plan.md` (the folders outside `src`) |
-| Run a diagnostic or a scan | `../design/records/02-not-done-yet.md`, section 5.9, the known open findings (check it first, add to it) | |
+| Run a diagnostic or a scan | `../design/records/02-to-do-list.md`, section 5.9, the known open findings (check it first, add to it) | |
 
 ## The files
 

@@ -869,4 +869,4 @@ A Per project card with a Start date or a ticked payment plan is a dated payment
 
 ### 30.7 Not built
 
-The Repair Record (the use of the contingency fund against actuals), and the plan against actual; VAT as a pass-through and import VAT included, and the rates in the Global Settings (Records 2, section 5.2, K1 and K2).
+The Repair Record (the use of the contingency fund against actuals), and the plan against actual; VAT as a pass-through and import VAT included, and the rates in the Global Settings (Records 2, section 5.2 (K1), and Guide 3, section 10 (K2)).

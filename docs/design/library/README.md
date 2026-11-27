@@ -8,7 +8,7 @@ The standard for these documents is [the standard of the documents](../../standa
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [01-library-system.md](01-library-system.md) | specification | The library system: the tables, the library, the inventory and the two logs, with the procedure to change an asset and the steps built. | 2026-11-21 |
+| [01-library-system.md](01-library-system.md) | specification | The library system: the tables, the library, the inventory and the two logs, with the procedure to change an asset and the steps built. | 2026-11-27 |
 | [02-assets-library.md](02-assets-library.md) | generated | The assets library: every asset, its variants and its contract. | 2026-11-21 |
 | [03-components-list.md](03-components-list.md) | generated | The components, and which fields and cards use each. | 2026-11-21 |
 | [04-fields-list.md](04-fields-list.md) | generated | The fields, the add buttons and the field names. | 2026-11-21 |

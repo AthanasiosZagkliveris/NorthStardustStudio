@@ -285,7 +285,7 @@ A typical person of the Segment, asked specifically.
 
 - **Connections (A6):**
   - *Comes from:* the tick; each question the answer above it.
-  - *Read by (not built yet):* flags the owner's text asks for, kept as a thought (Questions 4, section 15, row 6): a solo or single-parent household raises a time-poverty and churn-risk note in a customer journey; sensory or physical needs raise a "compliance validation required" badge on an Offering. They would only highlight, never decide. Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (not built yet):* flags the owner's text asks for, kept as a thought (Guide 3, section 8.3, thought 6): a solo or single-parent household raises a time-poverty and churn-risk note in a customer journey; sensory or physical needs raise a "compliance validation required" badge on an Offering. They would only highlight, never decide. Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ## 4. Box B. Psychographics
 

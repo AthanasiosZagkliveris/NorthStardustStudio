@@ -1,6 +1,6 @@
 # 4. Specs and limitations: the first published version, and what is left for later (owner, 2026-10-29)
 
-Status: **specification**, written 2026-10-29, updated 2026-11-21, as given by the owner. What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, Questions 2 and Research 5 are marked **Check** and are for the owner to confirm. The Organisation tile, Early Positioning and the Segment card follow it (section 8); the Profile card is built in part (Questions 13). What the first version leaves out is in sections 10 to 15 (the future features: **all other existing information is a future feature**; nothing there is scheduled; items already built stay in the code, hidden or unused, and are not deleted; they were Questions 4 until 2026-11-02, a living list).
+Status: **specification**, written 2026-10-29, updated 2026-11-27 (sections 10, 11 and 15, the later features, moved to Guide 3), as given by the owner. What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, Questions 2 and Research 5 are marked **Check** and are for the owner to confirm. The Organisation tile, Early Positioning and the Segment card follow it (section 8); the Profile card is built in part (Questions 13). What the first version leaves out is in sections 10 to 15 (the future features: **all other existing information is a future feature**; nothing there is scheduled; items already built stay in the code, hidden or unused, and are not deleted; they were Questions 4 until 2026-11-02, a living list).
 
 Related: Questions 2 (questionnaire specification), Research 5 (positioning categories), Research 6 (sources), `docs/README.md` (contents), `docs/index.md` (index) and `docs/app/03-glossary.md` (glossary).
 
@@ -134,7 +134,7 @@ The tiles that follow this document are described as built in their own document
 1. Settled: the owner's list, sent unfinished more than once, is complete as far as it goes; the country picker is built (section 3) and Purpose / Differentiation / Outcome are three questions (2026-10-30, section 5, check 6). Anything new is added here.
 2. Still open: whether the six countries' legal-form lists are complete (section 3, second check) and the four coarse life stages (section 5, check 3).
 
-**Closed on 2026-10-30 (the owner: close the open points of the Positioning tile):** the Outcome lists (buyer and end user) and the relationships offered for each category are approved as written; a purpose a table does not list is read from the next table; the master matrix stays a reference; no "Recommended" tag is added (Research 5, decision 38). Still future: the routing of the outcome for the end user into the second Profile (Questions 4, item 13).
+**Closed on 2026-10-30 (the owner: close the open points of the Positioning tile):** the Outcome lists (buyer and end user) and the relationships offered for each category are approved as written; a purpose a table does not list is read from the next table; the master matrix stays a reference; no "Recommended" tag is added (Research 5, decision 38). Still future: the routing of the outcome for the end user into the second Profile (Guide 3, section 8.2, item 13).
 
 **Left out on 2026-10-30 as heavy, public or late-stage institutional (the owner):** the **public company** legal forms (Public Limited Company, PLC, Public Company, Corp, AG) in every country list and in the generic forms; the **Nonprofit Corporation** (United States) and **Cooperative** (Canada) forms. They are listed in Questions 4, section 14. A legal form already saved stays as the App User's text. **The audience scale is not touched:** Audience Specialisation & Scale is the App User's audience (the customers of the business described, from Solopreneurs & Freelancers to Enterprise or Public Sector), a different thing from the app's own audience; the owner corrected the first reading on 2026-10-30.
 
@@ -144,35 +144,15 @@ The tiles that follow this document are described as built in their own document
 
 ## 10. Product scope
 
-| # | Future feature | First version has | Described in | In the app today |
-|---|---|---|---|---|
-| 1 | Other languages | English only | Questions 2 4.1 (wording rules) | English |
-| 2 | Complete lists (legal forms, activities, codes) for more countries | Six countries; Other (any other country) with typed activity and code | Questions 2 5 | Any country can be chosen; some have a profile, the rest a neutral one |
-| 3 | Official legal forms, with sources, for countries beyond the six, in place of the four generic forms | Four generic forms for Other | Questions 2 rule 14 | Per-country lists in `LegalEntityJurisdictions.ts` |
-| 4a | Heavy, public or late-stage institutional legal forms: the public company forms; the Nonprofit Corporation (US) and Cooperative (Canada) forms | Left out | section 14 below | Not offered |
-| 4 | Other classification schemes and a general crosswalk (ISIC) | The six countries' own schemes; Other typed by hand | Research 3 5.3, 5.8 | Built for the six countries |
-| 5 | Multi-sided markets and platforms: sides, one Segment per side, Differentiation and Outcome per side, the anchor-side rule | Single-sided | Questions 2 8.2 | Built and hidden (the Market Structure question is not asked) |
-| 6 | B2G: public-sector buyers, Administrative Level audience, the institutional relationships | B2C and/or B2B | Questions 2 8.2; section 14.1 | Built and hidden |
-| 7 | G2B: government-to-business, Regulatory Intensity audience, locked audiences, procurement and tender rows, payment-delay notices | B2C and/or B2B | Questions 2 8.2; section 14.2 | Built and hidden |
+Moved to Guide 3 (`../../guide/03-future-features.md`), section 8.1, on 2026-11-27, with its item numbers: everything after Version 1 is in one document.
+
 
 ## 11. Buyer and end user (positioning)
 
-| # | Future feature | Described in |
-|---|---|---|
-| 8 | The finest life stages (Infancy through Late Adolescence) beyond the seven age terms the Segment asks, which follow the edge rule "from X up to but not including Y" | Research 5 1, 2, section 10.1; Questions 12 |
-| 9 | The Micro-Buyers (16 to 18) as a restricted sub-category of Direct Buyers | Research 5 2, decision 5 |
-| 10 | The public-sector and government-to-business buyer and end user relationships (the other ten of the 22) | section 14; Research 5 decision 18 |
-| 11 | The positioning guidance of each B2B relationship (value positioning, buyer and end user pain points, messaging focus) as tooltips or text | Research 5 section 10.6 |
-| 12 | "Who chooses" (I7f) with its household wording (removed from the app); "what matters most to the User" (I7g) is now the Outcome for the end user (2026-10-30) | Research 5 section 10.3, decisions 20 to 22 |
-| 13 | The routing of the End User answers into the second Profile: age, P25 relationship, P21 role, P9 and P17 ticks | Research 5 section 10.3, decision 18, decisions 20 to 22 |
-| 14 | The relationship-to-purpose table (22 rows, 12 purposes) as tooltips and ordering of the purpose list | Research 5 section 10.4 |
-| 15 | Accessibility questions (permanent, temporary, situational; functional categories) saved as Profile tags (the Profile's A6, not built) | Research 5 3, decision 12; Questions 13 |
-| 16 | Caregiving questions (who is cared for, the role, the household) saved as Profile tags (the Profile's A6, not built) | Research 5 4, decision 12; Questions 13 |
-| 17 | The buyer-category rules beyond age: data separation, contract and liability flags, payment routing | Research 5 decision 27 |
-| 18 | The caregiver override of privacy walls, decided by each country's law | Research 5 decision 9 |
-| 19 | Review checks: a household plan's unit price against a single-user purchase option (O3); the exact syntax of the P25 field | Research 5 decisions 20 to 22 |
+Moved to Guide 3 (`../../guide/03-future-features.md`), section 8.2, on 2026-11-27, with its item numbers: everything after Version 1 is in one document.
 
-Age limits by activity and by buyer, which were listed here, are now in the first version: they are checked on the Offering (O12) and the Review (Questions 16, O12; section 6) (not built yet).
+Age limits by activity and by buyer, once listed here, are in the first version: they are checked on the Offering (O12) and the Review (Questions 16, O12; section 6) (not built yet).
+
 
 ## 12. Research still to do
 
@@ -184,7 +164,7 @@ Age limits by activity and by buyer, which were listed here, are now in the firs
 
 ## 13. Rule for this list
 
-An item moves into sections 1 to 9 only when the owner says so. If the owner names a feature in sections 1 to 9 that is also listed here, sections 1 to 9 govern and the row is removed from this list.
+An item of the later list (Guide 3, section 8) moves into sections 1 to 9 only when the owner says so; sections 1 to 9 then govern and the row leaves Guide 3. The work the first version still needs is in the to-do list (Records 2).
 
 ## 14. Heavy, public and institutional options (moved from Research 5 and the app, 2026-10-30)
 
@@ -235,18 +215,5 @@ The first collection's four public rows (Research 5, section 8) are rows 13, 14,
 
 ## 15. Thoughts (evaluated, not decided, not scheduled; owner's review of the Segment, 2026-11-01)
 
-These came from a review of how the Segment's Box 4 and Box 5 answers could be read by the later parts. Only the reads that fit what the app has today are in Questions 2 (6.3a, "Not built yet (the reads)"); the rest are kept here as thoughts, each with what it waits for. The rule they all follow: a tendency is shown as "tends to", orders or highlights, and never hides an option or sets a price (Questions 2, rule 5).
+Moved to Guide 3 (`../../guide/03-future-features.md`), section 8.3, on 2026-11-27, with its item numbers: everything after Version 1 is in one document.
 
-| # | Thought | Why it is worth keeping | Waits for |
-|---|---|---|---|
-| 1 | **Persona archetype tags** on a Profile (for example "Trend-Driven Impulse Buyer"), compiled from Box 4 | A Profile can be summarised at a glance | A fixed list of archetypes in the owner's words; the app must not invent the names |
-| 2 | **Competitor emphasis from Box 5, question 4**: a crowded market (Red Ocean; rated 4 or 5, Questions 12) raises differentiation and price comparison, an open one (Blue Ocean; 1 or 2) raises market education | It points the App User to the work that matters | A place in the Competitor card; it highlights and orders, it does not add or remove rows |
-| 3 | **Demand and capacity warning**: Box 5 size and trend against the capacity to deliver (a solo team with manual fulfilment) | A scaling bottleneck is seen early | The Capability page and the Review checks, which are held back while Planning and Launching |
-| 4 | **"Why this is suggested" notice** on a page whose suggestions follow the Segment, with a way to see everything | The App User knows why a list is ordered as it is | The owner's word on a new element (the notice and its switch) |
-| 5 | **Journey auto-layout**: Awareness from Box 4 question 3, Consideration from question 6, Decision from questions 7 and 8 | The data already maps onto the three stages | A customer journey part; none is in the documents today |
-| 6 | **Flags from the specialised needs of the Profile** (the accessibility needs and the caregiving roles moved there from the Segment, 2026-11-01): a solo or single-parent household raises a time-poverty and churn-risk note in a customer journey; sensory or physical needs raise a "compliance validation required" badge on an Offering | The needs of a Segment reach the parts that serve it | A customer journey part (none today) and a place on the Offering for the badge; they would highlight, never decide |
-| 7 | **Reads of the working questions of Box 1 (3b to 3d)**: a frontline worker on shifts moves the journey's communication to asynchronous (SMS) and flags the drop-off of live calls; variable or performance-based income suggests pay-as-you-go or pause-and-resume terms in the Offering; a remote desk worker raises desktop and daytime channels | When they are free, how they are paid and where they are met decide how to reach and sell to them | A customer journey part, a recommendation place on the Offering and the channel order; each would only suggest, never hide or price (rule 5) |
-| 8 | **Channel pins from the Profile's help wanted (D2)**: "They want to talk to a person" lifts live chat and phone support to the top of the channels; "They work it out themselves" lifts self-service | The channels the Profile needs come first | The Profile's questions and the channel order on Customer Engagement; it orders and highlights, never removes a channel |
-| 9 | **A "baseline" helper on a new Profile**: a short bar saying the Segment's answers can start the Profile (the likely options ticked, for the App User to keep or clear) | Saves the App User typing what the Segment already says | The owner's word on a new element; the same starting values the design already plans (A1 within the group, C1 from the setting) without a bar |
-
-**Dropped:** a pricing tip from "economic pressures" (it sets a price from a tendency, against rule 5) and examples such as named marketing sites in the channel list (the channel list the app already has is the only source).

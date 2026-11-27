@@ -148,7 +148,7 @@ export default function Landing() {
     const [importError, setImportError] = useState<string | null>(null);
 
     // Whether the browser refused to keep this site's data under storage pressure (IndexedDbStorage.keep: asked once at start).
-    // Then the founder is told to keep a copy with Export (Guide 2, 5.5 row 2; the review of 2026-11-25, C2).
+    // Then the founder is told to keep a copy with Export (Guide 3, section 5, row 2; the review of 2026-11-25, C2).
     const [storageAtRisk, setStorageAtRisk] = useState(false);
     useEffect(() => {
         let live = true;
