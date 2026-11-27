@@ -1111,3 +1111,19 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
     }
 
 }
+
+/* (THE FOOTER BAND ONLY WITH BULLETS (owner, 2026-11-27 16:38 UTC+2: "The footing, should exists only when there are bullets"): on a phone, a screen with no
+   bullet -- a list of one, the Landing, a page alone -- draws no band: no ground, no shadow, no edge; what it held, if anything, stands on the page.) */
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px) {
+
+    body:not(:has(.bullet-rail-dot, .bullet-rail-item)) :is(.workspace-footer, .bullet-rails) {
+
+        background: none;
+
+        border-color: transparent;
+
+        box-shadow: none;
+
+    }
+
+}
