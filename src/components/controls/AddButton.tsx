@@ -5,7 +5,7 @@ import { ButtonHTMLAttributes, forwardRef } from "react";
  * THE ADD BUTTON: everything that adds a card, a row or a line is this one component, in one of three shapes (the same control, drawn to its place):
  *  - "wide": the "+ Add ..." button under a list (\`.strategy-add-button\`), its words as children;
  *  - "box": the "+" box of a tile or a status row (\`.plus-box\`; \`small\` is the 32px one), drawn by the box itself;
- *  - "tile": the dashed "Add Card" tile at the end of a grid of tiles.
+ *  - "tile": the dashed "Add Card" tile at the end of a grid of tiles (its words "Add Card", or what a place names: "Add Segment").
  * `look` gives the "wide" button another of the app's button looks instead of the accent one (the page's one primary action `primary-button`, the secondary one, a dialog's `confirmation-button primary` / `secondary` / `danger`, the help toggle); it is the same control, not another.
  * The class a place passes says only where it stands; what each shape looks like and how it reacts is in 09-layout-rules.md (section 6) and 05-reactions.md (R4).
  */
@@ -16,7 +16,7 @@ const AddButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonE
         return (
             <button ref={ref} type="button" {...rest} className={"add-card-tile" + (className ? " " + className : "")}>
                 <span className="add-card-plus" aria-hidden="true">+</span>
-                <span className="add-card-words">Add Card</span>
+                <span className="add-card-words">{children ?? "Add Card"}</span>
             </button>
         );
     }

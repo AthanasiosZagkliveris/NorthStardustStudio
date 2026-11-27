@@ -103,16 +103,16 @@ function CategoryTile({
  * dashed edge; it does not grow on hover -- its ground turns semi-transparent and its "+" grows 10%. (What it adds -- a Resource, an Activity, a Partner, a group --
  * is in its tooltip.)
  */
-export function AddTile({ label, disabled, across, onAdd, after, column, row }: { label: string; disabled?: boolean; across: number; onAdd: (pointer: boolean) => void; /** The column it stands in, where the boxes keep their places: the one of the box it will add. */ column?: number; /** Its row, with the column. */ row?: number; /** The number of cards before it: it stands in the place after the last of them when its row has room, else at the start of a row of its own. */ after?: number }) {
+export function AddTile({ label, words, disabled, across, onAdd, after, column, row }: { label: string; /** The tile's words where they name what it adds ("Add Segment"); "Add Card" otherwise. */ words?: string; disabled?: boolean; across: number; onAdd: (pointer: boolean) => void; /** The column it stands in, where the boxes keep their places: the one of the box it will add. */ column?: number; /** Its row, with the column. */ row?: number; /** The number of cards before it: it stands in the place after the last of them when its row has room, else at the start of a row of its own. */ after?: number }) {
     return (
         // (In the LAST column of the grid: the empty place at the end of the lowest row of tiles, else a row of its own under them -- at the bottom right.)
         <div className="add-card-slot" style={{ ...(row !== undefined ? { gridRow: row } : {}), gridColumn: column ?? (after === undefined ? across : (after % Math.max(across, 1)) + 1), ...(after !== undefined ? { justifySelf: "start", alignSelf: "start" } : {}) }}>
             <AddButton shape="tile"
-                aria-label="Add Card"
+                aria-label={words ?? "Add Card"}
                 title={"Add " + label}
                 disabled={disabled}
                 onClick={(event) => onAdd(event.detail > 0)}
-            />
+            >{words}</AddButton>
         </div>
     );
 }

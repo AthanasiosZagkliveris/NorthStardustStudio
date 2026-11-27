@@ -1413,6 +1413,13 @@
 
 }
 
+/* (It wraps within its column: the tick note's one line (nowrap) ran across the divider into the next column's question; owner, 2026-11-27.) */
+.business-foundation-tick-note.business-segment-settled{
+
+    white-space:normal;
+
+}
+
 @media (max-width: 900px){
 
     .legal-entity-grid-organization.legal-entity-audience.business-segment-grid{

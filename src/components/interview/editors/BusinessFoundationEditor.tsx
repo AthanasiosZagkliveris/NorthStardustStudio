@@ -1,5 +1,4 @@
-import TextBox from "../../controls/TextBox.tsx";
-import { CSSProperties, ReactNode, useRef } from "react";
+import { CSSProperties, ReactNode, useRef, useState } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import CardHead from "../cards/CardHead.tsx";
 import NameCell from "../cards/NameCell.tsx";
@@ -9,6 +8,11 @@ import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
 import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
 import { titledLines } from "../tiles/SectionTileGeometry.tsx";
 import SectionTiles, { DialogHeading, useTitleSlide, type SectionTile, type TileAdd } from "../tiles/SectionTiles.tsx";
+import { AddTile } from "../tiles/SectionView.tsx";
+import FoldArrow from "../fields/FoldArrow.tsx";
+import { usePopupDismiss } from "../../controls/PopupPanel.tsx";
+import "../../../styles/title-arrow.css";
+import MenuOption from "../../controls/MenuOption.tsx";
 import { BUSINESS_FOUNDATION_SUBSECTIONS, BusinessCustomerSegmentValue, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessCustomerSegment, createBusinessOffering, segmentHue } from "../../../framework/engine/answers/AnswerUtils.ts";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../fields/InfoNote.tsx";
@@ -54,11 +58,12 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
        Profiles; what is promised to it; the competitors facing it; the Offerings sold to it. Only the first edits the Segment itself (its name, its x). */
     if (asTiles) {
         const rail = (section: number) => railId(BUSINESS_FOUNDATION_SUBSECTIONS[section]);
+        const addSegment = () => update({
+            segments: [...foundation.segments, createBusinessCustomerSegment(foundation.segments.map(segmentHue))]
+        });
         const segmentAdd = (
             <div className="business-foundation-input-actions">
-                {addButton("Segment", () => update({
-                    segments: [...foundation.segments, createBusinessCustomerSegment(foundation.segments.map(segmentHue))]
-                }))}
+                {addButton("Segment", addSegment)}
             </div>
         );
         /** One of a Segment's cards (a Profile, a Competitor, an Offering) as it floats over its tile: open, with no fold arrow. */
@@ -197,6 +202,19 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                     // (The Description is the Segment's own, one each: a section of the dialog, not a card; the Profiles under it are the small tiles of their cards.)
                     content: () => dialog(0, "Segment Description", (
                         <>
+                            {/* THE SEGMENT'S NAME (owner, 2026-11-27): under the dialog's title, in the floating cards' name cell, the card's width less its side
+                                margins; the chapter's title shows it. */}
+                            <div className="segment-name-cell">
+                                <NameCell
+                                    editing
+                                    ariaLabel={"Segment " + (index + 1) + " name"}
+                                    placeholder="Name the group of customers this Segment serves"
+                                    disabled={disabled}
+                                    value={segment.name}
+                                    onChange={(name) => updateSegment(index, { name })}
+                                    empty="Segment"
+                                />
+                            </div>
                             <div className="business-foundation-description" data-rail={rail(0)}>{subsectionsFor(segment, index).segmentDescription}</div>
                             {/* PROFILES is a section of the Segment card as its boxes are (DialogSectionBand). */}
                             <DialogSectionBand title="Profiles" tiles>
@@ -238,22 +256,20 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                     {foundation.segments.map((segment, index) => {
                         /* The Segment's head: its number and its name, written right there, centred, in capitals, as a chapter's heading; the x of a Segment the user
                            added in the top-right corner -- one the app made from the Identity System's answers has none, read from madeBy by its id (owner, 2026-11-19). */
+                        // (SHOWN, NOT TYPED (owner, 2026-11-27): the name is written in the Segment Description's name cell; with two Segments or more the label arrow
+                        // after it drops the Segments' list, as a chapter title of Infrastructure & Capability drops its help. Layout rules, sections 6 and 13.)
                         const head = (
-                            <div className="business-engagement-section-head tiles-frame-head business-foundation-frame-head">
-                                <span className="field-group-title business-foundation-subhead business-foundation-frame-title">
-                                    {foundation.segments.length > 1 && <span className="business-foundation-frame-number">{(index + 1) + "."}</span>}
-                                    <SegmentName
-                                        number={index + 1}
-                                        disabled={disabled}
-                                        value={segment.name}
-                                        onChange={(name) => updateSegment(index, { name })}
-                                    />
-                                </span>
-                                {!segmentMadeByIdentity(segment) && remove(
+                            <SegmentHead
+                                number={foundation.segments.length > 1 ? index + 1 : undefined}
+                                name={segment.name}
+                                segments={segmentPage && foundation.segments.length > 1 ? foundation.segments.map((entry, at) => ({ id: entry.id, label: (at + 1) + ". " + (entry.name.trim() || "Segment") })) : []}
+                                shown={segment.id}
+                                onSelect={(id) => segmentPage?.select(id)}
+                                remove={!segmentMadeByIdentity(segment) && remove(
                                     "Segment " + (index + 1),
                                     () => update({ segments: foundation.segments.filter((_candidate, position) => position !== index) })
                                 )}
-                            </div>
+                            />
                         );
                         /* FOUNDATION & ENGAGEMENT (owner, 2026-11-19 13:40 and 13:46: "The chapter should be 2 rows of 4 columns, with a dividing vertical line in the middle, that
                            would separate the foundation and the engagement", "Use the divide line as a border for the chapters. So to avoid changing the layout of the dialogue and
@@ -262,9 +278,9 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                            line between them. Layout rules section 13. */
                         if (segmentPage) {
                             const hue = { "--strategy-theme-hue": segmentHue(segment) } as CSSProperties;
-                            const chapter = (anchor: string, label: string, tiles: SectionTile[], incomplete?: typeof missingFoundation) => (
+                            const chapter = (anchor: string, label: string, tiles: SectionTile[], incomplete?: typeof missingFoundation, trailing?: ReactNode) => (
                                 <CardShell className="segment-chapter-part" data-anchor={anchor} style={hue}>
-                                    <SectionTiles label={frameName(segment, index) + ": " + label} hue={segmentHue(segment)} tiles={tiles} incomplete={incomplete} />
+                                    <SectionTiles label={frameName(segment, index) + ": " + label} hue={segmentHue(segment)} tiles={tiles} incomplete={incomplete} trailing={trailing} />
                                 </CardShell>
                             );
                             return (
@@ -275,7 +291,11 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                             {head}
                                             <div className="segment-chapter-groups">
                                                 {chapter(segment.id, "Customers, Competitors, Offerings, Value Proposition", tilesOf(segment, index), missingFoundation)}
-                                                {chapter("engagement-segment-" + segment.id, "Channels & Journey, Customer's Relationship, Sales Forecast", segmentPage.companionTiles.get(segment.id))}
+                                                {/* (A SEGMENT IS ADDED IN THE EIGHTH PLACE (owner, 2026-11-27: "make it a square like + Add card"): the shared Add Card ends the Engagement grid, beside
+                                                    Sales Forecast. Layout rules, section 9, "Add Card".) */}
+                                                {chapter("engagement-segment-" + segment.id, "Channels & Journey, Customer's Relationship, Sales Forecast", segmentPage.companionTiles.get(segment.id), undefined, (
+                                                    <AddTile label="Segment" words="Add Segment" disabled={disabled} across={2} onAdd={addSegment} />
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
@@ -299,7 +319,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                         );
                     })}
                 </div>
-                {segmentAdd}
+                {!segmentPage && segmentAdd}
             </div>
         );
     }
@@ -579,21 +599,42 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
 }
 
 /**
- * A SEGMENT'S NAME, its frame's title, written right there: a title as every tile title is (layout rules, section 9, "Tile title"): one line, cut by an ellipsis before the x, sliding to its end under the pointer (`useTitleSlide`), the full name its tooltip.
+ * A SEGMENT'S CHAPTER HEAD: its number and its name, shown (it is written in the Segment Description's name cell), as every tile title is (layout rules, section 9,
+ * "Tile title"): one line, cut by an ellipsis before the x, sliding to its end under the pointer (`useTitleSlide`), the full name its tooltip. With two Segments or
+ * more, the label arrow after it drops the Segments' list in the drop-down of a chapter title (`.card-title-block > .card-title-help`, as CardTitleHelp's on
+ * Infrastructure & Capability: under the title, in the chapter's hue); a press shows that Segment. It closes on the arrow, Escape or a press outside it (layout
+ * rules, section 6, "The label arrow").
  */
-function SegmentName({ number, value, disabled, onChange }: { number: number; value: string; disabled: boolean; onChange: (name: string) => void }) {
-    const name = useRef<HTMLInputElement | null>(null);
-    useTitleSlide(name);
+function SegmentHead({ number, name, segments, shown, onSelect, remove }: { number?: number; name: string; segments: readonly { id: string; label: string }[]; shown: string; onSelect: (id: string) => void; remove: ReactNode }) {
+    const block = useRef<HTMLDivElement | null>(null);
+    const title = useRef<HTMLSpanElement | null>(null);
+    const [open, setOpen] = useState(false);
+    useTitleSlide(title);
+    usePopupDismiss(open, [block], (reason) => {
+        setOpen(false);
+        if (reason === "escape") {
+            block.current?.querySelector<HTMLElement>(".label-arrow")?.focus({ preventScroll: true });
+        }
+    });
+    const menuId = "segment-menu-" + shown;
+    const listed = segments.length > 1;
     return (
-        <TextBox
-            ref={name}
-            className="business-foundation-frame-name"
-            aria-label={"Segment " + number + " name"}
-            title={value.trim() || undefined}
-            placeholder="Segment name"
-            disabled={disabled}
-            value={value}
-            onChange={(event) => onChange(event.target.value)}
-        />
+        <div ref={block} className="business-engagement-section-head tiles-frame-head business-foundation-frame-head card-title-block">
+            <span className="field-group-title business-foundation-subhead business-foundation-frame-title">
+                {number !== undefined && <span className="business-foundation-frame-number">{number + "."}</span>}
+                <span ref={title} className="business-foundation-frame-name" title={name.trim() || undefined}>{name.trim() || "Segment"}</span>
+                {listed && <FoldArrow variant="label" open={open} controls={menuId} name={(open ? "Hide" : "Show") + " the Segments"} onToggle={() => setOpen(current => !current)} />}
+            </span>
+            {remove}
+            {listed && open && (
+                <div className="answer-column-questions card-title-help segment-chapter-menu" id={menuId} role="menu" aria-label="Segments">
+                    {segments.map(segment => (
+                        <MenuOption key={segment.id} marked chosen={segment.id === shown} onClick={() => { setOpen(false); onSelect(segment.id); }}>
+                            {segment.label}
+                        </MenuOption>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 }
