@@ -107,7 +107,7 @@ What every screen shares, from the shared components (1) to the smallest text: t
 | [design/interface/04-frequency-options.md](design/interface/04-frequency-options.md) | generated | The Frequency options by group, compared with the code. | 2026-11-21 |
 | [design/interface/05-reactions.md](design/interface/05-reactions.md) | current design | How elements react to the pointer and the keyboard: the reactions by component. The check is in the layout rules; this is the lookup. | 2026-11-27 |
 | [design/interface/06-text-links.md](design/interface/06-text-links.md) | generated | The text link: look and behaviour, from the code and the walk of the app. | 2026-11-21 |
-| [design/interface/07-popups.md](design/interface/07-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-11-21 |
+| [design/interface/07-popups.md](design/interface/07-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-11-27 |
 | [design/interface/08-tooltips.md](design/interface/08-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-27 |
 | [design/interface/09-help-texts.md](design/interface/09-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-11-26 |
 | [design/interface/10-help-texts-guide.md](design/interface/10-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-21 |
