@@ -41,6 +41,7 @@ Everything in the app that appears over the page when something is pressed, poin
 | The Organisation's calendar | P5 | `OrganizationCalendarPanel` |
 | Generated card left without use: Continue / Cancel | P6 | `BusinessCapabilityEditor` (alertdialog) |
 | Removal, leave and delete confirmations | P6 | `.confirmation-dialog` (`system-confirmation.css`) |
+| The Terms of Use, agreed once on a device ("Read the Terms", "I agree") | P6 | `.confirmation-dialog` (`Landing.tsx`, `TermsService`) |
 | Undo toast | P6 | `UndoToast` |
 | Status lines (documents, a list's count) | P6 | `role="status"` lines |
 

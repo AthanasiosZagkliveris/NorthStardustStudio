@@ -21,7 +21,6 @@ import { refreshExampleOrganizations } from "../services/ExampleOrganizations.ts
 import { AppInstallService } from "../services/AppInstallService.ts";
 import { TermsService, TERMS_URL, PRIVACY_URL } from "../services/TermsService.ts";
 import { openExternal } from "../components/references/HarvardReference.tsx";
-import TickField from "../components/controls/TickField.tsx";
 
 import "../styles/global.css";
 import "../styles/landing.css";
@@ -163,7 +162,6 @@ export default function Landing() {
 
     // The Terms of Use, agreed once on a device (TermsService; the user guide, section 2).
     const [termsOpen, setTermsOpen] = useState(() => TermsService.mustAsk());
-    const [termsTicked, setTermsTicked] = useState(false);
 
     // Install and a new version (AppInstallService; the user guide, section 2, items 6 and 7).
     const app = useSyncExternalStore(AppInstallService.subscribe, AppInstallService.state);
@@ -532,34 +530,37 @@ export default function Landing() {
       </section>
 
 
-      {/* THE TERMS, AGREED ONCE (Research 11, section 3, change 2): the app's confirmation dialog; it closes only by agreeing. */}
+      {/* THE TERMS, AGREED ONCE (Research 11, section 3, change 2; owner, 2026-11-27 20:41 UTC+2: "Adjust the message to follow and use the apps standarts and
+          components!"): the app's P6 confirmation (Interface 7: a question and two buttons, role alertdialog, closed only by a button), the remove dialog's parts:
+          its title, its question with the two pages as text links, "Read the Terms" (secondary) and "I agree" (primary). Pressing "I agree" is the agreement. */}
       {termsOpen && (
 
         <div className="confirmation-overlay">
 
-            <div className="confirmation-dialog" role="dialog" aria-modal="true" aria-labelledby="terms-title">
+            <div className="confirmation-dialog" role="alertdialog" aria-modal="true" aria-labelledby="terms-title" aria-describedby="terms-question">
 
                 <h2 id="terms-title" className="confirmation-title">
                     Welcome to Tiles
                 </h2>
 
-                <p className="confirmation-question">
-                    Tiles is free during the Beta. Please read the{" "}
+                <p id="terms-question" className="confirmation-question">
+                    Tiles is free during the Beta. To continue, confirm that you are 18 or over and agree to the{" "}
                     <TextLink as="a" href={TERMS_URL} target="_blank" rel="noreferrer" onClick={(event) => { event.preventDefault(); openExternal(TERMS_URL); }}>Terms of Use</TextLink>
                     {" "}and the{" "}
                     <TextLink as="a" href={PRIVACY_URL} target="_blank" rel="noreferrer" onClick={(event) => { event.preventDefault(); openExternal(PRIVACY_URL); }}>Privacy Policy</TextLink>.
                 </p>
 
-                <TickField checked={termsTicked} onChange={event => setTermsTicked(event.target.checked)}>
-                    I am 18 or over, and I agree to the Terms of Use and the Privacy Policy.
-                </TickField>
-
                 <div className="confirmation-actions">
 
+                    <AddButton look="confirmation-button secondary"
+                        onClick={() => openExternal(TERMS_URL)}>
+                        Read the Terms
+                    </AddButton>
+
                     <AddButton look="confirmation-button primary"
-                        disabled={!termsTicked}
+                        autoFocus
                         onClick={() => { TermsService.agree(); setTermsOpen(false); }}>
-                        Continue
+                        I agree
                     </AddButton>
 
                 </div>

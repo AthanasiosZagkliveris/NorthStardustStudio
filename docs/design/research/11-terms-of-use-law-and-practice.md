@@ -38,7 +38,7 @@ Read on 2026-11-27. LivePlan's terms refused automated reading (HTTP 403), Upmet
 ## 3. Changes to the draft Terms
 
 1. **Who may use it:** 18 or over (or the age of full legal capacity where higher), using it to plan a business.
-2. **Accepting:** a short first-use screen with "I agree to the Terms of Use and the Privacy Policy" (a tick and a button), shown once per device, and again when the Terms change in an important way.
+2. **Accepting:** a short first-use message, the app's confirmation, saying that by pressing "I agree" the founder confirms being 18 or over and agrees to the Terms of Use and the Privacy Policy (a press on a clearly labelled button is a click agreement), shown once per device, and again when the Terms change in an important way.
 3. **The Beta questionnaire's answers (feedback):** "You give us permission to use your answers and suggestions to improve Tiles. We do not publish anything that identifies you." Less than IdeaBuddy's full assignment, and enough.
 4. **Liability:** "To the extent the law allows, North Stardust is not liable for indirect losses, or for decisions made using Tiles' documents. Nothing in these terms limits liability for death or personal injury caused by negligence, for fraud, or for anything else the law does not allow us to limit."
 5. **Ending:** "You may stop using Tiles at any time; your data stays on your device until you remove it. We may end the Beta, and we will say so in the app first."
