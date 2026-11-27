@@ -1796,7 +1796,7 @@
                             }
                             // (An item whose text carries a forced break -- "Cooling & Air" / "Conditioning" -- is two lines, each cut by its own ellipsis; no other item breaks.)
                             const broken = item.querySelectorAll(".section-tile-list-line").length;
-                            if (!item.closest(".column-tiles-page") && (rect(item).height > Math.max(1, broken) * 1.6 * small * 1.45 || (!scrolls && rect(item).bottom > listBox.bottom + tolerance))) {
+                            if (!item.closest(".column-tiles-page") && ((!item.closest(".section-tile-list[data-symbols]") && rect(item).height > Math.max(1, broken) * 1.6 * small * 1.45) || (!scrolls && rect(item).bottom > listBox.bottom + tolerance))) {
                                 fail("a tile's list items are one line each (two where a forced break is) and inside the list", item, { height: rect(item).height, bottom: rect(item).bottom, list: listBox.bottom });
                             }
                             // (A Master Tile of a page of column tiles may set an answer under its name -- an Offering and its relationship types: layout rules 12,
@@ -2103,7 +2103,7 @@
                 for (const item of slot.querySelectorAll(".section-tile-list > li")) {
                     const control = item.querySelector(":scope > button.section-tile-link");
                     const brokenLines = item.querySelectorAll(".section-tile-list-line").length;
-                    if (control && !item.closest(".column-tiles-page") && (rect(control).height > Math.max(1, brokenLines) * 1.6 * parseFloat(getComputedStyle(control).fontSize) * 1.45 || rect(control).right > rect(item).right + tolerance)) {
+                    if (control && !item.closest(".column-tiles-page") && ((!item.closest(".section-tile-list[data-symbols]") && rect(control).height > Math.max(1, brokenLines) * 1.6 * parseFloat(getComputedStyle(control).fontSize) * 1.45) || rect(control).right > rect(item).right + tolerance)) {
                         fail("a list item's button is one line (two where a forced break is) inside its row", control, { height: rect(control).height });
                     }
                 }

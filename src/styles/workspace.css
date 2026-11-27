@@ -975,3 +975,48 @@
     margin-bottom: var(--space-card);
 
 }
+
+/* (THE LARGER SYMBOLS WHERE A TILE HAS THE ROOM (owner, 2026-11-26 22:12 and 22:31 UTC+2: "When there is space in the tiles the icons could use their larger version";
+   "Even in the resource tiles if there is space, place the larger version icons"): a Resources tile's 3 x 3 of symbols (TileList, data-symbols="large") grows
+   with its tile, from 32px up to 48px (Material's display size), its grid kept 12px clear of the "+" across -- the drawing at each size is the symbol's own
+   version for it (the symbols' size steps, colors.css .symbol-mark).) */
+.section-tiles-quad .section-tile-list[data-symbols="large"] {
+
+    /* (On the symbols' own drawn sizes only -- 32, 36, 48 --, never a drawing stretched between them (owner, 2026-11-26 22:39 UTC+2: "Use the larger versions,
+       do not scale up the existed icons!"), chosen by the room the symbols have at rest (21:04: "we should focus on their idle state, and adjust their size
+       according their free space"): 24px under a 242px tile, 32px from it, 36px from a 255px tile, 48px from a 294px one, where three of them, their gaps and the "+" 12px off stand across; their
+       25% growth under the pointer stays under the next drawn size.) */
+    --symbol-size: calc(24px + 8 * clamp(0px, (var(--section-tile-size) - 241.99px) * 1000, 1px) + 4 * clamp(0px, (var(--section-tile-size) - 254.99px) * 1000, 1px) + 12 * clamp(0px, (var(--section-tile-size) - 293.99px) * 1000, 1px));
+
+    /* (12px between two symbols and a tenth of a symbol more, what one grows by toward its neighbour: a symbol grown under the pointer keeps 12px from the next.) */
+    gap: calc(var(--gap-12) + var(--symbol-size) / 10);
+
+    /* (12px under the title's rule, as every tile's list (21:04: "why there is so large gap between the icons and the tile's title?"): not set down to the
+       middle of the tile; centred across.) */
+    translate: none !important;
+
+    margin-top: calc(var(--space-card) - var(--tile-lift, 0px)) !important;
+
+    height: auto !important;
+    max-height: none !important;
+
+    overflow: visible;
+
+}
+
+/* (And a Capability's symbol on the Capabilities page: from the logo's 44px it grows with its tile, into the room its list of Systems leaves -- the list, five
+   lines at the most, and the title take 256px of a tile --, up to 40% of the tile, as a System's symbol on its Capability's page.) */
+@media (min-width: 601px) {
+
+    .capability-tiles .section-tile-slot:not(.capability-system-slot) > .section-tile > .section-tile-title > .section-tile-title-mark {
+
+        /* (Its drawn sizes only: 44px (the 48 drawing), then 66, 84 and 120 as the room under the list allows -- never a drawing stretched.) */
+        --capability-symbol: calc(var(--add-button-height) + 22 * clamp(0px, (var(--section-tile-size) - 321.99px) * 1000, 1px) + 18 * clamp(0px, (var(--section-tile-size) - 339.99px) * 1000, 1px) + 36 * clamp(0px, (var(--section-tile-size) - 375.99px) * 1000, 1px));
+
+        width: var(--capability-symbol);
+        height: var(--capability-symbol);
+
+    }
+
+
+}

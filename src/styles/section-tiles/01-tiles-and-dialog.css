@@ -185,18 +185,79 @@
 
 }
 
-.section-tile-list[data-symbols] > li:nth-child(3n + 1) .section-tile-list-fallback { transform-origin: right center; }
-.section-tile-list[data-symbols] > li:nth-child(3n) .section-tile-list-fallback { transform-origin: left center; }
-.section-tile-list[data-symbols] > li:nth-child(-n + 3) .section-tile-list-fallback { transform-origin: center bottom; }
-.section-tile-list[data-symbols] > li:nth-child(1) .section-tile-list-fallback { transform-origin: right bottom; }
-.section-tile-list[data-symbols] > li:nth-child(3) .section-tile-list-fallback { transform-origin: left bottom; }
-.section-tile-list[data-symbols] > li:nth-child(n + 7) .section-tile-list-fallback { transform-origin: center top; }
-.section-tile-list[data-symbols] > li:nth-child(7) .section-tile-list-fallback { transform-origin: right top; }
-.section-tile-list[data-symbols] > li:nth-child(9) .section-tile-list-fallback { transform-origin: left top; }
+/* (Where each grows from: a point of its own box, given across by its column and down by its row; its glow grows from the same point.) */
+.section-tile-list[data-symbols] > li {
+
+    --symbol-origin-x: calc(var(--symbol-size) / 2);
+    --symbol-origin-y: calc(var(--symbol-size) / 2);
+
+}
+
+.section-tile-list[data-symbols] > li:nth-child(3n + 1) { --symbol-origin-x: var(--symbol-size); }
+.section-tile-list[data-symbols] > li:nth-child(3n) { --symbol-origin-x: 0px; }
+.section-tile-list[data-symbols] > li:nth-child(-n + 3) { --symbol-origin-y: var(--symbol-size); }
+.section-tile-list[data-symbols] > li:nth-child(n + 7) { --symbol-origin-y: 0px; }
+
+.section-tile-list[data-symbols] .section-tile-list-fallback {
+
+    transform-origin: var(--symbol-origin-x) var(--symbol-origin-y);
+
+}
+
+/* (UNDER THE POINTER A SYMBOL STANDS ON A TILE OF ITS OWN, ITS COLOURS INVERTED (owner, 2026-11-27 01:52 UTC+2: "Remove the glow effect. Hovering over will appear
+   their tiles (if an icon takes space of 32 x32, add 2 px around it), and would invert the icon colours"): a tile 2px larger than the symbol all round, in the card's
+   ink, with small rounded corners; the symbol drawn on it in the surface colour. Both grow together, from the symbol's own point.) */
+.section-tile-list[data-symbols] .section-tile-link {
+
+    position: relative;
+    isolation: isolate;
+
+}
+
+.section-tile-list[data-symbols] .section-tile-link::before {
+
+    content: "";
+
+    position: absolute;
+    inset: -2px;
+    z-index: -1;
+
+    border-radius: var(--radius-sm);
+
+    /* (The card's ink, for a faint symbol too: one tile colour per card.) */
+    background: var(--tile-colour, hsl(var(--strategy-theme-hue, 217) var(--theme-mark-ink)));
+
+    opacity: 0;
+
+    transform-origin: calc(var(--symbol-origin-x) + 2px) calc(var(--symbol-origin-y) + 2px);
+    transition: transform .15s ease, opacity .15s ease;
+
+}
+
+.section-tile-list[data-symbols] > li:hover .section-tile-link::before,
+.section-tile-list[data-symbols] .section-tile-link:focus-visible::before {
+
+    opacity: 1;
+    transform: scale(1.1);
+
+}
+
+.section-tile-list[data-symbols] > li:hover .section-tile-list-fallback,
+.section-tile-list[data-symbols] .section-tile-link:focus-visible .section-tile-list-fallback,
+.section-tile-list[data-symbols] > li.section-tile-list-empty:hover .section-tile-list-fallback,
+.section-tile-list[data-symbols] > li.section-tile-list-empty .section-tile-link:focus-visible .section-tile-list-fallback {
+
+    --symbol-ink: var(--bg-surface);
+
+    background: var(--bg-surface);
+    opacity: 1;
+
+}
 
 @media (prefers-reduced-motion: reduce) {
 
-    .section-tile-list[data-symbols] .section-tile-list-fallback {
+    .section-tile-list[data-symbols] .section-tile-list-fallback,
+    .section-tile-list[data-symbols] .section-tile-link::before {
 
         transition: none;
 
@@ -925,6 +986,7 @@
     opacity: 0.55;
 
 }
+
 
 /* (WHERE THE CHAPTERS STAND SIDE BY SIDE, A DIALOG IS NO TALLER THAN ITS ROOM (owner, 2026-11-24 10:12 UTC+2: "Do not forget the margin is 12 px"): it ends 12px above
    the footer and its body scrolls; where the chapters stack, the page scrolls and the dialog keeps its tiles' height.) */
