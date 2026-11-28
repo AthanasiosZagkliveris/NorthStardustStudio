@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import hoverOnlyWithMouse from "./tools/scripts/vite/hover-only-with-mouse.mjs";
+import expandSubjectIs from "./tools/scripts/vite/expand-subject-is.mjs";
 
 // @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
@@ -50,7 +51,8 @@ export default defineConfig(async () => ({
   // Every :hover selector only where the input can hover (tools/scripts/vite/hover-only-with-mouse.mjs): a tapped control keeps no hover look on a touch screen.
   css: {
     postcss: {
-      plugins: [hoverOnlyWithMouse()],
+      // (And a rule whose element is named by a bare :is() written as the list it stands for, so the browser files it by its class: tools/scripts/vite/expand-subject-is.mjs.)
+      plugins: [hoverOnlyWithMouse(), expandSubjectIs()],
     },
   },
 

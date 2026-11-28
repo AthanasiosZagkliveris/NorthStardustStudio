@@ -97,6 +97,18 @@ export function titleTopOf(node: HTMLElement, sample?: { current: { y: number; y
 }
 
 
+/**
+ * A LAYER'S BACK AT ITS TOP (an upright phone): the Back, and the mark on its layer that the layer holds one (`data-top-back`, back-button.css), which gives the
+ * layer its top row. A mark the stylesheet files by its attribute: `:has(> .layer-top-back)` was tried on every element of the page at every restyle.
+ */
+function LayerTopBack({ layer, onClick }: { layer: HTMLElement; onClick: () => void }) {
+    useLayoutEffect(() => {
+        layer.setAttribute("data-top-back", "");
+        return () => layer.removeAttribute("data-top-back");
+    }, [layer]);
+    return <BackButton className="back-link layer-top-back" onClick={onClick} />;
+}
+
 export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { target: RefObject<HTMLElement | null>; step: CarouselStep; hue: number; back?: () => void; /** The tab's side where the layer is as wide as the page (the Workbook's panel: at the left, as a System page's page tab). */ side?: "left" | "right" }) {
     const [at, setAt] = useState<{ left: number; right: number; top: number; edge: number; leftEdge: number; side: "left" | "right"; titleTop: number; tab: { bg: string; edge: string; ink: string } | null } | null>(null);
 
@@ -376,7 +388,7 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
             {/* (A TABLET IN PORTRAIT: the layer's Back at its top, left of it, as the page's (owner, 2026-11-25: "The back arrow should not be next to the
                 navigation arrow. Place it on the top part of the page to align to the top card's edge"; back-button.css, .page-top-back).) */}
             {back && topBack && target.current && createPortal(<BackButton className="back-link page-top-back" onClick={back} />, target.current)}
-            {back && phoneBack && target.current && createPortal(<BackButton className="back-link layer-top-back" onClick={back} />, target.current)}
+            {back && phoneBack && target.current && createPortal(<LayerTopBack layer={target.current} onClick={back} />, target.current)}
         </>
     );
 }

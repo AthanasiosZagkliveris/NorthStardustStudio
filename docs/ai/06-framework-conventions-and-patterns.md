@@ -73,6 +73,8 @@ A component that measures the page (a tile's title and list, a rail, a header, a
 - **A signal to measure again is sent once a frame.** A part that changes what others follow says so through the shared helper (`announceTitlesUnified` in `TileParts.tsx` for the tiles' one title size and spacing, `measureAgainNextFrame` in `SectionTileGeometry.tsx` for a page's new width), never with its own `dispatchEvent`: however many parts say it in a frame, every listener hears it once.
 - **A loop that waits for a layer to settle draws only when it has moved** (`CarouselArrows`' settle: the layer's box, the arrows' level and the window's scroll compared frame to frame).
 
+- **A stylesheet rule names its element by a class, an attribute or a tag.** Chrome files each rule by the last part of its selector and tries it only on the elements of that file; a last part that is a bare `:has()`, `:not()` or `*` is tried on every element at every restyle. A bare `:is(.a, .b)` there is written out at build time (`tools/scripts/vite/expand-subject-is.mjs`, where it is the same rule exactly); a state the markup can carry is a mark on the element (`data-top-back`, set by `CarouselArrows`' `LayerTopBack`), not a `:has()` (Research 12, section 3).
+
 `npm run check:speed` measures it on a phone's screen (the playbook, "How fast it answers").
 
 ## Stability
