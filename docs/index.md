@@ -104,6 +104,7 @@ Status: **index**, updated 2026-11-28, written by `npm run docs:index` (the subj
 - **Segment card**: [Questions 12 (as built)](design/questions/12-segment-questions.md); [Questions 2 section 6.3](design/questions/02-questionnaire-specification.md)
 - **Settings (Global Settings, Appearance, Focus)**: [specifications, Settings](specifications/07-settings/README.md); [Global Settings](specifications/07-settings/README.md)
 - **Shared components**: [Interface 1](design/interface/01-shared-components.md)
+- **Speed of the app (targets, tools, what was done)**: [Research 12](design/research/12-app-speed.md); [AI 3, How fast it answers](ai/03-toolchain-and-verification-playbook.md)
 - **Standard of the documents**: [standard](standard.md)
 - **Strategy (SWOT, Compass, Themes, Metrics)**: [Questions 21 (built in part)](design/questions/21-strategy.md); [specifications, Strategy System](specifications/04-strategy-system/01-situation-and-direction.md)
 - **Strategy System pages**: [specifications](specifications/04-strategy-system/01-situation-and-direction.md)

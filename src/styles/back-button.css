@@ -148,12 +148,12 @@ body:has(.section-tile-overlay .page-top-back) .conversation-card > .page-top-ba
         white-space: nowrap;
     }
 
-    :has(> .layer-top-back) {
+    [data-top-back] {
         position: relative;
         padding-top: calc(var(--press-area, 44px) + var(--gap-8)) !important;
     }
 
-    :has(> .layer-top-back) .section-tile-dialog-foot .section-tile-back,
+    [data-top-back] .section-tile-dialog-foot .section-tile-back,
     body:has(.layer-top-back) .conversation-card > .page-top-back {
         display: none;
     }
