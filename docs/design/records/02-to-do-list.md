@@ -2,6 +2,27 @@
 
 Status: **living list**, written 2026-10-14 (as "What has not been done yet"), updated 2026-11-27 (the to-do list; every idea for after Version 1 moved to Guide 3; owner, 2026-11-27 03:27 UTC+2: "lets divide them into 2 docs 1. future features will have ideas for features after version 1 (still working to complete the Beta). 2. To do list, are any features or changes for the Beta or Version 1"). The one list of the work still to do for the **Beta** and **Version 1**, each item marked with its stage. Every idea for after Version 1 is Guide 3 (`../../guide/03-future-features.md`). Sections 5.1 to 5.11 hold the open work, 5.12 counts every planned connection between answers ("Read by (not built yet)"), 5.13 points to the work whose design lives in another document, and 5.16 holds the steps only the owner can take. Remove an item when it is done and record it in the log (`01-log.md`); an item moves to Guide 3, or comes from it, only by the owner's word. Everything here is a plan or a proposal unless it says "decided".
 
+## Contents
+
+- [The two stages](#the-two-stages)
+- [Open now](#open-now)
+- [5.1 The road (decided)](#51-the-road-decided)
+- [5.2 The task plan F to K: what is not done](#52-the-task-plan-f-to-k-what-is-not-done)
+- [5.3 Finish the Tile System](#53-finish-the-tile-system)
+- [5.4 Workspace batches D and E](#54-workspace-batches-d-and-e)
+- [5.5 Business System requirements (proposal)](#55-business-system-requirements-proposal)
+- [5.6 Clean-up, optimisation and library: what is left](#56-clean-up-optimisation-and-library-what-is-left)
+- [5.7 Extraction into the new app: what the audit found](#57-extraction-into-the-new-app-what-the-audit-found)
+- [5.8 Open decisions](#58-open-decisions)
+- [5.9 Known open findings](#59-known-open-findings)
+- [5.10 What stayed in the project, and why](#510-what-stayed-in-the-project-and-why)
+- [5.11 Open from the documents review (2026-10-29)](#511-open-from-the-documents-review-2026-10-29)
+- [5.12 Planned connections between answers (not built)](#512-planned-connections-between-answers-not-built)
+- [5.13 Work whose design lives in another document](#513-work-whose-design-lives-in-another-document)
+- [5.14 The phone in landscape (decided 2026-11-27, built 2026-11-27)](#514-the-phone-in-landscape-decided-2026-11-27-built-2026-11-27)
+- [5.15 The app on every system (decided 2026-11-27, not built)](#515-the-app-on-every-system-decided-2026-11-27-not-built)
+- [5.16 For the owner: reminders](#516-for-the-owner-reminders)
+
 ## The two stages
 
 | Stage | What it is | What belongs to it |
@@ -286,6 +307,7 @@ Still open (the requirement ids are those of 5.5):
 5. Is a rough cost per customer by channel wanted at this stage (C14)?
 6. (Closed: the 768 px floor went with the 320 px minimum width of 2026-11-22.)
 7. Is the new app still a web app with accounts (as in the Foundation App Plan), and does it keep the Examples (5.7, X2)? **(owner decides)**, with the extraction. Where it runs is decided (section 5.15), and its form: the Foundation edition of this app (5.7); the accounts and the Examples stay open.
+8. One date for the last change of a document: the status line's "updated" date, written by hand, or the index's Updated column, from git (Research 13, section 5, item 1). **(owner decides)**
 
 ## 5.9 Known open findings
 

@@ -4,6 +4,22 @@ Status: **rules**, written 2026-10-20, updated 2026-11-21. The standard a screen
 
 This document is the standard a table, a tile, a card, a floating card, a dialog, a pop-up window, a page or a control is judged by. Section 13 is the short list to tick; sections 1 to 12 are the reference behind it: for each criterion, the standard, where the standard comes from, how to measure it and what counts as a failure. A review that does not name its criteria, measure them and report them is not a review.
 
+## Contents
+
+1. [How a review is done](#1-how-a-review-is-done)
+2. [The rules of the work](#2-the-rules-of-the-work)
+3. [Typography: size, weight, case, tracking, colour](#3-typography-size-weight-case-tracking-colour)
+4. [Spacing and gaps](#4-spacing-and-gaps)
+5. [Controls](#5-controls)
+6. [Colour: what follows what](#6-colour-what-follows-what)
+7. [Tiles, cards and stacks](#7-tiles-cards-and-stacks)
+8. [Tables, lists and windows](#8-tables-lists-and-windows)
+9. [Pages](#9-pages)
+10. [Words, data and accessibility](#10-words-data-and-accessibility)
+11. [The report](#11-the-report)
+12. [The measuring tools](#12-the-measuring-tools)
+13. [The checklist: what to tick when reviewing a table, tile, card, page or control](#13-the-checklist-what-to-tick-when-reviewing-a-table-tile-card-page-or-control)
+
 ## 1. How a review is done
 
 1. **Fix the subject and the state.** Name what is reviewed (a table, a card, a pop-up window) and the state it is judged in (open, folded, empty, long data, hovered, focused, pressed, disabled). A review of one state says so.

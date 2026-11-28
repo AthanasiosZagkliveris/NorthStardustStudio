@@ -1,8 +1,8 @@
-# The research and the sources (Research 1 to 12)
+# The research and the sources (Research 1 to 13)
 
 Status: **index**, updated 2026-11-28. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
-The source register (1), the research behind the design (2), the lists and classifications (3), age limits (4), the owner's positioning data and its sources (5, 6), delivery and capacity (7), the Beta questionnaire that asks the founders (8) the kinds of app and what each system requires (9) protecting the app from copying (10), the Terms of Use (11) and how fast the app answers (12).
+The source register (1), the research behind the design (2), the lists and classifications (3), age limits (4), the owner's positioning data and its sources (5, 6), delivery and capacity (7), the Beta questionnaire that asks the founders (8), the kinds of app and what each system requires (9), protecting the app from copying (10), the Terms of Use (11), how fast the app answers (12) and how the documents and the code are organised (13).
 
 The standard for these documents is [the standard of the documents](../../standard.md); the contents of all the documents are [README.md](../../README.md) and the alphabetical index is [index.md](../../index.md).
 
@@ -20,3 +20,4 @@ The standard for these documents is [the standard of the documents](../../standa
 | [10-protecting-the-app.md](10-protecting-the-app.md) | research | Protecting the app from copying and digging: what a web app exposes, the ways to protect it (obfuscation, WebAssembly, integrity checks, a server, store integrity), the law (EU copyright, trade secrets), a recommendation in layers, and the GitHub check minutes. | 2026-11-27 |
 | [11-terms-of-use-law-and-practice.md](11-terms-of-use-law-and-practice.md) | research | The Terms of Use: what the law of Greece and the EU and of the six countries requires of them, what similar business-plan apps put in theirs, and the changes this made to the Terms. | 2026-11-27 |
 | [12-app-speed.md](12-app-speed.md) | research | How fast the app answers: the speed targets (Core Web Vitals, RAIL), the tools most used to check speed, the ways recommended to make a web app faster, and what was done in Tiles with its measures before and after. | 2026-11-28 |
+| [13-organising-documents-and-code.md](13-organising-documents-and-code.md) | research | Organising the documents and the code: the practices most recommended (one purpose for each document, an entry point for each folder, one owner for each fact, current or deleted, nothing unused), the list of ideas they give, each checked against `docs/` and `src/`, and what was applied. | 2026-11-28 |

@@ -36,6 +36,15 @@ The rules that hold for all of them: a radio is one choice, ticks are several (w
 - [Box 5. Market Size & Industry Outlook](#box-5-market-size--industry-outlook)
 - [The end user (a part of the same card)](#the-end-user-a-part-of-the-same-card)
 
+## Contents
+
+- [Box 1. Demographics](#box-1-demographics)
+- [Box 2. Geographics](#box-2-geographics)
+- [Box 3. Business Data](#box-3-business-data)
+- [Box 4. Purchasing Power & Behaviour](#box-4-purchasing-power--behaviour)
+- [Box 5. Market Size & Industry Outlook](#box-5-market-size--industry-outlook)
+- [The end user (a part of the same card)](#the-end-user-a-part-of-the-same-card)
+
 ## Box 1. Demographics
 
 The people who pay (the buyer is people: B2C alone, or the first of the two Segments made where both are chosen). Questions that have no answer for Minors are skipped for them. The specialised needs (accessibility and caregiving) are not asked here: they belong to the Profile, which is specified in Questions 13.

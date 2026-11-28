@@ -4,7 +4,7 @@
  *
  *   node tools/scripts/docs/questions-register.mjs           write docs/design/questions/06-questions-register.md (npm run docs:index runs it)
  *   node tools/scripts/docs/questions-register.mjs --check   write nothing; fail when Questions 6 differs from the code, or when a questionnaire
- *                                                             document (27 to 43) cites a question code the register does not know
+ *                                                             document (the list CITED_DOCS) cites a question code the register does not know
  *
  * The words, options, limits and "i" texts are read from the code itself: the engine files (`src/framework/engine/*Questions.ts`) and, for the
  * Organisation and Positioning tiles and the box titles, the editors' shared files (bundled in memory with esbuild, which comes with vite). What the
@@ -332,7 +332,7 @@ function rows(code) {
             ? [L.activitiesInfo("GB") + " (for the United Kingdom; each of the six names its own scheme)", "For Other: " + L.activitiesInfo("")]
             : key ? L.INFO[key].map(point) : [];
         cards.push({
-            title: "Organisation", where: "Identity System, page 1, the tile Organisation", owner: "37",
+            title: "Organisation", where: "Identity System, page 1, the tile Organisation", owner: "Questions 7",
             source: "the order and the controls of `src/components/interview/editors/legal/useLegalFieldsAndSections.tsx` (kept in this script), the \"i\" texts from `INFO` in `legal/shared.tsx`",
             boxes: Object.entries(ORGANISATION_BOXES).map(([box, title]) => ({
                 title,
@@ -352,7 +352,7 @@ function rows(code) {
             ? "a consumer buyer: " + list(L.BUYER_USER_RELATIONS.b2c) + ". A business buyer: " + list(L.BUYER_USER_RELATIONS.b2b) + " (only those that fit the category and the life stages)"
             : list(L[name]);
         cards.push({
-            title: "Positioning", where: "Identity System, page 1, the tile named by the stage: Early Positioning (Planning, Launching), Core Market Positioning (Managing), Corporate & Portfolio Positioning (Growing)", owner: "38",
+            title: "Positioning", where: "Identity System, page 1, the tile named by the stage: Early Positioning (Planning, Launching), Core Market Positioning (Managing), Corporate & Portfolio Positioning (Growing)", owner: "Questions 8",
             source: "the order of `useLegalFieldsAndSections.tsx` (kept in this script); the options, the limits (`choiceLimit`) and the \"i\" texts from `legal/shared.tsx`. Max is by stage: Planning / Launching / Managing / Growing. Every \"i\" also carries the stage's line (\"At this stage (Planning): choose one. …\")",
             boxes: Object.entries(POSITIONING_BOXES).map(([box, title]) => ({
                 title,
@@ -379,7 +379,7 @@ function rows(code) {
         };
         const questions = [kind, ...S.SEGMENT_QUESTIONS];
         cards.push({
-            title: "Segment", where: "Business System, page 1, the Segment's Description (the end user's part in the same card)", owner: "35",
+            title: "Segment", where: "Business System, page 1, the Segment's Description (the end user's part in the same card)", owner: "Questions 12",
             source: "`SEGMENT_QUESTIONS` in `src/framework/engine/choices/SegmentQuestions.ts` (the card adds Box 1, 0; the Differentiation, saved here too, is listed under the Competitor card as K14); saved under `questions` on the Segment. Max of End user, 9 is by stage: Planning / Launching / Managing / Growing. The words are a direct buyer's (\"your customers\"); a Proxy or Dual-Intent buyer reads \"your buyers\", and the end user's part \"your end users\" (`segmentWho`)",
             boxes: boxes.map(([box, title]) => ({
                 title,
@@ -407,7 +407,7 @@ function rows(code) {
             ...Object.entries(PROFILE_BOX_TITLES)
         ];
         cards.push({
-            title: "Profile", where: "Business System, page 1, a Profile of a Segment; where the Segment's buyer is Proxy or Dual-Intent, in two parts, the buyer and the end user (Questions 13, 2.1)", owner: "36",
+            title: "Profile", where: "Business System, page 1, a Profile of a Segment; where the Segment's buyer is Proxy or Dual-Intent, in two parts, the buyer and the end user (Questions 13, 2.1)", owner: "Questions 13",
             source: "`PROFILE_QUESTIONS` in `src/framework/engine/choices/ProfileQuestions.ts`; saved under `questions` on the Profile (a rating as `<id>-rating`, an Other as `<id>-other`). The words say \"this person\" until A2 is answered (`profileWho`). A3 and A3b, and the people's and the business's Needs, are one place on the card (one or the other is asked). Where the Segment has an end user, E1, E2 and the Needs stand in the end user's part (`profilePartOf`), written of the end user, the others in the buyer's; the end user's own questions (`PROFILE_USER_QUESTIONS`) are listed last, saved under `user.questions`",
             boxes: boxes.map(([box, title]) => {
                 const built = P.PROFILE_QUESTIONS.filter(question => question.box === box).map(question => {
@@ -462,7 +462,7 @@ function rows(code) {
             k15: "an amount range, From and To, in the organisation's currency, per the Segment's terms (O3); or Not known yet (owner, 2026-11-18)"
         };
         cards.push({
-            title: "Competitor", where: "Business System, page 1, a Competitor of a Segment", owner: "41",
+            title: "Competitor", where: "Business System, page 1, a Competitor of a Segment", owner: "Questions 14",
             source: "`CompetitorQuestions.ts` (the words by type, `competitorWording`; who is asked, `competitorAsks`; the options and the \"i\", `COMPETITOR_INFO`); the box of each question and its control as the card asks them (`CompetitorCard.tsx`, kept in this script); saved under `questions` on the Competitor",
             boxes: COMPETITOR_BOXES.map(([box, ids]) => ({
                 title: titles[box],
@@ -492,7 +492,7 @@ function rows(code) {
     }
 
     /* ---- Value Proposition ---- */
-    cards.push({ title: "Value Proposition", where: "Business System, page 1, the Segment's Value Proposition", owner: "42", none: "No questions: the tile shows a draft sentence and the open items, read from the answers of the cards above (`valuePropositionDraft`, `valuePropositionOpenItems` in `OfferingQuestions.ts`); Questions 15 holds it." });
+    cards.push({ title: "Value Proposition", where: "Business System, page 1, the Segment's Value Proposition", owner: "Questions 15", none: "No questions: the tile shows a draft sentence and the open items, read from the answers of the cards above (`valuePropositionDraft`, `valuePropositionOpenItems` in `OfferingQuestions.ts`); Questions 15 holds it." });
 
     /* ---- Offering ---- */
     {
@@ -506,7 +506,7 @@ function rows(code) {
                         : list(O.offeringOptions(id, {}));
         const notBuilt = OFFERING_NOT_BUILT.map(([code, label, asked]) => ({ code, id: "–", label, control: "none", max: "", asked, starts: "", status: "not built", owner: "Questions 16, " + code, unplaced: true }));
         cards.push({
-            title: "Offering", where: "Business System, page 1, an Offering of a Segment", owner: "43",
+            title: "Offering", where: "Business System, page 1, an Offering of a Segment", owner: "Questions 16",
             source: "`OFFERING_QUESTIONS` and `OFFERING_BOX_QUESTIONS` in `src/framework/engine/choices/OfferingQuestions.ts` (the options, `offeringOptions`); saved under `questions` on the Offering. Under the name the card asks the Type (Product, Service, Hybrid), and the Customer Benefit box opens with the Functional Needs Addressed (ticks of the Profiles' numbered tasks; owner, 2026-11-08), neither of them a coded question",
             boxes: [...F.SUBSECTIONS.offerings.description, ...F.SUBSECTIONS.offerings.terms].map(part => ({
                 title: part.title,
@@ -559,7 +559,7 @@ function render(cards, commit) {
     cards.forEach((card, at) => {
         const n = at + 1;
         md.push("## " + n + ". " + card.title, "");
-        md.push("*" + card.where + ". Owner: doc " + card.owner + ".*" + (card.source ? " From " + card.source + "." : ""), "");
+        md.push("*" + card.where + ". Owner: " + card.owner + ".*" + (card.source ? " From " + card.source + "." : ""), "");
         if (card.none) {
             md.push(card.none, "");
             counts.push([card.title, 0, 0, 0]);

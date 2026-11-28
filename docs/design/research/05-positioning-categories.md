@@ -6,7 +6,7 @@ Status: **collection**, written 2026-10-27, updated 2026-11-09. The owner's cate
 
 > **Where the decisions stand (2026-10-29).** Sections 1 to 8 are the owner's collection as given. Section 9 is the register of every decision taken on it; section 10 holds the reference tables. The first version uses only what Questions 4 names; the rest is future (Questions 4).
 
-Related: Questions 2, 8.2 (the Positioning questions), Questions 3 (the question guide), Research 4 (age limits by activity and country).
+Related: Questions 8, section 4 (the Positioning questions), Questions 3 (the question guide), Research 4 (age limits by activity and country).
 
 **Contents**
 

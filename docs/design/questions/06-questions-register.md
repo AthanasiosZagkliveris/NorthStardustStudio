@@ -14,7 +14,7 @@ Related: Questions 7 (the Organisation), Questions 8 (Positioning), Questions 12
 
 ## 1. Organisation
 
-*Identity System, page 1, the tile Organisation. Owner: doc 37.* From the order and the controls of `src/components/interview/editors/legal/useLegalFieldsAndSections.tsx` (kept in this script), the "i" texts from `INFO` in `legal/shared.tsx`.
+*Identity System, page 1, the tile Organisation. Owner: Questions 7.* From the order and the controls of `src/components/interview/editors/legal/useLegalFieldsAndSections.tsx` (kept in this script), the "i" texts from `INFO` in `legal/shared.tsx`.
 
 ### 1.1 The left column: where the organisation is
 
@@ -95,7 +95,7 @@ None.
 
 ## 2. Positioning
 
-*Identity System, page 1, the tile named by the stage: Early Positioning (Planning, Launching), Core Market Positioning (Managing), Corporate & Portfolio Positioning (Growing). Owner: doc 38.* From the order of `useLegalFieldsAndSections.tsx` (kept in this script); the options, the limits (`choiceLimit`) and the "i" texts from `legal/shared.tsx`. Max is by stage: Planning / Launching / Managing / Growing. Every "i" also carries the stage's line ("At this stage (Planning): choose one. …").
+*Identity System, page 1, the tile named by the stage: Early Positioning (Planning, Launching), Core Market Positioning (Managing), Corporate & Portfolio Positioning (Growing). Owner: Questions 8.* From the order of `useLegalFieldsAndSections.tsx` (kept in this script); the options, the limits (`choiceLimit`) and the "i" texts from `legal/shared.tsx`. Max is by stage: Planning / Launching / Managing / Growing. Every "i" also carries the stage's line ("At this stage (Planning): choose one. …").
 
 ### 2.1 The left column: the relationship, then the consumer buyer (B2C), or the one relationship chosen
 
@@ -195,7 +195,7 @@ None.
 
 ## 3. Segment
 
-*Business System, page 1, the Segment's Description (the end user's part in the same card). Owner: doc 35.* From `SEGMENT_QUESTIONS` in `src/framework/engine/choices/SegmentQuestions.ts` (the card adds Box 1, 0; the Differentiation, saved here too, is listed under the Competitor card as K14); saved under `questions` on the Segment. Max of End user, 9 is by stage: Planning / Launching / Managing / Growing. The words are a direct buyer's ("your customers"); a Proxy or Dual-Intent buyer reads "your buyers", and the end user's part "your end users" (`segmentWho`).
+*Business System, page 1, the Segment's Description (the end user's part in the same card). Owner: Questions 12.* From `SEGMENT_QUESTIONS` in `src/framework/engine/choices/SegmentQuestions.ts` (the card adds Box 1, 0; the Differentiation, saved here too, is listed under the Competitor card as K14); saved under `questions` on the Segment. Max of End user, 9 is by stage: Planning / Launching / Managing / Growing. The words are a direct buyer's ("your customers"); a Proxy or Dual-Intent buyer reads "your buyers", and the end user's part "your end users" (`segmentWho`).
 
 ### 3.1 Demographics
 
@@ -505,7 +505,7 @@ None.
 
 ## 4. Profile
 
-*Business System, page 1, a Profile of a Segment; where the Segment's buyer is Proxy or Dual-Intent, in two parts, the buyer and the end user (Questions 13, 2.1). Owner: doc 36.* From `PROFILE_QUESTIONS` in `src/framework/engine/choices/ProfileQuestions.ts`; saved under `questions` on the Profile (a rating as `<id>-rating`, an Other as `<id>-other`). The words say "this person" until A2 is answered (`profileWho`). A3 and A3b, and the people's and the business's Needs, are one place on the card (one or the other is asked). Where the Segment has an end user, E1, E2 and the Needs stand in the end user's part (`profilePartOf`), written of the end user, the others in the buyer's; the end user's own questions (`PROFILE_USER_QUESTIONS`) are listed last, saved under `user.questions`.
+*Business System, page 1, a Profile of a Segment; where the Segment's buyer is Proxy or Dual-Intent, in two parts, the buyer and the end user (Questions 13, 2.1). Owner: Questions 13.* From `PROFILE_QUESTIONS` in `src/framework/engine/choices/ProfileQuestions.ts`; saved under `questions` on the Profile (a rating as `<id>-rating`, an Other as `<id>-other`). The words say "this person" until A2 is answered (`profileWho`). A3 and A3b, and the people's and the business's Needs, are one place on the card (one or the other is asked). Where the Segment has an end user, E1, E2 and the Needs stand in the end user's part (`profilePartOf`), written of the end user, the others in the buyer's; the end user's own questions (`PROFILE_USER_QUESTIONS`) are listed last, saved under `user.questions`.
 
 ### 4.1 Specific Personal Information
 
@@ -801,7 +801,7 @@ None.
 
 ## 5. Competitor
 
-*Business System, page 1, a Competitor of a Segment. Owner: doc 41.* From `CompetitorQuestions.ts` (the words by type, `competitorWording`; who is asked, `competitorAsks`; the options and the "i", `COMPETITOR_INFO`); the box of each question and its control as the card asks them (`CompetitorCard.tsx`, kept in this script); saved under `questions` on the Competitor.
+*Business System, page 1, a Competitor of a Segment. Owner: Questions 14.* From `CompetitorQuestions.ts` (the words by type, `competitorWording`; who is asked, `competitorAsks`; the options and the "i", `COMPETITOR_INFO`); the box of each question and its control as the card asks them (`CompetitorCard.tsx`, kept in this script); saved under `questions` on the Competitor.
 
 ### 5.1 Offerings
 
@@ -945,13 +945,13 @@ None.
 
 ## 6. Value Proposition
 
-*Business System, page 1, the Segment's Value Proposition. Owner: doc 42.*
+*Business System, page 1, the Segment's Value Proposition. Owner: Questions 15.*
 
 No questions: the tile shows a draft sentence and the open items, read from the answers of the cards above (`valuePropositionDraft`, `valuePropositionOpenItems` in `OfferingQuestions.ts`); Questions 15 holds it.
 
 ## 7. Offering
 
-*Business System, page 1, an Offering of a Segment. Owner: doc 43.* From `OFFERING_QUESTIONS` and `OFFERING_BOX_QUESTIONS` in `src/framework/engine/choices/OfferingQuestions.ts` (the options, `offeringOptions`); saved under `questions` on the Offering. Under the name the card asks the Type (Product, Service, Hybrid), and the Customer Benefit box opens with the Functional Needs Addressed (ticks of the Profiles' numbered tasks; owner, 2026-11-08), neither of them a coded question.
+*Business System, page 1, an Offering of a Segment. Owner: Questions 16.* From `OFFERING_QUESTIONS` and `OFFERING_BOX_QUESTIONS` in `src/framework/engine/choices/OfferingQuestions.ts` (the options, `offeringOptions`); saved under `questions` on the Offering. Under the name the card asks the Type (Product, Service, Hybrid), and the Customer Benefit box opens with the Functional Needs Addressed (ticks of the Profiles' numbered tasks; owner, 2026-11-08), neither of them a coded question.
 
 ### 7.1 Function
 

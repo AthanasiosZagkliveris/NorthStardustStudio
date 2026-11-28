@@ -6,6 +6,24 @@ Status: **archive**, written 2026-09-26, updated 2026-11-02 (moved here from `sp
 
 ---
 
+## Contents
+
+1. [Summary](#1-summary)
+2. [Context](#2-context)
+3. [Goals and non-goals](#3-goals-and-non-goals)
+4. [Options considered](#4-options-considered)
+5. [How it works for the user](#5-how-it-works-for-the-user)
+6. [The workspace folder](#6-the-workspace-folder)
+7. [Behaviour in detail](#7-behaviour-in-detail)
+8. [Security and privacy](#8-security-and-privacy)
+9. [What changes in the code](#9-what-changes-in-the-code)
+10. [Phases](#10-phases)
+11. [Risks and how they are handled](#11-risks-and-how-they-are-handled)
+12. [Decisions to make before starting](#12-decisions-to-make-before-starting)
+13. [What stays the maker's job](#13-what-stays-the-makers-job)
+14. [Later option: connect your own server](#14-later-option-connect-your-own-server)
+15. [Glossary](#15-glossary)
+
 ## 1. Summary
 
 Let a founder, or a small team of co-founders, work on the same organization from their own computers: edit the Foundation and the other Systems, see who is working where, leave comments, look back at earlier versions and restore them, and never lose their work.

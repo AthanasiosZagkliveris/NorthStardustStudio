@@ -1,6 +1,6 @@
 # AI knowledge base: `docs/ai/`
 
-Status: **index**, written 2026-08-02, updated 2026-11-21. The map of the knowledge base for AI assistants: which file to read for which task, and what each file owns.
+Status: **index**, written 2026-08-02, updated 2026-11-28. The map of the knowledge base for AI assistants: which file to read for which task, and what each file owns.
 
 This folder is NorthStardustStudio's shared knowledge for AI assistants (Claude, ChatGPT, or any other coding assistant working on this project). It exists so an assistant does not have to re-derive facts about the code every session. This file is the map. It does not explain any concept itself; every concept below is owned by exactly one other file.
 
@@ -41,7 +41,7 @@ Documents cite one another by number ("Interface 1" is `../design/interface/01-s
 - `07-framework-dsl-grammar.md`: the syntax of a System's content files.
 - `06-framework-conventions-and-patterns.md`: the non-obvious architectural patterns (cross-Section sharing, auto-ordering, the tabbed layout, the three special-case editors, sources, field keys, the Notepad) and the data model.
 - `04-code-map.md`: where things are in `src` (the folders and what is in each), and the rules for a new file.
-- `05-folder-plan.md`: the folders of the repository (the app files, the examples, the working files, the exports) and how the app alone is exported; it was document 25.
+- `05-folder-plan.md`: the folders of the repository (the app files, the examples, the working files, the exports) and how the app alone is exported.
 
 ## How these files relate
 
