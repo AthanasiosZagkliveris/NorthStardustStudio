@@ -1328,7 +1328,7 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-dialog-foot:not(:
 
     .page-arrow.carousel-arrow[data-direction="previous"] {
 
-        left: calc(var(--gap-12) + 24px + var(--gap-12)) !important;
+        left: var(--band-arrow-inset, 48px) !important;
 
     }
 
@@ -1336,7 +1336,7 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-dialog-foot:not(:
        in from the window's side, so the dots stand in the middle between two arrows the same distance from either edge.) */
     .page-arrow.carousel-arrow[data-direction="next"] {
 
-        right: calc(var(--gap-12) + 24px + var(--gap-12)) !important;
+        right: var(--band-arrow-inset, 48px) !important;
 
     }
 
@@ -1387,7 +1387,7 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-dialog-foot:not(:
         flex: none;
 
         box-sizing: border-box;
-        width: calc(100vw - 192px);
+        width: calc(100vw - 2 * (var(--band-arrow-inset, 48px) + 48px));
         max-width: none;
 
         justify-content: space-evenly;

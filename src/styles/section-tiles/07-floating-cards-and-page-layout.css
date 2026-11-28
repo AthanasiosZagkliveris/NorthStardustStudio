@@ -2423,3 +2423,20 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     }
 
 }
+
+/* (NO FRAMES ON A PHONE (owner, 2026-11-28 01:26 and 01:35 UTC+2, phone round 5: "On mobile NO frames"; "Remove the frames from all the dialogue cards"): upright
+   and turned sideways, a dialog, a floating card and the Workbook's and the Handbook's panel draw no edge, no round corners and no shadow -- they stand alone on
+   the screen (section 23, "A phone"), their ground their own; the bands and dividing lines inside them stay.) */
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px) {
+
+    /* (Over the frames' own !important edges and shadows, as the chapters' frames are taken off above.) */
+    :root:root :is(.section-tile-dialog, .floating-card-body, .floating-card-item, .workbook-panel, .legal-entity-card) {
+
+        border-color: transparent !important;
+        border-radius: 0 !important;
+
+        box-shadow: none !important;
+
+    }
+
+}

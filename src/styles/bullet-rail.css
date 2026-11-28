@@ -1153,6 +1153,10 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
         --band-height: 48px;
 
+        /* (THE ARROWS ON THE PAGE'S EDGES (owner, 2026-11-28, phone round 5, point 12: the footer's "◀" on Back's left edge, "▶" mirrored): 16px in, the page's
+           gutter, where Back's arrow starts in the title's row; a layer's arrows the same (12-page-tabs-and-channel-card.css).) */
+        --band-arrow-inset: var(--rail-gutter, 16px);
+
     }
 
     .workspace-footer {
@@ -1165,7 +1169,7 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
         height: var(--band-height);
 
-        padding-inline: calc(var(--gap-12) + 24px + var(--gap-12) + 24px + 24px);
+        padding-inline: calc(var(--band-arrow-inset, 48px) + 24px + 24px);
 
     }
 
@@ -1213,13 +1217,13 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
     .bullet-rails .bullet-rail-left .bullet-rail-head {
 
-        left: calc(var(--gap-12) + 24px + var(--gap-12));
+        left: var(--band-arrow-inset, 48px);
 
     }
 
     .bullet-rails .bullet-rail-right .bullet-rail-head {
 
-        right: calc(var(--gap-12) + 24px + var(--gap-12));
+        right: var(--band-arrow-inset, 48px);
 
     }
 
