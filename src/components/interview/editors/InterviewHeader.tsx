@@ -194,7 +194,8 @@ export default function InterviewHeader({
             window.removeEventListener("tiles-fit", again);
             observer?.disconnect();
         };
-    });
+    // (Set up when the title changes, not at every render of the page: its observer measures it again whenever the title's box does.)
+    }, [systemName, pageTitle]);
 
     return (
 

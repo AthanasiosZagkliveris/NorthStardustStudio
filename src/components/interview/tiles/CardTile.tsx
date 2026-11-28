@@ -1,4 +1,4 @@
-import { CSSProperties, RefObject, useLayoutEffect, useState } from "react";
+import { CSSProperties, RefObject, useLayoutEffect, useRef, useState } from "react";
 import Tile from "./Tile.tsx";
 import { stableCardHue } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { CHANNEL_TILE_HUE, TileFace, TileLinks, incompleteTitle, type ItemMark } from "./SectionTiles.tsx";
@@ -47,20 +47,28 @@ export const TILE_GAP = 12;
 /** How many tiles stand across a grid as wide as `ref` (as many as fit at the page's size and gap). */
 export function useTilesAcross(ref: RefObject<HTMLElement | null>, side: number): number {
     const [across, setAcross] = useState(1);
+    // (Watched while it is the same grid at the same side: a render of the page -- each key typed on it -- neither measures it again nor watches it anew.)
+    const watched = useRef<{ node: HTMLElement; side: number; observer: ResizeObserver | null } | null>(null);
     useLayoutEffect(() => {
         const node = ref.current;
+        if (watched.current && watched.current.node === node && watched.current.side === side) {
+            return;
+        }
+        watched.current?.observer?.disconnect();
+        watched.current = null;
         if (!node) {
             return;
         }
         const measure = () => setAcross(Math.max(1, Math.floor((node.clientWidth + TILE_GAP + 2) / (side + TILE_GAP))));
         measure();
-        if (typeof ResizeObserver === "undefined") {
-            return;
-        }
-        const observer = new ResizeObserver(measure);
-        observer.observe(node);
-        return () => observer.disconnect();
+        const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+        observer?.observe(node);
+        watched.current = { node, side, observer };
     });
+    useLayoutEffect(() => () => {
+        watched.current?.observer?.disconnect();
+        watched.current = null;
+    }, []);
     return across;
 }
 

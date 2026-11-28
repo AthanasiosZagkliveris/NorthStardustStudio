@@ -10,6 +10,21 @@ import { incompleteTitle, TILE_DIVIDER, drawnTitle, plainTitle, brokenLines, bol
  * a small "+" under the title (decorative; the button is described as "No items yet").
  */
 /**
+ * THE PAGE'S TILES MEASURE AGAIN, ONCE A FRAME: a tile whose title or list changed what the others follow (one title size, one spacing, the title alone) says so
+ * here; however many say it in a frame, every tile hears it once, in the next frame (each telling it apart had every tile measure again once for each of them).
+ */
+let unifyFrame = 0;
+export function announceTitlesUnified(): void {
+    if (typeof window === "undefined" || unifyFrame !== 0) {
+        return;
+    }
+    unifyFrame = window.requestAnimationFrame(() => {
+        unifyFrame = 0;
+        window.dispatchEvent(new Event("tile-titles-unified"));
+    });
+}
+
+/**
  * A SYMBOL IN ITS CARD'S HUE (owner, 2026-11-26 21:32 UTC+2: "Make a rule, and fix it on the root of all the icons, that they take the hue of their cards"; Interface 11,
  * section 8.1): every symbol on a tile -- a Capability's, a System's, a Resource's -- is drawn as a mask of its file over its card's ink (colors.css, .symbol-mark), never
  * as a picture in a colour of its own. Its words are said by the title or the line beside it, so the symbol itself is hidden from assistive technology.
@@ -111,6 +126,11 @@ export function useTitleSlide(ref: RefObject<HTMLElement | null>) {
 }
 
 
+/** What a title's measure depends on that a render can change without resizing its tile: its own words and the classes round it. */
+function titleSignature(node: HTMLElement, tile: HTMLElement): string {
+    return node.className + "|" + tile.className + "|" + (tile.closest(".section-tile-dialog")?.className ?? "") + "|" + node.innerHTML;
+}
+
 /**
  * A TILE'S TITLE (docs/ai/09-layout-rules.md, "Tile anatomy"): its last line stands on the line one third
  * down the square, so a long title grows upward. The room above that line holds three lines of the title
@@ -120,6 +140,20 @@ export function useTitleSlide(ref: RefObject<HTMLElement | null>) {
 export function TileTitle({ children, className }: { children: ReactNode; className?: string }) {
     const title = useRef<HTMLSpanElement | null>(null);
     useTitleSlide(title);
+    // (MEASURED WHEN WHAT IT MEASURES CHANGES, NOT AT EVERY RENDER: a page renders again at every key typed in one of its cards, and every title measuring itself
+    // then -- each measure a fresh layout of the page -- made typing and opening a dialog slow on a phone. It measures when it is drawn, when its own words or classes
+    // change (`drawn`, below), when its tile changes size, when the type's font or a picture in it loads, and when the page's titles take one size.)
+    const drawn = useRef<{ signature: string; apply: () => void } | null>(null);
+    useLayoutEffect(() => {
+        const node = title.current;
+        const tile = node?.closest<HTMLElement>(".section-tile");
+        if (!node || !tile || !drawn.current) {
+            return;
+        }
+        if (titleSignature(node, tile) !== drawn.current.signature) {
+            drawn.current.apply();
+        }
+    });
     useLayoutEffect(() => {
         const node = title.current;
         const tile = node?.closest<HTMLElement>(".section-tile");
@@ -205,7 +239,7 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             // keeps the page small.)
             if (quad && tile.hasAttribute("data-title-needs-small") !== needs) {
                 tile.toggleAttribute("data-title-needs-small", needs);
-                window.requestAnimationFrame(() => window.dispatchEvent(new Event("tile-titles-unified")));
+                announceTitlesUnified();
             }
             const small = quad && (card ? card.querySelector(".section-tiles-quad .section-tile[data-title-needs-small]") !== null : needs);
             if (small) {
@@ -215,7 +249,7 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             }
             if (card && card.hasAttribute("data-titles-small") !== small) {
                 card.toggleAttribute("data-titles-small", small);
-                window.requestAnimationFrame(() => window.dispatchEvent(new Event("tile-titles-unified")));
+                announceTitlesUnified();
             }
             // (ONE TITLE SIZE ON A PAGE (owner, 2026-11-24 03:14 UTC+2: "Be consistent, use only the same size and style for the text per titles"): where one master tile's
             // title takes the small size, every master tile's title of the page does (the page's data-titles-small, 01-tiles-and-dialog.css); the others are told to
@@ -267,7 +301,7 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
                 const symbols = dialog.querySelector(".section-tile[data-title-cut]") !== null;
                 if (dialog.hasAttribute("data-title-symbols") !== symbols) {
                     dialog.toggleAttribute("data-title-symbols", symbols);
-                    window.requestAnimationFrame(() => window.dispatchEvent(new Event("tile-titles-unified")));
+                    announceTitlesUnified();
                 }
                 // (A SYMBOL WITH ITS TITLE, OR ALONE (owner, 2026-11-26 16:02 UTC+2, on the dialog tile prototypes: "If a tile has: An add button, icon, and title,
                 // then the title should be above the icon. The icon should be centered and have a side (horizontal gap 12px with the add button. If there is only an
@@ -308,7 +342,11 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             }
             // (A title with a forced break says itself on one line: a space where its lines meet.)
             node.title = [...node.childNodes].map(part => part.nodeName === "BR" ? " " : part.textContent ?? "").join("");
+            if (drawn.current) {
+                drawn.current.signature = titleSignature(node, tile);
+            }
         };
+        drawn.current = { signature: "", apply };
         apply();
         // (A symbol in the title takes its height when its picture has loaded: measured again then, so the list stands under it.)
         const pictures = Array.from(node.querySelectorAll("img")).filter(picture => !picture.complete);
@@ -320,6 +358,7 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
         window.addEventListener("tile-titles-unified", apply);
         const forget = () => {
             live = false;
+            drawn.current = null;
             window.removeEventListener("tile-titles-unified", apply);
             pictures.forEach(picture => picture.removeEventListener("load", apply));
             document.fonts?.removeEventListener?.("loadingdone", apply);
@@ -333,7 +372,7 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
             forget();
             observer.disconnect();
         };
-    });
+    }, []);
     const numbered = typeof children === "string" ? /^(\d+\.)\s([\s\S]*)$/.exec(children) : null;
     return (
         <span ref={title} className={"section-tile-title" + (className ? " " + className : "")}>
@@ -470,6 +509,8 @@ export function TileList({
     // The list holds EVERY item and scrolls when they do not all fit under the title (and above the "+" box): a thin themed scrollbar, the wheel scrolls it
     // (not the card behind, until its end), the keyboard walks the links and scrolls them into view. Marked while it scrolls (its layer then takes the wheel).
     const [scrolls, setScrolls] = useState(false);
+    // (Measured when what it draws changes -- its lines, their marks and alerts, which are links --, never at every render of its page: TileTitle's `drawn`.)
+    const drawnKey = JSON.stringify([items, marks, alerts, onLink && links ? links.map(link => !link ? 0 : "card" in link ? "c" + link.card : "box" in link ? "b" + link.box : 1) : null]);
     useLayoutEffect(() => {
         const node = list.current;
         if (!node) {
@@ -508,7 +549,7 @@ export function TileList({
             const short = node.hasAttribute("data-no-room") || (node.hasAttribute("data-symbols") && Number(node.getAttribute("data-symbol-rows") ?? "3") < 3);
             if (node.hasAttribute("data-room-short") !== short) {
                 node.toggleAttribute("data-room-short", short);
-                window.requestAnimationFrame(() => window.dispatchEvent(new Event("tile-titles-unified")));
+                announceTitlesUnified();
             }
             const scope = scopeOfList(node);
             const any = !!scope && Array.from(scope.querySelectorAll<HTMLElement>(".section-tile-list[data-room-short]"))
@@ -718,7 +759,7 @@ export function TileList({
                 const before = node.getAttribute("data-air-allows");
                 node.setAttribute("data-air-allows", String(allows));
                 if (before !== String(allows)) {
-                    window.requestAnimationFrame(() => window.dispatchEvent(new Event("tile-titles-unified")));
+                    announceTitlesUnified();
                 }
                 const scopeOf = (list: Element) => list.closest(".section-tile-dialog, .conversation-card, .capability-tiles");
                 const scope = scopeOf(node);
@@ -745,15 +786,31 @@ export function TileList({
             }
 
         };
+        // (WHAT FOLLOWS A LIST'S MEASURE IS MEASURED AGAIN WITH IT: its title's lift reads where the list stands, and a dialog's lists share one width -- so where a
+        // measure moves or resizes the list, the titles measure again and the dialog's grid lines its lists up again. A few rounds at most, while they settle.)
+        let settling = 0;
         const measure = () => {
+            const shape = node.style.cssText;
             snap();
             setScrolls(node.scrollHeight > node.clientHeight + 1);
+            if (node.style.cssText !== shape && settling < 6) {
+                settling += 1;
+                announceTitlesUnified();
+                const slot = node.closest<HTMLElement>(".section-tile-slot, .card-tile-slot");
+                if (slot?.closest(".section-tile-dialog")) {
+                    askToAlign(slot.parentElement);
+                }
+            }
         };
         measure();
         if (typeof ResizeObserver === "undefined") {
             return;
         }
-        const observer = new ResizeObserver(measure);
+        // (A new size is a new round of settling.)
+        const observer = new ResizeObserver(() => {
+            settling = 0;
+            measure();
+        });
         observer.observe(layer ?? node);
         // (Measured again when the page's titles take one size: TileTitle.)
         const again = () => window.requestAnimationFrame(measure);
@@ -762,7 +819,7 @@ export function TileList({
             observer.disconnect();
             window.removeEventListener("tile-titles-unified", again);
         };
-    }, [items]);
+    }, [drawnKey]);
     const shown = items;
     // (A list of plain lines repeats what the tile's own name and its dialog say, so it is hidden from screen readers -- and so never a Tab stop either, even where
     // it scrolls: a hidden control that takes the focus is the WCAG 4.1.2 failure the standards report found, group A 2. A list of links is read and reached.)

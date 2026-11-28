@@ -1,6 +1,6 @@
 # App tests guide
 
-Status: **reference**, written 2026-11-21, updated 2026-11-21. The app's tests: where they are, how they run (Vitest, the pre-commit hook, CI), and what every test file checks, grouped as screens, business rules, saved data and examples, whole pages, design system and docs, and content files. Counted on main of 2026-11-21; what to run after a change is AI 3.
+Status: **reference**, written 2026-11-21, updated 2026-11-28. The app's tests: where they are, how they run (Vitest, the pre-commit hook, CI), and what every test file checks, grouped as screens, business rules, saved data and examples, whole pages, design system and docs, and content files. Counted on main of 2026-11-21; what to run after a change is AI 3.
 
 **Contents**
 
@@ -17,7 +17,7 @@ Status: **reference**, written 2026-11-21, updated 2026-11-21. The app's tests: 
 
 ### Where they are and how they run
 
-The app has 2,355 tests in 213 files (2,353 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
+The app has 2,352 tests in 212 files (2,350 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the speed round of 2026-11-28. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
 
 They are written with Vitest and come in two kinds:
 
@@ -128,13 +128,6 @@ The lists come from the full run of 21 November 2026, on the Finance link fix, n
   - draws nothing until it is asked for, then the rail's Calendar alone: no Capabilities or Systems handle
   - closes on Escape, and the key goes no further: the page never takes it as Back (the Notes panel's own Escape, useEscapeCloses)
   - closes on a press outside it
-
-### src/components/capabilities/ (1 file, 1 test)
-
-#### CapabilityList.test.tsx (1)
-
-- **CapabilityList** (1)
-  - reserves every label's bold width, so the highlight contains it
 
 ### src/components/controls/ (3 files, 18 tests)
 
@@ -1717,7 +1710,7 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - keeps the button that asked for the focus first
   - leaves Tab alone while no confirmation is open
 
-### src/components/systems/ (2 files, 5 tests)
+### src/components/systems/ (2 files, 3 tests)
 
 #### systemContents.test.ts (2)
 
@@ -1725,11 +1718,8 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - lists the pages of a System of several pages, the chapters of one page, the master tiles of one chapter
   - leaves the System's own word off a line, and shows an abbreviation with its full words as the tooltip
 
-#### SystemList.test.tsx (3)
+#### InterviewProgress.test.tsx (1)
 
-- **the list of Systems** (2)
-  - gives every title the text its hover width is reserved from
-  - shows each System's status as the rail's shape and its word
 - **the progress line** (1)
   - is hidden for now by ONE switch (SHOW\_PROGRESS\_LINE), which draws nothing, not even a gap
 

@@ -60,6 +60,9 @@ export function usePhonePage(): void {
         const watcher = typeof MutationObserver === "undefined" ? null : new MutationObserver(later);
         const main = document.querySelector(".conversation-page") ?? document.body;
         watcher?.observe(main, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "style"] });
+        // (And when the reading mode changes: the chapters' colours are the mode's.)
+        const modeWatcher = typeof MutationObserver === "undefined" ? null : new MutationObserver(later);
+        modeWatcher?.observe(root, { attributes: true, attributeFilter: ["data-theme", "class"] });
         query.addEventListener?.("change", later);
         paint();
 
@@ -182,6 +185,7 @@ export function usePhonePage(): void {
             marker.remove();
             cancelAnimationFrame(frame);
             watcher?.disconnect();
+            modeWatcher?.disconnect();
             query.removeEventListener?.("change", later);
             document.removeEventListener("touchstart", onStart);
             document.removeEventListener("touchend", onEnd);

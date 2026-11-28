@@ -1,6 +1,6 @@
 # Framework conventions and patterns
 
-Status: **reference**, written 2026-08-02, updated 2026-11-02. The non-obvious architectural patterns of the framework (how content and structure interact) and its data model.
+Status: **reference**, written 2026-08-02, updated 2026-11-28. The non-obvious architectural patterns of the framework (how content and structure interact) and its data model.
 
 Non-obvious architectural patterns that govern how content and structure interact — not covered by the DSL grammar itself, and not discoverable from any single file. Each entry exists because it was actually rediscovered the hard way at least once; add a new entry the same session a new pattern like this gets established, while the reasoning is still fresh.
 
@@ -65,6 +65,15 @@ An answer that depends on another waits for it; the table below is the one list 
 ## The Notepad
 
 The person's own notes (`src/services/NotepadService.ts`, `src/components/notepad/`): one notepad per user profile, kept behind `NotepadStore` (local: `northstardust-notepad-<profile>` in localStorage), never inside an Organisation or its export. A note is free text with links (`NoteLink`: Organisation, System, page and, for a section, card or field, its FieldKey and anchors). Links are made by typing "#" (places: Systems, pages, sections, and the fields and cards registered so far) or by picking a field or card on the page (any element carrying `data-field-key`; a card records itself with `FieldMark card`). A field or card a note links to -- on the page, or in a dialog or floating card opened over it (their controls are keyed and marked as they open) -- is drawn with a bold orange outline; a tick or a choice by its row, a list by its one box, a question of ticks or choices by the question itself (`.is-noted`, `--line-noted`; `markNoted` in `fieldMarks.tsx`) and described as "In your notes"; there is no marker. Every control and card on a page has a key (`markControls` marks what no label component reaches), so everything can be linked and opened. Notes and links have no effect on statuses or documents.
+
+## Measure on change, not on render
+
+A component that measures the page (a tile's title and list, a rail, a header, a grid's width) does it when what it measures changes: when it is drawn, when its own content changes (an effect keyed on that content: `TileList`'s `drawnKey`, `BulletRail`'s names, `TileTitle`'s `titleSignature`), when its box changes size (one `ResizeObserver`, set up once), and when the fonts load or the window resizes. A page renders again at every key typed in one of its cards, and a measure at every render forces a fresh layout of the page each time: on 2026-11-28 that made a key take a second to show on a phone (log, 2026-11-28, the speed round). Two more rules keep it so:
+
+- **A signal to measure again is sent once a frame.** A part that changes what others follow says so through the shared helper (`announceTitlesUnified` in `TileParts.tsx` for the tiles' one title size and spacing, `measureAgainNextFrame` in `SectionTileGeometry.tsx` for a page's new width), never with its own `dispatchEvent`: however many parts say it in a frame, every listener hears it once.
+- **A loop that waits for a layer to settle draws only when it has moved** (`CarouselArrows`' settle: the layer's box, the arrows' level and the window's scroll compared frame to frame).
+
+`npm run check:speed` measures it on a phone's screen (the playbook, "How fast it answers").
 
 ## Stability
 

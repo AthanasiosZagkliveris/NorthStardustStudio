@@ -1198,10 +1198,8 @@
    the hover rules themselves -- there is no selector for "will
    become bold". Everything else that goes bold on hover is a
    button, and buttons carry 10% already. */
-.system-item:hover .system-title,
 .org-rail-system-item:hover .org-rail-system-title,
 .org-rail-capability-item:hover,
-.capability-item:hover,
 .landing-card:hover{
 
     letter-spacing:0.05em;
