@@ -11,7 +11,7 @@ Status: **index**, updated 2026-11-28, written by `npm run docs:index` (the subj
 - **Ambassador (Brand)**: [Questions 11 (built in part)](design/questions/11-ambassador.md); [specifications, Brand System](specifications/02-brand-system/01-brand.md)
 - **App, contents**: [app/contents](app/01-contents.md)
 - **App, places (index)**: [app/index](app/02-index.md)
-- **Archive**: [README section 13](README.md)
+- **Archive**: [README, the archive](README.md)
 - **Assets library**: [Library 1](design/library/01-library-system.md); [Library 2](design/library/02-assets-library.md)
 - **Audience (Identity)**: [Questions 8 section 4 (was Questions 2, 8.2)](design/questions/08-positioning-tile.md)
 - **Auto-filled answers (drafts, starts, worked-out figures)**: [Questions 5](design/questions/05-auto-filled-answers.md)
@@ -62,7 +62,7 @@ Status: **index**, updated 2026-11-28, written by `npm run docs:index` (the subj
 - **Glossary**: [app/glossary](app/03-glossary.md)
 ## H
 
-- **Help texts**: [Interface 9 (as built)](design/interface/09-help-texts.md); [39 (what an "i" says)](design/interface/10-help-texts-guide.md)
+- **Help texts**: [Interface 9 (as built)](design/interface/09-help-texts.md); [Interface 10 (what an "i" says)](design/interface/10-help-texts-guide.md)
 ## I
 
 - **Identity System pages**: [specifications](specifications/01-identity-system/01-definition.md)
@@ -81,12 +81,13 @@ Status: **index**, updated 2026-11-28, written by `npm run docs:index` (the subj
 
 - **Offering card**: [Questions 16 (built in part)](design/questions/16-offering-questions.md); [Questions 2 section 6.8](design/questions/02-questionnaire-specification.md)
 - **Organisation tile**: [Questions 7 (as built)](design/questions/07-organisation-tile.md); [Questions 7 section 4 (was Questions 2, 8.5)](design/questions/07-organisation-tile.md)
+- **Organising the documents and the code (practices, the list)**: [Research 13](design/research/13-organising-documents-and-code.md); [the standard](standard.md)
 ## P
 
 - **Pop-ups**: [Interface 7](design/interface/07-popups.md)
 - **Positioning**: [Questions 8 (the tile as built)](design/questions/08-positioning-tile.md); [Questions 8 section 4 (was Questions 2, 8.2)](design/questions/08-positioning-tile.md); [Research 5](design/research/05-positioning-categories.md)
 - **Profile card**: [Questions 13 (as built)](design/questions/13-profile-questions.md); [Questions 2 section 6.4](design/questions/02-questionnaire-specification.md)
-- **Proposals (open, not started)**: [README section 12](README.md)
+- **Proposals (open, not started)**: [README, the proposals](README.md)
 - **Purpose & Beliefs (Mission, Vision, Values, Principles, Philosophy, Manifesto)**: [Questions 9 (as built)](design/questions/09-purpose-and-beliefs.md); [Questions 2 section 8.1](design/questions/02-questionnaire-specification.md)
 - **Purposes of an offering**: [Research 5 sections 7 and 10.4](design/research/05-positioning-categories.md)
 ## Q
@@ -97,7 +98,7 @@ Status: **index**, updated 2026-11-28, written by `npm run docs:index` (the subj
 - **Reactions (hover, press, focus)**: [Interface 5](design/interface/05-reactions.md)
 - **References and sources**: [Research 1](design/research/01-references.md); [Research 6 (positioning)](design/research/06-positioning-sources.md)
 - **Relationships (buyer and user)**: [Research 5 section 6](design/research/05-positioning-categories.md); [Questions 4 section 5](design/questions/04-specs-and-limitations.md)
-- **Research**: [Research 2](design/research/02-research.md); [Research 4](design/research/04-age-limits-by-activity.md); [Research 6](design/research/06-positioning-sources.md)
+- **Research**: [Research 2](design/research/02-research.md); [Research 4](design/research/04-age-limits-by-activity.md); [Research 6](design/research/06-positioning-sources.md); [the research chapter](design/research/README.md)
 - **Rule 14 (lists come from documents)**: [Questions 2 section 3](design/questions/02-questionnaire-specification.md)
 ## S
 

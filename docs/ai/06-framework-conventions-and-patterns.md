@@ -4,6 +4,22 @@ Status: **reference**, written 2026-08-02, updated 2026-11-28. The non-obvious a
 
 Non-obvious architectural patterns that govern how content and structure interact — not covered by the DSL grammar itself, and not discoverable from any single file. Each entry exists because it was actually rediscovered the hard way at least once; add a new entry the same session a new pattern like this gets established, while the reasoning is still fresh.
 
+## Contents
+
+- [Data model, in order](#data-model-in-order)
+- [dynamicSource sharing pattern](#dynamicsource-sharing-pattern)
+- [Field-column ordering](#field-column-ordering)
+- [The tabbed Multi-Part pattern](#the-tabbed-multi-part-pattern)
+- [The three justified special-case editors](#the-three-justified-special-case-editors)
+- [What export keeps and strips](#what-export-keeps-and-strips)
+- [References come only from accepted sources](#references-come-only-from-accepted-sources)
+- [No em dash in the app's own sentences](#no-em-dash-in-the-apps-own-sentences)
+- [Field keys](#field-keys)
+- [Chained answers](#chained-answers)
+- [The Notepad](#the-notepad)
+- [Measure on change, not on render](#measure-on-change-not-on-render)
+- [Stability](#stability)
+
 ## Data model, in order
 
 `Capability` (static, 6 top-level groupings) → `System` (static, 24, each `{number, id, title, capability}`) → `FrameworkDocument` (`Metadata + Introduction + Section[]`, built from the three-file content triad) → `Section` (`{number, title, AnswerDefinition}`) → `AnswerDefinition` (typed by `AnswerType`; a Table's columns are `TableColumnDefinition[]`, each optionally carrying a `fieldId` for shared Fields or a `dynamicSource` for cross-Section sharing).
