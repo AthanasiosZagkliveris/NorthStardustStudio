@@ -1,6 +1,6 @@
 # Index of the documents
 
-Status: **index**, updated 2026-11-27, written by `npm run docs:index` (the subjects are in `tools/scripts/docs/write-index.mjs`; do not edit by hand). An alphabetical list of subjects and where each is described. The contents by chapter are in [README.md](README.md); the places in the app are in [app/02-index.md](app/02-index.md); the terms are in [app/03-glossary.md](app/03-glossary.md).
+Status: **index**, updated 2026-11-28, written by `npm run docs:index` (the subjects are in `tools/scripts/docs/write-index.mjs`; do not edit by hand). An alphabetical list of subjects and where each is described. The contents by chapter are in [README.md](README.md); the places in the app are in [app/02-index.md](app/02-index.md); the terms are in [app/03-glossary.md](app/03-glossary.md).
 
 ## A
 
@@ -29,7 +29,7 @@ Status: **index**, updated 2026-11-27, written by `npm run docs:index` (the subj
 - **Card structure**: [Foundation 2](design/foundation/02-card-structure.md); [layout-rules section 8](ai/09-layout-rules.md)
 - **Caregiving**: [Research 5 section 4](design/research/05-positioning-categories.md)
 - **Catalogue record**: [Records 3](design/records/03-catalogue-record.md)
-- **Change history (log)**: [Records 1](design/records/01-log.md); [archive (before 2026-11-01)](archive/log/log-archive-2026-07-to-10.md); [archive (2026-11-01 to 07)](archive/log/log-archive-2026-11-01-to-07.md); [archive (2026-11-08 to 10)](archive/log/log-archive-2026-11-08-to-10.md); [archive (2026-11-11 to 17)](archive/log/log-archive-2026-11-11-to-17.md)
+- **Change history (log)**: [Records 1](design/records/01-log.md); [archive (before 2026-11-01)](archive/log/log-archive-2026-07-to-10.md); [archive (2026-11-01 to 07)](archive/log/log-archive-2026-11-01-to-07.md); [archive (2026-11-08 to 10)](archive/log/log-archive-2026-11-08-to-10.md); [archive (2026-11-11 to 17)](archive/log/log-archive-2026-11-11-to-17.md); [archive (2026-11-18 to 21)](archive/log/log-archive-2026-11-18-to-21.md)
 - **Channel fees and Sales Forecast additions**: [Questions 18](design/questions/18-channel-fees-and-sales-forecast.md); [Global Settings](specifications/07-settings/README.md)
 - **Colour map of the pages**: [Foundation 1 Part I](design/foundation/01-current-design.md)
 - **Competitor card**: [Questions 14 (as built)](design/questions/14-competitor-questions.md); [Questions 2 section 6.6](design/questions/02-questionnaire-specification.md)
