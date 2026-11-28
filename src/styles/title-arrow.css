@@ -175,11 +175,45 @@
     :root .card-title-block > .card-title-help {
 
         border-color: transparent;
+
+        background: var(--phone-ground-top, var(--bg-page));
+
+    }
+
+    /* (Only a page's own description stands frameless, as the page's text -- a Capability's under its title; a drop-down -- a chapter's help, the Segments'
+       list -- keeps the drop-down card's shape, the Inventory filter's: round corners, the soft shadow, 12px inside (owner, 2026-11-28, phone round 5, points 6
+       and 10: "now square, flat, 1px-outlined boxes"), in the chapter's colour.) */
+    :root .card-title-block > .card-title-help.capability {
+
         border-radius: 0;
 
         box-shadow: none;
 
-        background: var(--phone-ground-top, var(--bg-page));
+    }
+
+    :root:root:root .card-title-block > .card-title-help:not(.capability) {
+
+        border-color: transparent;
+
+        padding: var(--gap-12);
+
+        border-radius: var(--radius-lg);
+
+        box-shadow: var(--box-inset), var(--shadow-menu);
+
+    }
+
+}
+
+/* (SIDEWAYS, A DROP-DOWN STAYS ON THE SCREEN (owner, 2026-11-28, phone round 5, point 18: the Infrastructure chapter's help ran off the screen's foot): the page
+   scrolls no further than its tiles there, so a drop-down as long as the room under its title, less 12px, and scrolls inside.) */
+@media (orientation: landscape) and (max-height: 479px) {
+
+    :root .card-title-block > .card-title-help:not(.capability) {
+
+        max-height: calc(100vh - var(--phone-tiles-top, 69px) - var(--gap-12));
+
+        overflow-y: auto;
 
     }
 

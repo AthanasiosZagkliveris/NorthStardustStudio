@@ -1883,7 +1883,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     .conversation-card .business-foundation-input:has(.section-tiles-quad) > .card-title-block {
 
         /* (Half the words' line (--font-h2, 1.24 high) less half the 44px.) */
-        margin-block: calc(var(--font-h2) * 0.62 - 22px);
+        margin-block: calc(var(--phone-chapter-title, var(--font-h3)) * 0.62 - var(--press-area, 44px) / 2);
 
     }
 
@@ -2092,7 +2092,8 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     }
 
     /* (Tile titles 12px, 10px clear of each side: every Foundation title stands whole in a 138px tile -- owner, 02:52: "Perfect the 12 px is done!".) */
-    .conversation-card .section-tiles-quad .section-tile .section-tile-title {
+    .conversation-card .section-tiles-quad .section-tile .section-tile-title,
+    :root .conversation-card .section-tiles-completed .section-tile .section-tile-title {
 
         font-size: 12px;
 
@@ -2350,7 +2351,9 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
    stands on either side of the hairline between two chapters; the card's 12px under the rule is not added to it.) */
 @media (max-width: 600px) and (orientation: portrait) {
 
-    .conversation-card:has(.section-tiles-quad, .capability-systems-frame) > .interview-header + * {
+    /* (A page of fields drawn as its contents -- the Strategy page, Infrastructure & Capability -- has no box of its own: its first box takes the margin.) */
+    .conversation-card:has(.section-tiles-quad, .capability-systems-frame) > .interview-header + :not(.field-page),
+    .conversation-card:has(.section-tiles-quad, .capability-systems-frame) > .interview-header + .field-page > :first-child {
 
         margin-top: calc(-1 * var(--gap-12));
 
@@ -2360,7 +2363,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
        (point 7 of round 4); half its 28px line less half the 44px, and the 4px the line keeps round its letters.) */
     .conversation-card .segment-chapter .business-capability-section > .tiles-frame-head {
 
-        margin-block: calc(var(--font-h3) * 0.78 - 26px);
+        margin-block: calc(var(--phone-chapter-title, var(--font-h3)) * 0.78 - var(--press-area, 44px) / 2 - 4px);
 
     }
 
@@ -2436,6 +2439,46 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
         border-radius: 0 !important;
 
         box-shadow: none !important;
+
+    }
+
+}
+
+/* (ONE CHAPTER TITLE STYLE ON EVERY PHONE PAGE (owner, 2026-11-28, phone round 5, point 13: "chapter titles vary"): a chapter's heading -- Infrastructure &
+   Capability's, a Segment's name -- in the third heading size upright, the body's size sideways (two chapters' headings side by side, each on one line over its
+   2 x 2), semi-bold, in capitals.) */
+@media (orientation: landscape) and (max-height: 479px) {
+
+    :root {
+
+        --phone-chapter-title: var(--font-body);
+
+    }
+
+}
+
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px) {
+
+    :root:root .conversation-card :is(.business-foundation-input:has(.section-tiles-quad) .answer-column-label, .segment-chapter .tiles-frame-head .field-group-title),
+    :root:root .conversation-card :is(.business-foundation-input:has(.section-tiles-quad) .answer-column-label, .segment-chapter .tiles-frame-head .field-group-title) > * {
+
+        font-size: var(--phone-chapter-title, var(--font-h3)) !important;
+        font-weight: 600;
+        letter-spacing: var(--bold-tracking);
+
+        text-transform: uppercase;
+
+    }
+
+}
+
+/* (INVENTORY AND COMPLETED IN THE TILES' OWN TITLE STYLE ON A PHONE (owner, 2026-11-28, phone round 5, points 2 and 17: "The text size on the inventory and
+   completed is not the same with the other tiles"; "COMPLETED cut"): the master tiles' size and tracking, so both words stand whole.) */
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px) {
+
+    :root .conversation-card .section-tiles-completed[data-squeezed] .section-tile-title {
+
+        letter-spacing: normal;
 
     }
 

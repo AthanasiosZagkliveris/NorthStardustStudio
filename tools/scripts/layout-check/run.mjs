@@ -804,6 +804,76 @@ export async function checkLandscapePages(page, base) {
     return failures;
 }
 
+/**
+ * THE PHONE'S PAGES (owner, 2026-11-28 01:11 to 01:36 UTC+2, phone round 5: "Obvious, there is a deeper bug in the root"; layout rules section 4, "A phone's band and
+ * pages"): on an upright phone (390 x 844) and one turned sideways (844 x 390), every System page of tiles and a System's Introduction --
+ * 1. no footer band is drawn with nothing in it, and an empty band takes no room: the page ends 12px under its content;
+ * 2. upright, the first chapter's content -- its heading's words, or its first row of master tiles -- stands 12px under the title's rule (the chapter's 1px
+ *    edge, and the line round a heading's letters, aside);
+ * 3. every page title is one size and weight, and every chapter title one size.
+ */
+export async function checkPhonePages(page, base) {
+    const failures = [];
+    const pages = [["Identity System", "Identity System"], ["Identity System", "Introduction"], ["Brand System", "Brand System"], ["Strategy System", "Strategy System"], ["Business System", "Foundation & Engagement"], ["Business System", "Infrastructure & Capability"], ["Business System", "Financials"]];
+    for (const [width, height] of [[390, 844], [844, 390]]) {
+        await page.setViewportSize({ width, height });
+        const titles = new Map();
+        const chapters = new Map();
+        for (const [system, name] of pages) {
+            if (!(await openPage(page, base, system, name))) {
+                continue;
+            }
+            await page.waitForTimeout(1200);
+            // (Measured at the page's top, as it opens: opening the page's cards may have scrolled it.)
+            await page.evaluate(() => window.scrollTo(0, 0));
+            await page.waitForTimeout(300);
+            const read = await page.evaluate(() => {
+                const footer = document.querySelector(".workspace-footer");
+                const style = footer ? getComputedStyle(footer) : null;
+                const drawn = !!footer && footer.offsetHeight > 0 && style.display !== "none" && (style.backgroundColor !== "rgba(0, 0, 0, 0)" || style.boxShadow !== "none");
+                const shown = node => node.offsetWidth > 0 && node.offsetHeight > 0 && getComputedStyle(node).visibility !== "hidden";
+                const holds = [...document.querySelectorAll(".workspace-footer button, .workspace-footer a, .bullet-rails .bullet-rail-dot, .bullet-rails .page-arrow")].some(shown);
+                const main = document.querySelector("main.conversation-content");
+                const reserve = main ? parseFloat(getComputedStyle(main).paddingBottom) : 0;
+                const rule = document.querySelector(".interview-divider");
+                const tiles = [...document.querySelectorAll(".section-tiles-quad .section-tile, .business-foundation-input:has(.section-tiles-quad) > .card-title-block .answer-column-label-text, .segment-chapter:not([hidden]) .tiles-frame-head .business-foundation-frame-name")].map(tile => tile.getBoundingClientRect()).filter(box => box.width > 0);
+                const span = [...document.querySelectorAll(".interview-header h1 > span")].find(node => node.getClientRects().length > 0 && node.textContent.trim());
+                const heads = [...document.querySelectorAll(".business-foundation-input .answer-column-label, .segment-chapter:not([hidden]) .tiles-frame-head .field-group-title")].filter(node => node.getClientRects().length > 0);
+                return {
+                    emptyBand: drawn && !holds,
+                    reserve,
+                    holds,
+                    firstGap: rule && rule.offsetWidth > 0 && tiles.length > 0 ? Math.round(Math.min(...tiles.map(box => box.top)) - rule.getBoundingClientRect().bottom) : null,
+                    title: span ? getComputedStyle(span).fontSize + " " + getComputedStyle(span).fontWeight : null,
+                    chapter: heads.map(node => getComputedStyle(node).fontSize)
+                };
+            });
+            const where = system + " › " + name;
+            if (read.emptyBand) {
+                failures.push({ page: where, width, height, rule: "no footer band is drawn with nothing in it", detail: "an empty band" });
+            }
+            if (!read.holds && read.reserve > 13) {
+                failures.push({ page: where, width, height, rule: "an empty band takes no room: the page ends 12px under its content", detail: "the page keeps " + read.reserve + "px at its foot" });
+            }
+            if (height > width && read.firstGap !== null && (read.firstGap < 11 || read.firstGap > 14)) {
+                failures.push({ page: where, width, height, rule: "the first row of tiles stands 12px under the title's rule", detail: read.firstGap + "px" });
+            }
+            if (read.title) {
+                titles.set(where, read.title);
+            }
+            read.chapter.forEach(size => chapters.set(where + " " + size, size));
+        }
+        if (new Set(titles.values()).size > 1) {
+            failures.push({ page: "every phone page", width, height, rule: "every page title is one size and weight", detail: [...titles].map(([where, look]) => where + ": " + look).join("; ") });
+        }
+        if (new Set(chapters.values()).size > 1) {
+            failures.push({ page: "every phone page", width, height, rule: "every chapter title is one size", detail: [...chapters.keys()].join("; ") });
+        }
+    }
+    await page.setViewportSize({ width: 1920, height: 1000 });
+    return failures;
+}
+
 export async function runLayoutCheck(page, { base = "http://localhost:1420", probe, pages = PAGES, widths, sizes = (widths ?? WIDTHS).map(width => [width, 1000]), themes = THEMES, reference } = {}) {
     const failures = [];
     // The reference x: the first Legal Entity card's (measured here, or handed in by a run that measured it once).
@@ -1086,6 +1156,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
             await seedExample(page, base, readFileSync(jobs[0].file, "utf8"));
             failures.push(...(await checkCapabilityArrows(page, base)).map(failure => ({ example: jobs[0].example, ...failure })));
             failures.push(...(await checkLandscapePages(page, base)).map(failure => ({ example: jobs[0].example, ...failure })));
+            failures.push(...(await checkPhonePages(page, base)).map(failure => ({ example: jobs[0].example, ...failure })));
         } finally {
             await page.context().close();
         }

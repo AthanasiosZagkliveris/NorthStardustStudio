@@ -140,6 +140,16 @@ export function usePhonePage(): void {
         };
         // (The marker follows what last scrolled: the page, or a layer's own body -- the Handbook's, a dialog's.)
         const onScroll = (event: Event) => {
+            // (A DROP-DOWN CLOSES WHEN ITS TITLE SCROLLS UNDER THE PAGE'S TITLE (owner, 2026-11-28, phone round 5, point 8): a chapter's or a Segment's open
+            // drop-down stood over the page's title once its own title had gone under it; its arrow is pressed again, as a press elsewhere closes it.)
+            if (query.matches) {
+                const rule = document.querySelector(".interview-divider")?.getBoundingClientRect().bottom ?? 0;
+                document.querySelectorAll<HTMLButtonElement>(".label-arrow[aria-expanded=\"true\"]").forEach(arrow => {
+                    if (!arrow.closest(".interview-header") && arrow.getBoundingClientRect().bottom < rule) {
+                        arrow.click();
+                    }
+                });
+            }
             const target = event.target;
             scroller = target instanceof Element && target.scrollHeight > target.clientHeight + 1 ? target : document.scrollingElement ?? document.documentElement;
             place();

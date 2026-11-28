@@ -814,3 +814,17 @@
     }
 
 }
+
+/* (ONE TITLE STYLE ON EVERY PHONE PAGE (owner, 2026-11-28, phone round 5, point 13: "INTRODUCTION/FOUNDATION in lighter capitals vs bold 'Identity System'"):
+   the page's title, whatever part of it stands in the row -- a System's name, a page's, a Capability's, a tab's -- in the header's size and the System name's
+   weight; a Capability's and the Introduction's stay in capitals, as the owner set them.) */
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px){
+
+    .interview-header h1 > :is(.interview-header-system, .interview-header-page-title, .interview-header-tab-name){
+
+        font-size:var(--font-h2);
+        font-weight:700;
+
+    }
+
+}

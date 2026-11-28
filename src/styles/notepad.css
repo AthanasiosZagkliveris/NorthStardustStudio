@@ -638,7 +638,7 @@ html.notepad-picking [data-pick-hover] {
 
     .notepad-head > .page-arrow {
 
-        margin-block: calc(var(--font-h3) * 0.62 - 22px);
+        margin-block: calc(var(--font-h3) * 0.62 - var(--press-area, 44px) / 2);
 
     }
 

@@ -42,7 +42,8 @@ import "../styles/glossary.css";
 import "../styles/review.css";
 
 /** An upright phone: the Handbook's and Workbook's title row takes the open page's name and its buttons. */
-const PHONE_UPRIGHT_QUERY = PHONE_QUERY + " and (orientation: portrait)";
+// (ON EVERY PHONE, UPRIGHT OR TURNED SIDEWAYS: the page's buttons in one funnel beside the title -- owner, 2026-11-28, phone round 5, point 15: "the documents' filter button identical (look and place) upright and sideways".)
+const PHONE_UPRIGHT_QUERY = PHONE_QUERY + " and (orientation: portrait), (orientation: landscape) and (max-height: 479px)";
 
 // (The list and its letter ranges are the shared GlossaryList's; the tests and the search read them here as before.)
 export { letterRanges, REFERENCES_PER_RANGE, type LetterRange } from "../components/workbook/GlossaryList";
