@@ -88,12 +88,46 @@ Written once, used by every store.
 
 | Code | Requirement | Serves | Who |
 |---|---|---|---|
-| G5.1 | Privacy policy (G4.4): no account, data on the device, no tracking, what Export does | all stores | C writes, O approves |
-| G5.2 | The stores' privacy forms: Google Play's Data safety, Apple's App Privacy details, Microsoft's privacy questions (all answered from G5.1: no data collected) | A1, A2, I2, M1 | C drafts, O submits |
+| G5.1 | Privacy policy (G4.4): no account, data on the device, no tracking, what Export does; the Beta questionnaire, the one thing sent (live since 2026-11-28) | all stores | C writes, O approves |
+| G5.2 | The stores' privacy forms: Google Play's Data safety, Apple's App Privacy details, Microsoft's privacy questions (all answered from G5.1: during the Beta, only the questionnaire's answers and an optional email) | A1, A2, I2, M1 | C drafts, O submits |
 | G5.3 | Store text: name, short and long description, keywords, category (Business or Productivity), age rating | all stores | C drafts, O approves |
 | G5.4 | Screenshots for phone, tablet and desktop sizes, made from the example Organisations (one set, cut per store) | all stores | C |
 | G5.5 | Store icons and the Play feature graphic, from the approved logo (`npm run icons`) | all stores | C |
 | G5.6 | Support contact and a support page | all stores | O gives the address |
+
+#### The store text, G5.3 (the owner's final wording, 2026-11-28 15:37 UTC+2)
+
+The same text for Google Play and the Microsoft Store: plain text, the titles in capitals on their own lines (the stores show no Markdown). About 530 words, 3,100 characters (Google Play allows 4,000; the Microsoft Store 10,000).
+
+**Short description** (Google Play, 80 characters at most): Turn your business idea into a clear plan, one easy question at a time.
+
+**Full description:**
+
+```text
+A CLEAR PLACE TO START
+
+Starting a business is exciting, but it can also feel overwhelming. There is so much to figure out, and knowing where to begin is often the hardest part. TILES breaks the process into manageable steps, with specific questions and options tailored to your answers.
+
+WORK THROUGH YOUR IDEA
+
+TILES takes you through the different parts of starting a business in a clear, logical order. It gives you options to choose from, each with a short explanation, so you don't have to start from a blank page. Your answers filter and tailor the options and questions that follow, based on your business and your country. You work through each part at your own pace, while TILES handles the maths and examples help you see how everything comes together. Along the way, useful tools such as a notepad, calendar, glossary, and checklist help you organise your thoughts, keep track of important dates, understand unfamiliar terms, and see what still needs attention.
+
+MADE WITH CARE
+
+I first made TILES to help me plan my own business. I wanted something that asked the right questions, in the right order, and made the process easier to follow. That experience shaped the way TILES works and how it looks. The wording is clear, the spacing is comfortable, and the flow feels natural, so you can focus on your work without the app getting in the way. You can choose light, sepia, or dark mode to suit your eyes. Your work saves automatically, so you can return whenever you like, on your phone, tablet, or computer, even offline.
+
+BUILT ON CAREFUL RESEARCH
+
+My academic background taught me where to look for reliable information, how to judge it, and how to filter out the noise. I spent many hours researching the topics and choosing the questions a new business owner needs to consider, as well as deciding how they should be organised. The explanations throughout TILES are based on trusted, carefully selected sources, which are listed so you can read more and explore things further.
+
+BRINGING YOUR IDEAS TOGETHER
+
+As you work through the questions, TILES helps you put your answers into a set of core business documents. The business plan describes your business and how it will work. The business model canvas gives you an overview of the business on a single page. The financial forecast shows your projected income and expenses, month by month. The financial plan brings your financial needs together, while the funding request explains what funding you're looking for and why. These documents can help you prepare for funding opportunities, make informed decisions, and keep your business on a steady footing.
+
+JOIN THE BETA
+
+TILES is currently in Beta, and I'd love for you to try it. Your experience will help me understand what works well, what needs improving, and what could make it more useful. When you're ready to download your documents, you'll be asked to answer a short questionnaire about your experience with the app. If you have a question, an idea, or something you'd like to share, write to me at northstardust.studio@gmail.com. I look forward to hearing from you.
+```
 
 ### G6. Accounts and identity (the owner's)
 

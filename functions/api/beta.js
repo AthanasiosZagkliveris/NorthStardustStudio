@@ -52,6 +52,10 @@ export async function onRequestPost({ request, env }) {
     if (!sent || typeof sent !== "object" || !Number.isInteger(sent.version) || !sent.answers || typeof sent.answers !== "object" || Array.isArray(sent.answers)) {
         return reply(400, { error: "Not a questionnaire." });
     }
+    // (Question 1, the consent to use the answers, is required: without it nothing is kept.)
+    if (sent.answers["1"] !== true) {
+        return reply(400, { error: "No consent." });
+    }
     if (!(await humanChecked(env, sent.token, request.headers.get("CF-Connecting-IP")))) {
         return reply(403, { error: "The check did not pass." });
     }

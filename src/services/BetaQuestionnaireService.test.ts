@@ -118,11 +118,17 @@ describe("the Beta questionnaire's receiver", () => {
     it("refuses what is not a questionnaire, and waits while the database is not set up", async () => {
         expect((await onRequestPost({ request: post("not json"), env: { BETA_DB: database() } })).status).toBe(400);
         expect((await onRequestPost({ request: post({ answers: [] }), env: { BETA_DB: database() } })).status).toBe(400);
-        expect((await onRequestPost({ request: post({ version: 1, answers: {} }), env: {} })).status).toBe(503);
+        expect((await onRequestPost({ request: post({ version: 1, answers: { 1: true } }), env: {} })).status).toBe(503);
+    });
+
+    it("keeps nothing without the consent to use the answers", async () => {
+        const BETA_DB = database();
+        expect((await onRequestPost({ request: post({ version: 1, answers: { 3: "An idea" } }), env: { BETA_DB } })).status).toBe(400);
+        expect(BETA_DB.rows).toHaveLength(0);
     });
 
     it("asks for the human check once its secret is set", async () => {
-        const response = await onRequestPost({ request: post({ version: 1, answers: {} }), env: { BETA_DB: database(), TURNSTILE_SECRET: "secret" } });
+        const response = await onRequestPost({ request: post({ version: 1, answers: { 1: true } }), env: { BETA_DB: database(), TURNSTILE_SECRET: "secret" } });
         expect(response.status).toBe(403);
     });
 });
