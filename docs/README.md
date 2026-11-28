@@ -19,7 +19,7 @@ Status: **index**, updated 2026-11-28. One line per document: where it is, what 
 4. [The design of the Foundation (`design/foundation/`, Foundation 1 and 2)](#4-the-design-of-the-foundation-designfoundation-foundation-1-and-2)
 5. [The questions (`design/questions/`, Questions 1 to 21)](#5-the-questions-designquestions-questions-1-to-21)
 6. [The interface (`design/interface/`, Interface 1 to 11)](#6-the-interface-designinterface-interface-1-to-11)
-7. [The research and the sources (`design/research/`, Research 1 to 11)](#7-the-research-and-the-sources-designresearch-research-1-to-11)
+7. [The research and the sources (`design/research/`, Research 1 to 12)](#7-the-research-and-the-sources-designresearch-research-1-to-12)
 8. [The library (`design/library/`, Library 1 to 7)](#8-the-library-designlibrary-library-1-to-7)
 9. [The records (`design/records/`, Records 1 to 4)](#9-the-records-designrecords-records-1-to-4)
 10. [The tests](#10-the-tests-testing)
@@ -64,7 +64,7 @@ The single description of the Foundation capability (1) and its Part F, the card
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [design/foundation/01-current-design.md](design/foundation/01-current-design.md) | current design | The single description of what the Foundation capability is: what the app does, how it is organised, the interface elements, the cost model, the automatic rules, the help texts and the colour map. | 2026-11-27 |
+| [design/foundation/01-current-design.md](design/foundation/01-current-design.md) | current design | The single description of what the Foundation capability is: what the app does, how it is organised, the interface elements, the cost model, the automatic rules, the help texts and the colour map. | 2026-11-28 |
 | [design/foundation/02-card-structure.md](design/foundation/02-card-structure.md) | current design | Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it. | 2026-11-21 |
 
 ## 5. The questions (`design/questions/`, Questions 1 to 21)
@@ -113,9 +113,9 @@ What every screen shares, from the shared components (1) to the smallest text: t
 | [design/interface/10-help-texts-guide.md](design/interface/10-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-21 |
 | [design/interface/11-symbols.md](design/interface/11-symbols.md) | current design | The 39 symbols of the Capabilities, the Systems and the Resources: grid, sizes and their three drawings, line, corners, tints, gaps, the rule that a symbol takes its card's hue, reading modes, each symbol's drawing by size, and the files the app reads. | 2026-11-27 |
 
-## 7. The research and the sources (`design/research/`, Research 1 to 11)
+## 7. The research and the sources (`design/research/`, Research 1 to 12)
 
-The source register (1), the research behind the design (2), the lists and classifications (3), age limits (4), the owner's positioning data and its sources (5, 6), delivery and capacity (7), the Beta questionnaire that asks the founders (8) the kinds of app and what each system requires (9) protecting the app from copying (10) and the Terms of Use (11).
+The source register (1), the research behind the design (2), the lists and classifications (3), age limits (4), the owner's positioning data and its sources (5, 6), delivery and capacity (7), the Beta questionnaire that asks the founders (8) the kinds of app and what each system requires (9) protecting the app from copying (10), the Terms of Use (11) and how fast the app answers (12).
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
@@ -130,6 +130,7 @@ The source register (1), the research behind the design (2), the lists and class
 | [design/research/09-kinds-of-app-and-systems.md](design/research/09-kinds-of-app-and-systems.md) | research | The kinds of app (web, installable web, store-packaged, web view, native) and what each system and store requires of an app (Android, iPhone and iPad, Windows, macOS, Linux), matched to Tiles. | 2026-11-27 |
 | [design/research/10-protecting-the-app.md](design/research/10-protecting-the-app.md) | research | Protecting the app from copying and digging: what a web app exposes, the ways to protect it (obfuscation, WebAssembly, integrity checks, a server, store integrity), the law (EU copyright, trade secrets), a recommendation in layers, and the GitHub check minutes. | 2026-11-27 |
 | [design/research/11-terms-of-use-law-and-practice.md](design/research/11-terms-of-use-law-and-practice.md) | research | The Terms of Use: what the law of Greece and the EU and of the six countries requires of them, what similar business-plan apps put in theirs, and the changes this made to the Terms. | 2026-11-27 |
+| [design/research/12-app-speed.md](design/research/12-app-speed.md) | research | How fast the app answers: the speed targets (Core Web Vitals, RAIL), the tools most used to check speed, the ways recommended to make a web app faster, and what was done in Tiles with its measures before and after. | 2026-11-28 |
 
 ## 8. The library (`design/library/`, Library 1 to 7)
 
@@ -162,7 +163,7 @@ What the app's tests check, file by file, and how they run.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [testing/01-app-tests-guide.md](testing/01-app-tests-guide.md) | reference | The app's tests: where they are, how they run (Vitest, the pre-commit hook, CI), and what every test file checks, in six groups (screens, business rules, saved data and examples, whole pages, design system and docs, content files). | 2026-11-27 |
+| [testing/01-app-tests-guide.md](testing/01-app-tests-guide.md) | reference | The app's tests: where they are, how they run (Vitest, the pre-commit hook, CI), and what every test file checks, in six groups (screens, business rules, saved data and examples, whole pages, design system and docs, content files). | 2026-11-28 |
 
 ## 11. Rules for the assistant (`ai/`)
 
@@ -172,11 +173,11 @@ Standing rules, references and playbooks for an AI assistant working on the proj
 |---|---|---|---|
 | [ai/README.md](ai/README.md) | index | The map of this folder: what to read first, what to read for a task. | 2026-11-27 |
 | [ai/01-ai-collaboration-rules.md](ai/01-ai-collaboration-rules.md) | rules | Standing rules for an AI assistant: commit but do not push, no unrequested changes, when to ask, what done requires, how work flows. | 2026-11-27 |
-| [ai/03-toolchain-and-verification-playbook.md](ai/03-toolchain-and-verification-playbook.md) | playbook | What to run after a change (typecheck, tests, the lints and document checks, build, layout check) and the list of expected test failures. | 2026-11-27 |
+| [ai/03-toolchain-and-verification-playbook.md](ai/03-toolchain-and-verification-playbook.md) | playbook | What to run after a change (typecheck, tests, the lints and document checks, build, layout check) and the list of expected test failures. | 2026-11-28 |
 | [ai/07-framework-dsl-grammar.md](ai/07-framework-dsl-grammar.md) | reference | Grammar of the Markdown that defines a System's content. | 2026-11-21 |
-| [ai/06-framework-conventions-and-patterns.md](ai/06-framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-11-21 |
+| [ai/06-framework-conventions-and-patterns.md](ai/06-framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-11-28 |
 | [ai/02-review.md](ai/02-review.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured and the report (sections 1 to 12), and the checklist to tick before saying done (section 13). | 2026-11-21 |
-| [ai/04-code-map.md](ai/04-code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-22 |
+| [ai/04-code-map.md](ai/04-code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-28 |
 | [ai/09-layout-rules.md](ai/09-layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-28 |
 | [ai/08-card-kinds.md](ai/08-card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-11-21 |
 | [ai/05-folder-plan.md](ai/05-folder-plan.md) | reference | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder (it was document 25; the number is retired). | 2026-11-21 |
