@@ -753,7 +753,9 @@
 /* (The title's arrow beside a Capability's name, as a chapter's beside its heading: the title's capital height, in the Capability's colour, 12px after the name.) */
 .interview-header h1 > .label-arrow {
 
-    margin-left: var(--gap-12);
+    /* (12px from the name to the DRAWN arrow (owner, 2026-11-28, phone round 5, point 2: "Put it next to the title, 12px gap. Asked before"): the button's 44px
+       press area stands round it, so the half it is wider than the arrow is taken back, as .label-arrow's own margins do.) */
+    margin-left: calc(var(--gap-12) + (var(--label-arrow-size) - var(--label-arrow-hit, 44px)) / 2);
     /* (Its hit area takes no height from the title row: the rule stays where every page title has it.) */
     margin-block: -8px;
 

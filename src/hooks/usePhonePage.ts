@@ -42,6 +42,13 @@ export function usePhonePage(): void {
             }
             root.style.setProperty("--phone-ground-top", grounds[0]);
             root.style.setProperty("--phone-ground-foot", grounds[grounds.length - 1]);
+            // (SIDEWAYS, THE ARROWS AND BACK ON THE TILES' EDGES (owner, 2026-11-28, phone round 5, points 16 and 21): where the first row of master tiles starts
+            // and the last ends, from the window's top and foot -- the rail's "▲" and "▼" and Back stand on them (07-floating-cards-and-page-layout.css).)
+            const tiles = [...document.querySelectorAll<HTMLElement>(".section-tiles-quad .section-tile, .capability-systems-frame .section-tile")].map(tile => tile.getBoundingClientRect()).filter(box => box.width > 0);
+            if (tiles.length > 0) {
+                root.style.setProperty("--phone-tiles-top", Math.round(Math.min(...tiles.map(box => box.top)) + window.scrollY) + "px");
+                root.style.setProperty("--phone-tiles-foot", Math.round(window.innerHeight - Math.max(...tiles.map(box => box.bottom)) - window.scrollY) + "px");
+            }
         };
 
         // (The chapters come and go with the page, a Segment and a Capability: painted again when the page changes.)
@@ -133,6 +140,16 @@ export function usePhonePage(): void {
         };
         // (The marker follows what last scrolled: the page, or a layer's own body -- the Handbook's, a dialog's.)
         const onScroll = (event: Event) => {
+            // (A DROP-DOWN CLOSES WHEN ITS TITLE SCROLLS UNDER THE PAGE'S TITLE (owner, 2026-11-28, phone round 5, point 8): a chapter's or a Segment's open
+            // drop-down stood over the page's title once its own title had gone under it; its arrow is pressed again, as a press elsewhere closes it.)
+            if (query.matches) {
+                const rule = document.querySelector(".interview-divider")?.getBoundingClientRect().bottom ?? 0;
+                document.querySelectorAll<HTMLButtonElement>(".label-arrow[aria-expanded=\"true\"]").forEach(arrow => {
+                    if (!arrow.closest(".interview-header") && arrow.getBoundingClientRect().bottom < rule) {
+                        arrow.click();
+                    }
+                });
+            }
             const target = event.target;
             scroller = target instanceof Element && target.scrollHeight > target.clientHeight + 1 ? target : document.scrollingElement ?? document.documentElement;
             place();
@@ -170,6 +187,8 @@ export function usePhonePage(): void {
             document.removeEventListener("touchend", onEnd);
             root.style.removeProperty("--phone-ground-top");
             root.style.removeProperty("--phone-ground-foot");
+            root.style.removeProperty("--phone-tiles-top");
+            root.style.removeProperty("--phone-tiles-foot");
         };
     }, []);
 }

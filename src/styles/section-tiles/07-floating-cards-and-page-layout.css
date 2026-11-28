@@ -1805,7 +1805,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
        chapter's tiles -- the Offering's chapter on Infrastructure & Capability stood empty, owner, 2026-11-27 19:09 UTC+2, point 22.) */
     .conversation-card .business-foundation-input:has(.section-tiles-quad) ~ .business-foundation-input:has(.section-tiles-quad)::after,
     .conversation-card .field-page:has(.section-tiles-quad) ~ .field-page > .answer-columns > .business-foundation-input:has(.section-tiles-quad)::after,
-    .conversation-card .segment-chapter ~ .segment-chapter::after {
+    .conversation-card .segment-chapter:not([hidden]) ~ .segment-chapter:not([hidden])::after {
 
         content: "";
 
@@ -1883,7 +1883,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     .conversation-card .business-foundation-input:has(.section-tiles-quad) > .card-title-block {
 
         /* (Half the words' line (--font-h2, 1.24 high) less half the 44px.) */
-        margin-block: calc(var(--font-h2) * 0.62 - 22px);
+        margin-block: calc(var(--phone-chapter-title, var(--font-h3)) * 0.62 - var(--press-area, 44px) / 2);
 
     }
 
@@ -2012,6 +2012,13 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
     }
 
+    .conversation-card .answer-columns.business-capability,
+    .conversation-card .segment-chapter-groups {
+
+        --chapter-gap: var(--gap-12);
+
+    }
+
     .conversation-card .answer-columns.business-capability > :not(.business-foundation-card) {
 
         grid-column: 1 / -1;
@@ -2054,7 +2061,8 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
         top: -100vmax;
         bottom: -100vmax;
-        left: -1px;
+        /* (In the middle of the gap between the two columns where the chapters are a grid's items -- the line on neither chapter's edge.) */
+        left: calc(-1px - var(--chapter-gap, 0px) / 2);
         right: auto;
 
         border-top: 0;
@@ -2084,7 +2092,8 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     }
 
     /* (Tile titles 12px, 10px clear of each side: every Foundation title stands whole in a 138px tile -- owner, 02:52: "Perfect the 12 px is done!".) */
-    .conversation-card .section-tiles-quad .section-tile .section-tile-title {
+    .conversation-card .section-tiles-quad .section-tile .section-tile-title,
+    :root .conversation-card .section-tiles-completed .section-tile .section-tile-title {
 
         font-size: 12px;
 
@@ -2134,7 +2143,8 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
         width: 44px;
         height: auto;
-        padding: var(--gap-12) 0;
+        /* ("▲" level with the top of the first row of tiles, "▼" with the foot of the last, as Back is: owner, 2026-11-28, phone round 5, points 16 and 21.) */
+        padding: calc(var(--phone-tiles-top, 69px) - var(--app-header-height, 56px)) 0 var(--phone-tiles-foot, 12px);
 
         flex-direction: column;
         justify-content: center;
@@ -2147,10 +2157,40 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     :root .bullet-rails .bullet-rails-row {
 
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
         gap: var(--gap-12);
 
-        height: auto;
+        height: 100%;
+
+    }
+
+    /* (Each rail takes its share of the height, its bullets in the middle of it: the arrows at the ends, the bullets between.) */
+    :root:root:root .bullet-rails .bullet-rail {
+
+        flex: 1 1 0;
+
+        align-items: center;
+
+    }
+
+    :root:root:root .bullet-rails .bullet-rail .bullet-rail-list {
+
+        flex: 1 1 auto;
+
+        justify-content: center;
+
+    }
+
+    /* (A rail of no bullets -- its arrow alone -- takes no share; the arrow's drawing, 24px tall turned, stands on the line its 44px box would push past.) */
+    :root:root:root .bullet-rails .bullet-rail:not(:has(.bullet-rail-list)) {
+
+        flex: 0 0 auto;
+
+    }
+
+    :root:root:root .bullet-rails .bullet-rail-head {
+
+        margin-block: calc((24px - var(--press-area, 44px)) / 2);
 
     }
 
@@ -2175,12 +2215,25 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
     }
 
+    /* (Each arrow centred on the bullets' line: its head the rail's width, the arrow in its middle, no margin of the band's left or right.) */
+    :root:root .bullet-rails .bullet-rail-head {
+
+        display: flex;
+        justify-content: center;
+
+        width: 100%;
+
+    }
+
     :root:root .bullet-rails .bullet-rail-head > .page-arrow {
 
         position: relative;
         inset: auto;
 
+        margin: 0;
+
         rotate: 90deg;
+        transform-origin: center;
 
     }
 
@@ -2189,7 +2242,8 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
         position: fixed;
         top: auto;
-        bottom: calc(var(--gap-12) + env(safe-area-inset-bottom, 0px));
+        /* (Its drawn arrow's foot on the foot of the last row of tiles: the arrow is drawn 1.85 times its box, 3px past it below.) */
+        bottom: calc(var(--phone-tiles-foot, 12px) + 4px);
         left: max(28px, env(safe-area-inset-left, 0px));
         right: auto;
 
@@ -2212,12 +2266,20 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
    "…".) */
 @media (orientation: landscape) and (max-height: 479px) {
 
-    :root:root body:has(.segment-chapter) .interview-header {
+    /* (THE TITLE ON THE FIRST TILE COLUMN (Records 2, section 5.14, 03:56; owner, 2026-11-28, phone round 5, point 20): the page's symbol and title start on the
+       first column of tiles -- the page's edge and its chapter's 13px --, on every page of master tiles; they end at the header's buttons (their 240px).) */
+    :root:root body:has(.section-tiles-quad, .capability-systems-frame) .interview-header {
 
-        left: calc((100vw - var(--tiles-page-width, 100vw)) / 2);
-        right: calc(50% + var(--gap-12));
+        left: calc((100vw - var(--tiles-page-width, 100vw)) / 2 + 13px);
+        right: 240px;
 
         justify-content: flex-start;
+
+    }
+
+    :root:root body:has(.segment-chapter) .interview-header {
+
+        right: calc(50% + var(--gap-12));
 
     }
 
@@ -2279,6 +2341,144 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
         border-left: 1px solid color-mix(in srgb, var(--text-strong, currentColor) 40%, transparent);
 
         pointer-events: none;
+
+    }
+
+}
+
+/* (THE UPRIGHT PHONE'S GAPS, ONE 12PX (owner, 2026-11-28 01:33 UTC+2, phone round 5, point 5: "title underline to first tile row ~26px; all other vertical gaps
+   ~12px"): the title's rule stands where a chapter's hairline stands, so the first chapter starts on it and its own 12px is the gap to its tiles -- as 12px
+   stands on either side of the hairline between two chapters; the card's 12px under the rule is not added to it.) */
+@media (max-width: 600px) and (orientation: portrait) {
+
+    /* (A page of fields drawn as its contents -- the Strategy page, Infrastructure & Capability -- has no box of its own: its first box takes the margin.) */
+    .conversation-card:has(.section-tiles-quad, .capability-systems-frame) > .interview-header + :not(.field-page),
+    .conversation-card:has(.section-tiles-quad, .capability-systems-frame) > .interview-header + .field-page > :first-child {
+
+        margin-top: calc(-1 * var(--gap-12));
+
+    }
+
+    /* (Point 7: a Segment's name 12px from the chapter's top and from its tiles -- its label arrow's 44px press area stands over that room, as a chapter's heading's does
+       (point 7 of round 4); half its 28px line less half the 44px, and the 4px the line keeps round its letters.) */
+    .conversation-card .segment-chapter .business-capability-section > .tiles-frame-head {
+
+        margin-block: calc(var(--phone-chapter-title, var(--font-h3)) * 0.78 - var(--press-area, 44px) / 2 - 4px);
+
+    }
+
+    /* (Point 11: a hairline over the Inventory and Completed row too, 12px above and below it, as between two chapters.) */
+    .conversation-card .answer-columns.business-capability > .section-tiles-completed {
+
+        position: relative;
+
+        padding-top: var(--gap-12);
+
+    }
+
+    .conversation-card .answer-columns.business-capability > .section-tiles-completed::before {
+
+        content: "";
+
+        position: absolute;
+        top: 0;
+        left: -100vmax;
+        right: -100vmax;
+
+        border-top: 1px solid color-mix(in srgb, var(--text-strong, currentColor) 40%, transparent);
+
+        pointer-events: none;
+
+    }
+
+}
+
+/* (SIDEWAYS, THE HAIRLINE IN THE MIDDLE OF THE TWO CHAPTERS' TILES (owner, 2026-11-28, phone round 5, point 19: "The dividing lines are not centered"): each
+   chapter stands against the line -- the first at its right, the second at its left -- so the two 2 x 2s keep their own 12px on either side of it, the room the
+   page leaves going to the outer sides. Over the centring SectionTiles writes on the chapter itself.) */
+@media (orientation: landscape) and (max-height: 479px) {
+
+    .conversation-card .page-group:not(.page-group-one-chapter) > .field-page:first-of-type .business-foundation-input:has(.section-tiles-quad) {
+
+        margin-inline: auto 0 !important;
+
+    }
+
+    /* (Where the chapters are the grid's own items, they keep their columns, and their tiles stand against the line inside them.) */
+    .conversation-card .answer-columns.business-capability > .business-foundation-card:first-child .section-tiles-quad > .section-tiles,
+    .conversation-card .segment-chapter-groups > .business-foundation-input:first-child .section-tiles-quad > .section-tiles {
+
+        margin-inline: auto 0;
+
+    }
+
+    .conversation-card .answer-columns.business-capability > .business-foundation-card ~ .business-foundation-card .section-tiles-quad > .section-tiles,
+    .conversation-card .segment-chapter-groups > .business-foundation-input ~ .business-foundation-input .section-tiles-quad > .section-tiles {
+
+        margin-inline: 0 auto;
+
+    }
+
+    .conversation-card .page-group:not(.page-group-one-chapter) > .field-page:first-of-type ~ .field-page .business-foundation-input:has(.section-tiles-quad) {
+
+        margin-inline: 0 auto !important;
+
+    }
+
+}
+
+/* (NO FRAMES ON A PHONE (owner, 2026-11-28 01:26 and 01:35 UTC+2, phone round 5: "On mobile NO frames"; "Remove the frames from all the dialogue cards"): upright
+   and turned sideways, a dialog, a floating card and the Workbook's and the Handbook's panel draw no edge, no round corners and no shadow -- they stand alone on
+   the screen (section 23, "A phone"), their ground their own; the bands and dividing lines inside them stay.) */
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px) {
+
+    /* (Over the frames' own !important edges and shadows, as the chapters' frames are taken off above.) */
+    :root:root :is(.section-tile-dialog, .floating-card-body, .floating-card-item, .workbook-panel, .legal-entity-card) {
+
+        border-color: transparent !important;
+        border-radius: 0 !important;
+
+        box-shadow: none !important;
+
+    }
+
+}
+
+/* (ONE CHAPTER TITLE STYLE ON EVERY PHONE PAGE (owner, 2026-11-28, phone round 5, point 13: "chapter titles vary"): a chapter's heading -- Infrastructure &
+   Capability's, a Segment's name -- in the third heading size upright, the body's size sideways (two chapters' headings side by side, each on one line over its
+   2 x 2), semi-bold, in capitals.) */
+@media (orientation: landscape) and (max-height: 479px) {
+
+    :root {
+
+        --phone-chapter-title: var(--font-body);
+
+    }
+
+}
+
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px) {
+
+    :root:root .conversation-card :is(.business-foundation-input:has(.section-tiles-quad) .answer-column-label, .segment-chapter .tiles-frame-head .field-group-title),
+    :root:root .conversation-card :is(.business-foundation-input:has(.section-tiles-quad) .answer-column-label, .segment-chapter .tiles-frame-head .field-group-title) > * {
+
+        font-size: var(--phone-chapter-title, var(--font-h3)) !important;
+        font-weight: 600;
+        letter-spacing: var(--bold-tracking);
+
+        text-transform: uppercase;
+
+    }
+
+}
+
+/* (INVENTORY AND COMPLETED IN THE TILES' OWN TITLE STYLE ON A PHONE (owner, 2026-11-28, phone round 5, points 2 and 17: "The text size on the inventory and
+   completed is not the same with the other tiles"; "COMPLETED cut"): the master tiles' size and tracking, so both words stand whole.) */
+@media (max-width: 600px), (orientation: landscape) and (max-height: 479px) {
+
+    :root .conversation-card .section-tiles-completed[data-squeezed] .section-tile-title {
+
+        letter-spacing: normal;
 
     }
 

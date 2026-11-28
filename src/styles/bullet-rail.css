@@ -1126,6 +1126,21 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
     }
 
+    /* (AND IT TAKES NO ROOM (owner, 2026-11-28 01:11 UTC+2, phone round 5: "the 3rd time I have asked to remove the footing here ... a deeper bug in the root"): the
+       band's height is 0 there, so nothing reserves it -- the page's foot (below), a title's help, the tiles' side (footerBandHeight, useVerticalLayout) --; a
+       page ends 12px under its content.) */
+    body:not(:has(.bullet-rail-dot, .bullet-rail-item)) {
+
+        --band-height: 0px;
+
+    }
+
+    :root main.conversation-content {
+
+        padding-bottom: calc(var(--band-height, 64px) + var(--space-card));
+
+    }
+
 }
 
 /* (THE UPRIGHT PHONE'S BAND (owner, 2026-11-27 23:4x UTC+2, phone round 4, point 5: the Identity and Brand pages' two dots stood right of the middle, and the band
@@ -1137,6 +1152,10 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
     :root {
 
         --band-height: 48px;
+
+        /* (THE ARROWS ON THE PAGE'S EDGES (owner, 2026-11-28, phone round 5, point 12: the footer's "◀" on Back's left edge, "▶" mirrored): 16px in, the page's
+           gutter, where Back's arrow starts in the title's row; a layer's arrows the same (12-page-tabs-and-channel-card.css).) */
+        --band-arrow-inset: var(--rail-gutter, 16px);
 
     }
 
@@ -1150,7 +1169,7 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
         height: var(--band-height);
 
-        padding-inline: calc(var(--gap-12) + 24px + var(--gap-12) + 24px + 24px);
+        padding-inline: calc(var(--band-arrow-inset, 48px) + 24px + 24px);
 
     }
 
@@ -1198,13 +1217,13 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
     .bullet-rails .bullet-rail-left .bullet-rail-head {
 
-        left: calc(var(--gap-12) + 24px + var(--gap-12));
+        left: var(--band-arrow-inset, 48px);
 
     }
 
     .bullet-rails .bullet-rail-right .bullet-rail-head {
 
-        right: calc(var(--gap-12) + 24px + var(--gap-12));
+        right: var(--band-arrow-inset, 48px);
 
     }
 

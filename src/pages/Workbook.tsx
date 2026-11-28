@@ -42,7 +42,8 @@ import "../styles/glossary.css";
 import "../styles/review.css";
 
 /** An upright phone: the Handbook's and Workbook's title row takes the open page's name and its buttons. */
-const PHONE_UPRIGHT_QUERY = PHONE_QUERY + " and (orientation: portrait)";
+// (ON EVERY PHONE, UPRIGHT OR TURNED SIDEWAYS: the page's buttons in one funnel beside the title -- owner, 2026-11-28, phone round 5, point 15: "the documents' filter button identical (look and place) upright and sideways".)
+const PHONE_UPRIGHT_QUERY = PHONE_QUERY + " and (orientation: portrait), (orientation: landscape) and (max-height: 479px)";
 
 // (The list and its letter ranges are the shared GlossaryList's; the tests and the search read them here as before.)
 export { letterRanges, REFERENCES_PER_RANGE, type LetterRange } from "../components/workbook/GlossaryList";
@@ -293,12 +294,22 @@ export default function Workbook() {
             // (In landscape with the band not drawn (a tablet, a small laptop: glossary.css), the panel runs down to the Back's top, 12px over it.)
             const undrawn = typeof window.matchMedia === "function" && window.matchMedia("(orientation: landscape) and (max-height: 479px)").matches;
             const end = foot && !beside && !bandless ? (undrawn && back ? back.getBoundingClientRect().top : foot.getBoundingClientRect().top) : window.innerHeight;
-            const next = Math.max(240, Math.round(end - 12 - (node.getBoundingClientRect().top + window.scrollY)));
+            // (ON A PHONE THE PAGE MEETS ITS BAND (owner, 2026-11-28 01:3x UTC+2, phone round 5: on the Review, a second pale band between the content and the
+            // footer): the panel has no frame there, so its 12px clearance showed as a strip of its own; it runs to the band's edge.)
+            const phone = typeof window.matchMedia === "function" && window.matchMedia("(max-width: 600px)").matches;
+            const next = Math.max(240, Math.round(end - (phone ? 0 : 12) - (node.getBoundingClientRect().top + window.scrollY)));
             setPanelHeight(current => current === next ? current : next);
         };
         measure();
         window.addEventListener("resize", measure);
-        return () => window.removeEventListener("resize", measure);
+        // (Measured again when the footer's band or the title's row change size -- the band is set by the page's rails, after the first measure.)
+        const watcher = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+        const watched = [document.querySelector(".workbook .workspace-footer"), document.querySelector(".workbook .interview-header")].filter((node): node is Element => node !== null);
+        watched.forEach(node => watcher?.observe(node));
+        return () => {
+            window.removeEventListener("resize", measure);
+            watcher?.disconnect();
+        };
     }, []);
     const at = Math.max(0, tabs.findIndex(entry => entry.id === tab));
     const step = {
