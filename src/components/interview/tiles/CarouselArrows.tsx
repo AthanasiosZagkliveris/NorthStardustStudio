@@ -177,8 +177,15 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
         const moved = () => measureAgain(count => count + 1);
         let frames = 0;
         let frame = 0;
+        // (Drawn again only in a frame where the layer, the arrows' level or the window's scroll has moved: a layer that has settled draws nothing more.)
+        let placeSeen = "";
         const settle = () => {
-            moved();
+            const box = node?.getBoundingClientRect();
+            const place = box ? [box.left, box.top, box.width, box.height, arrowLevel() ?? -1, window.scrollY].map(value => Math.round(value * 2)).join(" ") : "";
+            if (place !== placeSeen) {
+                placeSeen = place;
+                moved();
+            }
             frames += 1;
             if (frames < 40) {
                 frame = window.requestAnimationFrame(settle);

@@ -12,7 +12,7 @@ One line per folder: what is in it and what is not. A file's name is its compone
 | `components/shell/` | What every screen has: the header (`AppHeader`), the footer, the save status, the undo toast, the error boundary and the preferences dialog. |
 | `components/menu/` | The Menu (`ToolsMenu`) and the tools it opens: the search (`SearchButton`, `SearchDialog`), Focus (`FocusModeButton`), the Global Settings (`settingsOpen.ts`). |
 | `components/calendar/` | The Organisation's calendar (`OrganizationCalendarPanel`, `CalendarFunnel`) and `calendarOpen.ts`, the light helper the Menu opens it with. |
-| `components/capabilities/`, `components/systems/` | The lists of Capabilities (and their description dialog and input) and of Systems (`SystemList`, `SystemItem`, the interview's progress and section). |
+| `components/capabilities/`, `components/systems/` | A Capability's description dialog and input, what a System's tile lists (`systemContents`), and the interview's progress and section. |
 | `components/workbook/` | The Workbook page's parts: the Review (`OrganizationReview`), the Glossary list, the Business Documents and their forecast table, the tools slot (`WorkbookTools`). |
 | `components/references/` | `HarvardReference` draws one Harvard reference. |
 | `components/interview/cards/` | The card: `BusinessCard` (in `BusinessCardFields.tsx`, with the shared `OptionalNote`, `BusinessTicks` and `BusinessGroup`), its box (`CardShell`), head (`CardHead`), number (`CardNumber`), name (`NameCell`, `CardNameInput`), the boxes and columns of cards, what a card says folded (`cardSummary`), the cards just made (`freshCards`). |

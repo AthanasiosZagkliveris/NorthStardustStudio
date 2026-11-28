@@ -4,7 +4,7 @@ import { freshCards } from "../cards/freshCards.ts";
 import { cardNameOf } from "../cards/cardNames.ts";
 import "../../../styles/section-tiles.css";
 import { type SectionTile, type TileLink, type TileAdd, type OpenRequest, type FloatingCentre, type FloatingOpen } from "./SectionTileTypes.ts";
-import { masterSide, setTilesPage, setTilesPageWidth, fitHeading, unifyHeadings, cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
+import { masterSide, measureAgainNextFrame, setTilesPage, setTilesPageWidth, fitHeading, unifyHeadings, cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
 import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext, StackUnderContext } from "./DialogLevels.tsx";
 import { TileFace, TileLinks, TilePlus, useTileAim } from "./TileParts.tsx";
 import { OPEN_EVENT, FloatingCards, TileDialog } from "./FloatingCards.tsx";
@@ -784,7 +784,7 @@ function railsBesideFrames(box: HTMLElement): void {
     if (page.style.getPropertyValue("--rail-frame-span") !== span) {
         page.style.setProperty("--rail-frame-span", span);
         // (The rail measures its room again: its names show where they now fit.)
-        window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+        measureAgainNextFrame();
     }
 }
 

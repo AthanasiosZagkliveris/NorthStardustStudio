@@ -237,19 +237,18 @@ describe("the financial label-and-amount lists", () => {
     });
 });
 
-/* Every Capability and System row -- the lists on System Selection and
-   the rail's flyouts -- is highlighted by one rule, and none by its own. */
+/* Every Capability and System row -- the Calendar panel's lists -- is
+   highlighted by one rule, and none by its own. */
 describe("the Capability and System row highlight", () => {
 
     const global = stylesheet("global.css");
 
-    it("is one rule for all four kinds of row", () => {
-        expect(global).toContain(".capability-item:hover, .system-item:hover, .org-rail-capability-item:hover, .org-rail-system-item:hover { background: var(--bg-list-hover); }");
-        expect(global).toContain(".capability-item.active { background: var(--bg-list-selected); }");
+    it("is one rule for both kinds of row", () => {
+        expect(global).toContain(".org-rail-capability-item:hover, .org-rail-system-item:hover { background: var(--bg-list-hover); }");
     });
 
     it("leaves no list its own highlight colour", () => {
-        for (const sheet of ["capability-list.css", "system-list.css", "organization-calendar.css"]) {
+        for (const sheet of ["organization-calendar.css"]) {
             const css = stylesheet(sheet);
             expect(css, sheet).not.toMatch(/(capability-item|system-item)[^{}]*:hover[^{}]*\{[^}]*background/);
             expect(css, sheet).not.toMatch(/capability-item\.active[^{}]*\{[^}]*background/);
@@ -262,8 +261,7 @@ describe("the Capability and System row highlight", () => {
         expect(colours.match(/--capability-list-ink-weight: /g)).toHaveLength(2);
         expect(colours.match(/--bg-list-hover: /g)).toHaveLength(3);
         expect(colours.match(/--bg-list-selected: /g)).toHaveLength(3);
-        expect(stylesheet("capability-list.css")).toContain("var(--capability-list-ink-weight)");
-        expect(stylesheet("system-list.css")).toContain("var(--capability-list-ink-weight)");
+        expect(stylesheet("organization-calendar.css")).toContain("var(--capability-list-ink-weight)");
     });
 
 });

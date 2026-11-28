@@ -121,7 +121,7 @@ Pages come from `src/assets/system-answers/01..04_*.md`. Each page's `Structure`
 | Appearance | Light, Sepia, Dark, Auto, in the Menu's Appearance side menu | `C/menu/ToolsMenu.tsx` | Header |
 | Footer | Back button | `C/shell/AppFooter.tsx` | Interview, Workbook, Settings |
 | Landing | Organisation list, add button, cards, delete confirmation, first-run preferences | `pages/Landing.tsx`, `C/shell/UserPreferencesDialog.tsx` | `/` |
-| System selection | Capability list, System list, Continue, Documents button | `pages/SystemSelection.tsx`, `CapabilityList`, `SystemList`, `SystemItem` | `/assistant` |
+| System selection | Capability list, System list, Continue, Documents button | `pages/SystemSelection.tsx` | `/assistant` |
 | Calendar panel | Slide-in rail with month view, task notes and times, periods, date-format toggle, funnel | `C/calendar/OrganizationCalendarPanel.tsx`, `CalendarFunnel.tsx`, `services/CalendarPeriods.ts` | System selection |
 | Notepad panel | Right slide-in, opened by the header's Notes (as before the Workbook, 2026-11-09); notes linked to fields or cards; "pick" banner; empty state; marks on linked fields | `C/notepad/Notepad.tsx`, `NotedHover.tsx` | All pages with an organisation |
 | Search dialog | Results in four groups (Pages, Fields, Glossary, Your answers) open a System, page, field (card unfolded), a term on the Workbook page's Glossary, or an answer | `C/menu/SearchDialog.tsx`, `services/SearchService.ts` | Header |

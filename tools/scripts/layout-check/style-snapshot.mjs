@@ -9,6 +9,9 @@
         node tools/scripts/layout-check/style-snapshot.mjs --out exports/snapshots/after.json
         node tools/scripts/layout-check/style-snapshot.mjs --compare exports/snapshots/before.json exports/snapshots/after.json
 
+    --size 412x915 takes it in another window (a phone's: the phone's own layout, 1440 x 1000 by default); --base URL against another server
+    (a built copy under `npx vite preview`, so a snapshot of the code before a change and one after can be taken side by side).
+
     It needs the dev server (npm run dev, http://localhost:1420). An element is named by its place in the page (its tags, classes and position
     among its siblings), so the names stay the same while the markup does; each element's computed values are kept whole, so a difference is
     shown property by property. exports/ is ignored by git.
@@ -21,6 +24,7 @@ import { ALL_SYSTEMS, EXAMPLES, PAGES, openPage, pagesOf, seedExample } from "./
 
 const arg = name => (process.argv.includes("--" + name) ? process.argv[process.argv.indexOf("--" + name) + 1] : null);
 const base = arg("base") ?? "http://localhost:1420";
+const [sizeWidth, sizeHeight] = (arg("size") ?? "1440x1000").split("x").map(Number);
 const THEMES = ["light", "dark", "sepia"];
 const PROPS = [
     "display", "position", "box-sizing", "width", "height", "min-width", "max-width", "min-height", "max-height",
@@ -75,7 +79,7 @@ const snapshot = {};
 
 /** A page of its own (a browser context of its own: its own storage), with the same clock and no transitions, so two runs of the same code are the same. */
 const newPage = async () => {
-    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+    const context = await browser.newContext({ viewport: { width: sizeWidth, height: sizeHeight } });
     // (The same screen on every run: one fixed clock, so a "Recorded" date is always the same width, and no transition or animation caught half-way.)
     await context.clock.setFixedTime(new Date("2026-11-10T12:00:00"));
     await context.addInitScript(() => {
