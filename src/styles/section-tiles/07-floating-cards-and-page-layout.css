@@ -2012,6 +2012,13 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
     }
 
+    .conversation-card .answer-columns.business-capability,
+    .conversation-card .segment-chapter-groups {
+
+        --chapter-gap: var(--gap-12);
+
+    }
+
     .conversation-card .answer-columns.business-capability > :not(.business-foundation-card) {
 
         grid-column: 1 / -1;
@@ -2054,7 +2061,8 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
         top: -100vmax;
         bottom: -100vmax;
-        left: -1px;
+        /* (In the middle of the gap between the two columns where the chapters are a grid's items -- the line on neither chapter's edge.) */
+        left: calc(-1px - var(--chapter-gap, 0px) / 2);
         right: auto;
 
         border-top: 0;
@@ -2134,7 +2142,8 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
         width: 44px;
         height: auto;
-        padding: var(--gap-12) 0;
+        /* ("▲" level with the top of the first row of tiles, "▼" with the foot of the last, as Back is: owner, 2026-11-28, phone round 5, points 16 and 21.) */
+        padding: calc(var(--phone-tiles-top, 69px) - var(--app-header-height, 56px)) 0 var(--phone-tiles-foot, 12px);
 
         flex-direction: column;
         justify-content: center;
@@ -2147,10 +2156,40 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     :root .bullet-rails .bullet-rails-row {
 
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
         gap: var(--gap-12);
 
-        height: auto;
+        height: 100%;
+
+    }
+
+    /* (Each rail takes its share of the height, its bullets in the middle of it: the arrows at the ends, the bullets between.) */
+    :root:root:root .bullet-rails .bullet-rail {
+
+        flex: 1 1 0;
+
+        align-items: center;
+
+    }
+
+    :root:root:root .bullet-rails .bullet-rail .bullet-rail-list {
+
+        flex: 1 1 auto;
+
+        justify-content: center;
+
+    }
+
+    /* (A rail of no bullets -- its arrow alone -- takes no share; the arrow's drawing, 24px tall turned, stands on the line its 44px box would push past.) */
+    :root:root:root .bullet-rails .bullet-rail:not(:has(.bullet-rail-list)) {
+
+        flex: 0 0 auto;
+
+    }
+
+    :root:root:root .bullet-rails .bullet-rail-head {
+
+        margin-block: calc((24px - var(--press-area, 44px)) / 2);
 
     }
 
@@ -2175,12 +2214,25 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
     }
 
+    /* (Each arrow centred on the bullets' line: its head the rail's width, the arrow in its middle, no margin of the band's left or right.) */
+    :root:root .bullet-rails .bullet-rail-head {
+
+        display: flex;
+        justify-content: center;
+
+        width: 100%;
+
+    }
+
     :root:root .bullet-rails .bullet-rail-head > .page-arrow {
 
         position: relative;
         inset: auto;
 
+        margin: 0;
+
         rotate: 90deg;
+        transform-origin: center;
 
     }
 
@@ -2189,7 +2241,8 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
         position: fixed;
         top: auto;
-        bottom: calc(var(--gap-12) + env(safe-area-inset-bottom, 0px));
+        /* (Its drawn arrow's foot on the foot of the last row of tiles: the arrow is drawn 1.85 times its box, 3px past it below.) */
+        bottom: calc(var(--phone-tiles-foot, 12px) + 4px);
         left: max(28px, env(safe-area-inset-left, 0px));
         right: auto;
 
@@ -2212,12 +2265,20 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
    "…".) */
 @media (orientation: landscape) and (max-height: 479px) {
 
-    :root:root body:has(.segment-chapter) .interview-header {
+    /* (THE TITLE ON THE FIRST TILE COLUMN (Records 2, section 5.14, 03:56; owner, 2026-11-28, phone round 5, point 20): the page's symbol and title start on the
+       first column of tiles -- the page's edge and its chapter's 13px --, on every page of master tiles; they end at the header's buttons (their 240px).) */
+    :root:root body:has(.section-tiles-quad, .capability-systems-frame) .interview-header {
 
-        left: calc((100vw - var(--tiles-page-width, 100vw)) / 2);
-        right: calc(50% + var(--gap-12));
+        left: calc((100vw - var(--tiles-page-width, 100vw)) / 2 + 13px);
+        right: 240px;
 
         justify-content: flex-start;
+
+    }
+
+    :root:root body:has(.segment-chapter) .interview-header {
+
+        right: calc(50% + var(--gap-12));
 
     }
 
@@ -2324,6 +2385,40 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
         border-top: 1px solid color-mix(in srgb, var(--text-strong, currentColor) 40%, transparent);
 
         pointer-events: none;
+
+    }
+
+}
+
+/* (SIDEWAYS, THE HAIRLINE IN THE MIDDLE OF THE TWO CHAPTERS' TILES (owner, 2026-11-28, phone round 5, point 19: "The dividing lines are not centered"): each
+   chapter stands against the line -- the first at its right, the second at its left -- so the two 2 x 2s keep their own 12px on either side of it, the room the
+   page leaves going to the outer sides. Over the centring SectionTiles writes on the chapter itself.) */
+@media (orientation: landscape) and (max-height: 479px) {
+
+    .conversation-card .page-group:not(.page-group-one-chapter) > .field-page:first-of-type .business-foundation-input:has(.section-tiles-quad) {
+
+        margin-inline: auto 0 !important;
+
+    }
+
+    /* (Where the chapters are the grid's own items, they keep their columns, and their tiles stand against the line inside them.) */
+    .conversation-card .answer-columns.business-capability > .business-foundation-card:first-child .section-tiles-quad > .section-tiles,
+    .conversation-card .segment-chapter-groups > .business-foundation-input:first-child .section-tiles-quad > .section-tiles {
+
+        margin-inline: auto 0;
+
+    }
+
+    .conversation-card .answer-columns.business-capability > .business-foundation-card ~ .business-foundation-card .section-tiles-quad > .section-tiles,
+    .conversation-card .segment-chapter-groups > .business-foundation-input ~ .business-foundation-input .section-tiles-quad > .section-tiles {
+
+        margin-inline: 0 auto;
+
+    }
+
+    .conversation-card .page-group:not(.page-group-one-chapter) > .field-page:first-of-type ~ .field-page .business-foundation-input:has(.section-tiles-quad) {
+
+        margin-inline: 0 auto !important;
 
     }
 

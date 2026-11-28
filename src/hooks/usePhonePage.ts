@@ -42,6 +42,13 @@ export function usePhonePage(): void {
             }
             root.style.setProperty("--phone-ground-top", grounds[0]);
             root.style.setProperty("--phone-ground-foot", grounds[grounds.length - 1]);
+            // (SIDEWAYS, THE ARROWS AND BACK ON THE TILES' EDGES (owner, 2026-11-28, phone round 5, points 16 and 21): where the first row of master tiles starts
+            // and the last ends, from the window's top and foot -- the rail's "▲" and "▼" and Back stand on them (07-floating-cards-and-page-layout.css).)
+            const tiles = [...document.querySelectorAll<HTMLElement>(".section-tiles-quad .section-tile, .capability-systems-frame .section-tile")].map(tile => tile.getBoundingClientRect()).filter(box => box.width > 0);
+            if (tiles.length > 0) {
+                root.style.setProperty("--phone-tiles-top", Math.round(Math.min(...tiles.map(box => box.top)) + window.scrollY) + "px");
+                root.style.setProperty("--phone-tiles-foot", Math.round(window.innerHeight - Math.max(...tiles.map(box => box.bottom)) - window.scrollY) + "px");
+            }
         };
 
         // (The chapters come and go with the page, a Segment and a Capability: painted again when the page changes.)
@@ -170,6 +177,8 @@ export function usePhonePage(): void {
             document.removeEventListener("touchend", onEnd);
             root.style.removeProperty("--phone-ground-top");
             root.style.removeProperty("--phone-ground-foot");
+            root.style.removeProperty("--phone-tiles-top");
+            root.style.removeProperty("--phone-tiles-foot");
         };
     }, []);
 }
