@@ -71,7 +71,8 @@ export default function PageArrow({
             className="page-arrow"
             direction={direction}
             label={direction === "previous" ? "Previous page" : "Next page"}
-            title={label}
+            title={(label ?? (direction === "previous" ? "Previous page" : "Next page")) + (direction === "previous" ? " (←)" : " (→)")}
+            aria-keyshortcuts={direction === "previous" ? "ArrowLeft" : "ArrowRight"}
             disabled={disabled}
             onClick={onClick}
         />

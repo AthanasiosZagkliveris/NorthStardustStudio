@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 
+import { isShortcut } from "../controls/keys.ts";
 import { OrganizationService } from "../../services/OrganizationService";
 
 import "../../styles/search.css";
@@ -34,7 +35,7 @@ export default function SearchButton() {
 
     useEffect(() => {
         function onKeyDown(event: KeyboardEvent) {
-            if ((event.ctrlKey || event.metaKey) && !event.altKey && !event.shiftKey && event.key.toLowerCase() === "k") {
+            if (isShortcut(event, "k")) {
                 event.preventDefault();
                 if (!open) {
                     start();

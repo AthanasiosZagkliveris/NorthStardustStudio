@@ -1,7 +1,8 @@
-import { KeyboardEvent, ReactNode, useRef, useState, useSyncExternalStore } from "react";
+import { KeyboardEvent, ReactNode, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import AddButton from "../controls/AddButton.tsx";
+import { isShortcut, keyLabel, keyShortcuts } from "../controls/keys.ts";
 import MenuOption from "../controls/MenuOption.tsx";
 import { usePopupDismiss } from "../controls/PopupPanel.tsx";
 import { openSearch } from "./SearchButton";
@@ -103,7 +104,7 @@ function themeState(): string {
  * Search … under a common umbrella"; 23:44: "Include the Reading Mode"; his notes of 03:40: "MENU" with the settings symbol, no inner title, "Appearance"
  * a row with a side menu, each tool's symbol on its row): ONE header button, Menu, its icon and word (the icon alone in a narrow header), opening the
  * dropdown card every menu a button opens has (MenuOption rows, usePopupDismiss): Search (Ctrl+K beside it), Notes (the count of notes), Calendar, Focus
- * (an interview page), Settings, then Appearance, which opens IN THE SAME CARD, under its row -- the card grows down (owner, 2026-11-21 16:02 UTC+2: "The Reading
+ * (an interview page), Settings (Ctrl+, beside it), then Appearance, which opens IN THE SAME CARD, under its row -- the card grows down (owner, 2026-11-21 16:02 UTC+2: "The Reading
  * Modes should be extended from the same menu card, hovering over the Appearance") -- to Light, Sepia, Dark and Auto, the chosen one marked; they open on the
  * pointer, a press, Enter, Space or the right or down arrow, and the left arrow or Escape closes them. Each tool keeps its own way of working
  * (the search's dialog and Ctrl+K, the Notes' panel, Focus's Exit button, the Global Settings' page, the Calendar's rail on the page it is pressed on). With no Organisation
@@ -122,6 +123,23 @@ export default function ToolsMenu({ organizationOpen, focusable, userCalendar = 
     const box = useRef<HTMLDivElement | null>(null);
     const sideMenu = useRef<HTMLDivElement | null>(null);
     usePopupDismiss(open, [box], () => { setOpen(false); setSide(false); });
+
+    // Ctrl+, (⌘, on an Apple device) opens Settings wherever an Organisation is open, as the comma opens the settings of most apps (Apple, Mac keyboard shortcuts).
+    useEffect(() => {
+        if (!organizationOpen) {
+            return;
+        }
+        const onKey = (event: globalThis.KeyboardEvent) => {
+            if (isShortcut(event, ",") && !event.defaultPrevented) {
+                event.preventDefault();
+                setOpen(false);
+                setSide(false);
+                openSettings(navigate, location);
+            }
+        };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+    }, [organizationOpen, navigate, location]);
 
     /** The Appearance row: where the focus returns from its reading modes. */
     const appearanceRow = () => box.current?.querySelector<HTMLButtonElement>(".tools-menu-appearance > button") ?? null;
@@ -178,13 +196,13 @@ export default function ToolsMenu({ organizationOpen, focusable, userCalendar = 
                     {!organizationOpen && userCalendar && <MenuOption aria-label="Calendar" onClick={run(openCalendar)}>{row(ICONS.calendar, "Calendar")}</MenuOption>}
                     {organizationOpen && (
                         <>
-                            <MenuOption aria-label="Search" aria-keyshortcuts="Control+K Meta+K" onClick={run(openSearch)}>{row(ICONS.search, "Search")}<span className="tools-menu-hint">Ctrl+K</span></MenuOption>
+                            <MenuOption aria-label="Search" aria-keyshortcuts={keyShortcuts("k")} onClick={run(openSearch)}>{row(ICONS.search, "Search")}<span className="tools-menu-hint">{keyLabel("k")}</span></MenuOption>
                             <MenuOption aria-label={"Notes, " + notes.length + (notes.length === 1 ? " note" : " notes")} onClick={run(() => NotepadService.toggle())}>
                                 {row(ICONS.notes, "Notes")}{notes.length > 0 && <span className="tools-menu-hint">{notes.length}</span>}
                             </MenuOption>
                             <MenuOption aria-label="Calendar" onClick={run(openCalendar)}>{row(ICONS.calendar, "Calendar")}</MenuOption>
                             {focusable && <MenuOption aria-label="Focus" onClick={run(() => FocusModeService.set(true))}>{row(<FocusIcon />, "Focus")}</MenuOption>}
-                            <MenuOption aria-label="Settings" chosen={location.pathname === "/settings"} onClick={run(() => openSettings(navigate, location))}>{row(ICONS.settings, "Settings")}</MenuOption>
+                            <MenuOption aria-label="Settings" aria-keyshortcuts={keyShortcuts(",")} chosen={location.pathname === "/settings"} onClick={run(() => openSettings(navigate, location))}>{row(ICONS.settings, "Settings")}<span className="tools-menu-hint">{keyLabel(",")}</span></MenuOption>
                         </>
                     )}
                     <div className="tools-menu-appearance" onMouseEnter={() => openSide(false)} onMouseLeave={() => setSide(false)}>

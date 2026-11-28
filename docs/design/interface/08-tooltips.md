@@ -1,6 +1,6 @@
 # 8. The tooltips: what has one, and what it says
 
-Status: **current design**, written 2026-10-20, updated 2026-11-27. This document owns the tip (its place, words and look); `07-popups.md` (category P4) points here.
+Status: **current design**, written 2026-10-20, updated 2026-11-27. This document owns the tip (its place, words and look) and the shortcut keys it names (section 5); `07-popups.md` (category P4) points here.
 
 A tooltip is a small dark label above a control, in the app's own style (`TooltipBox`, `src/components/controls/Tooltip.tsx`), never the browser's own (a white rectangle with a black frame and letters, in the system's mode). One host draws every one (`TitleTooltips`, `src/components/controls/TitleTooltips.tsx`, mounted once in `App.tsx`): it takes the `title` of an element away and shows its words only by the rules below.
 
@@ -9,7 +9,7 @@ A tooltip is a small dark label above a control, in the app's own style (`Toolti
 1. **Only a control that is pressed has a tooltip**: a button, a link, a tab, a menu item, a summary. Never a field (it has its label and shows its value), a dropdown cell (its value is on it), a tick (its words), a tile or a card (they are text; a tile's own title is the one exception, rule 3), a label, a heading, a count.
 2. **An icon with no words of its own says its name** (words hidden with `display: none`, as a Back's word in a narrow window, are not words it shows): the "i", the ×, the "+", the arrows, the funnel, the calendar button, the symbols. Its name is its accessible name (`aria-label`), so no place writes a `title` for it.
 3. **A control whose words are cut short says them whole**: a link or a value that runs past its place and is cut (an ellipsis, or a line that moves), and a tile whose title is cut by an ellipsis (the tile says the title whole; a title that fits has no tip).
-4. **A control says what its words do not**: the key it answers to ("Previous card (←)"), where it goes, what it changes ("Reset Computers to 3 years"); three words or more that it does not already show.
+4. **A control says what its words do not**: the key it answers to ("Previous card (←)", "Undo (Ctrl+Z)", "Back (Escape)"), which is reason enough on its own while its words do not show the key (owner, 2026-11-27); where it goes, what it changes ("Reset Computers to 3 years"); three words or more that it does not already show.
 5. **Never what the control already shows**: its text, its name or its value. A `title` that only repeats the name is not written.
 6. **A control whose pop-up window is open has none**: the calendar button, the "i", a menu. The window is the answer, so the tip goes the moment the control says `aria-expanded="true"` (with `aria-haspopup`), whatever opened it, and does not come back while the window stays open. One rule in `TitleTooltips`, not one per control.
 7. **One tooltip at a time** (owner, 2026-11-14 12:40: two "Linked to 2 resources" tips at once). A control that draws its own tip (`useAboveTip`: the action symbols, the chips) has no title tip besides (`data-own-tip`); a tip opening closes the one before, of either kind. **Every tip stands in the one place below, whatever stands there** (owner, 2026-11-21 16:02 UTC+2: "Tooltips should have the same style, and use the same rules about how and where they appear"): until then a tip that would cover a control moved under its box or beside it, so tips stood in three places; it shows only while the pointer or the focus is on its control (`tipPlace`, `Tooltip.tsx`).
@@ -41,9 +41,10 @@ The app's own terms keep their capitals (Offering, Resource, Status, page names)
 | The × (`RemoveButton`) | yes (rule 2) | "Remove <what>" |
 | The "+" box (`AddButton` box) | yes (rule 2) | "Add <what>" |
 | The fold arrow (`FoldArrow`), the label arrow | yes (rule 2) | "Minimise <what>" / "Maximise <what>" |
-| The navigation arrows (`NavArrow`) | yes where it says more | the key: "Previous card (←)"; a page arrow only where it goes somewhere that is not a page |
+| The navigation arrows (`NavArrow`) | yes where it says more | the key: "Previous card (←)", "Next page (→)"; a page arrow also says where it goes where that is not a page ("Previous page: the Introduction (←)") |
 | The funnel (`FunnelButton`) | yes (rule 2) | what it filters |
-| The Back button (`BackButton`) | yes, only while its word is hidden (rule 2: then it is an icon) | "Click to go back" |
+| The Back button (`BackButton`) | yes (rule 4: the key; rule 2 while its word is hidden) | "Click to go back, or press Escape" |
+| The Undo of a removal (`UndoToast`) | yes (rule 4: the key) | "Click to undo, or press Ctrl+Z" |
 | A header tool (`header-tool`) | no, its word is on it | (an icon-only header, under 1100px, says its word) |
 | A labelled button (`AddButton` wide, the Export buttons, Refresh) | only by rule 4 | what it does that its word does not ("Reset every group to its default years") |
 | A text link (`TextLink`) | only by rule 3 or 4 | the whole text where it is cut |
@@ -71,6 +72,9 @@ The icons' tooltips (the "i", the ×, the +, the arrows, the funnel, the fold ar
 | Global Settings, every group | Reset every group to its default years | Click to reset every group to its default years |
 | A name that opens a card or a page | Open <name> | Click to open <name> |
 | A step of the carousel | Previous <what> (←) / Next <what> (→) | Click to go to the previous <what>, or press ← |
+| A page arrow | Previous page (←) / Next page (→) | Click to go to the previous page, or press ← |
+| Back (`BackButton`) | Back (Escape) | Click to go back, or press Escape |
+| Undo (the removal message) | Undo (Ctrl+Z) | Click to undo, or press Ctrl+Z |
 | The Inventory's funnel | Sort all tiles | Click to filter and sort all tiles |
 | The Inventory's chip × | Show all tiles again | Click to show all tiles again |
 | A fold arrow of the funnel | Unfold Include | Click to show Include |
@@ -79,3 +83,19 @@ The icons' tooltips (the "i", the ×, the +, the arrows, the funnel, the fold ar
 ### Look of a tooltip
 
 One pop-up cell of the 32px pitch (the words centred, 12px at each side), the small size (14px) at weight 500, the tooltip's own ground; over a card its ground is mixed with the card's hue (78% of the tooltip's own ground) and its line is the card's accent line (the pop-ups' rule, `ai/02-review.md` section 6).
+
+## 5. The shortcut keys
+
+Every shortcut is a modifier and a key, or a key that types nothing (Escape, the arrows): no shortcut is a character alone (WCAG 2.2, 2.1.4), and none is one the browser, the system or a screen reader keeps (WAI-ARIA Authoring Practices, Developing a Keyboard Interface). A key is said the way the device says it: **Ctrl+K on Windows, Linux and Android, ⌘K on a Mac, an iPad and an iPhone** (Apple, Human Interface Guidelines, Keyboards), by one module (`keyLabel`, `isShortcut`, `keyShortcuts` in `src/components/controls/keys.ts`); both answer to Ctrl and to ⌘. A control that answers to a key names it in its tooltip (rule 4) and in `aria-keyshortcuts`; a Menu row shows it beside its word.
+
+| Key | Does | Where it is named |
+|---|---|---|
+| Ctrl+K (⌘K) | Opens Search, wherever an Organisation is open | The Menu's Search row |
+| Ctrl+, (⌘,) | Opens Settings, wherever an Organisation is open, as the comma opens the settings of most apps (Apple, Mac keyboard shortcuts); on a Mac's web browser ⌘, opens the browser's own settings, so there it works in the installed app | The Menu's Settings row |
+| Ctrl+Z (⌘Z) | Undoes a removal while its message shows (in a text field it undoes the typing) | The Undo's tooltip |
+| Escape | Closes the top layer, exits Focus, goes back | Back's tooltip, Exit focus's tooltip |
+| ← → | The previous and next page, card or Capability, where nothing else uses the arrows | The page arrows' and the carousel's tooltips |
+
+**Kept free, as each clashes somewhere:** Ctrl+N, T, W, L, D, H, J, P, S, R, F and 1 to 9 (the browser: Google Chrome Help, Chrome keyboard shortcuts); Alt and a letter (the browser's menus on Windows; a letter typed on a Mac); Ctrl+Alt (AltGr on Greek and other European keyboards); a letter alone (WCAG 2.1.4). Notes, Calendar, Workbook and Focus have no common key, so none is given.
+
+References: W3C, Understanding WCAG 2.2, Success Criterion 2.1.4 Character Key Shortcuts, https://www.w3.org/WAI/WCAG22/Understanding/character-key-shortcuts; W3C, WAI-ARIA Authoring Practices Guide, Developing a Keyboard Interface, https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/; Apple, Human Interface Guidelines, Keyboards, https://developer.apple.com/design/human-interface-guidelines/keyboards; Apple Support, Mac keyboard shortcuts, https://support.apple.com/102650; Google, Chrome keyboard shortcuts, https://support.google.com/chrome/answer/157179; Microsoft, Keyboard accelerators, https://learn.microsoft.com/en-us/windows/apps/develop/input/keyboard-accelerators.

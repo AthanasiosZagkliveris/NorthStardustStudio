@@ -123,6 +123,7 @@ The B2B list is the business relationships of Research 5 section 6.2, each with 
 ## 7. Limits that already stand (from earlier owner decisions)
 
 - Smallest supported width is 768 px; the app aims at WCAG 2.2 AA.
+- Every keyboard shortcut pairs Ctrl (⌘ on Apple devices) with a key, so a single letter starts nothing (WCAG 2.1.4). On a Mac's web browser ⌘, opens the browser's own settings, so it opens Settings only in the installed app. The keys are in Interface 8, section 5.
 - Sources follow rule 14 (Questions 2): classifications from official bodies, plain lists from business-school or university documents.
 
 ## 8. What is built
