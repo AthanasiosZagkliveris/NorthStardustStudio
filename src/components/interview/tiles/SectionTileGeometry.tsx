@@ -297,6 +297,21 @@ function railInset(): number {
     return Number.isFinite(inset) ? inset : 54;
 }
 
+/**
+ * EVERY MEASURE ON THE PAGE RUNS AGAIN, ONCE, IN THE NEXT FRAME: a page whose width, or whose rails' room, has just been set tells everything that measures on a
+ * window resize to measure again. However many say so in a frame, one resize is sent (each sent apart had every measure of the page run once for each).
+ */
+let measureFrame = 0;
+export function measureAgainNextFrame(): void {
+    if (measureFrame !== 0) {
+        return;
+    }
+    measureFrame = window.requestAnimationFrame(() => {
+        measureFrame = 0;
+        window.dispatchEvent(new Event("resize"));
+    });
+}
+
 /** The widest page the window allows: 1400px at most, the window less its 56px gutters (--rail-gutter). */
 export function widestPage(): number {
     return Math.min(1400, document.documentElement.clientWidth - 2 * 56);
@@ -327,7 +342,7 @@ export function setTilesPageWidth(page: HTMLElement | null, width: number | null
     if (page.style.getPropertyValue("--tiles-page-width") !== value) {
         page.style.setProperty("--tiles-page-width", value);
         page.setAttribute("data-tiles-page", "");
-        window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+        measureAgainNextFrame();
     }
 }
 
@@ -344,7 +359,7 @@ export function setTilesPage(page: HTMLElement | null, side: number | null): voi
     if (page.style.getPropertyValue("--tiles-page-width") !== width) {
         page.style.setProperty("--tiles-page-width", width);
         page.setAttribute("data-tiles-page", "");
-        window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+        measureAgainNextFrame();
     }
 }
 

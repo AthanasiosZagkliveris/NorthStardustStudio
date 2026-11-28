@@ -28,11 +28,10 @@ import { systemContents } from "../components/systems/systemContents";
 import BulletRail from "../components/interview/rails/BulletRail";
 import useRailTab from "../hooks/useRailTab.ts";
 import PageArrow from "../components/interview/fields/PageArrow";
-import { masterSide, setTilesPage, setTilesPageWidth } from "../components/interview/tiles/SectionTileGeometry.tsx";
+import { masterSide, measureAgainNextFrame, setTilesPage, setTilesPageWidth } from "../components/interview/tiles/SectionTileGeometry.tsx";
 import { footerBandHeight, isPhone, masterAcross, ROW_OF_FOUR_QUERY, verticalAcross } from "../hooks/useVerticalLayout.ts";
 import { getSystemIcon } from "../data/systemIcons";
 import "../styles/status-shape.css";
-import "../styles/system-list.css";
 // (A Capability's dialog carries the rail of every dialog: its tab of bullets, as the System pages and the Workbook draw it.)
 import "../styles/status-shape.css";
 import "../styles/bullet-rail.css";
@@ -408,7 +407,7 @@ export default function SystemSelection() {
         const span = Math.ceil(2 * Math.max(middle - r.left, r.right - middle)) + "px";
         if (page.style.getPropertyValue("--rail-frame-span") !== span) {
             page.style.setProperty("--rail-frame-span", span);
-            window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+            measureAgainNextFrame();
         }
     });
 

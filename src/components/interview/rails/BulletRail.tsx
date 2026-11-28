@@ -101,7 +101,8 @@ export default function BulletRail({
         fit();
         window.addEventListener("resize", fit);
         return () => window.removeEventListener("resize", fit);
-    });
+    // (Measured when its names, the one lit or its side change, and when the window does: not at every render of the page -- each key typed on it.)
+    }, [items.map(item => [item.id, item.label, item.status ?? "", item.capitals ? 1 : 0].join("\u0001")).join("\u0002"), activeId, side]);
 
     // ONE PLACEMENT FOR EVERY RAIL (useRailSlot; layout rules section 10, "One rail for every layer", "Page tab"): the rail starts 12px under its frame's top
     // (--rail-frame-top, bullet-rail.css) and the page arrow keeps the one arrow level (--arrow-level); where the rail stands under its arrow, the arrow takes one

@@ -1,6 +1,6 @@
 # The documents of NorthStardustStudio
 
-Status: **index**, updated 2026-11-27. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
+Status: **index**, updated 2026-11-28. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
 
 ## How the documents are kept
 
@@ -126,7 +126,7 @@ The source register (1), the research behind the design (2), the lists and class
 | [design/research/05-positioning-categories.md](design/research/05-positioning-categories.md) | collection | The owner's positioning data as given (age stages, buyer categories, relationships, purposes), the register of decisions on it and the reference tables. | 2026-11-21 |
 | [design/research/06-positioning-sources.md](design/research/06-positioning-sources.md) | research | The sources behind each positioning list of Research 5, what has none, and the pages checked. | 2026-11-21 |
 | [design/research/07-delivery-and-capacity-research.md](design/research/07-delivery-and-capacity-research.md) | proposal | Delivery and capacity: what the sources say, what the app asks today, what is missing, and seven additions in priority order; not built. | 2026-11-21 |
-| [design/research/08-beta-questionnaire.md](design/research/08-beta-questionnaire.md) | proposal | The Beta questionnaire: what the app would ask its Beta founders about the app, in sections, with the choices of each; nothing built. | 2026-11-21 |
+| [design/research/08-beta-questionnaire.md](design/research/08-beta-questionnaire.md) | proposal | The Beta questionnaire: what the app would ask its Beta founders about the app, in sections, with the choices of each; nothing built. | 2026-11-27 |
 | [design/research/09-kinds-of-app-and-systems.md](design/research/09-kinds-of-app-and-systems.md) | research | The kinds of app (web, installable web, store-packaged, web view, native) and what each system and store requires of an app (Android, iPhone and iPad, Windows, macOS, Linux), matched to Tiles. | 2026-11-27 |
 | [design/research/10-protecting-the-app.md](design/research/10-protecting-the-app.md) | research | Protecting the app from copying and digging: what a web app exposes, the ways to protect it (obfuscation, WebAssembly, integrity checks, a server, store integrity), the law (EU copyright, trade secrets), a recommendation in layers, and the GitHub check minutes. | 2026-11-27 |
 | [design/research/11-terms-of-use-law-and-practice.md](design/research/11-terms-of-use-law-and-practice.md) | research | The Terms of Use: what the law of Greece and the EU and of the six countries requires of them, what similar business-plan apps put in theirs, and the changes this made to the Terms. | 2026-11-27 |
@@ -151,8 +151,8 @@ The log of every change (1), what has not been done (2), and the generated catal
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [design/records/01-log.md](design/records/01-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-11-27 |
-| [design/records/02-to-do-list.md](design/records/02-to-do-list.md) | living list | The to-do list: the work for the Beta and Version 1, each item with its stage: the road, the requirements still open, the open decisions and the open points of the reviews. | 2026-11-27 |
+| [design/records/01-log.md](design/records/01-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-11-28 |
+| [design/records/02-to-do-list.md](design/records/02-to-do-list.md) | living list | The to-do list: the work for the Beta and Version 1, each item with its stage: the road, the requirements still open, the open decisions and the open points of the reviews. | 2026-11-28 |
 | [design/records/03-catalogue-record.md](design/records/03-catalogue-record.md) | generated | The catalogue record of the app's pages, tiles, cards and controls, from the card scan and the probes. | 2026-11-21 |
 | [design/records/04-structure-tables.md](design/records/04-structure-tables.md) | generated | The structure tables of the app (pages, chapters, tiles, views, components, fields, card kinds), from the catalogue. | 2026-11-21 |
 
@@ -177,7 +177,7 @@ Standing rules, references and playbooks for an AI assistant working on the proj
 | [ai/06-framework-conventions-and-patterns.md](ai/06-framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-11-21 |
 | [ai/02-review.md](ai/02-review.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured and the report (sections 1 to 12), and the checklist to tick before saying done (section 13). | 2026-11-21 |
 | [ai/04-code-map.md](ai/04-code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-22 |
-| [ai/09-layout-rules.md](ai/09-layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-27 |
+| [ai/09-layout-rules.md](ai/09-layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-28 |
 | [ai/08-card-kinds.md](ai/08-card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-11-21 |
 | [ai/05-folder-plan.md](ai/05-folder-plan.md) | reference | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder (it was document 25; the number is retired). | 2026-11-21 |
 

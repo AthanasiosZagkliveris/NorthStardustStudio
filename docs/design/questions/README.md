@@ -1,6 +1,6 @@
 # The questions (Questions 1 to 21)
 
-Status: **index**, updated 2026-11-27. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-11-28. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
 How the questions work, then one document for each tile in the order the app shows them. **How they work:** 1 (the plan, the order of work and, in section 11, the form of a tile document), 2 (every question, the connections and the evidence), 3 (the flow), 4 (the first published version and what is left for later), 5 (every auto-filled answer), 6 (every question in one table with its permanent code, generated). **Identity System:** 7 (the Organisation), 8 (Positioning), 9 (Purpose & Beliefs), 10 (the legal starts). **Brand System:** 11 (the Ambassador). **Business System:** 12 (the Segment), 13 (the Profile), 14 (the Competitor), 15 (the Value Proposition), 16 (the Offering), 17 (Customer Engagement), 18 (channel fees and Sales Forecast), 19 (Capacity & Delivery), 20 (Financials and the Inventory). **Strategy System:** 21. **How to word them:** Interface 10 and, in Questions 2, sections 3 and 4.
 

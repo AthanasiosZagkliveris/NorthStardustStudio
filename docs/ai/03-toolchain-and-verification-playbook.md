@@ -1,6 +1,6 @@
 # Toolchain and verification playbook
 
-Status: **playbook**, written 2026-10-21, updated 2026-11-21. The procedure for working on the frontend, and the record of which test failures are expected.
+Status: **playbook**, written 2026-10-21, updated 2026-11-28. The procedure for working on the frontend, and the record of which test failures are expected.
 
 The exact procedure for working on NorthStardustStudio's frontend, and the record of which test failures are expected. Everything here was checked by use. The list of what to look at on screen is `02-review.md`, section 13; this file is what to run.
 
@@ -12,6 +12,7 @@ The exact procedure for working on NorthStardustStudio's frontend, and the recor
 - [The screen snapshot](#the-screen-snapshot)
 - [Finding where something is styled](#finding-where-something-is-styled)
 - [The console walk](#the-console-walk)
+- [How fast it answers](#how-fast-it-answers)
 - [The app files alone](#the-app-files-alone)
 - [Before every commit](#before-every-commit)
 - [Continuous integration](#continuous-integration)
@@ -82,6 +83,12 @@ Before and after a change that must not change the screen (code moved between fi
 ## The console walk
 
 `npm run check:console` opens every Foundation page of both examples with every tile's dialog and reports what the browser console, the page and the network said (errors, warnings, uncaught exceptions, failed requests); it fails on any. Run it after a change to how a page is built, as the layout check shows how a page looks and this shows whether it throws. It starts the dev server itself when none answers.
+
+## How fast it answers
+
+`npm run check:speed` opens the built app (`npm run build`, then `npx vite preview` on port 4173; `-- --base URL` for another) on a Pixel 7's screen with its processor slowed four times, as a mid-range phone, and on three pages taps the first tile and types into its dialog. It reports how long the tap took to answer, how many times React drew the page and the browser worked out its styles while the dialog opened, and how long a key took to show (the middle and the longest). Run it before and after a change to how a page measures or draws, on the same machine; the numbers of 2026-11-28 are in the log. What keeps it fast is the conventions' "Measure on change, not on render" (`06-framework-conventions-and-patterns.md`).
+
+The screen snapshot takes the phone's layout with `--size 412x915 --foundation` (the other Systems' pages are opened from a desktop's menu), and `--base http://localhost:4173` takes it of a built copy, so the code before a change (built and served on one port) and after it (on another) can be compared side by side.
 
 ## The app files alone
 
