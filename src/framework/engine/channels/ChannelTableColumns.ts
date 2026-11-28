@@ -60,7 +60,7 @@ export function shareTheRest(tableWidth: number, fitted: ColumnWidths): { offeri
     return { offerings, action: rest - offerings };
 }
 
-export interface ColumnMeasures {
+interface ColumnMeasures {
     /** A cell's padding at each side (12px, --space-field). */
     cellPadding: number;
     /** The widest option of the Journey Stage picker (text only), and the picker's own padding, chevron and border. */
@@ -77,7 +77,7 @@ export interface ColumnMeasures {
     nameBeside: number;
 }
 
-export interface ColumnWidths {
+interface ColumnWidths {
     stage: number;
     channel: number;
 }

@@ -37,7 +37,7 @@ export interface SegmentIdentity {
 }
 
 /** The Organisation's answers the Segment, Profile and Offering cards read (the Organisation tile and Positioning). */
-export interface IdentityOrganisation {
+interface IdentityOrganisation {
     customerType: readonly string[];
     marketType: string;
     audience: readonly string[];
@@ -105,7 +105,7 @@ export function segmentIsBusiness(segment: { description: Record<string, string>
 }
 
 /** Who the Segment's questions are written for: people (Box 1), businesses and public bodies (Box 3), or not yet known / both (both boxes). */
-export type SegmentFrame = "people" | "business" | "open";
+type SegmentFrame = "people" | "business" | "open";
 
 export function segmentFrame(identity: SegmentIdentity | undefined): SegmentFrame {
 

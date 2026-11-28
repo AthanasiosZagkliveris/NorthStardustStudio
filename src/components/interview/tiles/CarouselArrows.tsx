@@ -8,7 +8,7 @@ import { isPhone, railsInBand } from "../../../hooks/useVerticalLayout.ts";
 import { createPortal } from "react-dom";
 
 /** The carousel arrow's box: the page arrow's (24 x 44), 10% larger. */
-export const CAROUSEL_ARROW_WIDTH = 24;
+const CAROUSEL_ARROW_WIDTH = 24;
 
 /** The least side of the squeezed Inventory and Completed tiles under the page's two cards. */
 export const SQUEEZED_ROW_MIN = 56;
@@ -29,7 +29,7 @@ export const CAROUSEL_ARROW_GAP = 12;
  */
 /** The ground, the edge and the ink of the card or dialog a carousel stands beside: its rail's tab takes them (the page tab's rule, on every layer). */
 /** A colour with an alpha under 1 (a caption's dark pill, a card's inner light): never a layer's ground. */
-export function translucentColour(colour: string): boolean {
+function translucentColour(colour: string): boolean {
     return /\/\s*0?\.\d+\)$|rgba\([^)]*,\s*0?\.\d+\)$/.test(colour);
 }
 
@@ -38,10 +38,10 @@ export function translucentColour(colour: string): boolean {
 export const COMPLETED_CARD = ".business-capability-activity-completed";
 
 /** A layer that is the Completed's (its dialog, or a completed card in it): grey, and so is what stands with it. */
-export const completedLayer = (node: HTMLElement | null | undefined): boolean => !!node && (node.matches(".section-tile-dialog-completed") || !!node.querySelector(COMPLETED_CARD));
+const completedLayer = (node: HTMLElement | null | undefined): boolean => !!node && (node.matches(".section-tile-dialog-completed") || !!node.querySelector(COMPLETED_CARD));
 
 
-export function tabColours(node: HTMLElement): { bg: string; edge: string; ink: string } | null {
+function tabColours(node: HTMLElement): { bg: string; edge: string; ink: string } | null {
     const opaque = (colour: string) => colour !== "" && colour !== "transparent" && !/rgba\([^)]*,\s*0\)$/.test(colour);
     // The layer's own ground: the first element, from the layer inward (a few levels), that has an opaque background and is as wide as a card -- a dialog's panel, a card's box.
     // (A floating card is searched inside its own body: its caption and the tooltips are no ground.)
@@ -67,7 +67,7 @@ export function tabColours(node: HTMLElement): { bg: string; edge: string; ink: 
 
 
 /** Where a layer's page tab starts: 12px under the top of the frame it is attached to (a floating card's own frame, never the box name above it; a dialog's panel). */
-export const TAB_DROP = 12;
+const TAB_DROP = 12;
 
 
 /**

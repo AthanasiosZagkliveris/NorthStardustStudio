@@ -15,7 +15,7 @@ export const FEE_CHANNEL_CATEGORIES: readonly string[] = ["Direct Payment", "Web
 
 export type ChannelFeeStatus = "checked" | "not-checked" | "not-available";
 
-export interface ChannelFeeDatum {
+interface ChannelFeeDatum {
     /** The provider's name as a card or subchannel names it ("Stripe Terminal" before "Stripe": the more particular name first). */
     provider: string;
     /** The country (ISO code). */

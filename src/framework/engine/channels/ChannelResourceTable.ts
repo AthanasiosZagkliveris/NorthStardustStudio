@@ -36,7 +36,7 @@ import { type CostFrequency, isPerUnitFrequency, moneyFormatter, monthlyEquivale
     frequency) has none.
 */
 
-export interface ChannelResourceAction {
+interface ChannelResourceAction {
     id: string;
     /** "#12": its total action order number in the Customer Channel table. */
     order: number;
@@ -77,7 +77,7 @@ export interface ChannelResourceRow {
     offerings: string[];
 }
 
-export interface ChannelResourceSummary {
+interface ChannelResourceSummary {
     /** Fixed costs of the rows per month (annual / 12); null with none. */
     fixedPerMonth: number | null;
     oneTime: number | null;

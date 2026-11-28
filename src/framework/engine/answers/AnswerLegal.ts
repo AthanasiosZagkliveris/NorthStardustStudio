@@ -43,7 +43,7 @@ export interface LegalEntityActivityValue {
 
 export const MAX_ACTIVITIES = 4;
 
-export interface LegalEntityOrganisationValue {
+interface LegalEntityOrganisationValue {
     name: string;
     /** ISO 3166-1 alpha-2, or "" -- see LegalEntityJurisdictions. */
     country: string;
@@ -178,7 +178,7 @@ export interface LegalEntityNumberValue {
     rule?: string;
 }
 
-export interface LegalEntityFormationValue {
+interface LegalEntityFormationValue {
     /**
      * "planned": not registered yet, the form and place chosen but no
      * date or numbers to give. "" (or "registered"): registered.
@@ -194,14 +194,14 @@ export interface LegalEntityFormationValue {
 /** Whether the organization is registered for the consumption tax. */
 export type LegalEntityTaxStatus = "" | "yes" | "no" | "not-applicable";
 
-export interface LegalEntityTaxValue {
+interface LegalEntityTaxValue {
     identificationNumber: string;
     consumptionTaxStatus: LegalEntityTaxStatus;
     consumptionTaxNumber: string;
     additionalRegistrations: LegalEntityNumberValue[];
 }
 
-export interface LegalEntityRequirementValue {
+interface LegalEntityRequirementValue {
     id: string;
     /** An id from LEGAL_REQUIREMENT_TYPES. */
     type: string;
@@ -305,7 +305,7 @@ export function createLegalEntityExpense(): LegalEntityExpenseValue {
     };
 }
 
-export function legalEntityNumberList(value: unknown): LegalEntityNumberValue[] {
+function legalEntityNumberList(value: unknown): LegalEntityNumberValue[] {
 
     return (Array.isArray(value) ? value : []).map(entry => {
 

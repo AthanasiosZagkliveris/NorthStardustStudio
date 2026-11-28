@@ -560,7 +560,7 @@ export const groupOf = (row: FloorRow) => row.tone === "legal" ? (row.path[2] ??
 
 /** The TYPES a place can be filtered by, directly under the places: the Founders, then Resources, Activities, Partners & Suppliers, and the Channel's cards. */
 export type FloorType = FloorKind | "channel";
-export const PLACE_KINDS: readonly FloorType[] = ["founder", "resource", "activity", "partner", "provider", "channel"];
+const PLACE_KINDS: readonly FloorType[] = ["founder", "resource", "activity", "partner", "provider", "channel"];
 
 /** The kind of a row (the Workspace cards are resource cards: the Resources kind; the Founders are a kind of their own). */
 export const kindClass = (row: FloorRow): FloorKind => row.kind;
@@ -605,7 +605,7 @@ export const subgroupKey = (category: string, group: string) => category + "\u00
 export const subgroupOf = (row: FloorRow) => row.tone === "channel" ? "Channel" : row.kind === "activity" ? "" : row.path[2] ?? "";
 
 /** The category a group is a group OF, in the funnel's keys: the group the page names, but for a Channel card its category (Channel is a group of that category). */
-export const groupKeyOf = (row: FloorRow) => row.tone === "channel" ? categoryOf(row) : groupOf(row);
+const groupKeyOf = (row: FloorRow) => row.tone === "channel" ? categoryOf(row) : groupOf(row);
 
 /** Step 4: the groups (subsections) of the ticked categories only, each once, as { key, label }. */
 export function floorSubgroups(rows: readonly FloorRow[], place: "" | "legal" | "infrastructure" | "offering", categories: readonly string[]): { key: string; label: string }[] {

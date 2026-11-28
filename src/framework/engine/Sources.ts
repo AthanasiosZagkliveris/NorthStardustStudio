@@ -200,7 +200,7 @@ export function harvardCitation(source: Source): string {
 }
 
 /** One piece of a reference as it is drawn: plain, in italics (the title of a work), or the address (a link). */
-export interface ReferencePart {
+interface ReferencePart {
     text: string;
     italic?: boolean;
     link?: boolean;

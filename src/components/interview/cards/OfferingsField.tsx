@@ -10,7 +10,7 @@ import { OFFERING_BASIS_KEY, SHARE_BASES, SHARE_BASIS_HELP, offeringFractions, o
  * several, how the cost is shared (owner, 2026-11-16; Research 2, R3) -- by the hours each uses, the revenue each brings, in equal parts, or the user's own
  * split, each Offering's percent at the end of its row. None ticked: the cost is the whole company's.
  */
-export interface OfferingsFieldProps {
+interface OfferingsFieldProps {
     /** The Offerings ticked, by id. */
     current: string[];
     onNext: (next: { offeringIds: string[]; offeringShares: Record<string, string> }) => void;

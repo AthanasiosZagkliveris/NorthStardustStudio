@@ -62,7 +62,7 @@ import { effectiveOfferingAnswers } from "./answers/EffectiveAnswers.ts";
     the section.
 */
 
-export interface OpenPlace {
+interface OpenPlace {
     systemNumber: number;
     sectionNumber: number;
     key?: string;

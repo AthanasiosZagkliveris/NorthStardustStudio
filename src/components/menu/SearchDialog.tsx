@@ -20,7 +20,7 @@ const YOUR_TERMS_HUE = PALETTE.find(colour => colour.name === "terracotta")?.hue
  * at that term; Back returns to `from`); an answer (its cards
  * unfolded, the box holding it focused, focusText).
  */
-export function openTarget(navigate: Navigate, target: SearchTarget, from?: WorkbookState["from"]): void {
+function openTarget(navigate: Navigate, target: SearchTarget, from?: WorkbookState["from"]): void {
 
     if (target.term) {
         const state: WorkbookState = { tab: "glossary", term: target.term.key, from };

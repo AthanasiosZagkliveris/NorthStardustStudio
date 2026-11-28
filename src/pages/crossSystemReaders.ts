@@ -19,7 +19,7 @@ import { systems } from "../data/systems";
 import { IDENTITY_SYSTEM_NUMBER, IDENTITY_DEFINITION_SECTION } from "./conversationHelpers";
 
 /** What the page hands in: the open interview, the Organization, the System's number, and the page's own ways to redraw, save and move. */
-export interface CrossSystemInput {
+interface CrossSystemInput {
     session: InterviewSession;
     organizationId: string | null;
     systemNumber: number;

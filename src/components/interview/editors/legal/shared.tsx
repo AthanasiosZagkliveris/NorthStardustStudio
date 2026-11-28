@@ -49,7 +49,7 @@ export const MAX_MORE_NUMBERS = 5;
 export const MAX_OTHER_NUMBER_LENGTH = 30;
 
 /** Seller & Buyer Relationship (design Questions 2, 8.2): the owner's words as written, one choice. */
-export const CUSTOMER_TYPES = [
+const CUSTOMER_TYPES = [
     { id: "b2c", label: "B2C (Business-to-Consumer)" },
     { id: "b2b", label: "B2B (Business-to-Business)" },
     { id: "b2g", label: "B2G (Business-to-Government)" },
@@ -165,7 +165,7 @@ export const USER_OUTCOMES = [
 ] as const;
 
 /** The Positioning answers that order the Differentiation and the end user's outcome (asked on the Business System since 2026-11-08, ordered as they were on Positioning). */
-export interface PositioningOrder {
+interface PositioningOrder {
     customerType: readonly string[];
     audience: readonly string[];
     buyerCategory: readonly string[];

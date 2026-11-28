@@ -7,9 +7,9 @@ import { readFoundation, type FoundationSessions } from "./BusinessDocuments.ts"
 import { asGlobalSettings, stageDurationsOf } from "./GlobalSettings.ts";
 import { DEFAULT_STAGE_DURATIONS, addMonthsIso, dayWords, daysBetween, stageEnds, type StageDurations } from "./BusinessStage.ts";
 
-export type KeyDateKind = "plan-start" | "registered" | "opening" | "launching-ends" | "managing-ends" | "growing-ends";
+type KeyDateKind = "plan-start" | "registered" | "opening" | "launching-ends" | "managing-ends" | "growing-ends";
 
-export interface KeyDate {
+interface KeyDate {
     id: KeyDateKind;
     /** ISO "YYYY-MM-DD". */
     date: string;

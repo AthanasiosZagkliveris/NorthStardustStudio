@@ -11,7 +11,7 @@
 
 export const US_STATES_CHECKED = "2026-11-19";
 
-export type UsFrequency = "One time" | "Annually" | "Every two years";
+type UsFrequency = "One time" | "Annually" | "Every two years";
 
 export interface UsFee {
     name: string;
@@ -20,18 +20,18 @@ export interface UsFee {
     frequency: UsFrequency;
 }
 
-export interface UsPublication {
+interface UsPublication {
     says: string;
     fee?: UsFee;
 }
 
-export interface UsFormFilings {
+interface UsFormFilings {
     formation?: UsFee;
     report?: UsFee;
     publication?: UsPublication;
 }
 
-export interface UsState {
+interface UsState {
     code: string;
     name: string;
     checked: string;

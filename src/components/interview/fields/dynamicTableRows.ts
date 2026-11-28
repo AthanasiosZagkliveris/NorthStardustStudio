@@ -212,7 +212,7 @@ export function addRow(value: TableRow[], columns: TableColumn[], afterIndex?: n
 
 }
 
-export function clearRow(value: TableRow[], columns: TableColumn[], index: number): TableRow[] {
+function clearRow(value: TableRow[], columns: TableColumn[], index: number): TableRow[] {
 
     const rows = [...value];
 

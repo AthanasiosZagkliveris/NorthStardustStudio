@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { PHONE_QUERY, ROW_OF_FOUR_QUERY } from "./useVerticalLayout.ts";
 
 /** A phone, upright (600px and under) or turned to landscape (under 480px tall): the windows whose pages draw no chapter frames (layout rules, section 23). */
-export const ANY_PHONE_QUERY = PHONE_QUERY + ", " + ROW_OF_FOUR_QUERY;
+const ANY_PHONE_QUERY = PHONE_QUERY + ", " + ROW_OF_FOUR_QUERY;
 
 /** The chapters of a page: the box that gives a group of master tiles its ground (a chapter's card, a Segment's chapter, a Capability's Systems). */
 const CHAPTERS = ".answer-columns.business-capability > .business-foundation-card, .segment-chapter, .capability-systems-frame, .page-group > .business-foundation-card";

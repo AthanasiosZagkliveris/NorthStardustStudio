@@ -28,7 +28,7 @@ function write(groupId: string, state: GroupState) {
     listeners.forEach(listener => listener());
 }
 
-export interface GroupView {
+interface GroupView {
     /** The id of the card shown ("" where there is none). */
     selected: string;
     /** Its place among the cards. */

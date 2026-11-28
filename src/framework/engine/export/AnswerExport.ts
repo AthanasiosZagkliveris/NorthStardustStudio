@@ -160,7 +160,7 @@ export interface BuildAnswerBlocksOptions {
  * as a short vertical list in its own cell instead of one
  * cramped "1. X; 2. Y; 3. Z" line.
  */
-export function cellToText(cell: unknown): string {
+function cellToText(cell: unknown): string {
 
     if (Array.isArray(cell)) {
 
@@ -179,7 +179,7 @@ export function cellToText(cell: unknown): string {
  * Splits free text into paragraphs on blank lines,
  * trimming and dropping any that are empty.
  */
-export function toParagraphs(text: string): string[] {
+function toParagraphs(text: string): string[] {
 
     return text
         .split(/\n{2,}/)
@@ -211,13 +211,13 @@ export function toParagraphs(text: string): string[] {
 // gets rendered as one un-broken HTML line, so a handful of empty
 // list items came out as a squished-together "1. 2. • •" instead of
 // a real (if empty) list.
-export const EXPORT_BULLET_LINE = /^(\s*)(?:•|[*-])(?: (.*))?$/;
+const EXPORT_BULLET_LINE = /^(\s*)(?:•|[*-])(?: (.*))?$/;
 
 // A line already recognized as a numbered list item by
 // useListAutoFormat.ts (optional indent, digits, a period, then
 // optionally a space and content -- see the comment on
 // EXPORT_BULLET_LINE for why the content half is optional).
-export const EXPORT_NUMBERED_LINE = /^(\s*)\d+\.(?:\s(.*))?$/;
+const EXPORT_NUMBERED_LINE = /^(\s*)\d+\.(?:\s(.*))?$/;
 
 // How many leading-whitespace characters make up one indent step --
 // matches TAB_INDENT_UNIT's length in useListAutoFormat.ts (that
@@ -225,9 +225,9 @@ export const EXPORT_NUMBERED_LINE = /^(\s*)\d+\.(?:\s(.*))?$/;
 // Tab/Shift+Tab). Kept as a separate constant here rather than a
 // shared import so this file -- plain export/formatting logic --
 // doesn't take on a dependency on a React hook module.
-export const EXPORT_INDENT_UNIT_LENGTH = 2;
+const EXPORT_INDENT_UNIT_LENGTH = 2;
 
-export function indentLevel(whitespace: string): number {
+function indentLevel(whitespace: string): number {
     return Math.floor(whitespace.length / EXPORT_INDENT_UNIT_LENGTH);
 }
 
@@ -252,7 +252,7 @@ export function indentLevel(whitespace: string): number {
  * together as a single `paragraph` block, exactly as
  * before.
  */
-export function paragraphToBlocks(paragraph: string): ExportBlock[] {
+function paragraphToBlocks(paragraph: string): ExportBlock[] {
 
     const blocks: ExportBlock[] = [];
     const lines = paragraph
@@ -331,7 +331,7 @@ export function paragraphToBlocks(paragraph: string): ExportBlock[] {
  * boundaries and recognizing bullet/numbered list lines
  * within each paragraph -- see `paragraphToBlocks`.
  */
-export function toContentBlocks(text: string): ExportBlock[] {
+function toContentBlocks(text: string): ExportBlock[] {
 
     return toParagraphs(text).flatMap(paragraphToBlocks);
 

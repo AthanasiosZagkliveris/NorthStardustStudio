@@ -229,7 +229,7 @@ export const COMPETITOR_CHANGES: readonly SegmentOption[] = segmentOptions("tren
 
 /* ---- K6: the review platforms (L18) and their order ---- */
 
-export interface ReviewPlatform extends SegmentOption {
+interface ReviewPlatform extends SegmentOption {
     /** The industries (SEGMENT_INDUSTRIES' ids) it comes first for. */
     industries?: readonly string[];
     /** The countries (ISO codes; "other" for every country outside the six) it comes first for. */
@@ -625,7 +625,7 @@ export function competitorSettle(answers: CompetitorAnswers, type: string): Comp
 /* ---- K10: the openings, from the card's own answers ---- */
 
 /** What K10 reads besides the card itself: the Segment's Profiles' B1 and its other competitors. */
-export interface OpeningContext {
+interface OpeningContext {
     /** Each Profile's answers (b1 and b1-rating). */
     profiles: readonly CompetitorAnswers[];
     /** The Segment's other competitors' answers, for ties (how many rate a value low). */
@@ -702,7 +702,7 @@ export function valueInSentence(value: string): string {
 }
 
 /** Whether a Profile of the Segment ticks a value in B1. */
-export function valueOfProfiles(value: string, context: OpeningContext): boolean {
+function valueOfProfiles(value: string, context: OpeningContext): boolean {
     return context.profiles.some(profile => (profile.b1 ?? []).includes(value));
 }
 

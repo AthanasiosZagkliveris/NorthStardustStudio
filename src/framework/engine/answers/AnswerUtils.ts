@@ -128,7 +128,7 @@ export type RolesResponsibilitiesAnswerValue = Record<string, string>;
  * (buildAnswerBlocks below), so the two can never disagree on
  * grouping/ordering.
  */
-export interface RolesResponsibilityEntry {
+interface RolesResponsibilityEntry {
     process: ProcessRecordValue;
     processIndex: number;
     notes: string;
@@ -138,7 +138,7 @@ export interface RolesResponsibilityEntry {
  * One Owner's group of Responsibilities, in Process Library
  * order.
  */
-export interface RolesResponsibilityGroup {
+interface RolesResponsibilityGroup {
     owner: string;
     entries: RolesResponsibilityEntry[];
 }

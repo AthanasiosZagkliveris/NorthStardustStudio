@@ -7,10 +7,10 @@ import "../../styles/rating-scale.css";
 export type Rating = 1 | 2 | 3 | 4 | 5;
 
 /** The five points, low to high, left to right. */
-export const RATING_POINTS: readonly Rating[] = [1, 2, 3, 4, 5];
+const RATING_POINTS: readonly Rating[] = [1, 2, 3, 4, 5];
 
 /** What a screen reader says for one round: "1 of 5", and the end's word where the round is an end ("1 of 5, Weak"). */
-export function ratingPointName(point: Rating, ends: { low?: string; high?: string }): string {
+function ratingPointName(point: Rating, ends: { low?: string; high?: string }): string {
     const word = point === 1 ? ends.low : point === 5 ? ends.high : undefined;
     return point + " of 5" + (word ? ", " + word : "");
 }

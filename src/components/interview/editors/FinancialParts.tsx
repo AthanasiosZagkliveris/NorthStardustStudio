@@ -178,7 +178,7 @@ export function FigureTiles({ tiles }: { tiles: FigureTile[] }) {
 ========================================================== */
 
 /** A month to call out on the chart: break even, money running out. */
-export interface TimelineMarker {
+interface TimelineMarker {
     month: number;
     label: string;
     tone: "good" | "risk";

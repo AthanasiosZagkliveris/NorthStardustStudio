@@ -65,11 +65,11 @@ export interface FoundersProfileValue {
 }
 
 /** A founder's profile, named as the Legal Entity names them. */
-export interface NamedFounderProfile extends FounderProfileValue {
+interface NamedFounderProfile extends FounderProfileValue {
     name: string;
 }
 
-export function createFounderProfile(id: string): FounderProfileValue {
+function createFounderProfile(id: string): FounderProfileValue {
     return {
         id,
         roles: [""],
@@ -91,7 +91,7 @@ export function profileList(value: unknown): string[] {
  * Saved before entries had a type, an entry is a plain string -- it
  * is kept, untyped; a type the page does not offer is read as none.
  */
-export function profileSkills(value: unknown): FounderSkillValue[] {
+function profileSkills(value: unknown): FounderSkillValue[] {
 
     const items = (Array.isArray(value) ? value : []).map(item => {
 
@@ -118,7 +118,7 @@ export function profileSkills(value: unknown): FounderSkillValue[] {
  * over -- put back at its start ("12 years in the industry. ..."),
  * unless the text already starts with them. Nothing saved is lost.
  */
-export function experienceWithYears(years: string, experience: string): string {
+function experienceWithYears(years: string, experience: string): string {
 
     const count = years.trim();
 

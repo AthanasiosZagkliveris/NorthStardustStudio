@@ -30,7 +30,7 @@ import { labelWithCurrency } from "../../../framework/engine/financial/Currencie
 
 const DASH = "—";
 
-export interface ChannelResourceTableProps {
+interface ChannelResourceTableProps {
     table: Table;
     /** "Lumen & Loom": the Segment, for the caption and the controls' names. */
     segmentName: string;

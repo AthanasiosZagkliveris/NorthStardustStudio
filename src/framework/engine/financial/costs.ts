@@ -755,7 +755,7 @@ export function isScheduled(line: CostLine): boolean {
 
 /** Whether a frequency is paid per unit of activity (per unit, order or project): a variable cost. */
 /** Whether a cost is a rate of the revenue it follows (Percentage billing, or the % of Rev driver): its amount is a percent, not money. */
-export function isPercentLine(line: Pick<CostLine, "billing" | "frequency">): boolean {
+function isPercentLine(line: Pick<CostLine, "billing" | "frequency">): boolean {
     return line.billing === "percentage" || line.frequency === "usage-based";
 }
 

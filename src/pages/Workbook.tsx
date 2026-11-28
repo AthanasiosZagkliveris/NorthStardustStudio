@@ -49,7 +49,7 @@ const PHONE_UPRIGHT_QUERY = PHONE_QUERY + " and (orientation: portrait), (orient
 export { letterRanges, REFERENCES_PER_RANGE, type LetterRange } from "../components/workbook/GlossaryList";
 export type { WorkbookState } from "../components/notepad/Notepad";
 
-export type WorkbookTab = NonNullable<WorkbookState["tab"]>;
+type WorkbookTab = NonNullable<WorkbookState["tab"]>;
 
 /** The Workbook's colour: the work done in it is reviewing (WorkColours.ts; docs/design/foundation/01-current-design.md, part I). */
 const WORKBOOK_HUE = workHue("review");

@@ -16,7 +16,7 @@ const DATABASE = "northstardust";
 const STORE = "organizations";
 
 /** The keys that move from localStorage: the index, the selected Organization, and each Organization's document. */
-export const isOrganizationKey = (key: string) =>
+const isOrganizationKey = (key: string) =>
     key === "northstardust-organizations" || key === "northstardust-selected-organization" || key.startsWith("northstardust-organization-");
 
 type WriteReport = (key: string, failure: string | null) => void;

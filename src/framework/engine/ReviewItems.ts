@@ -67,7 +67,7 @@ export interface ReviewItem {
     when?: "past" | "today" | "ahead";
 }
 
-export interface ReviewInput {
+interface ReviewInput {
     /**
      * The Systems' saved sessions, by System number: the four
      * Foundation Systems always (null where not started), any other

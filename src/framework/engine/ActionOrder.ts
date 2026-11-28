@@ -17,17 +17,17 @@ import type { BusinessEngagementValue, BusinessSegmentEngagementValue } from "./
 */
 
 /** How many hues each palette has (global.css, --shared-hue-1..6 and --resource-hue-1..6). */
-export const MARK_PALETTE = 6;
+const MARK_PALETTE = 6;
 
 /**
  * What a mark is drawn in once the hues are used up: the first six are
  * solid, the next six the same hues in diagonal STRIPES with a contrasting
  * second colour, the next six in a CROSS-HATCH of it, then round again.
  */
-export const MARK_PATTERNS = ["solid", "stripes", "hatch"] as const;
-export type MarkPattern = typeof MARK_PATTERNS[number];
+const MARK_PATTERNS = ["solid", "stripes", "hatch"] as const;
+type MarkPattern = typeof MARK_PATTERNS[number];
 
-export interface ActionPlacement {
+interface ActionPlacement {
     actionId: string;
     channelId: string;
     stage: string;
@@ -113,7 +113,7 @@ export function actionRows(placements: readonly ActionPlacement[], actionId: str
 }
 
 /** The actions placed in more than one row, each once, in table order. */
-export function sharedActionIds(placements: readonly ActionPlacement[]): string[] {
+function sharedActionIds(placements: readonly ActionPlacement[]): string[] {
     const ids = [...new Set(placements.map(entry => entry.actionId))];
     return ids.filter(id => actionRows(placements, id).length > 1);
 }

@@ -12,7 +12,7 @@ export const explain = (list: readonly { label: string; explanation: string }[])
     list.map(entry => ({ title: entry.label, text: entry.explanation }));
 
 /** The distinctions the specification asks the "i" controls to make. */
-export const DEFINITIONS = {
+const DEFINITIONS = {
     cost: { title: "Cost", text: "Money the organisation needs to spend." },
     need: { title: "Funding Need", text: "Money the organisation needs to obtain to support its financial requirements." },
     capital: { title: "Capital", text: "Money contributed to the organisation, particularly by founders or investors." },

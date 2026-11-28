@@ -10,7 +10,7 @@ import type { FloorLink } from "./capabilityFloor.ts";
 import "../../../styles/section-tiles.css";
 
 /** What the carousel's left arrow asks of a dialog of sections it enters from the tile after it: open on its last section. */
-export const LAST_SECTION = "@last";
+const LAST_SECTION = "@last";
 
 /** One tile of a dialog that holds several sections (the Registrations': its three). */
 export interface SubTile {

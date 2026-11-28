@@ -531,7 +531,7 @@ const VALUE_WORRY: Readonly<Record<string, string>> = {
 };
 
 /** Whether the Segment's end user is a minor of a Proxy buyer: a baby, a child or a teenager (End user, 1), or only minors chosen in Positioning where that is not answered. */
-export function profileMinorUser(segment: SegmentAnswers, context: SegmentContext): "baby" | "child" | "teen" | "" {
+function profileMinorUser(segment: SegmentAnswers, context: SegmentContext): "baby" | "child" | "teen" | "" {
     if (!context.endsUser || context.dual) {
         return "";
     }
@@ -839,7 +839,7 @@ export function asProfileAnswers(source: unknown): SegmentAnswers {
 }
 
 /** A Profile the app proposes for a business Segment: its name and its roles in buying (A5), set when it is added. */
-export interface ProposedProfile {
+interface ProposedProfile {
     id: "decider" | "user" | "checker" | "buyer" | "checker-buyer";
     name: string;
     roles: string[];

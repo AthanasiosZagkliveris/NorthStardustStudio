@@ -9,7 +9,7 @@
  * values; every variable and every value has a name and a description.
  */
 
-export type AssetCategory = "component" | "field" | "card" | "tile" | "frame";
+type AssetCategory = "component" | "field" | "card" | "tile" | "frame";
 
 /** The letters of the kinds of asset, and the category each belongs to (the owner approved the list, 2026-10-15). */
 export const KINDS = {
@@ -60,7 +60,7 @@ export interface Look {
 }
 
 /** One value a variable can take. */
-export interface VariableValue {
+interface VariableValue {
     name: string;
     description: string;
 }

@@ -5,7 +5,7 @@
  */
 
 /** Whether the device names its command key ⌘ (macOS, iPadOS, which reports itself as a Mac, and iOS). */
-export function isApple(): boolean {
+function isApple(): boolean {
     if (typeof navigator === "undefined") {
         return false;
     }

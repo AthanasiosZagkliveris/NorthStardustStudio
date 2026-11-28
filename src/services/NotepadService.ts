@@ -13,7 +13,7 @@ import { type FieldKey, currentFieldKey } from "../framework/engine/fields/Field
 */
 
 /** Where a link leads: a whole System, one page of it, or a section, card or field on a page. */
-export type NoteLinkKind = "system" | "page" | "field";
+type NoteLinkKind = "system" | "page" | "field";
 
 export interface NoteLink {
     id: string;
@@ -49,7 +49,7 @@ export interface Note {
     date?: string;
 }
 
-export interface NotepadDocument {
+interface NotepadDocument {
     version: 1;
     notes: Note[];
 }
@@ -127,7 +127,7 @@ let cache: NotepadDocument | null = null;
 const listeners = new Set<Listener>();
 
 /** What the panel shows: open or not, which note to bring into view, and picking a field. */
-export interface NotepadView {
+interface NotepadView {
     open: boolean;
     /** Notes to scroll to and mark (those linking to a field whose marker was pressed). */
     focusNoteIds: string[];

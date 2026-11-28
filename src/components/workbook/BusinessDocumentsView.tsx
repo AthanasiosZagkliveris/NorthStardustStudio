@@ -47,7 +47,7 @@ const FOUNDATION = systems.filter(system => system.capability === "foundation");
 type DocumentId = "plan" | "canvas" | "forecast" | "funding" | "financial-plan";
 
 /** THE TWO KINDS OF DOCUMENT (Questions 20, section 14; owner, 2026-11-20 20:46 UTC+2): the Business Documents and the Financial Documents, each its tabs. */
-export type DocumentGroup = "business" | "financial";
+type DocumentGroup = "business" | "financial";
 const GROUP_TABS: Record<DocumentGroup, { id: DocumentId; label: string }[]> = {
     business: [{ id: "plan", label: "Business Plan" }, { id: "canvas", label: "Business Model Canvas" }],
     financial: [{ id: "forecast", label: "Financial Forecast" }, { id: "funding", label: "Funding Request" }, { id: "financial-plan", label: "Financial Plan" }]

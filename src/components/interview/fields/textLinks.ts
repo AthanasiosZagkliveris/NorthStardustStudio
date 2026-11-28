@@ -17,10 +17,10 @@ export const TEXT_LINK_CLASSES = [
     "business-capability-responsibility-link"
 ] as const;
 
-export const TEXT_LINK_SELECTOR = TEXT_LINK_CLASSES.map(name => "." + name).join(", ");
+const TEXT_LINK_SELECTOR = TEXT_LINK_CLASSES.map(name => "." + name).join(", ");
 
 /** A plain text (not a link: no colour, no underline) that is one row and slides across under the pointer when it is longer than its place (a folded activity's name). */
-export const MARQUEE_TEXT_SELECTOR = ".marquee-text";
+const MARQUEE_TEXT_SELECTOR = ".marquee-text";
 
 const SLIDING_SELECTOR = TEXT_LINK_SELECTOR + ", " + MARQUEE_TEXT_SELECTOR;
 

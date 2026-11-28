@@ -32,7 +32,7 @@ export const SC1_STANCES = [
 ] as const;
 
 /** SC2's options (Questions 21, SC2); `launch` at Planning and Launching only. */
-export const SC2_GROWTH = [
+const SC2_GROWTH = [
     { id: "launch", label: "Your first customers, won at launch", phrase: "win our first customers at launch" },
     { id: "penetration", label: "More sales to the customers you serve", phrase: "sell more to the customers we serve" },
     { id: "market", label: "New customers or places for what you offer", phrase: "take what we offer to new customers or places" },

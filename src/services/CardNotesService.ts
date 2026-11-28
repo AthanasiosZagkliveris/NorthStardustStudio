@@ -9,7 +9,7 @@ import { OrganizationService } from "./OrganizationService";
  * saved, so the Notes panel can show them all in one list, by the page they stand on. Read from the saved answers: a card is an object with an id and a name that holds one of
  * these texts.
  */
-export interface CardNote {
+interface CardNote {
     /** The card's id: it opens the card. */
     cardId: string;
     name: string;

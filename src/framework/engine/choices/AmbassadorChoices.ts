@@ -64,7 +64,7 @@ export const AMBASSADOR_TONE = [
 ] as const;
 
 /** BA7's options (Questions 11, BA7). */
-export const AMBASSADOR_WORDS = [
+const AMBASSADOR_WORDS = [
     { id: "plain", label: "Plain, everyday words", phrase: "plain, everyday words" },
     { id: "explained", label: "Expert words, explained", phrase: "expert words, explained simply" },
     { id: "trade", label: "The trade's own terms", phrase: "the trade's own terms" }
@@ -79,7 +79,7 @@ const RELATIONSHIP_PHRASES = [
     { id: "dedicated-support", phrase: "stay close to every customer" }
 ] as const;
 
-export type ToneRow = (typeof AMBASSADOR_TONE)[number]["id"];
+type ToneRow = (typeof AMBASSADOR_TONE)[number]["id"];
 
 /** K14's phrases, one list shared with the Compass draft (Questions 11, section 9; Questions 21): what a Differentiation reads as in a sentence. */
 export const DIFFERENTIATION_PHRASES: Readonly<Record<string, string>> = {
@@ -255,7 +255,7 @@ export function presenceWords(shown: { energy?: number; expression?: number }): 
 }
 
 /** The most personal relationship type kept with any Segment's Offering (J3), as its phrase; "" with none. */
-export function relationshipPhrase(context: AmbassadorContext): string {
+function relationshipPhrase(context: AmbassadorContext): string {
     let best = -1;
     for (const entry of context.engagement ?? []) {
         const segment = context.segments.find(candidate => candidate.id === entry.segmentId);

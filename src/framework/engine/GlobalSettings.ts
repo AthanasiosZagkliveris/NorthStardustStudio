@@ -112,7 +112,7 @@ export const DEFAULT_USEFUL_LIFE: Record<string, string> = {
 };
 
 /** The version of the app's fee data (ChannelFeeData.ts): raised when rows are added, so a saved table is given them once. */
-export const CHANNEL_FEE_DATA_VERSION = 3;
+const CHANNEL_FEE_DATA_VERSION = 3;
 
 /** The providers version 3 of the fee data adds (owner, 2026-11-17 07:16): their rows are given to a table saved at version 2. */
 const NEW_IN_VERSION_3: readonly string[] = ["PayPal Point of Sale", "eBay (private seller)"];

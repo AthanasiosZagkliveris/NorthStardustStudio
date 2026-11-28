@@ -11,7 +11,7 @@ import "../../../styles/option-picker.css";
 /** The standard control widths (global.css), smallest first. */
 const CONTROL_STEPS = ["s", "m", "l"] as const;
 
-export type ControlStep = typeof CONTROL_STEPS[number] | "full";
+type ControlStep = typeof CONTROL_STEPS[number] | "full";
 
 /**
  * The smallest standard control width that fits a picker: its widest

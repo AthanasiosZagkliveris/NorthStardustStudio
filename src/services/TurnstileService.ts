@@ -7,7 +7,7 @@
 */
 
 /** Cloudflare's script, loaded only when a check is made. */
-export const TURNSTILE_SCRIPT = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+const TURNSTILE_SCRIPT = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
 
 /** How long a check may take before the sending waits for the next try. */
 const MOST_MS = 60_000;

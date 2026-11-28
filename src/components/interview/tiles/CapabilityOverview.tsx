@@ -105,7 +105,7 @@ const kindName = (row: FloorRow) => FLOOR_KINDS.find(kind => kind.id === kindCla
  * A SHARE OF REVENUE AS THE FORECAST CHARGES IT (owner, 2026-11-16): the Channel Fee Table's row a card's name takes -- commission and chargebacks, and the fixed fee per
  * order -- or, with none, the card's own rate. A fixed fee in another currency is shown in its own currency and left out of the totals (note).
  */
-export interface ChargedFee {
+interface ChargedFee {
     /** The percentage of the revenue (commission + chargeback, or the card's own rate). */
     percent: number;
     /** The fixed fee per order, in the organisation's currency; 0 where there is none, or it is in another currency. */

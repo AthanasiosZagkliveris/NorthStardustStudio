@@ -371,7 +371,7 @@ export function withoutChannelResource(
  * TYPICAL COSTS FOR THIS CHANNEL (the card structure's templates T1 to T10, T12 and T13; T11 is removed). Each is created in its own group in the Offering
  * place, its price blank so that it is incomplete until priced, and linked to the channel. An item the company already has is offered as Link existing.
  */
-export interface ChannelCostTemplate {
+interface ChannelCostTemplate {
     id: string;
     label: string;
     /** A Resource card, a Supplier or a Partner. */

@@ -27,7 +27,7 @@ export interface ClassificationScheme {
     items: ClassificationItem[];
 }
 
-export type SchemeKey = "uk" | "ie" | "us" | "ca" | "au" | "nz" | "isic";
+type SchemeKey = "uk" | "ie" | "us" | "ca" | "au" | "nz" | "isic";
 
 const SCHEME_OF_COUNTRY: Record<string, SchemeKey> = { GB: "uk", IE: "ie", US: "us", CA: "ca", AU: "au", NZ: "nz" };
 
@@ -67,7 +67,7 @@ export function childrenOf(scheme: ClassificationScheme, parent: string | null):
 }
 
 /** The entry with this code, if the scheme has it. */
-export function itemOf(scheme: ClassificationScheme, code: string): ClassificationItem | undefined {
+function itemOf(scheme: ClassificationScheme, code: string): ClassificationItem | undefined {
     return scheme.items.find(item => item.code === code);
 }
 

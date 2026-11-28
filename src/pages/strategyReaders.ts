@@ -14,9 +14,9 @@ import { OrganizationService } from "../services/OrganizationService";
 import { IDENTITY_SYSTEM_NUMBER, BUSINESS_SYSTEM_NUMBER } from "./conversationHelpers";
 
 /** A held-back Strategy change and what it would cost: the page shows it in its own dialog, and `apply` runs it. */
-export type StrategyPrompt = { title: string; message: string; apply: () => void };
+type StrategyPrompt = { title: string; message: string; apply: () => void };
 
-export interface StrategyInput {
+interface StrategyInput {
     session: InterviewSession;
     system: { id?: string } | undefined;
     organizationId: string | null;

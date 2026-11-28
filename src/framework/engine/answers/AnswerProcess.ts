@@ -271,7 +271,7 @@ export function sopDisplaySequence(sops: Array<{ id?: string }>, sopIndex: numbe
  */
 export type ProcessLibraryAnswerValue = ProcessRecordValue[];
 
-export let processKeyCounter = 0;
+let processKeyCounter = 0;
 
 /**
  * Creates a fresh, stable `ProcessRecordValue.key` -- see
@@ -292,7 +292,7 @@ export function createProcessKey(): string {
 
 }
 
-export let processStepKeyCounter = 0;
+let processStepKeyCounter = 0;
 
 /**
  * Creates a fresh, stable `ProcessStepValue.key` -- same
@@ -306,7 +306,7 @@ export function createProcessStepKey(): string {
 
 }
 
-export let processSopKeyCounter = 0;
+let processSopKeyCounter = 0;
 
 /**
  * Creates a fresh, stable `ProcessSopValue.key` -- same idiom
@@ -413,7 +413,7 @@ export interface OperationalLogRowValue {
  */
 export type OperationalLogAnswerValue = OperationalLogRowValue[];
 
-export let operationalLogRowKeyCounter = 0;
+let operationalLogRowKeyCounter = 0;
 
 /**
  * Creates a fresh, stable OperationalLogRowValue.key -- same
@@ -529,7 +529,7 @@ export function resolveProcessId(processKey: string, processes: ProcessRecordVal
  * A single Step's own field values, as of the last time the Log
  * was updated for its Process -- see ProcessChangeSnapshot below.
  */
-export interface ProcessStepSnapshot {
+interface ProcessStepSnapshot {
     key: string;
     action: string;
 }
@@ -539,7 +539,7 @@ export interface ProcessStepSnapshot {
  * key-matched snapshots), as of the last time the Log was
  * updated for its Process.
  */
-export interface ProcessSopSnapshot {
+interface ProcessSopSnapshot {
     key: string;
     id?: string;
     name: string;
@@ -555,7 +555,7 @@ export interface ProcessSopSnapshot {
  * Log was updated for it -- see ProcessRecordValue.
  * lastLoggedSnapshot.
  */
-export interface ProcessChangeSnapshot {
+interface ProcessChangeSnapshot {
     name: string;
     purpose: string;
     who: string;
@@ -571,7 +571,7 @@ export interface ProcessChangeSnapshot {
  * refresh it after generating a Log entry for real changes (see
  * generateOperationalLogEntriesFromProcessLibrary).
  */
-export function captureProcessSnapshot(process: ProcessRecordValue): ProcessChangeSnapshot {
+function captureProcessSnapshot(process: ProcessRecordValue): ProcessChangeSnapshot {
 
     return {
         name: process.name,
@@ -604,13 +604,13 @@ export function captureProcessSnapshot(process: ProcessRecordValue): ProcessChan
  * a whole new SOP, "<SOP id> / Step <numbers>") -- ready to join
  * one per line under its section.
  */
-export interface ProcessChangeSummary {
+interface ProcessChangeSummary {
     updates: string[];
     additions: string[];
     removals: string[];
 }
 
-export const PROCESS_FIELD_LABELS: Array<{ key: "name" | "purpose" | "who" | "howOften" | "status"; label: string }> = [
+const PROCESS_FIELD_LABELS: Array<{ key: "name" | "purpose" | "who" | "howOften" | "status"; label: string }> = [
     { key: "name", label: "Name" },
     { key: "purpose", label: "Purpose" },
     { key: "who", label: "Owner" },
@@ -618,7 +618,7 @@ export const PROCESS_FIELD_LABELS: Array<{ key: "name" | "purpose" | "who" | "ho
     { key: "status", label: "Status" }
 ];
 
-export const SOP_FIELD_LABELS: Array<{ key: "name" | "purpose" | "who" | "howOften"; label: string }> = [
+const SOP_FIELD_LABELS: Array<{ key: "name" | "purpose" | "who" | "howOften"; label: string }> = [
     { key: "name", label: "Name" },
     { key: "purpose", label: "Purpose" },
     { key: "who", label: "Owner" },

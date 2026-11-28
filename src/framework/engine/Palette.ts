@@ -32,7 +32,7 @@
    A hue saved near it is drawn as terracotta, the nearest left.)
 ========================================================== */
 
-export interface PaletteColour {
+interface PaletteColour {
 
     /** What the colour is called, for people. */
     name: string;

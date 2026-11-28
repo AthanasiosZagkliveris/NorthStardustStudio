@@ -7,7 +7,7 @@ import { library } from "./data/library.ts";
  * src/library/assets take their sizes from here too, so a size is never written twice.
  */
 
-export interface ComponentToken {
+interface ComponentToken {
     token: string;
     value: string;
     code: string;
@@ -30,7 +30,7 @@ export const lookHeight = (code: string): number => {
 };
 
 /** The width of a component in the library, in px. */
-export const lookWidth = (code: string): number => {
+const lookWidth = (code: string): number => {
     const width = lookOf(code).width;
     if (width === undefined) throw new Error(code + " has no width in the library");
     return width;

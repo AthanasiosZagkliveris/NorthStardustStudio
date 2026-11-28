@@ -26,7 +26,7 @@ import { PLAN_YEAR_CHOICES, asList, asMonth, asTextList, oneOf } from "./period.
  */
 export type CostAsset = "equipment" | "deposit";
 
-export interface CostClassification {
+interface CostClassification {
     /** For a one-time cost: whether it buys equipment or is a deposit. */
     asset: CostAsset | "";
     /** The cost nature the user chose in place of the rules' (it applies from the Opening Date only: rule C13). */
@@ -159,7 +159,7 @@ export const INCOME_TAX_BASES = [
     { id: "rate", label: "Rate on profit" }
 ] as const;
 
-export type IncomeTaxBasis = typeof INCOME_TAX_BASES[number]["id"] | "";
+type IncomeTaxBasis = typeof INCOME_TAX_BASES[number]["id"] | "";
 
 /** Whether income tax still needs an answer: no basis, or a rate on profit with no rate. */
 export function incomeTaxMissing(value: FinancialFoundationValue): boolean {

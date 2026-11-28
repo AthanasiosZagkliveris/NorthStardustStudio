@@ -112,12 +112,12 @@ export const BUSINESS_PEOPLE_GROUP_IDS = ["admin-team", "delivery-team"] as cons
  * The groups whose cards are SPACES and VEHICLES (in both places): their statuses are Exists / Free, Rent, Activity and Buy. Rent names a supplier of one
  * group (RENT_SUPPLIER_GROUP), whose card holds the rent or the lease; Buy shows the price: One-time for a space, Per unit for a vehicle.
  */
-export const BUSINESS_SPACE_GROUP_IDS = ["premises", "workshop-storage", "company-vehicles", "delivery-vehicles"] as const;
+const BUSINESS_SPACE_GROUP_IDS = ["premises", "workshop-storage", "company-vehicles", "delivery-vehicles"] as const;
 
 /** The statuses of a space or a vehicle. */
-export const BUSINESS_SPACE_STATUS_IDS = ["exists", "rent", "activity", "buy"] as const;
+const BUSINESS_SPACE_STATUS_IDS = ["exists", "rent", "activity", "buy"] as const;
 
-export const isSpaceGroup = (groupId: string) => (BUSINESS_SPACE_GROUP_IDS as readonly string[]).includes(groupId);
+const isSpaceGroup = (groupId: string) => (BUSINESS_SPACE_GROUP_IDS as readonly string[]).includes(groupId);
 
 /** The spaces (not the vehicles): bought One-time, with no Qty. */
 export const isSpaceOnlyGroup = (groupId: string) => groupId === "premises" || groupId === "workshop-storage";
@@ -280,7 +280,7 @@ export const PHYSICAL_PARTNER_GROUP_IDS: readonly string[] = ["logistics-fulfilm
  * priced Per unit, and the quantity multiplies the price. A space bought
  * is One-time.
  */
-export const BUSINESS_PURCHASE_GROUP_IDS = [
+const BUSINESS_PURCHASE_GROUP_IDS = [
     "furniture-fittings", "devices-tools", "fixtures-displays", "production-machinery", "company-vehicles", "delivery-vehicles"
 ] as const;
 
@@ -397,8 +397,8 @@ export const servicesOfAsset = (capability: BusinessCapabilityValue, assetId: st
  * an Insurances card in Documents & Rights of its place, linked to it. Its End date is the renewal date, the insurer is added with the + status and the
  * cover limit and grade go in the Description. Made once, when the card first has a name; removing the Insurances card does not make it again.
  */
-export const INSURED_INFRASTRUCTURE_GROUPS = ["premises", "company-vehicles"];
-export const INSURED_OFFERING_GROUPS = ["site-hire", "workshop-storage", "production-machinery", "delivery-vehicles"];
+const INSURED_INFRASTRUCTURE_GROUPS = ["premises", "company-vehicles"];
+const INSURED_OFFERING_GROUPS = ["site-hire", "workshop-storage", "production-machinery", "delivery-vehicles"];
 
 export function withNewInsurances(previous: BusinessCapabilityValue, next: BusinessCapabilityValue): BusinessCapabilityValue {
     const named = (slot: BusinessResourceSlotValue) => slot.name.trim() !== "";
@@ -489,7 +489,7 @@ export function noteHint(groupId: string): string {
 export const partnerHasQuantity = (connections: SupplierConnections, cost: { frequency: string }) => connections.vehicle || cost.frequency === "per-unit";
 
 /** Extras as saved: the known ones that hold a figure, the figure cleaned to its kind. */
-export function asBusinessExtras(value: unknown): BusinessExtrasValue {
+function asBusinessExtras(value: unknown): BusinessExtrasValue {
     const source = asObject(value);
     const kept: BusinessExtrasValue = {};
     for (const key of Object.keys(BUSINESS_EXTRAS) as BusinessExtraKey[]) {
@@ -502,7 +502,7 @@ export function asBusinessExtras(value: unknown): BusinessExtrasValue {
 }
 
 /** Digits and at most one ".": what a Quantity, Price or Salary holds. */
-export const BUSINESS_PLAIN_NUMBER = /^(\d+\.?\d*|\.\d+)$/;
+const BUSINESS_PLAIN_NUMBER = /^(\d+\.?\d*|\.\d+)$/;
 
 /**
  * How many of a resource its price is for: the Quantity, when it is
@@ -530,7 +530,7 @@ export function resourceUnitCount(quantity: string, frequency: string, purchase 
 }
 
 /** The units a Qty may count with decimals; any other unit takes whole numbers. */
-export const BUSINESS_DECIMAL_UNITS = ["hour", "metre", "litre", "kWh"] as const;
+const BUSINESS_DECIMAL_UNITS = ["hour", "metre", "litre", "kWh"] as const;
 
 /**
  * What a Qty box keeps of what was typed: whole digits, or digits and
@@ -569,11 +569,11 @@ export function businessQuantityText(text: string, unit = ""): string {
  * migration kept them unrounded) is rounded to the cent, once.
  */
 /** An amount to the cent, as plain text: "415.38", "1800". */
-export function centsText(amount: number): string {
+function centsText(amount: number): string {
     return String(Math.round(amount * 100) / 100);
 }
 
-export function founderSalaryAndPeriod(founder: Record<string, unknown>): { salary: string; period: FounderPeriod } {
+function founderSalaryAndPeriod(founder: Record<string, unknown>): { salary: string; period: FounderPeriod } {
     const typed = businessAmountText(founder.salary);
     const salary = /\.\d{3,}$/.test(typed) && parseAmount(typed) !== null
         ? centsText(parseAmount(typed) ?? 0)
@@ -588,7 +588,7 @@ export function founderSalaryAndPeriod(founder: Record<string, unknown>): { sala
         : { salary, period };
 }
 
-export function businessAmountText(value: unknown): string {
+function businessAmountText(value: unknown): string {
     const text = asText(value).trim();
     if (text === "" || BUSINESS_PLAIN_NUMBER.test(text)) {
         return text;
@@ -610,7 +610,7 @@ export function businessAmountText(value: unknown): string {
 export const BUSINESS_EXTRA_STATUS_IDS = ["partners-suppliers", "activity"] as const;
 
 /** The id of the first Workspace card (the one every earlier answer has). */
-export const FIRST_WORKSPACE_ID = "workspace";
+const FIRST_WORKSPACE_ID = "workspace";
 
 /** The built-in Resources category whose cards are Workspaces. */
 export const WORKSPACE_GROUP_ID = "workspace";
@@ -628,7 +628,7 @@ export const BUSINESS_CAPABILITY_FORMAT_VERSION = 3;
  * Where the fixed kinds of the five earlier Infrastructure categories are filed now: [category, group]. A kind the user made ("Other") has no group
  * and goes to "No group" of its category, its name written into the description of its cards.
  */
-export const LEGACY_KIND_GROUP: Record<string, [string, string]> = {
+const LEGACY_KIND_GROUP: Record<string, [string, string]> = {
     workspace: ["workspace", PREMISES_GROUP_ID],
     electricity: ["utilities", "premises-utilities"],
     internet: ["utilities", "premises-utilities"],
@@ -647,7 +647,7 @@ export const LEGACY_KIND_GROUP: Record<string, [string, string]> = {
 };
 
 /** The activity categories an earlier answer had (the same four in both places), for the note an activity that has to leave its category carries. */
-export const LEGACY_ACTIVITY_CATEGORY_LABELS: Record<string, string> = {
+const LEGACY_ACTIVITY_CATEGORY_LABELS: Record<string, string> = {
     operational: "Operational",
     production: "Production",
     marketing: "Marketing",
@@ -672,7 +672,7 @@ export function workspacesOf(capability: { resources: Record<string, BusinessRes
 }
 
 /** Whether an answer saved before there were Workspace cards held anything in its Workspace (an untouched one made no card then, and makes none now). */
-export function legacyWorkspaceSlots(source: Record<string, unknown>): BusinessResourceSlotValue[] {
+function legacyWorkspaceSlots(source: Record<string, unknown>): BusinessResourceSlotValue[] {
     const list: unknown[] = Array.isArray(source.workspaces) ? source.workspaces : source.workspace !== undefined ? [source.workspace] : [];
     const seen = new Set<string>();
     return list.flatMap((entry, index) => {
@@ -739,11 +739,11 @@ export function orderedByDate(value: BusinessCapabilityValue): BusinessCapabilit
     };
 }
 
-export function createBusinessCost(): BusinessCostValue {
+function createBusinessCost(): BusinessCostValue {
     return { price: "", frequency: "", frequencyOther: "", unit: "", currency: "" };
 }
 
-export function createBusinessFounder(): BusinessFounderValue {
+function createBusinessFounder(): BusinessFounderValue {
     return { id: randomId("founder"), name: "", roles: [""], salary: "", hours: "", deliveryHours: "", deliveryShare: "", period: "", startDate: "", extras: {} };
 }
 
@@ -830,11 +830,11 @@ export function createBusinessPartner(name = "", category = ""): BusinessPartner
  * What Partners opens with: nothing. (It used to be seeded with an Accountant, a Lawyer and an Insurance Professional; a saved answer keeps
  * whatever it holds, these included -- only a page with none stored stops getting them.)
  */
-export function seededProfessionals(): BusinessPartnerValue[] {
+function seededProfessionals(): BusinessPartnerValue[] {
     return [];
 }
 
-export function asBusinessCost(value: unknown): BusinessCostValue {
+function asBusinessCost(value: unknown): BusinessCostValue {
 
     const cost = asObject(value);
 
@@ -855,7 +855,7 @@ export function asBusinessCost(value: unknown): BusinessCostValue {
  * A cost saved with the frequency "Other" (which is no longer offered): the frequency is cleared -- the card shows incomplete until one is chosen --
  * and what it was called is returned, to be written into the card's description rather than lost.
  */
-export function withoutOtherFrequency(cost: BusinessCostValue): { cost: BusinessCostValue; was: string } {
+function withoutOtherFrequency(cost: BusinessCostValue): { cost: BusinessCostValue; was: string } {
     if (cost.frequency !== "other") {
         return { cost, was: "" };
     }
@@ -863,26 +863,26 @@ export function withoutOtherFrequency(cost: BusinessCostValue): { cost: Business
 }
 
 /** A description with what an earlier version of the page called the card, put in front of it so that nothing is lost. */
-export function withEarlier(description: string, what: string, was: string): string {
+function withEarlier(description: string, what: string, was: string): string {
     return (was ? "Earlier " + what + ": " + was + ". " + description : description).trim();
 }
 
 /** The status a space (the Workspace form) has in the current statuses, from an earlier answer's. Needs Investigation and Needs Activity were none of its. */
-export function spaceStatusOf(status: string): string {
+function spaceStatusOf(status: string): string {
     return status === "provided" || status === "partners-providers" || status === "professional" ? "rent"
         : status === "costs" ? "buy"
         : (BUSINESS_WORKSPACE_STATUS_IDS as readonly string[]).includes(status) ? status : "";
 }
 
 /** The status any other card has in the current statuses, from an earlier answer's. */
-export function cardStatusOf(status: string): string {
+function cardStatusOf(status: string): string {
     return status === "provided" || status === "professional" || status === "partners-providers" ? "partners-suppliers"
         : status === "rent" ? "partners-suppliers"
         : status === "buy" ? "costs"
         : status;
 }
 
-export function asBusinessResourceSlot(
+function asBusinessResourceSlot(
     entry: unknown,
     workspace = false,
     context: {
@@ -988,19 +988,19 @@ export function asBusinessResourceSlot(
 }
 
 /** A list of unknowns: what is not a list reads as none. */
-export function asArrayOf(value: unknown): unknown[] {
+function asArrayOf(value: unknown): unknown[] {
     return Array.isArray(value) ? value : [];
 }
 
 /** A list now; one Offering before, which is kept as the list's first. */
-export function offeringIdsOf(entry: Record<string, unknown>): string[] {
+function offeringIdsOf(entry: Record<string, unknown>): string[] {
     const list = Array.isArray(entry.offeringIds)
         ? entry.offeringIds.map(asText)
         : [asText(entry.offeringId)];
     return [...new Set(list.filter(id => id.length > 0))];
 }
 
-export function asBusinessActivity(entry: unknown, fallbackCategory = ""): BusinessActivityValue {
+function asBusinessActivity(entry: unknown, fallbackCategory = ""): BusinessActivityValue {
 
     const activity = asObject(entry);
 
@@ -1035,7 +1035,7 @@ export function asBusinessActivity(entry: unknown, fallbackCategory = ""): Busin
 
 }
 
-export function asBusinessPartner(
+function asBusinessPartner(
     entry: unknown,
     fallbackCategory: string,
     context: {
@@ -1112,7 +1112,7 @@ export function asBusinessPartner(
 
 }
 
-export function asBusinessPartnerList(
+function asBusinessPartnerList(
     value: unknown,
     fallbackCategory: string,
     context: Parameters<typeof asBusinessPartner>[2] = {}
@@ -1120,7 +1120,7 @@ export function asBusinessPartnerList(
     return (Array.isArray(value) ? value : []).map(entry => asBusinessPartner(entry, fallbackCategory, context));
 }
 
-export function asBusinessCategoryList(value: unknown): BusinessCategoryValue[] {
+function asBusinessCategoryList(value: unknown): BusinessCategoryValue[] {
     return (Array.isArray(value) ? value : []).map(entry => {
         const category = asObject(entry);
         return { id: asText(category.id) || randomId("category"), name: asText(category.name) };
@@ -1364,7 +1364,7 @@ export function asBusinessCapabilityValue(value: unknown): BusinessCapabilityVal
  * A Deposit is the landlord's extra (it sits on the supplier card that holds the rent). The deposit an earlier answer kept on a rented Premises card moves to
  * its supplier, unless the supplier already has one; one on a card with no supplier stays where it was.
  */
-export function withDepositsOnLandlords(value: BusinessCapabilityValue): BusinessCapabilityValue {
+function withDepositsOnLandlords(value: BusinessCapabilityValue): BusinessCapabilityValue {
     const spaces = Object.values(value.resources).flat().flatMap(subsection => subsection.slots).filter(slot => slot.deposit !== "" && slot.status === "rent" && slot.providerId !== "");
     if (spaces.length === 0) {
         return value;

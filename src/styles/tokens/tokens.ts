@@ -37,16 +37,16 @@ export const MODES = ["light", "dark", "sepia"] as const;
 export type Mode = (typeof MODES)[number];
 
 /** One declaration: the token's name (without the leading --) and its value. */
-export type TokenEntry = readonly [name: string, value: string];
+type TokenEntry = readonly [name: string, value: string];
 
 /** Tokens that sit together in the CSS, under one note. */
-export interface TokenGroup {
+interface TokenGroup {
     readonly note?: string;
     readonly tokens: readonly TokenEntry[];
 }
 
 /** One reading mode's block of tokens. */
-export interface ModeSource {
+interface ModeSource {
     /** The rule's selector. Light also sits on the Business Documents, which stay on white paper in every mode. */
     readonly selector: string;
     /** The block's title (first line) and description. */

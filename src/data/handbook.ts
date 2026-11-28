@@ -7,7 +7,7 @@
  */
 
 /** One block of a Handbook section: a paragraph, or a list of short points. */
-export type HandbookBlock = { text: string } | { points: readonly string[] };
+type HandbookBlock = { text: string } | { points: readonly string[] };
 
 /** A part of a Handbook tab: its heading and its blocks. */
 export interface HandbookPart {

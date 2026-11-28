@@ -172,7 +172,7 @@ export function isSharedProductRegisterSection(
  * SHARED_PRODUCT_REGISTER_BINDINGS above, just scoped to one part
  * of a Multi-Part Section instead of a whole Section.
  */
-export const SHARED_TARGET_AUDIENCE_PART_BINDINGS: { systemId: string; sectionNumber: number; partId: string }[] = [
+const SHARED_TARGET_AUDIENCE_PART_BINDINGS: { systemId: string; sectionNumber: number; partId: string }[] = [
     { systemId: "publishing", sectionNumber: 1, partId: "target-audience" },
     { systemId: "website", sectionNumber: 1, partId: "target-audience" }
 ];
@@ -198,14 +198,14 @@ export function findSharedTargetAudiencePartBinding(
  * matched by Product name text (see extractProductNames below) --
  * this whole codebase deliberately avoids synthetic row ids.
  */
-export const SOCIAL_MEDIA_AUDIENCE_PROFILES_BINDING = { systemId: "social-media", sectionNumber: 1 };
+const SOCIAL_MEDIA_AUDIENCE_PROFILES_BINDING = { systemId: "social-media", sectionNumber: 1 };
 
 export function isSocialMediaAudienceProfilesSection(systemId: string | undefined, sectionNumber: number): boolean {
     return systemId === SOCIAL_MEDIA_AUDIENCE_PROFILES_BINDING.systemId
         && sectionNumber === SOCIAL_MEDIA_AUDIENCE_PROFILES_BINDING.sectionNumber;
 }
 
-export function normalizeAudienceName(value: unknown): string {
+function normalizeAudienceName(value: unknown): string {
     return typeof value === "string" ? value.trim().toLowerCase() : "";
 }
 
@@ -390,7 +390,7 @@ export function dynamicOptionsOf(
  * match) yields no options -- callers already treat an empty list
  * as "nothing entered yet" rather than an error.
  */
-export function extractDynamicOptions(
+function extractDynamicOptions(
     answer: AnswerDefinition,
     value: unknown,
     cardTitle: string,
