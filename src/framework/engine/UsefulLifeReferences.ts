@@ -18,13 +18,13 @@ export const USEFUL_LIFE_MEANING: readonly { title: string; text: string }[] = [
 export const USEFUL_LIFE_SOURCES: readonly Source[] = [SOURCES.texasAssetClasses];
 
 /** One item of an asset group and its useful life in years, as the schedule gives it. */
-export interface UsefulLifeItem {
+interface UsefulLifeItem {
     item: string;
     years: string;
 }
 
 /** The popular items of each asset group (USEFUL_LIFE_GROUPS) with their individual useful lives. */
-export const USEFUL_LIFE_ITEMS: Record<string, readonly UsefulLifeItem[]> = {
+const USEFUL_LIFE_ITEMS: Record<string, readonly UsefulLifeItem[]> = {
     "furniture-fittings": [
         { item: "Desks, Chairs & Tables", years: "10" },
         { item: "Cabinets & Credenzas", years: "10" },

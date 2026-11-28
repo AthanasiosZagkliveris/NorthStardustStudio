@@ -66,7 +66,7 @@ function homeOf(slot: BusinessResourceSlotValue, capability: BusinessCapabilityV
     return { place: "infrastructure", group: subsection?.id ?? slot.group };
 }
 
-export function resourceMissing(slot: BusinessResourceSlotValue, capability: BusinessCapabilityValue): string[] {
+function resourceMissing(slot: BusinessResourceSlotValue, capability: BusinessCapabilityValue): string[] {
     const home = homeOf(slot, capability);
     const partnerIds = new Set([...capability.professionals, ...capability.providers, ...capability.offering.professionals, ...capability.offering.providers].map(entry => entry.id));
     const activityIds = new Set([...capability.activities.flatMap(category => category.activities), ...capability.offering.activities].map(entry => entry.id));
@@ -85,7 +85,7 @@ export function resourceMissing(slot: BusinessResourceSlotValue, capability: Bus
     ];
 }
 
-export function activityMissing(activity: BusinessActivityValue, capability: BusinessCapabilityValue): string[] {
+function activityMissing(activity: BusinessActivityValue, capability: BusinessCapabilityValue): string[] {
     const founderIds = founderIdsOf(capability);
     const responsible = responsibleIsOff(activity) ? "x" : businessAutoResponsibleId(founderIds, activity.performerIds) || activity.responsibleId;
     return [
@@ -97,7 +97,7 @@ export function activityMissing(activity: BusinessActivityValue, capability: Bus
     ];
 }
 
-export function partnerMissing(partner: BusinessPartnerValue, capability: BusinessCapabilityValue): string[] {
+function partnerMissing(partner: BusinessPartnerValue, capability: BusinessCapabilityValue): string[] {
     const founderIds = founderIdsOf(capability);
     const responsible = responsibleIsOff(partner) ? "x" : businessPartnerResponsibleId(partner, founderIds);
     return [
@@ -111,7 +111,7 @@ export function partnerMissing(partner: BusinessPartnerValue, capability: Busine
     ];
 }
 
-export function founderMissing(founder: BusinessFounderValue): string[] {
+function founderMissing(founder: BusinessFounderValue): string[] {
     return [
         // (When the pay starts: a founder has a Start date and no End date.)
         ...(filled(founder.startDate) ? [] : ["Start date"]),

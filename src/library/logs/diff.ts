@@ -20,8 +20,8 @@ export interface State {
 
 const canon = (value: unknown): string => JSON.stringify(value, (_key, v) => (v && typeof v === "object" && !Array.isArray(v) ? Object.fromEntries(Object.entries(v).sort(([a], [b]) => (a < b ? -1 : 1))) : v));
 
-export const placementKey = (p: Placement) => [p.asset, p.variant ?? "", p.system, p.page ?? "", p.chapter ?? "", p.tile ?? "", p.card ?? ""].join("|");
-export const whereOf = (p: Placement) => [p.system, p.page, p.chapter, p.tile, p.card].filter(Boolean).join(" / ");
+const placementKey = (p: Placement) => [p.asset, p.variant ?? "", p.system, p.page ?? "", p.chapter ?? "", p.tile ?? "", p.card ?? ""].join("|");
+const whereOf = (p: Placement) => [p.system, p.page, p.chapter, p.tile, p.card].filter(Boolean).join(" / ");
 const placementOf = (key: string): Placement => {
     const [asset, variant, system, page, chapter, tile, card] = key.split("|");
     return { asset, ...(variant ? { variant } : {}), system, ...(page ? { page } : {}), ...(chapter ? { chapter } : {}), ...(tile ? { tile } : {}), ...(card ? { card } : {}) };

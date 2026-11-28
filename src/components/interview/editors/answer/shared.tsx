@@ -8,7 +8,7 @@ import { AnswerDefinition, TableColumnDefinition } from "../../../../framework/m
 import { AnswerType } from "../../../../framework/enums/AnswerType.ts";
 import { LegalEntityFounderValue, LegalEntityValue, ProcessRecordValue, StrategicPeriodValue, StrategyFoundationValue, StrategyRangeValue, StrategyThemeValue, isDateColumn, visibleTableColumns } from "../../../../framework/engine/answers/AnswerUtils.ts";
 
-export let checklistItemCounter = 0;
+let checklistItemCounter = 0;
 
 /**
  * Creates a unique id for a newly added Checklist
@@ -23,7 +23,7 @@ export function createChecklistItemId(): string {
 
 }
 
-export let cardListItemCounter = 0;
+let cardListItemCounter = 0;
 
 /**
  * Creates a unique id for a newly added Card List
@@ -38,7 +38,7 @@ export function createCardListItemId(): string {
 
 }
 
-export let profileCardCounter = 0;
+let profileCardCounter = 0;
 
 /**
  * Creates a unique id for a newly added Profile

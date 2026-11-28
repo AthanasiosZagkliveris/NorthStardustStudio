@@ -65,7 +65,7 @@ export function businessProfileOfferings(
  * own: the Approach and the Goal are written once for the stage
  * these all belong to.
  */
-export interface BusinessInteractionChannelsValue {
+interface BusinessInteractionChannelsValue {
     /** A channel category's label, or "" for channels with none. */
     category: string;
     channelIds: string[];
@@ -81,7 +81,7 @@ export interface BusinessInteractionChannelsValue {
  * approach to being discovered. The kinds of channel are where
  * that happens, listed under the stage, not separate answers.
  */
-export interface BusinessInteractionValue {
+interface BusinessInteractionValue {
     key: string;
     offeringId: string;
     stageId: string;

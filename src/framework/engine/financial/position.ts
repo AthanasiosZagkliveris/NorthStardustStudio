@@ -137,7 +137,7 @@ function costSection(line: CostLine): string {
  * equal (ignoring case, brackets and punctuation), not merely similar:
  * a Legal Entity expense "Accountant" and a Capability card "Accountant".
  */
-export function sameCostSource(one: CostLine, other: CostLine): boolean {
+function sameCostSource(one: CostLine, other: CostLine): boolean {
     if (one.id === other.id || (one.sourcePath[0] && one.sourcePath[0] === other.sourcePath[0])) {
         return true;
     }
@@ -160,7 +160,7 @@ export function sameCostSource(one: CostLine, other: CostLine): boolean {
  *
  * Said, not decided: only the founder knows if it is really twice.
  */
-export function possibleDuplicates(lines: CostLine[]): [CostLine, CostLine][] {
+function possibleDuplicates(lines: CostLine[]): [CostLine, CostLine][] {
     const priced = lines.filter(line => line.counted && line.amount !== null && line.amount > 0);
     const pairs: [CostLine, CostLine][] = [];
     priced.forEach((line, index) => {

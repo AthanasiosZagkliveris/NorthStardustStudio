@@ -11,7 +11,7 @@
 export const BETA_QUESTIONNAIRE_VERSION = 1;
 
 /** The kinds of question, each drawn with one of the app's existing controls (Research 8, section 8.1). */
-export type BetaQuestionKind =
+type BetaQuestionKind =
     | "consent"   // a tick (TickField)
     | "single"    // one choice (FittingRadioChoice)
     | "multi"     // ticks, up to `max` (TickField)
@@ -21,7 +21,7 @@ export type BetaQuestionKind =
     | "text";     // a short answer (TextField)
 
 /** When a question is asked: always, once for each System the founder used, or once a document was opened. */
-export type BetaQuestionWhen = "always" | "per-system" | "documents-opened";
+type BetaQuestionWhen = "always" | "per-system" | "documents-opened";
 
 export interface BetaQuestion {
     number: number;
@@ -42,7 +42,7 @@ export interface BetaQuestion {
     withEmail?: boolean;
 }
 
-export interface BetaSection {
+interface BetaSection {
     title: string;
     questions: BetaQuestion[];
 }

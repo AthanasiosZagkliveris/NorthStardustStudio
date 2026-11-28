@@ -14,7 +14,7 @@ import { onlyPlanning } from "../BusinessStage.ts";
 export type OfferingAnswers = Record<string, string[]>;
 export type OfferingQuestionId = "o1" | "o2" | "o3" | "o3t" | "o4" | "o6" | "o7" | "o8" | "o10" | "o14" | "o15" | "o16" | "o17" | "o18" | "o20" | "o21" | "o22" | "o23" | "o24";
 
-export interface OfferingQuestion {
+interface OfferingQuestion {
     id: OfferingQuestionId;
     label: string;
     /** Ticks (several) or one choice. */
@@ -238,7 +238,7 @@ const CANCELLING: Readonly<Record<string, { rule: readonly string[]; source: str
 };
 
 /** What O18's "i" says on a business Segment, in place of the consumer rule (phase 5, 2026-11-08). */
-export const BUSINESS_CANCELLING = "Between businesses, your contract terms set the cancellation rules.";
+const BUSINESS_CANCELLING = "Between businesses, your contract terms set the cancellation rules.";
 
 /** What a question's "i" says for this Offering: O18 the cancellation rule of the Organisation's country (none between businesses), the others their own. */
 export function offeringInfo(id: OfferingQuestionId, context: OfferingContext): readonly string[] {
@@ -287,7 +287,7 @@ export function offeringChoose(id: OfferingQuestionId, chosen: readonly string[]
 }
 
 /** The questions held back while the business is only Planning (owner, 2026-11-08, P5): how fast you reply (O16) and what comes after the sale (O17); shown from Launching. */
-export const OFFERING_HELD_WHILE_PLANNING: readonly OfferingQuestionId[] = ["o16", "o17", "o23"];
+const OFFERING_HELD_WHILE_PLANNING: readonly OfferingQuestionId[] = ["o16", "o17", "o23"];
 
 /**
  * Whether a question is asked of this Offering (Questions 16, "Asked when"). A question held back while Planning (an empty stage is Planning) is not asked then, but its saved answer stays

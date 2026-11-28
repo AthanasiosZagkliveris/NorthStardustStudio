@@ -559,7 +559,7 @@ export function demandResult(demand: DemandValue | undefined): DemandResult {
 export const WEEKS_PER_MONTH = 52 / 12;
 
 /** "week" or "month": the period a figure of hours was given for. "" is a month. */
-export type HoursPeriod = "week" | "month" | "";
+type HoursPeriod = "week" | "month" | "";
 
 export function asHoursPeriod(value: unknown): HoursPeriod {
     return value === "week" || value === "month" ? value : "";
@@ -584,7 +584,7 @@ export function asFounderPeriod(value: unknown): FounderPeriod {
  * A figure given for a founder's period, as a month's: a week's times
  * 52 / 12 (as the hours always were), a year's divided by 12.
  */
-export function monthlyFromFounderPeriod(value: number, period: FounderPeriod): number {
+function monthlyFromFounderPeriod(value: number, period: FounderPeriod): number {
     return period === "week" ? value * WEEKS_PER_MONTH : period === "year" ? value / 12 : value;
 }
 
@@ -1081,11 +1081,11 @@ export function offeringChannelRevenue(
 }
 
 /** The channel category whose subchannels a payment service is (Card, Invoice, Bank transfer): how the founder takes the money on their own channels. */
-export const PAYMENT_CHANNEL_CATEGORY = "Direct Payment";
+const PAYMENT_CHANNEL_CATEGORY = "Direct Payment";
 /** The channel category whose sales the marketplace takes the money for: its own fee only. */
-export const MARKETPLACE_CHANNEL_CATEGORY = "Marketplace";
+const MARKETPLACE_CHANNEL_CATEGORY = "Marketplace";
 /** The channel category of referrals and affiliates: a commission on the revenue of the Customer Source that names it. */
-export const REFERRAL_CHANNEL_CATEGORY = "Referral & Affiliates";
+const REFERRAL_CHANNEL_CATEGORY = "Referral & Affiliates";
 
 /** A cost held by referral and affiliate subchannels only (their categories): a commission, charged on the revenue of the Customer Sources naming them. */
 export function referralOnly(categories: readonly string[]): boolean {
@@ -1093,7 +1093,7 @@ export function referralOnly(categories: readonly string[]): boolean {
 }
 
 /** A channel as the paying split reads it: its subchannel, stages and the Offerings it serves ("*" for all of its Segment's). */
-export interface PayingChannel {
+interface PayingChannel {
     id: string;
     category: string;
     name: string;

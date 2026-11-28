@@ -1,8 +1,8 @@
 import { KINDS, NOT_IN_LIBRARY, type Library, type Placement } from "./types.ts";
 
-export const ASSET_CODE = /^([A-Z]{3})\.(\d{3})$/;
-export const VARIANT_CODE = /^([A-Z]{3})\.([A-Z]{3})\.(\d{3})\.(\d{3})$/;
-export const VARIABLE_CODE = /^VAR\d{3}$/;
+const ASSET_CODE = /^([A-Z]{3})\.(\d{3})$/;
+const VARIANT_CODE = /^([A-Z]{3})\.([A-Z]{3})\.(\d{3})\.(\d{3})$/;
+const VARIABLE_CODE = /^VAR\d{3}$/;
 
 /** The components placed in the app that are not in the library (case 3), by their name. */
 export const driftOf = (placements: readonly Placement[]): Placement[] => placements.filter(p => p.asset.startsWith(NOT_IN_LIBRARY));

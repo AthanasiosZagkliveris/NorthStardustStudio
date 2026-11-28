@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 import "../../../styles/numbered-list.css";
 
-export interface ListStaticLine {
+interface ListStaticLine {
     key: string;
     text: ReactNode;
     /** What stands at the line's end (a numbered list's). */

@@ -30,7 +30,7 @@ function figureHtml(image: ExportImage): string {
 }
 
 /** The organization's logo on a document's cover, above its title; nothing without one. */
-export function documentLogoHtml(content: ExportContent): string {
+function documentLogoHtml(content: ExportContent): string {
     const logo = content.documentLogo;
     return logo && isExportableImage(logo.src)
         ? `<div class="document-logo"><img src="${escapeAttribute(logo.src)}" alt="${escapeAttribute(logo.alt)}" /></div>`
@@ -50,10 +50,10 @@ export function documentLogoHtml(content: ExportContent): string {
 ========================================================== */
 
 /** The longest side, in pixels, an SVG is drawn at before printing. */
-export const SVG_PRINT_EDGE = 2400;
+const SVG_PRINT_EDGE = 2400;
 
 /** A picture's data URL, ready to print -- or null where it cannot be (it would not load). */
-export type PreparePicture = (src: string) => Promise<string | null>;
+type PreparePicture = (src: string) => Promise<string | null>;
 
 /**
  * An SVG's width over its height, from its own markup: its viewBox,
@@ -77,7 +77,7 @@ export function svgAspect(src: string): number | null {
 }
 
 /** Draws an SVG data URL to a PNG data URL (see SVG_PRINT_EDGE); null if it will not load or draw. */
-export function rasteriseSvg(src: string, edge: number = SVG_PRINT_EDGE): Promise<string | null> {
+function rasteriseSvg(src: string, edge: number = SVG_PRINT_EDGE): Promise<string | null> {
     return new Promise(resolve => {
         const image = new Image();
         image.onload = () => {
@@ -115,7 +115,7 @@ function loads(src: string): Promise<string | null> {
 }
 
 /** The default preparation: an SVG drawn to a PNG, anything else checked to load. */
-export const preparePicture: PreparePicture = src =>
+const preparePicture: PreparePicture = src =>
     !isExportableImage(src) ? Promise.resolve(null)
         : src.startsWith("data:image/svg+xml") ? rasteriseSvg(src) : loads(src);
 

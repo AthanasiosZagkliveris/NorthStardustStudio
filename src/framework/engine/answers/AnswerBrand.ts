@@ -16,20 +16,20 @@ import { STRATEGY_FOUNDATION_SECTIONS } from "./AnswerStrategy.ts";
  * park a candidate colour without it counting as part of the
  * palette.
  */
-export interface BrandColourValue {
+interface BrandColourValue {
     enabled: boolean;
     name: string;
     hex: string;
     usage: string;
 }
 
-export interface BrandTypefaceValue {
+interface BrandTypefaceValue {
     enabled: boolean;
     font: string;
     purpose: string;
 }
 
-export interface BrandHierarchyValue {
+interface BrandHierarchyValue {
     enabled: boolean;
     size: string;
 }
@@ -45,7 +45,7 @@ export interface BrandAssetValue {
     fileName: string;
 }
 
-export interface BrandImageValue extends BrandAssetValue {
+interface BrandImageValue extends BrandAssetValue {
     name: string;
     description: string;
 }

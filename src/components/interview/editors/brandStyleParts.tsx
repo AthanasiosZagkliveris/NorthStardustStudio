@@ -36,7 +36,7 @@ export function contrastBetween(one: Rgb, other: Rgb): number {
 }
 
 /** The card's ground and the texts drawn on it, as the theme has them now. */
-export interface CardInk {
+interface CardInk {
     ground: Rgb;
     texts: Rgb[];
 }

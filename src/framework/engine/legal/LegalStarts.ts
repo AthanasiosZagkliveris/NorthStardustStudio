@@ -16,7 +16,7 @@ import { usStateOf } from "./UsStates.ts";
 export const LEGAL_FEES_CHECKED = "2026-11-19";
 
 /** What a rule makes: a requirement card (with an expense paying for it, where there is a fixed fee), an expense on the registration number, or a tax registration row. */
-export interface LegalStart {
+interface LegalStart {
     /** The rule's id (Questions 10: GB2, US3, ...): the item made carries it. */
     rule: string;
     kind: "requirement" | "expense" | "tax-row";

@@ -19,7 +19,7 @@ export const GLOSSARY_KINDS: readonly { id: GlossaryKind; label: string }[] = [
 ];
 
 /** One of your terms. */
-export interface UserTerm {
+interface UserTerm {
     /** The card's id: it opens the card (empty for the Organisation itself). */
     cardId: string;
     name: string;

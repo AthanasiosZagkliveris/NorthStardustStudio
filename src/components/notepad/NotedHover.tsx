@@ -50,7 +50,7 @@ const TOOLTIP_NOTES = 2;
 const HOT = "is-noted-hot";
 
 /** The key of the field or card a noted box stands for. */
-export function notedKey(box: Element): string | null {
+function notedKey(box: Element): string | null {
     return box.closest<HTMLElement>("[data-field-key]")?.dataset.fieldKey ?? null;
 }
 
@@ -71,7 +71,7 @@ export function markFieldsHot(keys: readonly string[]): void {
 }
 
 /** Marks, in the Notepad, the notes linking to `key` and those links (null: clears them); brings the first into view. */
-export function markNotesHot(organizationId: string, key: string | null): void {
+function markNotesHot(organizationId: string, key: string | null): void {
     const panel = document.querySelector(".notepad-panel");
     for (const element of document.querySelectorAll(".notepad-panel ." + HOT)) {
         element.classList.remove(HOT);

@@ -121,7 +121,7 @@ export interface Forecast {
 }
 
 /** The statements, in the order they are read: profit, what is kept of it, position, cash. */
-export function forecastTables(forecast: Forecast): ForecastTable[] {
+function forecastTables(forecast: Forecast): ForecastTable[] {
     return [
         forecast.profitAndLoss,
         ...(forecast.profitKept ? [forecast.profitKept] : []),
@@ -168,7 +168,7 @@ function assetOf(line: CostLine): "equipment" | "deposit" | "" {
  * The expense lines, by nature (IFRS for SMEs 5.11): what a cost is,
  * not which page recorded it. In the order they are listed.
  */
-export const EXPENSE_NATURES = [
+const EXPENSE_NATURES = [
     "Salaries",
     "Premises",
     "Utilities",
@@ -183,7 +183,7 @@ export const EXPENSE_NATURES = [
     "Other expenses"
 ] as const;
 
-export type ExpenseNature = typeof EXPENSE_NATURES[number];
+type ExpenseNature = typeof EXPENSE_NATURES[number];
 
 /**
  * A cost's nature, from where it was recorded (its sourcePath) and,
@@ -802,7 +802,7 @@ export function financialForecast(
 }
 
 /** One row of a view: a heading has no figures; a text row has words instead. */
-export interface ForecastViewRow {
+interface ForecastViewRow {
     label: string;
     total?: boolean;
     heading?: boolean;
@@ -823,7 +823,7 @@ export interface ForecastViewTable {
 }
 
 /** A table cut to a period and a last plan year. */
-export interface ForecastView {
+interface ForecastView {
     /** The period columns every table shares. */
     columns: string[];
     tables: ForecastViewTable[];

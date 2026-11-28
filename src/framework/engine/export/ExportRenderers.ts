@@ -903,7 +903,7 @@ function skillsBlocks(capability: ReturnType<typeof capabilityOf>, context: Expo
  * out (the costs in its Appendix, the signals under Risks, the
  * capacity under Operations).
  */
-export interface FinancialDocumentOptions {
+interface FinancialDocumentOptions {
     costName?: (line: CostLine) => string;
     omitCosts?: boolean;
 }

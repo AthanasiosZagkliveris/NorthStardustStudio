@@ -22,7 +22,7 @@ export interface SectionResponse {
  * workflow while allowing the interview to grow into a question-driven
  * flow later.
  */
-export interface QuestionResponse {
+interface QuestionResponse {
     questionId: string;
     value: string;
 }

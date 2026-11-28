@@ -10,7 +10,7 @@ import { deliveryAllocation, deliveryHours, type DeliveryValue } from "../Demand
 ========================================================== */
 
 /** One Offering's sale: what it is sold for, what it costs, and what is left. */
-export interface OfferingEconomicsRow {
+interface OfferingEconomicsRow {
     streamId: string;
     offeringId: string;
     /** The price of one, as break even counts it (a recurring charge: a month of one client). */
@@ -34,7 +34,7 @@ export interface OfferingEconomicsRow {
     margin: number | null;
 }
 
-export interface OfferingEconomics {
+interface OfferingEconomics {
     /** The running costs a month, all of them. */
     running: number;
     /** Those that serve one Offering alone, together. */

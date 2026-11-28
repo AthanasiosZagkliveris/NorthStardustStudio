@@ -3,7 +3,7 @@
  * by side, as the Business System's Infrastructure & Capability page does. Each section keeps its own saved answer, its own number and its own title (the frame's heading); only the page
  * is shared. The first section of a page is the page's own; the others are its COMPANIONS, drawn beside it and not pages of their own.
  */
-export interface PageGroup {
+interface PageGroup {
 
     /** The System's number. */
     systemNumber: number;
@@ -62,7 +62,7 @@ export const HIDDEN_SECTIONS: readonly { systemNumber: number; sections: readonl
 ];
 
 /** Whether the section is kept out of the pages. */
-export function isHidden(systemNumber: number | undefined, sectionNumber: number): boolean {
+function isHidden(systemNumber: number | undefined, sectionNumber: number): boolean {
     return systemNumber !== undefined && HIDDEN_SECTIONS.some(entry => entry.systemNumber === systemNumber && entry.sections.includes(sectionNumber));
 }
 

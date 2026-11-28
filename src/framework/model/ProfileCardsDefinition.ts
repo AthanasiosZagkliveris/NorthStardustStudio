@@ -13,7 +13,7 @@ import { VariantDefinition } from "./VariantDefinition.ts";
  * subtitled fields every other card
  * has.
  */
-export interface ProfileCardsTrailingCard {
+interface ProfileCardsTrailingCard {
 
     /**
      * Unique Framework identifier.

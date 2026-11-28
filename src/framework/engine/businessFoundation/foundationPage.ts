@@ -109,7 +109,7 @@ export type BusinessDescriptionValue = Record<string, string>;
  * list of needs with nothing to say which kind each one was --
  * which is most of what the answer is for.
  */
-export interface BusinessProfileNeedsValue {
+interface BusinessProfileNeedsValue {
     functional: string[];
     /**
      * Each functional item's id, line for line (owner, 2026-11-07): an Offering ticks an item by its id, so editing the item's words keeps the tick.
@@ -220,7 +220,7 @@ export interface BusinessCustomerSegmentValue {
 }
 
 /** Who made a Segment: the app, from the Identity System's answers. A Segment the user added has no maker. */
-export type SegmentMaker = "identity";
+type SegmentMaker = "identity";
 
 /** Whether Positioning chose both people and businesses (or government): the app then makes two Segments, the second of businesses. */
 export function bothPeopleAndBusinesses(relationships: readonly string[]): boolean {
@@ -359,7 +359,7 @@ export function businessNeedList(value: unknown, minimum = 0): string[] {
  * the first box the founder will see -- rather than discarded.
  * Nothing is lost; it just has to be redistributed by hand.
  */
-export function asBusinessDescription(
+function asBusinessDescription(
     value: unknown,
     firstPartId: string
 ): BusinessDescriptionValue {
@@ -389,7 +389,7 @@ export function asBusinessDescription(
  * outlook saved in its own box before they merged is appended to
  * the Market Size text, after a blank line, so nothing is lost.
  */
-export function withMarketOutlook(parts: BusinessDescriptionValue): BusinessDescriptionValue {
+function withMarketOutlook(parts: BusinessDescriptionValue): BusinessDescriptionValue {
 
     const { "industry-outlook": outlook, ...rest } = parts;
 
@@ -414,7 +414,7 @@ export function withMarketOutlook(parts: BusinessDescriptionValue): BusinessDesc
  * BusinessFoundationEditor); kept as plain strings because the
  * parser must not depend on a component.
  */
-export const BUSINESS_FIRST_DESCRIPTION_PART = {
+const BUSINESS_FIRST_DESCRIPTION_PART = {
     segment: "demographics",
     profile: "personal",
     competitor: "offerings",
@@ -429,7 +429,7 @@ export const BUSINESS_FIRST_DESCRIPTION_PART = {
  * written need most often is, so they are read in there rather
  * than dropped. Nothing is lost; some may want moving.
  */
-export function asBusinessNeeds(value: unknown): BusinessProfileNeedsValue {
+function asBusinessNeeds(value: unknown): BusinessProfileNeedsValue {
 
     if (Array.isArray(value)) {
         return {
@@ -551,7 +551,7 @@ function offeringQuestionsOf(source: unknown): { questions?: Record<string, stri
     return Object.keys(questions).length > 0 ? { questions } : {};
 }
 
-export function asBusinessOffering(entry: unknown): BusinessOfferingValue {
+function asBusinessOffering(entry: unknown): BusinessOfferingValue {
 
     const offering = asObject(entry);
 
@@ -716,7 +716,7 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
  * to one Segment is never offered another Segment's needs.
  */
 /** One functional item of a Segment, as an Offering ticks it: its words (the first spelling) and the ids of every Profile item with those words. */
-export interface BusinessFunctionalItem {
+interface BusinessFunctionalItem {
     text: string;
     ids: string[];
 }

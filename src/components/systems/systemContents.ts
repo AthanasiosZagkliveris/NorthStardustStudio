@@ -15,7 +15,7 @@ function together(statuses: readonly (PageStatus | undefined)[]): PageStatus {
 }
 
 /** One line of a System's tile: its words, the full words where the line shows an abbreviation (its tooltip), its status. */
-export interface SystemContentLine {
+interface SystemContentLine {
     label: string;
     full?: string;
     status?: PageStatus;
@@ -25,7 +25,7 @@ export interface SystemContentLine {
 }
 
 /** What a System's tile lists and the heading over it. */
-export interface SystemContents {
+interface SystemContents {
     kind: "Pages" | "Chapters" | "Sections";
     lines: SystemContentLine[];
 }

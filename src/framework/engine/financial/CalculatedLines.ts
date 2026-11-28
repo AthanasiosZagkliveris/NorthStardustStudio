@@ -41,14 +41,14 @@ import { countryCurrency } from "../legal/LegalEntityJurisdictions.ts";
 */
 
 /** A calculated line: a series with the label it is shown under. */
-export interface CalculatedLine {
+interface CalculatedLine {
     id: string;
     label: string;
     values: number[];
 }
 
 /** An asset the rules capitalise: what it costs altogether (with its linked services), when it is paid and when it starts to wear. */
-export interface CapitalisedAsset {
+interface CapitalisedAsset {
     /** The id of the card. */
     id: string;
     name: string;
@@ -212,7 +212,7 @@ export function channelFeeFor(names: readonly string[], table: readonly ChannelF
     return undefined;
 }
 
-export interface CalculationInput {
+interface CalculationInput {
     foundation: FinancialFoundationValue;
     revenuePage: FinancialSustainabilityValue;
     lines: readonly CostLine[];

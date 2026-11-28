@@ -161,7 +161,7 @@ export interface OrganizationDocument {
  * index), and, when a field had focus there, the rail id of the
  * section card holding it (its `data-rail` marker).
  */
-export interface LastPlace {
+interface LastPlace {
     systemNumber: number;
     sectionIndex: number;
     anchor?: string;

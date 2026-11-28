@@ -4,7 +4,7 @@ import { RefObject, useLayoutEffect, useRef, useState } from "react";
 export type RailSlot = { shift: number; index: number; extra: number; spread?: number };
 
 /** The arrow's box, in the window's coordinates. */
-export type ArrowBox = { left: number; right: number; top: number; bottom: number };
+type ArrowBox = { left: number; right: number; top: number; bottom: number };
 
 /** How far a line of the list is set down by the slot: the first line by the shift, the line at the slot's index by its extra. */
 export function slotMargin(slot: RailSlot | null, position: number): number {

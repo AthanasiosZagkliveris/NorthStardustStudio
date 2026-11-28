@@ -77,7 +77,7 @@ export const BUSINESS_SYSTEM_NUMBER = 3;
  * tells an Identity session saved before the move apart from
  * one saved after it.
  */
-export const AMBASSADOR_COLUMN_IDS = [
+const AMBASSADOR_COLUMN_IDS = [
         "aesthetics",
         "attitude-body-language",
         "communication-voice",
@@ -101,7 +101,7 @@ export const ETHICS_COLUMN_IDS = [
     ];
 
 /** Whether a stored response carries any of these column ids. */
-export function responseHasColumns(
+function responseHasColumns(
         response: SectionResponse | undefined,
         columnIds: string[]
     ): boolean {
@@ -379,7 +379,7 @@ export function makeRoomForFinancialSustainabilityPage(organizationId: string): 
     }
 
 /** The first Section of the nine retired pages, after both shifts above. */
-export const FIRST_RETIRED_BUSINESS_SECTION = 6;
+const FIRST_RETIRED_BUSINESS_SECTION = 6;
 
 /**
  * The Business System's nine original pages were retired once

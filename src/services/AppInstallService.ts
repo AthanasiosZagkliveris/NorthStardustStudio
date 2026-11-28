@@ -13,7 +13,7 @@ interface InstallPromptEvent extends Event {
     prompt(): Promise<void>;
 }
 
-export interface AppInstallState {
+interface AppInstallState {
     /** The browser offers Install (Chrome, Edge). */
     canInstall: boolean;
     /** An iPhone or iPad in a browser: installed through Share, Add to Home Screen. */

@@ -212,7 +212,7 @@ export interface DescriptionPart {
  * re-frames the question without losing what has been written
  * under it -- including under a question the new type hides.
  */
-export interface CompetitorTypeQuestions {
+interface CompetitorTypeQuestions {
     /** By part id: a new title and/or question, or null to hide. */
     parts?: Record<string, { title?: string; text?: string } | null>;
     /** A new question behind Insights. */

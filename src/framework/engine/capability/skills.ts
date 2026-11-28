@@ -53,7 +53,7 @@ export function skillGroups(skillId: string): readonly string[] {
 }
 
 /** What the business still needs, as saved or, before the first save, read from the Legal Entity's Gaps and Cover. */
-export interface SkillsNeeded {
+interface SkillsNeeded {
     /** SKILLS ids ticked, "other" among them where names are written. */
     ticked: string[];
     /** The names written under Other, one a row. */
@@ -107,7 +107,7 @@ function skillLabel(skillId: string): string {
 }
 
 /** One needed skill as the documents and the Review read it: its words, and who covers it (empty: not covered yet). */
-export interface NeededSkill {
+interface NeededSkill {
     label: string;
     cover: string[];
 }

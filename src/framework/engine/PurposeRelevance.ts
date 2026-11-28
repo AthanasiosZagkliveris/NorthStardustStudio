@@ -60,7 +60,7 @@ function levelIn(table: Table, purpose: number, column: string): number | null {
     return cell === "P" ? 2 : cell === "S" ? 1 : 0;
 }
 
-export interface PurposeContext {
+interface PurposeContext {
     /** The relationship models chosen: b2c, b2b. */
     models: readonly string[];
     /** The buyer's categories chosen, as saved: "b2c:proxy". */

@@ -15,12 +15,12 @@ import { BETA_QUESTIONNAIRE_VERSION, allBetaQuestions, isAnswered, type BetaAnsw
 export const BETA_KEY = "northstardust-beta-questionnaire";
 
 /** The receiver, on the app's own address. */
-export const BETA_ENDPOINT = "/api/beta";
+const BETA_ENDPOINT = "/api/beta";
 
 /** Said by the questionnaire when its record changes (an answer, a send), so the open screens read it again. */
 export const BETA_CHANGED_EVENT = "northstardust-beta-changed";
 
-export type BetaStatus = "answering" | "waiting" | "sent";
+type BetaStatus = "answering" | "waiting" | "sent";
 
 export interface BetaRecord {
     version: number;
@@ -66,7 +66,7 @@ export function answerKey(question: BetaQuestion, system?: string): string {
 }
 
 /** A plain email shape: something@something.something. */
-export function looksLikeEmail(text: string): boolean {
+function looksLikeEmail(text: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text.trim());
 }
 

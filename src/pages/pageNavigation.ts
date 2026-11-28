@@ -14,7 +14,7 @@ import { StorageService } from "../services/StorageService";
 import { reviewManager, resolveSharedAnswerValue, validateProductDevelopmentForProduct, validateOperationsProcessOwnership, OPERATIONS_PROCESS_LIBRARY_SECTION, OPERATIONS_OPERATIONAL_LOG_SECTION, type ExportStep } from "./conversationHelpers";
 
 /** What the page hands in: the open interview (null while it loads), the Organization, the System, and the page's ways to save, move and open the export. */
-export interface PageNavigationInput {
+interface PageNavigationInput {
     session: InterviewSession | null;
     organizationId: string | null;
     system: { id?: string; number?: number } | undefined;

@@ -18,7 +18,7 @@ import "../../styles/conversation.css";
 import "../../styles/tools-menu.css";
 
 /** The appearances (the reading modes), in the menu's order. */
-export const READING_MODES: readonly { value: ThemeChoice; label: string; title: string }[] = [
+const READING_MODES: readonly { value: ThemeChoice; label: string; title: string }[] = [
     { value: "light", label: "Light", title: "Light theme" },
     { value: "sepia", label: "Sepia", title: "Sepia theme: warm paper for long reading" },
     { value: "dark", label: "Dark", title: "Dark theme" },

@@ -35,7 +35,7 @@ const BACK_CLEARANCE = 12;
  * Whether the footer's Back, with its word, would stand over something (`BACK_OBSTACLES`): measured with the word shown. The page card counts by its left edge alone, as
  * it runs down beside the footer; the others where they meet the Back's box.
  */
-export function backWordCovers(back: DOMRect, obstacles: readonly { rect: DOMRect; card: boolean }[]): boolean {
+function backWordCovers(back: DOMRect, obstacles: readonly { rect: DOMRect; card: boolean }[]): boolean {
     return obstacles.some(({ rect, card }) => {
         if (rect.width === 0 || rect.height === 0) {
             return false;

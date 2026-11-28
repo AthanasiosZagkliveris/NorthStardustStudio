@@ -15,7 +15,7 @@ const made = new Map<string, string>();
  * about twice the block's size, and the block shows that: at every size it is the same picture, only larger. Where the canvas is not available (a test), or the
  * picture is not a raster, or it cannot be read, the picture itself is shown.
  */
-export function useThumbnail(dataUrl: string, edge: number = THUMB_EDGE): string {
+function useThumbnail(dataUrl: string, edge: number = THUMB_EDGE): string {
     const key = dataUrl + "@" + edge;
     const [thumb, setThumb] = useState(() => made.get(key) ?? dataUrl);
     useEffect(() => {

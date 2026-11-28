@@ -14,7 +14,7 @@ import { removalPatches, removesContent, undoRemoval } from "../framework/engine
       - anything else (a note in the Notepad) offers its own undo.
 */
 
-export interface UndoOffer {
+interface UndoOffer {
     /** Changes with every offer, so a toast can start its time again. */
     id: number;
     /** "Profile 1 removed." */

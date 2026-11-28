@@ -14,7 +14,7 @@
     label before a term, and a term before an answer.
 */
 
-export type SearchGroup = "page" | "field" | "term" | "answer";
+type SearchGroup = "page" | "field" | "term" | "answer";
 
 /** Where a result opens (see SearchDialog). */
 export interface SearchTarget {
@@ -53,7 +53,7 @@ export function normalize(text: string): string {
 }
 
 /** A query's words, normalized. */
-export function queryWords(query: string): string[] {
+function queryWords(query: string): string[] {
     return normalize(query).trim().split(" ").filter(word => word.length > 0);
 }
 
@@ -120,7 +120,7 @@ export interface SearchHit {
     score: number;
 }
 
-export interface SearchResults {
+interface SearchResults {
     pages: SearchHit[];
     fields: SearchHit[];
     terms: SearchHit[];
@@ -144,7 +144,7 @@ function score(item: SearchEntry, words: readonly string[], phrase: string): num
 }
 
 /** How many of each group are shown: enough to choose from, short enough to take in. */
-export const GROUP_LIMITS: Record<SearchGroup, number> = { page: 5, field: 6, term: 5, answer: 8 };
+const GROUP_LIMITS: Record<SearchGroup, number> = { page: 5, field: 6, term: 5, answer: 8 };
 
 /** What `query` finds in `index`, best first in each group. */
 export function search(index: readonly SearchEntry[], query: string): SearchResults {

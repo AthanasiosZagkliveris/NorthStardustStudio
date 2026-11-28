@@ -15,7 +15,7 @@ export const PARTNER_CATEGORIES = [
  * group that does part of the job -- Contractors & Advisers, Technical Support, Creative & IT Services --, or with no group yet, never one charged as a share of
  * revenue; and any card that says the hours a month it can give, or already holds hours on the Delivery card.
  */
-export const WORKING_PARTNER_GROUPS: readonly string[] = ["contractors-advisers", "technical-support", "creative-it-services", ""];
+const WORKING_PARTNER_GROUPS: readonly string[] = ["contractors-advisers", "technical-support", "creative-it-services", ""];
 
 /** WHO TAKES WEEKS TO DELIVER WHAT YOU ORDER (owner, 2026-11-19 16:52 UTC+2, 3.5): a producer's or wholesaler's materials and a contractor's part of the job; a card
     with no group yet too. The Supplier cards in these groups ask "Weeks to deliver", read by Capacity & Delivery (Questions 19, 16). */

@@ -434,7 +434,7 @@ export function startGoals(stageId: string, segment: BusinessCustomerSegmentValu
 export const DEFAULT_RELATIONSHIP_TYPE = "personal-assistance";
 
 /** A relationship type the answers create for an Offering, and the answer it comes from. */
-export interface AutoRelationship {
+interface AutoRelationship {
     type: string;
     source: string;
 }
@@ -494,7 +494,7 @@ export function relationshipTypesOf(kept: readonly string[], dismissed: readonly
 }
 
 /** One Offering's relationships as the page and every document show them: its types (relationshipTypesOf) and what is recorded for each. */
-export interface OfferingRelationships {
+interface OfferingRelationships {
     offeringId: string;
     types: string[];
     typeDetail: Record<string, BusinessRelationshipTypeValue>;
@@ -517,7 +517,7 @@ export function offeringRelationshipsFor(saved: { offerings: readonly BusinessOf
 }
 
 /** One Demand row the Foundation proposes for an Offering: a Customer Source and, for a channel's row, the channel that brings its customers. */
-export interface DemandSuggestion {
+interface DemandSuggestion {
     /** A DEMAND_SOURCES id. */
     type: string;
     /** The Discover channel the row is for ("" for a row of no channel). */

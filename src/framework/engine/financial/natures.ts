@@ -56,7 +56,7 @@ const isRecurring = (frequency: CostFrequency) => frequency === "monthly" || fre
  * - C7: an Offering card with a Per unit or Per project driver, or in Materials, Delivery Team, Delivery Running Costs or Site Hire: COGS.
  * - C6, C8, C15: a recurring fixed cost, and any other company cost: OpEx.
  */
-export function natureFromOpening(line: CostLine, context: NatureContext): CostNature {
+function natureFromOpening(line: CostLine, context: NatureContext): CostNature {
     if (line.capitalisedInto) {
         return "capex";
     }
@@ -85,7 +85,7 @@ export function natureFromOpening(line: CostLine, context: NatureContext): CostN
  * - C4: a physical asset at or above the limit is CapEx; below it, a Startup Expense.
  * - C16: any other pre-launch cost is written off: a one-time cost is a Startup Expense, a time-dependent one a Pre-Operating Expense.
  */
-export function natureBeforeOpening(line: CostLine, context: NatureContext): CostNature {
+function natureBeforeOpening(line: CostLine, context: NatureContext): CostNature {
     if (line.billing === "percentage" || line.frequency === "usage-based") {
         return "cogs";
     }
@@ -105,7 +105,7 @@ export function natureBeforeOpening(line: CostLine, context: NatureContext): Cos
 }
 
 /** A cost line split by the Opening Date, each part with its nature. */
-export interface NatureSplit {
+interface NatureSplit {
     /** The part dated before the opening: its nature and its amount (null when none is). */
     before: { nature: CostNature; amount: number } | null;
     /** The nature from the opening on (null for a one-time cost wholly before it). */

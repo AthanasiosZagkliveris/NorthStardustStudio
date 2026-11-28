@@ -3,7 +3,7 @@
  * the relationships that can be a Proxy Buyer's (the buyer buys for the other) or a Dual-Intent Buyer's (one purchase for the buyer and the dependents). A relationship that cannot be the chosen
  * category is not offered, and an answer already given for one goes with a change of category. Both lists are the owner's judgement, one line each; the buyer's own answer still decides the category.
  */
-export type CategoryKey = "proxy" | "dual";
+type CategoryKey = "proxy" | "dual";
 
 /** The categories each relationship can have. Consumer buyer: the parent and the caregiver buy for a dependent (proxy) or one plan for the household (dual); a friend or a commercial and professional buyer buys for the other only; a partner shares the purchase. Business buyer: an employer, a professional intermediary, a sponsor or another business buys for the other; a partner or a business serving its clients shares the use; an institution or membership body does either (a school buying for its pupils, or one plan for its members and its staff; owner, 2026-11-09). An "Other" is no longer offered; its row reads a saved one. */
 export const RELATIONSHIP_FITS: Record<string, readonly CategoryKey[]> = {

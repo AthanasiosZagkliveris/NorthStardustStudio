@@ -1137,7 +1137,7 @@ export function jurisdictionIsProfiled(countryCode: string): boolean {
  * takes letters and digits, no more than 8; a shape with separators ("123456-7890", "CHE-123.456.789") takes the characters it shows (digits, or digits and
  * letters where it shows letters), no longer than it. A country with no stated shape takes letters, digits and the usual separators, up to 20.
  */
-export interface RegistrationNumberRule {
+interface RegistrationNumberRule {
     digitsOnly: boolean;
     max: number;
     /** Whether a character may stand in it. */

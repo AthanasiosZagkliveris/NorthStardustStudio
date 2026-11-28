@@ -282,7 +282,7 @@ export const FIXED_KIND_IDS: ReadonlySet<string> = new Set(
  * True while a card holds nothing the user wrote: every field as a fresh card's (only its id
  * differs). A card left like this when its box is closed is removed again (CardBoxes).
  */
-export function sameAsFresh<T extends { id: string }>(card: T | undefined, fresh: T): boolean {
+function sameAsFresh<T extends { id: string }>(card: T | undefined, fresh: T): boolean {
     return card !== undefined && JSON.stringify({ ...card, id: "" }) === JSON.stringify({ ...fresh, id: "" });
 }
 
@@ -297,7 +297,7 @@ export const blankPartner = (partner: BusinessPartnerValue | undefined) => sameA
  * The subcategory names drawn on TWO LINES, in the list of their tile and as the title of their box: a forced break after a fixed word
  * ("Conditioning" and "& Communication" start the second line). The stored id is the subcategory's; the label is read as it was.
  */
-export const SUBCATEGORY_BREAKS: Readonly<Record<string, string>> = {
+const SUBCATEGORY_BREAKS: Readonly<Record<string, string>> = {
     "Cooling & Air Conditioning": "Cooling & Air\nConditioning",
     "Online Presence & Communication": "Online Presence\n& Communication"
 };

@@ -6,7 +6,7 @@
  */
 
 /** The states of an asset. Rest, hover and focus are reactions; open and closed are values. */
-export type AssetState = "rest" | "hover" | "focus" | "open" | "closed" | "disabled";
+type AssetState = "rest" | "hover" | "focus" | "open" | "closed" | "disabled";
 
 /** A place where the asset stands, drawn in the gallery at the size the app draws it. */
 export interface AssetVariant {
@@ -19,7 +19,7 @@ export interface AssetVariant {
 }
 
 /** A pair of colours that meet, measured in every reading mode and every palette hue. */
-export interface ContrastNeed {
+interface ContrastNeed {
     readonly ink: string;
     readonly ground: string;
     /** 3 for a mark (WCAG 1.4.11), 4.5 for text (1.4.3). */
@@ -28,10 +28,10 @@ export interface ContrastNeed {
 
 /** The screen classes of the website's profiles (once in docs/design/records/02-not-done-yet.md, 5.5.0; the tiers today: docs/ai/09-layout-rules.md, section 4): Tablet 768-1199 wide; Laptop 1200 and wider, under 1250 high; Desktop 1200 and wider, 1250 high and over. */
 export const SCREEN_CLASSES = ["tablet", "laptop", "desktop"] as const;
-export type ScreenClass = (typeof SCREEN_CLASSES)[number];
+type ScreenClass = (typeof SCREEN_CLASSES)[number];
 
 /** A size by use and by screen class: one custom property, and its value in each class (the same in every class until the owner sets them apart). */
-export interface SizeRow {
+interface SizeRow {
     readonly use: string;
     /** The custom property that holds it, when there is one. */
     readonly token?: string;
@@ -41,7 +41,7 @@ export interface SizeRow {
 }
 
 /** One part of an asset from top to bottom: what it is, and the gap above it. */
-export interface AnatomyPart {
+interface AnatomyPart {
     readonly part: string;
     readonly note: string;
     /** The gap above this part in px, with the custom property that holds it. */

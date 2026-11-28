@@ -92,7 +92,7 @@ export const InnerBackContext = createContext<InnerBackApi | null>(null);
 
 
 /** How deep in the dialog's inner views a component stands (0 = the dialog's own content). */
-export const InnerDepthContext = createContext(0);
+const InnerDepthContext = createContext(0);
 
 
 /** What is drawn inside an inner view (a subcategory, a card): one level deeper than the view that shows it. */

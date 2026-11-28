@@ -52,7 +52,7 @@ import "../../../styles/card-folding.css";
  */
 export const MissingMapContext = createContext<ReadonlyMap<string, readonly string[]>>(new Map());
 const NO_MISSING: readonly string[] = [];
-export const MissingFieldsContext = createContext<readonly string[]>([]);
+const MissingFieldsContext = createContext<readonly string[]>([]);
 
 /**
  * A card just made and still open (freshCards) is quiet: nothing flashes at someone who is only starting it. Every other card shows what it lacks in its fields

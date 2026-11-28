@@ -707,7 +707,7 @@ function has(answers: SegmentAnswers, id: string, option: string): boolean {
  * The questions held back while the business is only Planning (owner, 2026-11-08, P5: progressive disclosure): where they mainly work (Box 1, 5), how they are paid (Box 1, 7) and how they
  * share what they like (Box 4, 4). Shown from Launching; a saved answer is kept while they are held back (segmentSettle), never removed.
  */
-export const SEGMENT_HELD_WHILE_PLANNING: readonly string[] = ["workenv", "workincome", "share"];
+const SEGMENT_HELD_WHILE_PLANNING: readonly string[] = ["workenv", "workincome", "share"];
 
 /** Whether a question is held back by the stage alone: it would be asked from Launching, with the same answers. */
 export function segmentHeldBack(question: SegmentQuestion, answers: SegmentAnswers, context: SegmentContext): boolean {

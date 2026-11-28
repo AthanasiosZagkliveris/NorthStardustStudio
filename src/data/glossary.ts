@@ -15,7 +15,7 @@ import type { SourceId } from "../framework/engine/Sources.ts";
  * their Segments, Profiles, Offerings ...) are not here: they are read
  * from the open Organisation (GlossaryService.ts).
  */
-export interface AppTerm {
+interface AppTerm {
     id: string;
     term: string;
     meaning: string;

@@ -30,7 +30,7 @@
 
 export type FieldKey = string;
 
-export interface FieldAddress {
+interface FieldAddress {
 
     /** The System's number (1 = Identity). */
     systemNumber: number;
@@ -134,7 +134,7 @@ export function parseFieldKey(key: FieldKey): FieldAddress | null {
 }
 
 /** The key of the page a key belongs to ("1.3:"), for "everything on this page". */
-export function pageKeyPrefix(systemNumber: number, sectionNumber: number): string {
+function pageKeyPrefix(systemNumber: number, sectionNumber: number): string {
     return systemNumber + "." + sectionNumber + ":";
 }
 

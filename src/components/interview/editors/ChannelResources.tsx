@@ -180,7 +180,7 @@ export function ActionPicker() {
 
 /* ---------- One channel's resources ---------- */
 
-export interface ChannelResourcesProps {
+interface ChannelResourcesProps {
     segment: BusinessSegmentEngagementValue;
     channelId: string;
     /** "Channel 3", for its controls' names. */

@@ -9,7 +9,7 @@ import { VISION_REACH, asVisionReach, reachRank, widestSegmentReach } from "../c
 import { changeEffectLines } from "../choices/StrategyChoices.ts";
 
 /** The four quadrants' suggestions, each a line as it is written into the quadrant. */
-export interface SwotSuggestions {
+interface SwotSuggestions {
     strengths: string[];
     weaknesses: string[];
     opportunities: string[];

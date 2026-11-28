@@ -23,7 +23,7 @@ function tabStops(layer: HTMLElement): HTMLElement[] {
 }
 
 /** The record time of a card, under it, as a note's ("Recorded 17/10/2026 14:13"). */
-export function FloatingRecord({ id }: { id: string }) {
+function FloatingRecord({ id }: { id: string }) {
     // (Reading the time writes it the first time, so it is read after the render, never in it.)
     const [at, setAt] = useState(0);
     useEffect(() => setAt(CardRecordService.recordedAt(id)), [id]);
@@ -35,7 +35,7 @@ export function FloatingRecord({ id }: { id: string }) {
  * The Escape that is typed in the app header (the Notes panel, the reading-version menu, Search) belongs to what is open there: the layers of the page leave it
  * alone and the next Escape, once nothing is open in the header, closes them.
  */
-export function headerOwnsEscape(event: KeyboardEvent): boolean {
+function headerOwnsEscape(event: KeyboardEvent): boolean {
     const target = event.target as HTMLElement | null;
     return !!target?.closest?.(".app-header") && !!document.querySelector(".app-header .notepad-panel, .app-header .theme-switch-list, .app-header .search-overlay, .app-header [aria-expanded=\"true\"]");
 }
@@ -387,7 +387,7 @@ export function FloatingCards({
  * The control of a popup of the dialog's own (a list, an "i") that is open: it
  * takes Escape first.
  */
-export function openPopup(dialog: HTMLElement | null): HTMLElement | null {
+function openPopup(dialog: HTMLElement | null): HTMLElement | null {
     return dialog?.querySelector<HTMLElement>('[aria-haspopup][aria-expanded="true"]') ?? null;
 }
 

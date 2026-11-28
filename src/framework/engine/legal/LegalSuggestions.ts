@@ -18,7 +18,7 @@ import type { Foundation } from "../businessDocuments/reading.ts";
     said. Also said: a fee whose official check is over 12 months old, and a United States state the app holds no rules for yet.
 */
 
-export interface LegalSuggestion {
+interface LegalSuggestion {
     /** The rule (Questions 10): "GB8", "GB13", ... */
     rule: string;
     text: string;

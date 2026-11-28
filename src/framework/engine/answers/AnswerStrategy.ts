@@ -165,7 +165,7 @@ export interface StrategicPeriodValue {
 }
 
 
-export function strategyStringList(value: unknown, minimum: number): string[] {
+function strategyStringList(value: unknown, minimum: number): string[] {
 
     const list = Array.isArray(value) ? value.map(asText) : [];
 
@@ -177,7 +177,7 @@ export function strategyStringList(value: unknown, minimum: number): string[] {
 
 }
 
-export function strategyMonth(value: unknown): StrategyMonthValue {
+function strategyMonth(value: unknown): StrategyMonthValue {
 
     const source = value && typeof value === "object" && !Array.isArray(value)
         ? value as Record<string, unknown>
@@ -187,7 +187,7 @@ export function strategyMonth(value: unknown): StrategyMonthValue {
 
 }
 
-export function strategyRange(value: unknown): StrategyRangeValue {
+function strategyRange(value: unknown): StrategyRangeValue {
 
     const source = value && typeof value === "object" && !Array.isArray(value)
         ? value as Record<string, unknown>
@@ -338,7 +338,7 @@ export function strategySwotShown(foundation: Pick<StrategyFoundationValue, "swo
     }));
 }
 
-export function strategyMetric(value: unknown): StrategyMetricValue {
+function strategyMetric(value: unknown): StrategyMetricValue {
 
     const source = value && typeof value === "object" && !Array.isArray(value)
         ? value as Record<string, unknown>
@@ -356,7 +356,7 @@ export function strategyMetric(value: unknown): StrategyMetricValue {
 }
 
 /** Currency symbols a "Custom" unit was written as, and their codes. */
-export const METRIC_UNIT_SYMBOLS: Record<string, string> = {
+const METRIC_UNIT_SYMBOLS: Record<string, string> = {
     "£": "GBP", "$": "USD", "US$": "USD", "€": "EUR", "¥": "JPY", "C$": "CAD", "A$": "AUD", "CHF": "CHF"
 };
 
@@ -394,7 +394,7 @@ export function migratedMetricUnit(
     };
 }
 
-export function strategyObjective(value: unknown): StrategyObjectiveValue {
+function strategyObjective(value: unknown): StrategyObjectiveValue {
 
     const source = value && typeof value === "object" && !Array.isArray(value)
         ? value as Record<string, unknown>
@@ -415,7 +415,7 @@ export function strategyObjective(value: unknown): StrategyObjectiveValue {
 
 }
 
-export function strategyGoal(value: unknown): StrategyGoalValue {
+function strategyGoal(value: unknown): StrategyGoalValue {
 
     const source = value && typeof value === "object" && !Array.isArray(value)
         ? value as Record<string, unknown>
@@ -647,7 +647,7 @@ export function strategyThemeHues(themeIds: string[]): Record<string, number> {
  * This is a raw hue, as Segments recorded before the palette
  * stored it: draw it through paletteHue (as stableCardHue does).
  */
-export function stableHue(id: string): number {
+function stableHue(id: string): number {
 
     let hash = 2166136261;
 
@@ -708,17 +708,17 @@ export function pickHue(taken: number[]): number {
  * `strategyThemeBarLightness` has to solve for a lightness AT this
  * saturation -- the two are one colour, described in two files.
  */
-export const STRATEGY_BAR_SATURATION = 36;
+const STRATEGY_BAR_SATURATION = 36;
 
 /**
  * The contrast the selected bar's white label is held to. 4.6:1
  * rather than a bare 4.5:1, so rounding the lightness to a tenth
  * of a percent can never drop it under the line.
  */
-export const STRATEGY_BAR_TEXT_CONTRAST = 4.6;
+const STRATEGY_BAR_TEXT_CONTRAST = 4.6;
 
 /** One HSL colour as linear 0-1 sRGB channels. */
-export function hslChannels(hue: number, saturation: number, lightness: number): [number, number, number] {
+function hslChannels(hue: number, saturation: number, lightness: number): [number, number, number] {
 
     const s = saturation / 100;
     const l = lightness / 100;

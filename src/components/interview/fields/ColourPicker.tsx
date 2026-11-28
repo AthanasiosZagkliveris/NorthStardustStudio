@@ -15,7 +15,7 @@ interface Hsv { h: number; s: number; v: number }
 
 const clamp = (value: number, low: number, high: number) => Math.min(high, Math.max(low, value));
 
-export function hexToRgb(hex: string): [number, number, number] | null {
+function hexToRgb(hex: string): [number, number, number] | null {
     const match = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
     if (!match) {
         return null;
@@ -24,11 +24,11 @@ export function hexToRgb(hex: string): [number, number, number] | null {
     return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 }
 
-export function rgbToHex(r: number, g: number, b: number): string {
+function rgbToHex(r: number, g: number, b: number): string {
     return "#" + [r, g, b].map(channel => clamp(Math.round(channel), 0, 255).toString(16).padStart(2, "0")).join("");
 }
 
-export function rgbToHsv(r: number, g: number, b: number): Hsv {
+function rgbToHsv(r: number, g: number, b: number): Hsv {
     const red = r / 255, green = g / 255, blue = b / 255;
     const max = Math.max(red, green, blue), min = Math.min(red, green, blue), delta = max - min;
     let h = 0;
@@ -42,13 +42,13 @@ export function rgbToHsv(r: number, g: number, b: number): Hsv {
     return { h, s: max === 0 ? 0 : delta / max, v: max };
 }
 
-export function hsvToRgb({ h, s, v }: Hsv): [number, number, number] {
+function hsvToRgb({ h, s, v }: Hsv): [number, number, number] {
     const c = v * s, x = c * (1 - Math.abs(((h / 60) % 2) - 1)), m = v - c;
     const [r, g, b] = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
     return [(r + m) * 255, (g + m) * 255, (b + m) * 255];
 }
 
-export function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
+function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
     const red = r / 255, green = g / 255, blue = b / 255;
     const max = Math.max(red, green, blue), min = Math.min(red, green, blue), delta = max - min;
     const l = (max + min) / 2;
@@ -57,7 +57,7 @@ export function rgbToHsl(r: number, g: number, b: number): [number, number, numb
     return [h, s * 100, l * 100];
 }
 
-export function hslToRgb(h: number, s: number, l: number): [number, number, number] {
+function hslToRgb(h: number, s: number, l: number): [number, number, number] {
     const sat = clamp(s, 0, 100) / 100, light = clamp(l, 0, 100) / 100;
     const c = (1 - Math.abs(2 * light - 1)) * sat, x = c * (1 - Math.abs(((h / 60) % 2) - 1)), m = light - c / 2;
     const [r, g, b] = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];

@@ -147,7 +147,7 @@ export function FieldPageProvider({
 }
 
 /** Every control a person answers in (what a note can link to, and openField can focus). */
-export const ANSWER_CONTROLS = "input:not([type=hidden]):not([type=file]), textarea, select, .option-picker-trigger, .month-picker-trigger, [contenteditable=true]";
+const ANSWER_CONTROLS = "input:not([type=hidden]):not([type=file]), textarea, select, .option-picker-trigger, .month-picker-trigger, [contenteditable=true]";
 
 /** The cards a note can link to as a whole. */
 const CARDS = ".business-foundation-card, .legal-entity-card, .business-capability-activity, .strategy-theme-box, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box";
@@ -336,7 +336,7 @@ export function useFieldPage(): FieldPageValue | null {
  *   keyLabel  the label its key is made from, when the label shown
  *             changes with the answer ("<cost name> amount").
  */
-export interface FieldPlace {
+interface FieldPlace {
     section?: string;
     card?: boolean;
     rail?: string;
@@ -344,7 +344,7 @@ export interface FieldPlace {
     keyLabel?: string;
 }
 
-export interface FieldAddressing {
+interface FieldAddressing {
     key: FieldKey | null;
     kind: FieldKind;
     anchors: string[];
@@ -355,7 +355,7 @@ export interface FieldAddressing {
 const HOLDER = ".business-foundation-field, .legal-entity-pair, .legal-entity-field, .legal-entity-field-wide, [data-field-holder]";
 
 /** The field's key and where it is, found from where `ref` sits on the page. */
-export function useFieldAddress(
+function useFieldAddress(
     ref: RefObject<HTMLElement | null>,
     label: string,
     place: FieldPlace,

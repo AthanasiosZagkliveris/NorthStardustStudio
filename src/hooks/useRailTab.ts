@@ -30,7 +30,7 @@ function colourOf(frame: Element): { bg: string; edge: string; ink: string } | n
     };
 }
 
-export type RailTabColours = { bg: string; edge: string; ink: string };
+type RailTabColours = { bg: string; edge: string; ink: string };
 
 export default function useRailTab(colours?: RailTabColours) {
 
